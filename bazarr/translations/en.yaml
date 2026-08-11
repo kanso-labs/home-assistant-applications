@@ -1,0 +1,2 @@
+network:
+  6767/tcp: The port the Bazarr web interface listens on.

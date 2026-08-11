@@ -1,0 +1,2 @@
+network:
+  6767/tcp: A porta em que a interface web do Bazarr escuta.

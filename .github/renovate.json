@@ -38,6 +38,7 @@
         "Prowlarr/Prowlarr",
         "Radarr/Radarr",
         "Sonarr/Sonarr",
+        "morpheus65535/bazarr",
         "n8n"
       ],
       "semanticCommitType": "fix"
