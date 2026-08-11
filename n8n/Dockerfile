@@ -1,5 +1,5 @@
 # https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
-ARG BUILD_FROM=ghcr.io/home-assistant/base-ubuntu:24.04
+ARG BUILD_FROM=ghcr.io/home-assistant/base-ubuntu:26.04
 FROM ${BUILD_FROM}
 
 # Install requirements for application
