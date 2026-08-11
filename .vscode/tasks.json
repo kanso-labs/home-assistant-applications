@@ -16,7 +16,7 @@
       "problemMatcher": []
     },
     {
-      "label": "Start Addon",
+      "label": "Start Application",
       "type": "shell",
       "command": "ha addons stop \"local_${input:addonName}\"; ha addons start \"local_${input:addonName}\"; docker logs --follow \"addon_local_${input:addonName}\"",
       "group": {
@@ -33,7 +33,7 @@
       }
     },
     {
-      "label": "Rebuild and Start Addon",
+      "label": "Rebuild and Start Application",
       "type": "shell",
       "command": "ha addons rebuild \"local_${input:addonName}\"; ha addons start \"local_${input:addonName}\"; docker logs --follow \"addon_local_${input:addonName}\"",
       "group": {
@@ -51,7 +51,7 @@
     {
       "id": "addonName",
       "type": "pickString",
-      "description": "Name of addon (to add your addon to this list, please edit .vscode/tasks.json)",
+      "description": "Name of application (to add your application to this list, please edit .vscode/tasks.json)",
       "options": ["hyperion"]
     }
   ]

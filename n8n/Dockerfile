@@ -2,7 +2,7 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
-# Install requirements for add-on
+# Install requirements for application
 RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
     bash \
     curl \

@@ -1,4 +1,4 @@
-name: Builder
+name: Build
 
 env:
   BUILD_ARGS: '--test'
@@ -15,23 +15,23 @@ on:
 jobs:
   init:
     runs-on: ubuntu-latest
-    name: Initialize
+    name: Detect changed applications
     outputs:
       changed_addons: ${{ steps.changed_addons.outputs.addons }}
       changed: ${{ steps.changed_addons.outputs.changed }}
     steps:
-      - name: Checkout
+      - name: Check out repository
         uses: actions/checkout@v6.0.2
 
-      - name: Get changed files
+      - name: List changed files
         id: changed_files
         uses: tj-actions/changed-files@v47.0.5
 
-      - name: Find add-ons
+      - name: Find applications
         id: addons
         uses: home-assistant/actions/helpers/find-addons@master
 
-      - name: Get changed add-ons
+      - name: Select changed applications
         id: changed_addons
         run: |
           declare -a changed_addons
@@ -50,11 +50,11 @@ jobs:
           changed=$(echo ${changed_addons[@]} | rev | cut -c 2- | rev)
 
           if [[ -n ${changed} ]]; then
-            echo "Changed add-ons: $changed";
+            echo "Changed applications: $changed";
             echo "changed=true" >> $GITHUB_OUTPUT;
             echo "addons=[$changed]" >> $GITHUB_OUTPUT;
           else
-            echo "No add-on had any monitored files changed (${{ env.MONITORED_FILES }})";
+            echo "No application had any monitored files changed (${{ env.MONITORED_FILES }})";
           fi
 
   build:
@@ -70,16 +70,16 @@ jobs:
       contents: read
       packages: write
     steps:
-      - name: Checkout
+      - name: Check out repository
         uses: actions/checkout@v6.0.2
 
-      - name: Get add-on info
+      - name: Read application metadata
         id: info
         uses: home-assistant/actions/helpers/info@master
         with:
           path: './${{ matrix.addon }}'
 
-      - name: Check architecture
+      - name: Check architecture support
         id: check
         run: |
           if [[ "${{ steps.info.outputs.image }}" == "null" ]]; then
@@ -96,7 +96,7 @@ jobs:
             echo "build_arch=false" >> $GITHUB_OUTPUT;
           fi
 
-      - name: Login to GitHub Container Registry
+      - name: Log in to GitHub Container Registry
         if: env.BUILD_ARGS != '--test'
         uses: docker/login-action@v3.7.0
         with:
@@ -104,7 +104,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build ${{ matrix.addon }}
+      - name: Build ${{ matrix.addon }} image
         if: steps.check.outputs.build_arch == 'true'
         uses: home-assistant/builder@2026.02.1
         with:

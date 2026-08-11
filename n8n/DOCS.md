@@ -1,4 +1,4 @@
-# Home Assistant Add-on: n8n
+# Home Assistant Application: n8n
 
 ## How to use
 
