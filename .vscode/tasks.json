@@ -52,7 +52,7 @@
       "id": "addonName",
       "type": "pickString",
       "description": "Name of application (to add your application to this list, please edit .vscode/tasks.json)",
-      "options": ["hyperion"]
+      "options": ["n8n"]
     }
   ]
 }

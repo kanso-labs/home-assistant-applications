@@ -10,6 +10,11 @@ and this project adheres to
 
 ### Changed
 
+- Backups are now taken cold, so Home Assistant stops n8n for the duration
+  rather than snapshotting a SQLite database that is being written to. The app
+  is briefly unavailable while a backup runs.
+- Ingress responses are now streamed, so the editor's live execution updates
+  reach the browser as they happen instead of being buffered.
 - The published image is now the generic multi-architecture name
   `ghcr.io/kanso-labs/home-assistant-application-n8n`, replacing the
   per-architecture `{arch}` reference.
