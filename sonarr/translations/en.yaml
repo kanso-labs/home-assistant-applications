@@ -1,0 +1,2 @@
+network:
+  8989/tcp: The port the Sonarr web interface listens on.
