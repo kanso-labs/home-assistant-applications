@@ -24,7 +24,7 @@ schema:
   enable_ssl: bool
   log_level: list(debug|info|warn|error)
   node_function_external_modules: [str]
-image: 'ghcr.io/kanso-labs/{arch}-addon-n8n'
+image: 'ghcr.io/kanso-labs/home-assistant-application-n8n-{arch}'
 ingress: true
 ingress_port: 5678
 panel_icon: 'mdi:diversify'
