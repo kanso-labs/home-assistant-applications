@@ -9,7 +9,7 @@ description:
 arch:
   - aarch64
   - amd64
-url: 'https://github.com/kanso-org/hassio-addons/tree/main/n8n'
+url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/n8n'
 map:
   - type: share
     read_only: false
@@ -24,7 +24,7 @@ schema:
   enable_ssl: bool
   log_level: list(debug|info|warn|error)
   node_function_external_modules: [str]
-image: 'ghcr.io/kanso-org/{arch}-addon-n8n'
+image: 'ghcr.io/kanso-labs/{arch}-addon-n8n'
 ingress: true
 ingress_port: 5678
 panel_icon: 'mdi:diversify'

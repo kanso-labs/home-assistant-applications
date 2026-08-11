@@ -8,5 +8,5 @@ labels:
     precision of code or the speed of drag-n-drop. Host with on-prem control or
     in-the-cloud convenience. n8n gives you more freedom to implement multi-step
     AI agents and integrate apps than any other tool.
-  org.opencontainers.image.source: 'https://github.com/kanso-org/hassio-addons'
+  org.opencontainers.image.source: 'https://github.com/kanso-labs/home-assistant-applications'
   org.opencontainers.image.licenses: 'MIT'
