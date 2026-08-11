@@ -1,0 +1,10 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Bazarr
+# Runs Bazarr
+# ==============================================================================
+
+bashio::log.info 'Starting Bazarr...'
+
+exec python3 /opt/bin/bazarr.py --no-update --config /config

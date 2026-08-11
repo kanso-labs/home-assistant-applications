@@ -6,6 +6,16 @@
 
 This repository contains the following applications
 
+### [Bazarr application](./bazarr)
+
+Subtitle manager for Radarr and Sonarr.
+
+Bazarr watches the libraries they manage, finds subtitles in the languages you
+ask for, and keeps them alongside the media.
+
+![Supports aarch64 Architecture][aarch64-shield]
+![Supports amd64 Architecture][amd64-shield]
+
 ### [n8n application](./n8n)
 
 Flexible AI workflow automation for technical teams.
