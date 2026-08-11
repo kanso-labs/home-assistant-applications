@@ -60,8 +60,15 @@ Each application is its own release-please package, versioned independently. A
 commit is attributed to an application by the files it touches, so a change
 under `radarr/` releases Radarr and nothing else.
 
-Only `fix` and `feat` commits produce a release. A `chore` changes nothing a
-user can see, so it deliberately does not.
+Pull requests are squash-merged, with the pull request title as the commit
+subject and an empty body. Your branch commit messages are discarded by the
+squash, so the title is the only one that reaches `main`. Write it as a
+Conventional Commit.
+
+Only a `fix` or `feat` title produces a release. A `chore` changes nothing a
+user can see, so it deliberately does not. Nothing checks the title before it
+merges, so a malformed one fails silently — it either lands in the changelog as
+written or skips a release that should have happened.
 
 The chain runs like this:
 
@@ -100,7 +107,10 @@ those are exactly the changes that need to reach users.
 - Submit a pull request, referencing any issues it addresses.
 
 Please try to keep your pull request focused in scope and avoid including
-unrelated commits.
+unrelated commits. Keep it to a single application where you can: a pull request
+is one commit after the squash, so one touching two applications writes a line
+into both changelogs and releases both, at whatever bump its single title
+implies.
 
 After you have submitted your pull request, we'll try to get back to you as soon
 as possible. We may suggest some changes or improvements.
