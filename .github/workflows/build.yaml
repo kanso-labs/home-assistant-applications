@@ -27,7 +27,7 @@ jobs:
 
       - name: List changed files
         id: changed_files
-        uses: tj-actions/changed-files@v47.0.5
+        uses: tj-actions/changed-files@v47.0.6
 
       - name: Find applications
         id: apps
