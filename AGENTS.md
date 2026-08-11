@@ -195,13 +195,22 @@ and is not ours to choose.
 
 ### Commits
 
-Conventional Commits. The type decides whether users see the change:
+Pull requests are squash-merged, with the pull request title as the commit
+subject and an empty body. That title becomes the only commit on `main`, so it
+is the single input to everything below. Branch commit messages are discarded by
+the squash and never reach history.
 
-| Type          | Effect                                               |
-| ------------- | ---------------------------------------------------- |
-| `feat`        | releases the application, minor bump                 |
-| `fix`         | releases the application, patch bump                 |
-| anything else | no release, so nothing reaches an installed instance |
+The title is a Conventional Commit. Its type decides whether users see the
+change:
+
+| Type of the pull request title | Effect                                               |
+| ------------------------------ | ---------------------------------------------------- |
+| `feat`                         | releases the application, minor bump                 |
+| `fix`                          | releases the application, patch bump                 |
+| anything else                  | no release, so nothing reaches an installed instance |
+
+Write branch commits conventionally anyway. They are what a reviewer reads while
+the pull request is open, even though only the title survives the merge.
 
 ## Releases
 
@@ -238,6 +247,29 @@ Neither produces an error when missing. The application simply stops receiving
 updates, and nobody notices until someone checks.
 
 ## Traps
+
+**Merge commits are disabled, and re-enabling them duplicates every changelog
+entry.** A merge commit carries the pull request title in its body, where it
+parses as a Conventional Commit, and it brings the branch's own commit onto
+`main` alongside it. release-please counts both and writes two entries with
+different SHAs and identical text. That is not hypothetical: it produced 10
+duplicated pairs across four open release pull requests before merge commits
+were turned off. Squashing writes one commit, and rebasing adds no merge commit
+to double-count, so both remaining strategies are safe.
+
+**Nothing enforces any of this.** There is no commitlint in this repository — no
+configuration, no dependency, no hook — and `.github/workflows/lint.yaml` runs
+only `frenck/action-addon-linter` over each application directory. Nothing reads
+the pull request title. A malformed one reaches `main` unchallenged and either
+lands in a changelog exactly as written or silently skips a release that should
+have happened.
+
+**One pull request, one application.** Attribution is by the files a commit
+touches, and squashing makes a pull request exactly one commit. So a pull
+request touching two applications writes a line into both changelogs and
+releases both, at whatever bump its single title implies — there is no way to
+say `feat` for one and `fix` for the other. Keeping a pull request to one
+application is what keeps changelogs clean.
 
 **The linter is behind Supervisor.** Supervisor deprecated `addon_config` for
 `app_config` in 2026.07, but `frenck/action-addon-linter` only accepts the old
