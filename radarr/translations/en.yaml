@@ -1,0 +1,2 @@
+network:
+  7878/tcp: The port the Radarr web interface listens on.

@@ -1,0 +1,24 @@
+arch:
+  - aarch64
+  - amd64
+backup: cold
+description:
+  Movie collection manager for Usenet and BitTorrent users. Radarr monitors
+  multiple RSS feeds for new movies, talks to your download clients and indexers
+  to grab them, and then sorts and renames what arrives.
+image: 'ghcr.io/kanso-labs/home-assistant-application-radarr'
+init: false
+map:
+  - read_only: false
+    type: app_config
+  - read_only: false
+    type: media
+  - read_only: false
+    type: share
+name: Radarr
+ports:
+  7878/tcp: 7878
+slug: radarr
+url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/radarr'
+version: '1.0.0'
+webui: 'http://[HOST]:[PORT:7878]'
