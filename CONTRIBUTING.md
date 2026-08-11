@@ -28,6 +28,27 @@ Please open an issue with a proposal for a new feature or refactoring before
 starting on the work. We don't want you to waste your efforts on a pull request
 that we won't want to accept.
 
+### Workflow naming
+
+A workflow's filename is the kebab-case of its `name:` field. Reusable
+workflows, meaning those triggered only by `workflow_call`, take a leading
+underscore so that entry points and building blocks separate visually in the
+folder listing.
+
+| `name:`             | Trigger                            | Filename                  |
+| ------------------- | ---------------------------------- | ------------------------- |
+| `Build`             | `push`, `pull_request`             | `build.yaml`              |
+| `Lint`              | `push`, `pull_request`, `schedule` | `lint.yaml`               |
+| `Build application` | `workflow_call`                    | `_build-application.yaml` |
+
+Within a workflow, a job name is an imperative verb phrase with any matrix
+values appended, and a step name is an imperative verb phrase in sentence case.
+Job ids, step ids, and matrix keys are not held to this, since renaming them
+means updating every `needs.*` and `steps.*` reference for no visible benefit.
+
+`build.yaml` matches its own filename in a regular expression, so renaming
+either build workflow means updating that pattern too.
+
 ## Submitting Changes
 
 - Open a new issue in the

@@ -1,6 +1,6 @@
-# Base image
-ARG BUILD_FROM
-FROM $BUILD_FROM
+# https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
+ARG BUILD_FROM=ghcr.io/home-assistant/base-ubuntu:24.04
+FROM ${BUILD_FROM}
 
 # Install requirements for application
 RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
@@ -32,3 +32,9 @@ RUN mise install && \
 
 # Expose the ports
 EXPOSE 5678
+
+LABEL \
+    org.opencontainers.image.title="Home Assistant Application: n8n" \
+    org.opencontainers.image.description="Flexible AI workflow automation for technical teams. Build with the precision of code or the speed of drag-n-drop. Host with on-prem control or in-the-cloud convenience. n8n gives you more freedom to implement multi-step AI agents and integrate apps than any other tool." \
+    org.opencontainers.image.source="https://github.com/kanso-labs/home-assistant-applications" \
+    org.opencontainers.image.licenses="MIT"

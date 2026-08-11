@@ -1,0 +1,81 @@
+name: Build
+
+env:
+  MONITORED_FILES: 'config.yaml Dockerfile rootfs'
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  init:
+    name: Detect changed applications
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.filter.outputs.changed }}
+      changed_apps: ${{ steps.filter.outputs.changed_apps }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6.0.2
+
+      - name: List changed files
+        id: changed_files
+        uses: tj-actions/changed-files@v47.0.5
+
+      - name: Find applications
+        id: apps
+        uses: home-assistant/actions/helpers/find-addons@master
+
+      - name: Select changed applications
+        id: filter
+        env:
+          APPS: ${{ steps.apps.outputs.addons }}
+          CHANGED_FILES: ${{ steps.changed_files.outputs.all_changed_files }}
+        run: |
+          changed_apps=()
+
+          # If a workflow file itself changed, rebuild every application
+          if [[ "${CHANGED_FILES}" =~ \.github/workflows/(build|_build-application)\.yaml ]]; then
+            changed_apps=(${APPS})
+          else
+            for app in ${APPS}; do
+              for file in ${MONITORED_FILES}; do
+                if [[ "${CHANGED_FILES}" =~ ${app}/${file} ]]; then
+                  changed_apps+=("${app}")
+                  break
+                fi
+              done
+            done
+          fi
+
+          if [[ ${#changed_apps[@]} -gt 0 ]]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "changed_apps=$(jq -nc '$ARGS.positional' --args "${changed_apps[@]}")" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  build-application:
+    name: Build ${{ matrix.app }}
+    needs: init
+    if: needs.init.outputs.changed == 'true'
+    permissions:
+      contents: read
+      id-token: write
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        app: ${{ fromJSON(needs.init.outputs.changed_apps) }}
+    uses: ./.github/workflows/_build-application.yaml
+    with:
+      app: ${{ matrix.app }}
+      publish: ${{ github.event_name == 'push' }}
+    secrets: inherit
