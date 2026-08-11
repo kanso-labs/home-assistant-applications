@@ -1,4 +1,4 @@
 # https://developers.home-assistant.io/docs/apps/repository/#repository-configuration
+maintainer: Kanso Labs <kanso.labs.org@gmail.com>
 name: Kanso Labs Home Assistant applications repository
 url: 'https://github.com/kanso-labs/home-assistant-applications'
-maintainer: Kanso Labs <kanso.labs.org@gmail.com>

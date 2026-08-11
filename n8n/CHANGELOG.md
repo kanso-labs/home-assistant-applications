@@ -22,6 +22,12 @@ and this project adheres to
   a default `BUILD_FROM` so the build no longer depends on Supervisor supplying
   one.
 
+### Fixed
+
+- Renovate tracks the base image again. Its rule still pointed at `build.yaml`,
+  which no longer exists, so nothing was watching the `BUILD_FROM` default in
+  the Dockerfile that replaced it.
+
 ### Removed
 
 - `build.yaml`, which Home Assistant deprecated. Its base image and OCI labels

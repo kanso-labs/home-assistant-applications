@@ -1,9 +1,9 @@
 configuration:
+  enable_ssl:
+    description: Enable SSL for the n8n instance.
+    name: Enable SSL
   enable_task_runners:
-    name: Enable task runners
     description: >
       The task runner feature consists of three components: a task runner, a
       task broker, and a task requester.
-  enable_ssl:
-    name: Enable SSL
-    description: Enable SSL for the n8n instance.
+    name: Enable task runners

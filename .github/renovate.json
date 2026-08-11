@@ -4,10 +4,8 @@
     {
       "customType": "regex",
       "datasourceTemplate": "docker",
-      "managerFilePatterns": ["/build.yaml$/"],
-      "matchStrings": [
-        "(?:aarch64|amd64|armhf|armv7|i386):\\s*'(?<depName>ghcr\\.io\\/home-assistant\\/[^:]+):(?<currentValue>[^']+)'"
-      ]
+      "managerFilePatterns": ["/Dockerfile$/"],
+      "matchStrings": ["ARG BUILD_FROM=(?<depName>.*?):(?<currentValue>.*?)\\s"]
     }
   ],
   "extends": ["config:recommended"],

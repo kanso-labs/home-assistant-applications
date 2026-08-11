@@ -1,9 +1,9 @@
 configuration:
+  enable_ssl:
+    description: Habilitar SSL para a instância do n8n.
+    name: Habilitar SSL
   enable_task_runners:
-    name: Habilitar task runners
     description: >
       A funcionalidade de task runners consiste em três componentes: um task
       runner, um task broker e um task requester.
-  enable_ssl:
-    name: Habilitar SSL
-    description: Habilitar SSL para a instância do n8n.
+    name: Habilitar task runners
