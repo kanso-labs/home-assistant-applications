@@ -1,58 +1,72 @@
 {
-  "version": "2.0.0",
+  "inputs": [
+    {
+      "description": "Name of application (to add your application to this list, please edit .vscode/tasks.json)",
+      "id": "appName",
+      "options": ["n8n"],
+      "type": "pickString"
+    }
+  ],
   "tasks": [
     {
-      "label": "Start Home Assistant",
-      "type": "shell",
       "command": "supervisor_run",
       "group": {
-        "kind": "test",
-        "isDefault": true
+        "isDefault": true,
+        "kind": "test"
       },
+      "label": "Start Home Assistant",
       "presentation": {
-        "reveal": "always",
-        "panel": "new"
+        "panel": "new",
+        "reveal": "always"
       },
-      "problemMatcher": []
+      "problemMatcher": [],
+      "type": "shell"
     },
     {
-      "label": "Start Application",
-      "type": "shell",
-      "command": "ha addons stop \"local_${input:addonName}\"; ha addons start \"local_${input:addonName}\"; docker logs --follow \"addon_local_${input:addonName}\"",
+      "command": "ha apps install \"local_${input:appName}\"",
       "group": {
-        "kind": "test",
-        "isDefault": false
+        "isDefault": false,
+        "kind": "test"
       },
+      "label": "Install application",
       "presentation": {
-        "reveal": "always",
-        "panel": "new"
+        "panel": "new",
+        "reveal": "always"
+      },
+      "problemMatcher": [],
+      "type": "shell"
+    },
+    {
+      "command": "ha apps stop \"local_${input:appName}\"; ha apps start \"local_${input:appName}\"; ha apps logs -f \"local_${input:appName}\"",
+      "group": {
+        "isDefault": false,
+        "kind": "test"
+      },
+      "label": "Start application",
+      "presentation": {
+        "panel": "new",
+        "reveal": "always"
       },
       "problemMatcher": [],
       "runOptions": {
         "reevaluateOnRerun": false
-      }
+      },
+      "type": "shell"
     },
     {
-      "label": "Rebuild and Start Application",
-      "type": "shell",
-      "command": "ha addons rebuild \"local_${input:addonName}\"; ha addons start \"local_${input:addonName}\"; docker logs --follow \"addon_local_${input:addonName}\"",
+      "command": "ha apps rebuild --force \"local_${input:appName}\"; ha apps start \"local_${input:appName}\"; ha apps logs -f \"local_${input:appName}\"",
       "group": {
-        "kind": "test",
-        "isDefault": false
+        "isDefault": false,
+        "kind": "test"
       },
+      "label": "Rebuild and start application",
       "presentation": {
-        "reveal": "always",
-        "panel": "new"
+        "panel": "new",
+        "reveal": "always"
       },
-      "problemMatcher": []
+      "problemMatcher": [],
+      "type": "shell"
     }
   ],
-  "inputs": [
-    {
-      "id": "addonName",
-      "type": "pickString",
-      "description": "Name of application (to add your application to this list, please edit .vscode/tasks.json)",
-      "options": ["hyperion"]
-    }
-  ]
+  "version": "2.0.0"
 }

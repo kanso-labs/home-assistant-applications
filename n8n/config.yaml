@@ -1,30 +1,32 @@
-name: n8n
-version: '1.0.0'
-slug: n8n
+arch:
+  - aarch64
+  - amd64
+backup: cold
 description:
   Flexible AI workflow automation for technical teams. Build with the precision
   of code or the speed of drag-n-drop. Host with on-prem control or in-the-cloud
   convenience. n8n gives you more freedom to implement multi-step AI agents and
   integrate apps than any other tool.
-arch:
-  - aarch64
-  - amd64
-url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/n8n'
-map:
-  - type: share
-    read_only: false
-init: false
-options:
-  enable_task_runners: false
-  enable_ssl: false
-  log_level: info
-  node_function_external_modules: []
-schema:
-  enable_task_runners: bool
-  enable_ssl: bool
-  log_level: list(debug|info|warn|error)
-  node_function_external_modules: [str]
 image: 'ghcr.io/kanso-labs/home-assistant-application-n8n'
 ingress: true
 ingress_port: 5678
+ingress_stream: true
+init: false
+map:
+  - read_only: true
+    type: share
+name: n8n
+options:
+  enable_ssl: false
+  enable_task_runners: false
+  log_level: info
+  node_function_external_modules: []
 panel_icon: 'mdi:diversify'
+schema:
+  enable_ssl: bool
+  enable_task_runners: bool
+  log_level: list(debug|info|warn|error)
+  node_function_external_modules: [str]
+slug: n8n
+url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/n8n'
+version: '1.0.0'
