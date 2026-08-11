@@ -7,3 +7,9 @@ configuration:
       The task runner feature consists of three components: a task runner, a
       task broker, and a task requester.
     name: Enable task runners
+  log_level:
+    description: How much detail n8n writes to its log.
+    name: Log level
+  node_function_external_modules:
+    description: npm modules that Code nodes are allowed to import.
+    name: External modules for Code nodes

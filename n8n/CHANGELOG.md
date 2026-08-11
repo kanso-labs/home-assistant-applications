@@ -8,11 +8,19 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- The log level and external module options now have names and descriptions in
+  English and Brazilian Portuguese, so the configuration screen no longer shows
+  them as raw keys.
+
 ### Changed
 
 - Backups are now taken cold, so Home Assistant stops n8n for the duration
   rather than snapshotting a SQLite database that is being written to. The app
   is briefly unavailable while a backup runs.
+- `/share` is now mapped read-only. n8n keeps its own state in `/data`, so the
+  write access it previously held was never needed.
 - Ingress responses are now streamed, so the editor's live execution updates
   reach the browser as they happen instead of being buffered.
 - The published image is now the generic multi-architecture name
