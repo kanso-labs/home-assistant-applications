@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "n8n": "2.10.4"
+    "n8n": "2.25.7"
   }
 }
