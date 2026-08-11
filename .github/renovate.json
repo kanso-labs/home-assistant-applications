@@ -26,7 +26,7 @@
   "packageRules": [
     {
       "automerge": true,
-      "matchUpdateTypes": ["patch"]
+      "matchUpdateTypes": ["minor", "patch"]
     },
     {
       "groupName": "Home Assistant Base Images",
