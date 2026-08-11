@@ -1,0 +1,2 @@
+network:
+  8989/tcp: A porta em que a interface web do Sonarr escuta.
