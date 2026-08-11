@@ -1,0 +1,10 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Prowlarr
+# Runs Prowlarr
+# ==============================================================================
+
+bashio::log.info 'Starting Prowlarr...'
+
+exec /opt/bin/Prowlarr -nobrowser -data=/config
