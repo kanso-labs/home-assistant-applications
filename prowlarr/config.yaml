@@ -20,5 +20,5 @@ ports:
   9696/tcp: 9696
 slug: prowlarr
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/prowlarr'
-version: '1.0.0'
+version: '1.0.0' # x-release-please-version
 webui: 'http://[HOST]:[PORT:9696]'

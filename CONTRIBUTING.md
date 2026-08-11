@@ -49,6 +49,47 @@ means updating every `needs.*` and `steps.*` reference for no visible benefit.
 `build.yaml` matches its own filename in a regular expression, so renaming
 either build workflow means updating that pattern too.
 
+## Releases
+
+Home Assistant decides an update exists by comparing the `version` in an
+application's `config.yaml` against the installed one. If that string never
+moves, users never see the update, however much has changed inside the image. So
+nothing is released by editing that field directly — release-please owns it.
+
+Each application is its own release-please package, versioned independently. A
+commit is attributed to an application by the files it touches, so a change
+under `radarr/` releases Radarr and nothing else.
+
+Only `fix` and `feat` commits produce a release. A `chore` changes nothing a
+user can see, so it deliberately does not.
+
+The chain runs like this:
+
+```mermaid
+flowchart TD
+    A[Renovate finds a newer application version] --> B[PR bumping ARG in the Dockerfile]
+    B --> C{Merged to main?}
+    C -- no --> D([Nothing released])
+    C -- yes --> E[release-please opens a release PR]
+    E --> F[Bumps config.yaml version, writes the CHANGELOG]
+    F --> G{Release PR merged?}
+    G -- no --> D
+    G -- yes --> H[Build publishes the image at the new version]
+    H --> I([Home Assistant offers the update])
+```
+
+Two annotations hold it together, and both are load-bearing.
+
+- `# x-release-please-version` beside the `version` in each `config.yaml` is how
+  release-please knows which value to rewrite. Remove it and releases stop
+  updating that application.
+- `# renovate: datasource=… depName=…` above each `ARG <APP>_VERSION` in a
+  Dockerfile is how Renovate knows what to watch. Remove it and that application
+  silently stops receiving updates.
+
+Renovate raises application bumps as `fix` rather than its usual `chore`, since
+those are exactly the changes that need to reach users.
+
 ## Submitting Changes
 
 - Open a new issue in the
