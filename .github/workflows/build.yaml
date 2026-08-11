@@ -42,7 +42,7 @@ jobs:
           changed_apps=()
 
           # If a workflow file itself changed, rebuild every application
-          if [[ "${CHANGED_FILES}" =~ \.github/workflows/(builder|build-app)\.yaml ]]; then
+          if [[ "${CHANGED_FILES}" =~ \.github/workflows/(build|_build-application)\.yaml ]]; then
             changed_apps=(${APPS})
           else
             for app in ${APPS}; do
@@ -62,7 +62,7 @@ jobs:
             echo "changed=false" >> "$GITHUB_OUTPUT"
           fi
 
-  build-app:
+  build-application:
     name: Build ${{ matrix.app }}
     needs: init
     if: needs.init.outputs.changed == 'true'
@@ -74,7 +74,7 @@ jobs:
       fail-fast: false
       matrix:
         app: ${{ fromJSON(needs.init.outputs.changed_apps) }}
-    uses: ./.github/workflows/build-app.yaml
+    uses: ./.github/workflows/_build-application.yaml
     with:
       app: ${{ matrix.app }}
       publish: ${{ github.event_name == 'push' }}
