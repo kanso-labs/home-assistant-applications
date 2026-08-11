@@ -17,7 +17,7 @@ jobs:
     outputs:
       addons: ${{ steps.addons.outputs.addons_list }}
     steps:
-      - name: Checkout
+      - name: Check out repository
         uses: actions/checkout@v6.0.2
 
       - name: Find applications
@@ -32,10 +32,10 @@ jobs:
       matrix:
         path: ${{ fromJson(needs.find.outputs.addons) }}
     steps:
-      - name: Checkout
+      - name: Check out repository
         uses: actions/checkout@v6.0.2
 
-      - name: Lint
+      - name: Run application linter
         uses: frenck/action-addon-linter@v2.21
         with:
           path: './${{ matrix.path }}'
