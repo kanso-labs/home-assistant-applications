@@ -49,6 +49,37 @@ means updating every `needs.*` and `steps.*` reference for no visible benefit.
 `build.yaml` matches its own filename in a regular expression, so renaming
 either build workflow means updating that pattern too.
 
+### Image naming
+
+An application's `image:` is the generic multi-architecture name, with no
+`{arch}` placeholder in it:
+
+```yaml
+image: 'ghcr.io/kanso-labs/home-assistant-application-<application>'
+```
+
+Home Assistant calls that the preferred form, and it is the only name the
+Supervisor pulls. It resolves because the build publishes a multi-architecture
+manifest under it.
+
+Underneath that manifest sit one image per architecture, and **the architecture
+goes at the front**:
+
+| Published                                                   | What it is              |
+| ----------------------------------------------------------- | ----------------------- |
+| `ghcr.io/kanso-labs/home-assistant-application-n8n`         | manifest, what HA pulls |
+| `ghcr.io/kanso-labs/amd64-home-assistant-application-n8n`   | amd64 image             |
+| `ghcr.io/kanso-labs/aarch64-home-assistant-application-n8n` | aarch64 image           |
+
+That prefix is not a choice. `prepare-multi-arch-matrix` composes it as
+`{registry}/{arch}-{image}`, with no input to change the order, and it matches
+what Home Assistant does across its own images — `amd64-base-ubuntu`,
+`aarch64-base-python`. Only the trailing part comes from `image:`.
+
+So if an application ever needs the legacy per-architecture reference rather
+than the manifest, it is `{arch}-<application>` and never
+`<application>-{arch}`.
+
 ## Submitting Changes
 
 - Open a new issue in the
