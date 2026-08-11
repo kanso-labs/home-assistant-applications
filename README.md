@@ -1,12 +1,12 @@
-# Kanso Home Assistant add-on repository
+# Kanso Home Assistant application repository
 
-[![Open your Home Assistant instance and show the add add-on repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fkanso-labs%2Fhome-assistant-applications)
+[![Open your Home Assistant instance and show the add application repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fkanso-labs%2Fhome-assistant-applications)
 
-## Add-ons
+## Applications
 
-This repository contains the following add-ons
+This repository contains the following applications
 
-### [n8n add-on](./n8n)
+### [n8n application](./n8n)
 
 Flexible AI workflow automation for technical teams.
 

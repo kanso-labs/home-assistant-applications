@@ -12,7 +12,7 @@ on:
 
 jobs:
   find:
-    name: Find add-ons
+    name: Find applications
     runs-on: ubuntu-latest
     outputs:
       addons: ${{ steps.addons.outputs.addons_list }}
@@ -20,7 +20,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6.0.2
 
-      - name: Find add-ons
+      - name: Find applications
         id: addons
         uses: home-assistant/actions/helpers/find-addons@master
 

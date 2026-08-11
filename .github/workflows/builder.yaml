@@ -27,11 +27,11 @@ jobs:
         id: changed_files
         uses: tj-actions/changed-files@v47.0.5
 
-      - name: Find add-ons
+      - name: Find applications
         id: addons
         uses: home-assistant/actions/helpers/find-addons@master
 
-      - name: Get changed add-ons
+      - name: Get changed applications
         id: changed_addons
         run: |
           declare -a changed_addons
@@ -50,11 +50,11 @@ jobs:
           changed=$(echo ${changed_addons[@]} | rev | cut -c 2- | rev)
 
           if [[ -n ${changed} ]]; then
-            echo "Changed add-ons: $changed";
+            echo "Changed applications: $changed";
             echo "changed=true" >> $GITHUB_OUTPUT;
             echo "addons=[$changed]" >> $GITHUB_OUTPUT;
           else
-            echo "No add-on had any monitored files changed (${{ env.MONITORED_FILES }})";
+            echo "No application had any monitored files changed (${{ env.MONITORED_FILES }})";
           fi
 
   build:
@@ -73,7 +73,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6.0.2
 
-      - name: Get add-on info
+      - name: Get application info
         id: info
         uses: home-assistant/actions/helpers/info@master
         with:

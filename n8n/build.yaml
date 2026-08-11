@@ -2,7 +2,7 @@ build_from:
   aarch64: 'ghcr.io/home-assistant/aarch64-base-ubuntu:24.04'
   amd64: 'ghcr.io/home-assistant/amd64-base-ubuntu:24.04'
 labels:
-  org.opencontainers.image.title: 'Home Assistant Add-on: n8n'
+  org.opencontainers.image.title: 'Home Assistant Application: n8n'
   org.opencontainers.image.description:
     Flexible AI workflow automation for technical teams. Build with the
     precision of code or the speed of drag-n-drop. Host with on-prem control or
