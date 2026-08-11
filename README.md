@@ -17,5 +17,15 @@ multi-step AI agents and integrate apps than any other tool.
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
 
+### [Radarr application](./radarr)
+
+Movie collection manager for Usenet and BitTorrent users.
+
+Radarr monitors multiple RSS feeds for new movies, talks to your download
+clients and indexers to grab them, and then sorts and renames what arrives.
+
+![Supports aarch64 Architecture][aarch64-shield]
+![Supports amd64 Architecture][amd64-shield]
+
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
 [amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg
