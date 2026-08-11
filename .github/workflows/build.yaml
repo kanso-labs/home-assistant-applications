@@ -23,7 +23,7 @@ jobs:
       changed_apps: ${{ steps.filter.outputs.changed_apps }}
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6.1.0
+        uses: actions/checkout@v7.0.1
 
       - name: List changed files
         id: changed_files
