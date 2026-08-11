@@ -6,6 +6,16 @@
       "datasourceTemplate": "docker",
       "managerFilePatterns": ["/Dockerfile$/"],
       "matchStrings": ["ARG BUILD_FROM=(?<depName>.*?):(?<currentValue>.*?)\\s"]
+    },
+    {
+      "customType": "regex",
+      "datasourceTemplate": "{{{datasource}}}",
+      "description": "Application versions, annotated above their ARG in each Dockerfile",
+      "extractVersionTemplate": "^v(?<version>.*)$",
+      "managerFilePatterns": ["/Dockerfile$/"],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\s+ARG \\w+_VERSION=(?<currentValue>\\S+)"
+      ]
     }
   ],
   "extends": ["config:recommended"],
@@ -21,6 +31,16 @@
     {
       "groupName": "Home Assistant Base Images",
       "matchPackageNames": ["ghcr.io/home-assistant/**"]
+    },
+    {
+      "description": "Bumping the application a container runs is what users see, so it has to reach them. release-please only cuts a release for fix and feat, and it attributes a commit to an application by the files that commit touches.",
+      "matchDepNames": [
+        "Prowlarr/Prowlarr",
+        "Radarr/Radarr",
+        "Sonarr/Sonarr",
+        "n8n"
+      ],
+      "semanticCommitType": "fix"
     }
   ],
   "prConcurrentLimit": 0,

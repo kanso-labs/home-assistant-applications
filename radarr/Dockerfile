@@ -7,6 +7,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ARG BUILD_ARCH=amd64
 ARG BUILD_VERSION=dev
+# renovate: datasource=github-releases depName=Radarr/Radarr
 ARG RADARR_VERSION=6.3.0.10514
 
 ENV XDG_CONFIG_HOME="/config/xdg"
