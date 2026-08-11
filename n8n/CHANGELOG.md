@@ -27,6 +27,9 @@ and this project adheres to
 - Renovate tracks the base image again. Its rule still pointed at `build.yaml`,
   which no longer exists, so nothing was watching the `BUILD_FROM` default in
   the Dockerfile that replaced it.
+- The local development environment works again. The VS Code tasks and the
+  devcontainer both targeted the retired add-on paths and CLI, so neither the
+  workspace mount nor the install and rebuild tasks resolved.
 
 ### Removed
 

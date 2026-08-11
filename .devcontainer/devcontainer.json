@@ -1,24 +1,38 @@
 {
   "appPort": ["7123:8123", "7357:4357"],
   "containerEnv": {
+    "SUPERVISOR_CHANNEL": "beta",
     "WORKSPACE_DIRECTORY": "${containerWorkspaceFolder}"
   },
   "customizations": {
     "vscode": {
-      "extensions": ["esbenp.prettier-vscode", "timonwong.shellcheck"]
+      "extensions": ["esbenp.prettier-vscode", "timonwong.shellcheck"],
+      "settings": {
+        "editor.formatOnPaste": false,
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true,
+        "files.trimTrailingWhitespace": true,
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "terminal.integrated.profiles.linux": {
+          "zsh": {
+            "path": "/usr/bin/zsh"
+          }
+        }
+      }
     }
   },
-  "features": {
-    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
-  },
-  "image": "ghcr.io/home-assistant/devcontainer:3-addons",
+  "image": "ghcr.io/home-assistant/devcontainer:5-apps",
   "mounts": [
     "type=volume,target=/var/lib/docker",
-    "type=volume,target=/mnt/supervisor"
+    "type=volume,target=/var/lib/containerd",
+    "type=volume,target=/mnt/supervisor",
+    "type=tmpfs,target=/tmp"
   ],
-  "name": "devcontainer for application repositories",
+  "name": "Kanso Labs devcontainer for applications repositories",
+  "overrideCommand": false,
   "postStartCommand": "bash devcontainer_bootstrap",
+  "remoteUser": "vscode",
   "runArgs": ["-e", "GIT_EDITOR=code --wait", "--privileged"],
-  "workspaceFolder": "/mnt/supervisor/addons/local/${localWorkspaceFolderBasename}",
+  "workspaceFolder": "/mnt/supervisor/apps/local/${localWorkspaceFolderBasename}",
   "workspaceMount": "source=${localWorkspaceFolder},target=${containerWorkspaceFolder},type=bind,consistency=cached"
 }
