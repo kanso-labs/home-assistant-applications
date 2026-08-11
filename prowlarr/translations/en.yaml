@@ -1,0 +1,2 @@
+network:
+  9696/tcp: The port the Prowlarr web interface listens on.

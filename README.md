@@ -17,6 +17,16 @@ multi-step AI agents and integrate apps than any other tool.
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
 
+### [Prowlarr application](./prowlarr)
+
+Indexer manager and proxy for the arr stack.
+
+Prowlarr keeps your indexer definitions in one place and pushes them out to
+Radarr, Sonarr and the rest, so each one does not have to be configured by hand.
+
+![Supports aarch64 Architecture][aarch64-shield]
+![Supports amd64 Architecture][amd64-shield]
+
 ### [Radarr application](./radarr)
 
 Movie collection manager for Usenet and BitTorrent users.
