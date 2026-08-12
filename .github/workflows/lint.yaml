@@ -10,6 +10,9 @@ on:
   schedule:
     - cron: '0 0 * * *'
 
+permissions:
+  contents: read
+
 jobs:
   find:
     name: Find applications
@@ -39,3 +42,21 @@ jobs:
         uses: frenck/action-addon-linter@v2.21
         with:
           path: './${{ matrix.path }}'
+
+  # One job with a fixed name for branch protection to require. The linter runs
+  # once per application, so its own check names change whenever an application
+  # is added, and a forgotten name fails silently by never being required.
+  confirm:
+    name: Confirm lint succeeded
+    runs-on: ubuntu-latest
+    needs: lint
+    if: always()
+    steps:
+      - name: Check the lint result
+        env:
+          RESULT: ${{ needs.lint.result }}
+        run: |
+          if [[ "${RESULT}" != 'success' ]]; then
+            echo "At least one application failed linting (${RESULT})."
+            exit 1
+          fi

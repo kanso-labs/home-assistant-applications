@@ -12,11 +12,20 @@ jobs:
   release-please:
     name: Propose releases
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
     steps:
+      # Pull requests opened with the default GITHUB_TOKEN do not start
+      # workflow runs. Their checks sit at action_required until somebody
+      # approves them by hand, so a release stalls until then. Requests made
+      # with an application token trigger the checks like any other.
+      - name: Mint an application token
+        id: token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.RELEASE_PLEASE_APP_ID }}
+          private-key: ${{ secrets.RELEASE_PLEASE_PRIVATE_KEY }}
+
       - name: Propose releases
+        id: release
         uses: googleapis/release-please-action@v5.0.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ steps.token.outputs.token }}
