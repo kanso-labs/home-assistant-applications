@@ -1,0 +1,8 @@
+configuration:
+  log_level:
+    description: >-
+      Quanto o FlareSolverr escreve no log. Aumente para debug quando um desafio
+      estiver falhando e você precisar ver o que o navegador fez.
+    name: Nível de log
+network:
+  8191/tcp: A porta em que o FlareSolverr responde às requisições.

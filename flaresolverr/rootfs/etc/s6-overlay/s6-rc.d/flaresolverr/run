@@ -1,0 +1,29 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: FlareSolverr
+# Runs FlareSolverr
+# ==============================================================================
+
+# Exported only when it has a value. FlareSolverr reads the level straight
+# into Python's logging module, which rejects an empty string and takes the
+# application down with it, so an unreadable option has to leave the variable
+# unset and let FlareSolverr use its own default.
+if bashio::config.has_value 'log_level'; then
+  export LOG_LEVEL="$(bashio::config 'log_level')"
+fi
+
+# The upstream image gives its user /app as a home directory, and `USER` would
+# set HOME to match. Dropping privileges below does not, so without this the
+# browser tries to write to root's home and fails on permissions.
+export HOME='/app'
+
+bashio::log.info 'Starting FlareSolverr...'
+
+cd /app || bashio::exit.nok 'The application directory is missing'
+
+# Chromium refuses to run as root, which is why the upstream image defines an
+# unprivileged user and runs as it. s6-overlay has to be pid 1, so the service
+# starts as root and drops back to that user here.
+exec s6-setuidgid flaresolverr \
+  /usr/local/bin/python -u /app/flaresolverr.py
