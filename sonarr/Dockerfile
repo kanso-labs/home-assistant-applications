@@ -23,7 +23,7 @@ RUN \
   elif [ "${BUILD_ARCH}" = "amd64" ]; then SONARR_ARCH="x64"; \
   else echo "Unsupported architecture: ${BUILD_ARCH}" && exit 1; fi \
   \
-  && curl -J -L -o /tmp/sonarr.tar.gz \
+  && curl -J -L -f --retry 8 --retry-all-errors --retry-max-time 180 -o /tmp/sonarr.tar.gz \
       "https://github.com/Sonarr/Sonarr/releases/download/v${SONARR_VERSION}/Sonarr.main.${SONARR_VERSION}.linux-musl-${SONARR_ARCH}.tar.gz" \
   && mkdir -p /opt/bin \
   && tar zxf \
