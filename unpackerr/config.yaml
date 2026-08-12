@@ -19,4 +19,4 @@ map:
 name: Unpackerr
 slug: unpackerr
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/unpackerr'
-version: '1.0.0' # x-release-please-version
+version: '1.1.0' # x-release-please-version
