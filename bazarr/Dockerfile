@@ -1,5 +1,8 @@
 # https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
-ARG BUILD_FROM=ghcr.io/home-assistant/base-python:3.14-alpine3.22
+# Bazarr supports Python 3.13 and below. It starts on 3.14 and then says so
+# itself: "Python version greater than 3.13.x is unsupported [...] you're on
+# your own". Renovate is held to 3.13 for this image; see renovate.json.
+ARG BUILD_FROM=ghcr.io/home-assistant/base-python:3.13-alpine3.22
 FROM ${BUILD_FROM}
 
 # Set shell

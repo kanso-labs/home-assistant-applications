@@ -39,6 +39,11 @@
       "matchUpdateTypes": ["minor", "patch"]
     },
     {
+      "allowedVersions": "<3.14",
+      "description": "Bazarr supports Python 3.13 and below, and says so on startup when it is given anything newer. It is the only application on base-python, so the ceiling can sit on the image itself.",
+      "matchPackageNames": ["ghcr.io/home-assistant/base-python"]
+    },
+    {
       "groupName": "Home Assistant Base Images",
       "matchPackageNames": ["ghcr.io/home-assistant/**"]
     },
