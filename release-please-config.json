@@ -13,6 +13,10 @@
       "component": "prowlarr",
       "extra-files": ["config.yaml"]
     },
+    "qbittorrent": {
+      "component": "qbittorrent",
+      "extra-files": ["config.yaml"]
+    },
     "radarr": {
       "component": "radarr",
       "extra-files": ["config.yaml"]
