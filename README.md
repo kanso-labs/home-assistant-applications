@@ -27,6 +27,16 @@ multi-step AI agents and integrate apps than any other tool.
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
 
+### [NZBGet application](./nzbget)
+
+Usenet downloader with a web interface.
+
+NZBGet fetches from your news servers into shared storage, where the rest of the
+stack can pick it up.
+
+![Supports aarch64 Architecture][aarch64-shield]
+![Supports amd64 Architecture][amd64-shield]
+
 ### [Prowlarr application](./prowlarr)
 
 Indexer manager and proxy for the arr stack.

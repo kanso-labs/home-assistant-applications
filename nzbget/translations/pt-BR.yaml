@@ -1,0 +1,2 @@
+network:
+  6789/tcp: A porta em que a interface web do NZBGet escuta.

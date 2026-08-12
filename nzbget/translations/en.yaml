@@ -1,0 +1,2 @@
+network:
+  6789/tcp: The port the NZBGet web interface listens on.
