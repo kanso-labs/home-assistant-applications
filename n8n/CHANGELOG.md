@@ -6,34 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.0](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.0.0...n8n-v2.0.0) (2026-08-12)
+## [1.1.0](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.0.0...n8n-v1.1.0) (2026-08-12)
 
-
-### ⚠ BREAKING CHANGES
-
-* **n8n:** replace Alpine base image with Ubuntu base image for add-on
 
 ### Features
 
 * **n8n:** add n8n as an Add-on ([53c36bd](https://github.com/kanso-labs/home-assistant-applications/commit/53c36bd742859414c041a75f3235ac3f1ba85399))
-* release applications automatically when their version changes ([089b11c](https://github.com/kanso-labs/home-assistant-applications/commit/089b11c4f9a5a7cf86060f5db0fc456af6646f3a))
 * release applications automatically when their version changes ([de30198](https://github.com/kanso-labs/home-assistant-applications/commit/de3019844252900ca5045a9f9e9d2ad9aa1425bc))
 
 
 ### Bug Fixes
 
-* **deps:** update dependency n8n to v2.10.4 ([65e4c59](https://github.com/kanso-labs/home-assistant-applications/commit/65e4c59b246be7d81881f65bc912112e6bb47d16))
 * **deps:** update dependency n8n to v2.10.4 ([026ed22](https://github.com/kanso-labs/home-assistant-applications/commit/026ed22ab679c43e7f4a6c024c9ebef73cac23bf))
-* **deps:** update dependency n8n to v2.2.4 ([54e9b14](https://github.com/kanso-labs/home-assistant-applications/commit/54e9b14f370ef3cb5ceddbb355f8337452a1f331))
 * **deps:** update dependency n8n to v2.2.4 ([ba280d1](https://github.com/kanso-labs/home-assistant-applications/commit/ba280d163eefae61b547bf514adab54ce04603c1))
 * **deps:** update dependency n8n to v2.2.6 ([#26](https://github.com/kanso-labs/home-assistant-applications/issues/26)) ([38b1baf](https://github.com/kanso-labs/home-assistant-applications/commit/38b1bafa4f3e05b1649bb0b8d0348e0d78747a9b))
-* **deps:** update dependency n8n to v2.34.4 ([4ba8325](https://github.com/kanso-labs/home-assistant-applications/commit/4ba8325e59c1375f7f63527385917b1483674f6f))
 * **deps:** update dependency n8n to v2.34.4 ([7686db2](https://github.com/kanso-labs/home-assistant-applications/commit/7686db2f995c53c059c04bfc18b2dc17093e381b))
 * **deps:** update dependency n8n to v2.34.5 ([#67](https://github.com/kanso-labs/home-assistant-applications/issues/67)) ([005f064](https://github.com/kanso-labs/home-assistant-applications/commit/005f064fe7ff445bffe56fa9bbf1176d9a2dd3b0))
 * **n8n:** fix issues with Home Assistant integration ([d86df08](https://github.com/kanso-labs/home-assistant-applications/commit/d86df08b96ba676d808fc1f75f1707d74777b6f2))
 * **n8n:** map /share read-only and translate every option ([b18bcfc](https://github.com/kanso-labs/home-assistant-applications/commit/b18bcfc1801ff9a3cd09a45502500a09a2f3e490))
 * **n8n:** take backups cold and stream ingress responses ([2984c36](https://github.com/kanso-labs/home-assistant-applications/commit/2984c36d7bbae18abe0a2a0cb65426175015afcb))
-* **n8n:** take backups cold, stream ingress, and restore local development ([747e61c](https://github.com/kanso-labs/home-assistant-applications/commit/747e61cf31cf25ddc04fa9377390fe309d1a654e))
 
 
 ### Code Refactoring
