@@ -37,6 +37,16 @@ Radarr, Sonarr and the rest, so each one does not have to be configured by hand.
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
 
+### [qBittorrent application](./qbittorrent)
+
+BitTorrent client with a web interface.
+
+qBittorrent downloads torrents into shared storage, where the rest of the stack
+can pick them up.
+
+![Supports aarch64 Architecture][aarch64-shield]
+![Supports amd64 Architecture][amd64-shield]
+
 ### [Radarr application](./radarr)
 
 Movie collection manager for Usenet and BitTorrent users.

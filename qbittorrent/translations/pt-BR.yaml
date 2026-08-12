@@ -1,0 +1,4 @@
+network:
+  6881/tcp: A porta que o qBittorrent usa para conexões com pares.
+  6881/udp: A porta que o qBittorrent usa para conexões com pares e DHT.
+  8080/tcp: A porta em que a interface web do qBittorrent escuta.

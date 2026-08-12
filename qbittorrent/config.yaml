@@ -1,0 +1,31 @@
+arch:
+  - aarch64
+  - amd64
+backup: cold
+description:
+  BitTorrent client with a web interface. qBittorrent downloads torrents into
+  shared storage, where the rest of the stack can pick them up.
+image: 'ghcr.io/kanso-labs/home-assistant-application-qbittorrent'
+init: false
+map:
+  # Supervisor deprecated `addon_config` for `app_config` in 2026.07, but
+  # frenck/action-addon-linter still only accepts the older spelling and has
+  # had no release since 2025-11. Home Assistant's own apps-example runs the
+  # same linter. Switch this once the linter's schema catches up.
+  - read_only: false
+    type: addon_config
+  - read_only: false
+    type: share
+name: qBittorrent
+ports:
+  6881/tcp: 6881
+  6881/udp: 6881
+  8080/tcp: 8080
+ports_description:
+  6881/tcp: Peer connections
+  6881/udp: Peer connections and DHT
+  8080/tcp: Web interface
+slug: qbittorrent
+url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/qbittorrent'
+version: '1.0.0' # x-release-please-version
+webui: 'http://[HOST]:[PORT:8080]'

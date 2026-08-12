@@ -1,0 +1,4 @@
+network:
+  6881/tcp: The port qBittorrent uses for peer connections.
+  6881/udp: The port qBittorrent uses for peer connections and DHT.
+  8080/tcp: The port the qBittorrent web interface listens on.

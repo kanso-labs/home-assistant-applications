@@ -16,6 +16,16 @@
       "matchStrings": [
         "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\s+ARG \\w+_VERSION=(?<currentValue>\\S+)"
       ]
+    },
+    {
+      "customType": "regex",
+      "datasourceTemplate": "{{{datasource}}}",
+      "description": "Application versions supplied as distribution packages, annotated above their ARG",
+      "managerFilePatterns": ["/Dockerfile$/"],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+) versioning=(?<versioning>\\S+)\\s+ARG \\w+_VERSION=(?<currentValue>\\S+)"
+      ],
+      "versioningTemplate": "{{{versioning}}}"
     }
   ],
   "extends": ["config:recommended"],
@@ -38,6 +48,7 @@
         "Prowlarr/Prowlarr",
         "Radarr/Radarr",
         "Sonarr/Sonarr",
+        "alpine_3_24/qbittorrent-nox",
         "morpheus65535/bazarr",
         "n8n"
       ],

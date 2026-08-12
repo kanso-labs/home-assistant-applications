@@ -1,0 +1,38 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: qBittorrent
+# Runs qBittorrent
+# ==============================================================================
+
+readonly config_file='/config/qBittorrent/config/qBittorrent.conf'
+readonly save_path='/share/qbittorrent/downloads'
+readonly peer_port=6881
+
+# Two defaults would otherwise be wrong. qBittorrent saves inside the profile
+# directory, which would fill the application's own configuration volume, and
+# it picks a random peer port, which would never match the one declared in
+# config.yaml. Both are seeded on first run only, so a user's own choice is
+# never overwritten.
+if ! bashio::fs.file_exists "${config_file}"; then
+  bashio::log.info 'No configuration found, seeding defaults...'
+  mkdir -p "$(dirname "${config_file}")"
+  cat > "${config_file}" <<CONF
+[BitTorrent]
+Session\\DefaultSavePath=${save_path}
+Session\\Port=${peer_port}
+
+[Preferences]
+WebUI\\Address=*
+WebUI\\Port=8080
+CONF
+fi
+
+mkdir -p "${save_path}"
+
+bashio::log.info 'Starting qBittorrent...'
+
+exec qbittorrent-nox \
+  --profile=/config \
+  --webui-port=8080 \
+  --confirm-legal-notice
