@@ -1,5 +1,5 @@
 # https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
-ARG BUILD_FROM=ghcr.io/home-assistant/base-python:3.12-alpine3.22
+ARG BUILD_FROM=ghcr.io/home-assistant/base-python:3.14-alpine3.22
 FROM ${BUILD_FROM}
 
 # Set shell
