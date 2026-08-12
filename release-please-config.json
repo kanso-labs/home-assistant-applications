@@ -3,35 +3,35 @@
   "packages": {
     "bazarr": {
       "component": "bazarr",
-      "extra-files": ["config.yaml"]
+      "extra-files": [{ "path": "config.yaml", "type": "generic" }]
     },
     "n8n": {
       "component": "n8n",
-      "extra-files": ["config.yaml"]
+      "extra-files": [{ "path": "config.yaml", "type": "generic" }]
     },
     "notifiarr": {
       "component": "notifiarr",
-      "extra-files": ["config.yaml"]
+      "extra-files": [{ "path": "config.yaml", "type": "generic" }]
     },
     "nzbget": {
       "component": "nzbget",
-      "extra-files": ["config.yaml"]
+      "extra-files": [{ "path": "config.yaml", "type": "generic" }]
     },
     "prowlarr": {
       "component": "prowlarr",
-      "extra-files": ["config.yaml"]
+      "extra-files": [{ "path": "config.yaml", "type": "generic" }]
     },
     "qbittorrent": {
       "component": "qbittorrent",
-      "extra-files": ["config.yaml"]
+      "extra-files": [{ "path": "config.yaml", "type": "generic" }]
     },
     "radarr": {
       "component": "radarr",
-      "extra-files": ["config.yaml"]
+      "extra-files": [{ "path": "config.yaml", "type": "generic" }]
     },
     "sonarr": {
       "component": "sonarr",
-      "extra-files": ["config.yaml"]
+      "extra-files": [{ "path": "config.yaml", "type": "generic" }]
     }
   },
   "release-type": "simple",
