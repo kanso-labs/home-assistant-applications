@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0](https://github.com/kanso-labs/home-assistant-applications/compare/notifiarr-v1.0.0...notifiarr-v1.1.0) (2026-08-12)
+
+
+### Features
+
+* **notifiarr:** add Notifiarr as an application ([#74](https://github.com/kanso-labs/home-assistant-applications/issues/74)) ([09f2e79](https://github.com/kanso-labs/home-assistant-applications/commit/09f2e7940acf11f699c05f5f58d951c132600f11))
+
 ## [1.0.0]
 
 ### Added
