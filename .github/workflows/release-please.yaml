@@ -19,7 +19,7 @@ jobs:
       # with an application token trigger the checks like any other.
       - name: Mint an application token
         id: token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@v3.2.0
         with:
           app-id: ${{ secrets.RELEASE_PLEASE_APP_ID }}
           private-key: ${{ secrets.RELEASE_PLEASE_PRIVATE_KEY }}
