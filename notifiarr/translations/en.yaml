@@ -1,0 +1,8 @@
+configuration:
+  api_key:
+    description: >-
+      Your API key from notifiarr.com, found under your profile. Notifiarr
+      cannot reach the website without it.
+    name: API key
+network:
+  5454/tcp: The port the Notifiarr web interface listens on.

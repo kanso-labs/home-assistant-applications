@@ -1,0 +1,47 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Notifiarr
+# Runs Notifiarr
+# ==============================================================================
+
+readonly config_file='/config/notifiarr.conf'
+readonly seed_file='/tmp/notifiarr.conf'
+
+# Notifiarr leaves the web interface password unset, which makes it fall back
+# to using the API key as the login password. Generating one keeps the key from
+# doing double duty. Written on first run only, so a user's own choice is never
+# overwritten.
+if ! bashio::fs.file_exists "${config_file}"; then
+  bashio::log.info 'No configuration found, seeding defaults...'
+
+  # Seeded through a temporary path. /config/notifiarr.conf is Notifiarr's own
+  # default location, so pointing --write at it makes Notifiarr create the file
+  # during startup and then refuse to write over what it just made.
+  /opt/notifiarr/notifiarr --write "${seed_file}" > /dev/null
+
+  # Read a bounded amount rather than piping /dev/urandom into head, which
+  # closes the pipe early and kills the service with SIGPIPE.
+  password="$(head -c 256 /dev/urandom | tr -dc 'A-Za-z0-9' | cut -c 1-20)"
+  sed -i "s|^ui_password = .*|ui_password = '''${password}'''|" "${seed_file}"
+  mv "${seed_file}" "${config_file}"
+
+  bashio::log.notice 'Web interface username: admin'
+  bashio::log.notice "Web interface password: ${password}"
+  bashio::log.notice 'Changing it in the web interface stores it encrypted.'
+fi
+
+# The API key stays in the application options and reaches Notifiarr through
+# the environment, so this never writes it to disk.
+if bashio::config.has_value 'api_key'; then
+  export DN_API_KEY="$(bashio::config 'api_key')"
+else
+  bashio::log.warning \
+    'No API key set. Notifiarr will start, but cannot reach notifiarr.com' \
+    'until one is added in the application options.'
+fi
+
+bashio::log.info 'Starting Notifiarr...'
+
+exec /opt/notifiarr/notifiarr \
+  --config "${config_file}"

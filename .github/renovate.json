@@ -45,6 +45,7 @@
     {
       "description": "Bumping the application a container runs is what users see, so it has to reach them. release-please only cuts a release for fix and feat, and it attributes a commit to an application by the files that commit touches.",
       "matchDepNames": [
+        "Notifiarr/notifiarr",
         "Prowlarr/Prowlarr",
         "Radarr/Radarr",
         "Sonarr/Sonarr",
