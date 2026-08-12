@@ -1,0 +1,8 @@
+configuration:
+  api_key:
+    description: >-
+      Sua chave de API do notifiarr.com, encontrada no seu perfil. Sem ela o
+      Notifiarr não consegue se comunicar com o site.
+    name: Chave de API
+network:
+  5454/tcp: A porta em que a interface web do Notifiarr escuta.

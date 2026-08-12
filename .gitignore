@@ -53,3 +53,6 @@ ehthumbs_vista.db
 !.gitattributes
 !.gitignore
 !.gitkeep
+
+# npx writes this when running prettier from the repository root.
+node_modules/
