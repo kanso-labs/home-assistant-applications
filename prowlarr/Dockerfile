@@ -23,7 +23,7 @@ RUN \
   elif [ "${BUILD_ARCH}" = "amd64" ]; then PROWLARR_ARCH="x64"; \
   else echo "Unsupported architecture: ${BUILD_ARCH}" && exit 1; fi \
   \
-  && curl -J -L -o /tmp/prowlarr.tar.gz \
+  && curl -J -L -f --retry 8 --retry-all-errors --retry-max-time 180 -o /tmp/prowlarr.tar.gz \
       "https://github.com/Prowlarr/Prowlarr/releases/download/v${PROWLARR_VERSION}/Prowlarr.master.${PROWLARR_VERSION}.linux-musl-core-${PROWLARR_ARCH}.tar.gz" \
   && mkdir -p /opt/bin \
   && tar zxf \

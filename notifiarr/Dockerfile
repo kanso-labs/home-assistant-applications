@@ -18,7 +18,7 @@ RUN \
   elif [ "${BUILD_ARCH}" = "amd64" ]; then NOTIFIARR_ARCH="amd64"; \
   else echo "Unsupported architecture: ${BUILD_ARCH}" && exit 1; fi \
   \
-  && curl -J -L -o /tmp/notifiarr.gz \
+  && curl -J -L -f --retry 8 --retry-all-errors --retry-max-time 180 -o /tmp/notifiarr.gz \
       "https://github.com/Notifiarr/notifiarr/releases/download/v${NOTIFIARR_VERSION}/notifiarr.${NOTIFIARR_ARCH}.linux.gz" \
   && mkdir -p /opt/notifiarr \
   && gunzip -c /tmp/notifiarr.gz > /opt/notifiarr/notifiarr \

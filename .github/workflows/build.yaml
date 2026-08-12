@@ -74,6 +74,7 @@ jobs:
       fail-fast: false
       matrix:
         app: ${{ fromJSON(needs.init.outputs.changed_apps) }}
+      max-parallel: 2
     uses: ./.github/workflows/_build-application.yaml
     with:
       app: ${{ matrix.app }}

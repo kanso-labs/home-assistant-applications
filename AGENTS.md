@@ -302,6 +302,26 @@ copied between applications:
 Check the published assets for the version you are pinning. A wrong URL fails
 only at build time.
 
+**Every `curl` of a GitHub release asset needs retries and `-f`.** Release
+downloads return 503, or die mid-transfer, often enough to redden several builds
+an hour during a bad spell, and each architecture of each application is another
+draw. Plain `curl -L -o` handles neither: without `--retry` the first failure is
+fatal, and without `-f` a 503 body is written to the file and curl exits 0, so
+the build fails later in `tar` or `gunzip` with something that reads like a
+corrupt release. Use
+`curl -J -L -f --retry 8 --retry-all-errors --retry-max-time 180 -o`.
+
+`--retry-all-errors` is the load-bearing flag — bare `--retry` covers 5xx but
+not the connection dying mid-transfer, which is half of what is seen. The window
+has to be minutes rather than seconds: a fixed five-second delay across five
+retries covers under thirty seconds, and a spell outlasted that in three jobs of
+one run. Leave `--retry-delay` off so the backoff stays exponential, and bound
+it with `--retry-max-time` instead.
+
+The same spell leaves most jobs of the same run untouched, so it is throttling
+rather than an outage, and firing every application at once is what draws it.
+That is why `build.yaml` caps `max-parallel`.
+
 **amd64 images cannot be booted on an arm64 host.** The build succeeds, then x64
 .NET dies at startup with a `NullReferenceException` inside NLog. It is
 emulation, not your port. Build and boot `aarch64` natively, and let CI cover

@@ -21,7 +21,7 @@ RUN \
   elif [ "${BUILD_ARCH}" = "amd64" ]; then NZBGET_ARCH="x86_64"; \
   else echo "Unsupported architecture: ${BUILD_ARCH}" && exit 1; fi \
   \
-  && curl -J -L -o /tmp/nzbget.run \
+  && curl -J -L -f --retry 8 --retry-all-errors --retry-max-time 180 -o /tmp/nzbget.run \
       "https://github.com/nzbgetcom/nzbget/releases/download/v${NZBGET_VERSION}/nzbget-${NZBGET_VERSION}-bin-linux.run" \
   \
   `# The installer ships every architecture. Naming one keeps only its binary,` \

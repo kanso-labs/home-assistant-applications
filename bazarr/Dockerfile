@@ -26,7 +26,7 @@ RUN \
     mediainfo \
     unzip \
   \
-  && curl -J -L -o /tmp/unrar.tar.gz \
+  && curl -J -L -f --retry 8 --retry-all-errors --retry-max-time 180 -o /tmp/unrar.tar.gz \
       "https://www.rarlab.com/rar/unrarsrc-${UNRAR_VERSION}.tar.gz" \
   && tar zxf \
       /tmp/unrar.tar.gz \
@@ -34,7 +34,7 @@ RUN \
   && make -C /tmp/unrar \
   && install -v -m755 /tmp/unrar/unrar /usr/local/bin \
   \
-  && curl -J -L -o /tmp/bazarr.zip \
+  && curl -J -L -f --retry 8 --retry-all-errors --retry-max-time 180 -o /tmp/bazarr.zip \
       "https://github.com/morpheus65535/bazarr/releases/download/v${BAZARR_VERSION}/bazarr.zip" \
   && unzip -q \
       /tmp/bazarr.zip \

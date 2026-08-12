@@ -23,7 +23,7 @@ RUN \
   elif [ "${BUILD_ARCH}" = "amd64" ]; then RADARR_ARCH="x64"; \
   else echo "Unsupported architecture: ${BUILD_ARCH}" && exit 1; fi \
   \
-  && curl -J -L -o /tmp/radarr.tar.gz \
+  && curl -J -L -f --retry 8 --retry-all-errors --retry-max-time 180 -o /tmp/radarr.tar.gz \
       "https://github.com/Radarr/Radarr/releases/download/v${RADARR_VERSION}/Radarr.master.${RADARR_VERSION}.linux-musl-core-${RADARR_ARCH}.tar.gz" \
   && mkdir -p /opt/bin \
   && tar zxf \

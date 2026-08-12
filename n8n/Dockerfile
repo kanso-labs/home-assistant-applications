@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
   && rm -rf /var/lib/apt/lists/*
 
 # Install mise
-RUN curl https://mise.run | sh
+RUN curl -L -f --retry 8 --retry-all-errors --retry-max-time 180 https://mise.run | sh
 ENV PATH="/root/.local/bin:$PATH"
 
 # Copy root filesystem
