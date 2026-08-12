@@ -29,3 +29,25 @@ jobs:
         uses: googleapis/release-please-action@v5.0.0
         with:
           token: ${{ steps.token.outputs.token }}
+
+      # Auto-merge only queues when something is already blocking the pull
+      # request, which here is the ruleset requiring the two Confirm checks.
+      # Remove that rule and this stops waiting for anything: --auto on an
+      # unblocked pull request merges it on the spot.
+      #
+      # Failing to enable it is not worth failing the run over. The release
+      # pull request itself is already open and correct, and merging it by hand
+      # still works, so this warns and moves on.
+      - name: Enable auto-merge on the release pull requests
+        if: steps.release.outputs.prs != '' && steps.release.outputs.prs != '[]'
+        env:
+          GH_TOKEN: ${{ steps.token.outputs.token }}
+          PRS: ${{ steps.release.outputs.prs }}
+        run: |
+          jq -r '.[].number' <<< "${PRS}" | while read -r pr; do
+            if gh pr merge --auto --squash "${pr}"; then
+              echo "Auto-merge enabled on #${pr}."
+            else
+              echo "::warning::Could not enable auto-merge on #${pr}. Merge it by hand."
+            fi
+          done
