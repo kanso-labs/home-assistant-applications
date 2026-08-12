@@ -9,6 +9,10 @@
       "component": "n8n",
       "extra-files": ["config.yaml"]
     },
+    "nzbget": {
+      "component": "nzbget",
+      "extra-files": ["config.yaml"]
+    },
     "prowlarr": {
       "component": "prowlarr",
       "extra-files": ["config.yaml"]

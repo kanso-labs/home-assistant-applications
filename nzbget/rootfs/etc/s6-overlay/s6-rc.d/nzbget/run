@@ -1,0 +1,43 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: NZBGet
+# Runs NZBGet
+# ==============================================================================
+
+readonly config_file='/config/nzbget.conf'
+readonly main_dir='/share/nzbget'
+
+# NZBGet ships a configuration that downloads inside its own install directory,
+# which is discarded on every update, and a web interface password that is the
+# same for every NZBGet in the world. Both are corrected on first run only, so
+# a user's own choices are never overwritten.
+if ! bashio::fs.file_exists "${config_file}"; then
+  bashio::log.info 'No configuration found, seeding defaults...'
+  cp /opt/nzbget/nzbget.conf "${config_file}"
+
+  # Read a bounded amount rather than piping /dev/urandom into head, which
+  # closes the pipe early and kills the service with SIGPIPE.
+  password="$(head -c 256 /dev/urandom | tr -dc 'A-Za-z0-9' | cut -c 1-20)"
+  sed -i "s|^MainDir=.*|MainDir=${main_dir}|" "${config_file}"
+  sed -i "s|^ControlPassword=.*|ControlPassword=${password}|" "${config_file}"
+  # Supervisor already captures stdout, and NZBGet's own log file is appended
+  # to forever. Seeded rather than forced, so it can be turned back on.
+  sed -i "s|^WriteLog=.*|WriteLog=none|" "${config_file}"
+
+  bashio::log.notice "Web interface username: nzbget"
+  bashio::log.notice "Web interface password: ${password}"
+  bashio::log.notice 'Change it under Settings, Security in the web interface.'
+fi
+
+mkdir -p "${main_dir}"
+
+bashio::log.info 'Starting NZBGet...'
+
+# NZBGet's console mode draws with curses and exits if it cannot open a
+# terminal, which it never can under s6. Loggable output also reads correctly
+# in the Home Assistant log.
+exec /opt/nzbget/nzbget \
+  --server \
+  --configfile "${config_file}" \
+  --option OutputMode=loggable
