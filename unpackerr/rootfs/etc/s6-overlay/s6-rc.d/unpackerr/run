@@ -1,0 +1,26 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Unpackerr
+# Runs Unpackerr
+# ==============================================================================
+
+readonly config_file='/config/unpackerr.conf'
+
+# Unpackerr needs to be told which Radarr and Sonarr to talk to, and there is no
+# useful default for that. The upstream example is seeded on first run only, so
+# the commented documentation is there to edit and a user's own file is never
+# overwritten.
+if ! bashio::fs.file_exists "${config_file}"; then
+  bashio::log.info 'No configuration found, seeding the example...'
+  cp /opt/unpackerr/unpackerr.conf.example "${config_file}"
+
+  bashio::log.notice 'Unpackerr has nothing to do until it is configured.'
+  bashio::log.notice "Edit ${config_file} and add the url, api_key and paths"
+  bashio::log.notice 'for each application it should watch, then restart.'
+fi
+
+bashio::log.info 'Starting Unpackerr...'
+
+exec /usr/local/bin/unpackerr \
+  --config "${config_file}"
