@@ -56,6 +56,7 @@
         "Sonarr/Sonarr",
         "Unpackerr/unpackerr",
         "alpine_3_24/qbittorrent-nox",
+        "ghcr.io/seerr-team/seerr",
         "morpheus65535/bazarr",
         "n8n",
         "nzbgetcom/nzbget"

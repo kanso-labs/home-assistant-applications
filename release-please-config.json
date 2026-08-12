@@ -29,6 +29,10 @@
       "component": "radarr",
       "extra-files": [{ "path": "config.yaml", "type": "generic" }]
     },
+    "seerr": {
+      "component": "seerr",
+      "extra-files": [{ "path": "config.yaml", "type": "generic" }]
+    },
     "sonarr": {
       "component": "sonarr",
       "extra-files": [{ "path": "config.yaml", "type": "generic" }]

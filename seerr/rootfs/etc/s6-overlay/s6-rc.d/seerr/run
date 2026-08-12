@@ -1,0 +1,26 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Seerr
+# Runs Seerr
+# ==============================================================================
+
+readonly config_dir='/config'
+
+# Seerr keeps its settings and database beside the application by default,
+# which an update would discard. Pointing it at the configuration directory
+# is what makes both survive.
+export CONFIG_DIRECTORY="${config_dir}"
+
+# Seerr reports its application data as unmounted unless this marker sits
+# beside the configuration. Upstream creates it in the image, at the path
+# CONFIG_DIRECTORY moves away from, so it has to be created again here.
+if ! bashio::fs.file_exists "${config_dir}/DOCKER"; then
+  touch "${config_dir}/DOCKER"
+fi
+
+bashio::log.info 'Starting Seerr...'
+
+cd /app || bashio::exit.nok 'The application directory is missing'
+
+exec npm start

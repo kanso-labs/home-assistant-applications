@@ -77,6 +77,16 @@ clients and indexers to grab them, and then sorts and renames what arrives.
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
 
+### [Seerr application](./seerr)
+
+Media request and discovery manager for Jellyfin, Plex and Emby.
+
+Seerr lets people ask for films and shows, then hands the approved requests to
+Radarr and Sonarr.
+
+![Supports aarch64 Architecture][aarch64-shield]
+![Supports amd64 Architecture][amd64-shield]
+
 ### [Sonarr application](./sonarr)
 
 Smart PVR for Usenet and BitTorrent users.
