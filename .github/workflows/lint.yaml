@@ -43,13 +43,29 @@ jobs:
         with:
           path: './${{ matrix.path }}'
 
+  verify:
+    name: Verify release wiring
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7.0.1
+
+      - name: Verify release wiring
+        run: ./.github/scripts/verify-release-wiring.sh
+
   # One job with a fixed name for branch protection to require. The linter runs
   # once per application, so its own check names change whenever an application
   # is added, and a forgotten name fails silently by never being required.
+  #
+  # The name predates the release wiring check and is left alone deliberately:
+  # it is the name branch protection asks for, and renaming it would stop the
+  # rule matching anything without saying so.
   confirm:
     name: Confirm lint succeeded
     runs-on: ubuntu-latest
-    needs: lint
+    needs:
+      - lint
+      - verify
     if: always()
     steps:
       - name: Check the lint result
@@ -58,5 +74,14 @@ jobs:
         run: |
           if [[ "${RESULT}" != 'success' ]]; then
             echo "At least one application failed linting (${RESULT})."
+            exit 1
+          fi
+
+      - name: Check the release wiring result
+        env:
+          RESULT: ${{ needs.verify.result }}
+        run: |
+          if [[ "${RESULT}" != 'success' ]]; then
+            echo "Release wiring verification failed (${RESULT})."
             exit 1
           fi
