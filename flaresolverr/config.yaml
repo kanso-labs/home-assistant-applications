@@ -1,0 +1,21 @@
+arch:
+  - aarch64
+  - amd64
+description:
+  Proxy server that solves the challenges standing between the arr applications
+  and their indexers. Prowlarr and the rest send a request through FlareSolverr
+  and get the answer back.
+image: 'ghcr.io/kanso-labs/home-assistant-application-flaresolverr'
+init: false
+name: FlareSolverr
+options:
+  log_level: info
+ports:
+  8191/tcp: 8191
+ports_description:
+  8191/tcp: API endpoint
+schema:
+  log_level: list(error|warning|info|debug)
+slug: flaresolverr
+url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/flaresolverr'
+version: '1.0.0' # x-release-please-version

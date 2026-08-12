@@ -1,0 +1,8 @@
+configuration:
+  log_level:
+    description: >-
+      How much FlareSolverr writes to the log. Raise it to debug when a
+      challenge is failing and you need to see what the browser did.
+    name: Log level
+network:
+  8191/tcp: The port FlareSolverr answers requests on.
