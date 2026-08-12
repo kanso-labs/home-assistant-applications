@@ -11,9 +11,7 @@ and this project adheres to
 
 ### Features
 
-* **radarr:** add Radarr as an application ([f267992](https://github.com/kanso-labs/home-assistant-applications/commit/f267992eedabe0500eb879c9fc415b0b7b6bb736))
 * **radarr:** add Radarr as an application ([f71f0b4](https://github.com/kanso-labs/home-assistant-applications/commit/f71f0b476a617fad0416ae130007b3b8845bc20d))
-* release applications automatically when their version changes ([089b11c](https://github.com/kanso-labs/home-assistant-applications/commit/089b11c4f9a5a7cf86060f5db0fc456af6646f3a))
 * release applications automatically when their version changes ([de30198](https://github.com/kanso-labs/home-assistant-applications/commit/de3019844252900ca5045a9f9e9d2ad9aa1425bc))
 
 

@@ -2,13 +2,17 @@ arch:
   - aarch64
   - amd64
 backup: cold
-description: >-
+description:
   Movie collection manager for Usenet and BitTorrent users. Radarr monitors
   multiple RSS feeds for new movies, talks to your download clients and indexers
   to grab them, and then sorts and renames what arrives.
-image: ghcr.io/kanso-labs/home-assistant-application-radarr
+image: 'ghcr.io/kanso-labs/home-assistant-application-radarr'
 init: false
 map:
+  # Supervisor deprecated `addon_config` for `app_config` in 2026.07, but
+  # frenck/action-addon-linter still only accepts the older spelling and has
+  # had no release since 2025-11. Home Assistant's own apps-example runs the
+  # same linter. Switch this once the linter's schema catches up.
   - read_only: false
     type: addon_config
   - read_only: false
@@ -19,6 +23,6 @@ name: Radarr
 ports:
   7878/tcp: 7878
 slug: radarr
-url: https://github.com/kanso-labs/home-assistant-applications/tree/main/radarr
-version: 1.1.0
-webui: http://[HOST]:[PORT:7878]
+url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/radarr'
+version: '1.1.0' # x-release-please-version
+webui: 'http://[HOST]:[PORT:7878]'
