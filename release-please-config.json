@@ -32,6 +32,10 @@
     "sonarr": {
       "component": "sonarr",
       "extra-files": [{ "path": "config.yaml", "type": "generic" }]
+    },
+    "unpackerr": {
+      "component": "unpackerr",
+      "extra-files": [{ "path": "config.yaml", "type": "generic" }]
     }
   },
   "release-type": "simple",

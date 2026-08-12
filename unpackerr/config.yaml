@@ -1,0 +1,22 @@
+arch:
+  - aarch64
+  - amd64
+description:
+  Extracts completed downloads for the arr applications. Unpackerr watches what
+  Radarr and Sonarr are waiting on, unpacks archives in place, and cleans up
+  once they have been imported.
+image: 'ghcr.io/kanso-labs/home-assistant-application-unpackerr'
+init: false
+map:
+  # Supervisor deprecated `addon_config` for `app_config` in 2026.07, but
+  # frenck/action-addon-linter still only accepts the older spelling and has
+  # had no release since 2025-11. Home Assistant's own apps-example runs the
+  # same linter. Switch this once the linter's schema catches up.
+  - read_only: false
+    type: addon_config
+  - read_only: false
+    type: share
+name: Unpackerr
+slug: unpackerr
+url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/unpackerr'
+version: '1.0.0' # x-release-please-version
