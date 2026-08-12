@@ -170,6 +170,15 @@ architecture you are actually on — see Traps.
 **Run `npx prettier --check`** over the application directory. Prettier formats
 YAML, JSON and Markdown here, and CI checks it.
 
+**Verify the release wiring**, which catches a registration you forgot in step 6
+and an annotation you dropped:
+
+```shell
+./.github/scripts/verify-release-wiring.sh
+```
+
+CI runs this too, as `Verify release wiring`.
+
 ## Conventions
 
 ### Key ordering
@@ -245,6 +254,10 @@ one by the files it touches, so a change under `radarr/` releases Radarr alone.
 
 Neither produces an error when missing. The application simply stops receiving
 updates, and nobody notices until someone checks.
+
+`.github/scripts/verify-release-wiring.sh` is that check for the first one, and
+for the registrations in step 6. It runs in CI as `Verify release wiring`.
+Nothing yet guards the Renovate annotation.
 
 ## Traps
 
