@@ -2,16 +2,12 @@ arch:
   - aarch64
   - amd64
 backup: cold
-description:
+description: >-
   Usenet downloader with a web interface. NZBGet fetches from your news servers
   into shared storage, where the rest of the stack can pick it up.
-image: 'ghcr.io/kanso-labs/home-assistant-application-nzbget'
+image: ghcr.io/kanso-labs/home-assistant-application-nzbget
 init: false
 map:
-  # Supervisor deprecated `addon_config` for `app_config` in 2026.07, but
-  # frenck/action-addon-linter still only accepts the older spelling and has
-  # had no release since 2025-11. Home Assistant's own apps-example runs the
-  # same linter. Switch this once the linter's schema catches up.
   - read_only: false
     type: addon_config
   - read_only: false
@@ -22,6 +18,6 @@ ports:
 ports_description:
   6789/tcp: Web interface
 slug: nzbget
-url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/nzbget'
-version: '1.0.0' # x-release-please-version
-webui: 'http://[HOST]:[PORT:6789]'
+url: https://github.com/kanso-labs/home-assistant-applications/tree/main/nzbget
+version: 1.1.0
+webui: http://[HOST]:[PORT:6789]
