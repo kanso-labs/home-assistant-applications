@@ -8,7 +8,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ARG BUILD_ARCH=amd64
 ARG BUILD_VERSION=dev
 # renovate: datasource=github-releases depName=morpheus65535/bazarr
-ARG BAZARR_VERSION=1.5.2
+ARG BAZARR_VERSION=1.6.0
 ARG UNRAR_VERSION=6.2.12
 
 # Install requirements for application
