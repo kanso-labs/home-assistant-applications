@@ -330,6 +330,14 @@ amd64 on a native runner.
 **A green build is not a working application.** Radarr, Sonarr and Prowlarr all
 built cleanly while failing to start. Boot the container and probe the port.
 
+**The build cache is scoped per application on purpose.** `build-image` scopes
+its GitHub Actions cache to the architecture alone unless told otherwise, so a
+repository building more than one image has every application writing `mode=max`
+into the same two scopes and evicting whatever built last. Nothing fails, the
+builds are just slower than they look. `cache-gha-scope` is set to the
+application in `_build-application.yaml`, and removing it puts the eleven
+applications back to sharing two scopes.
+
 **`UpdateMethod=docker` disables the application's own updater.** These images
 write it into `/opt/package_info` deliberately. The application will show that a
 newer version exists and refuse to install it, which is why the packaging is the
