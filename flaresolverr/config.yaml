@@ -20,4 +20,4 @@ schema:
   log_level: list(error|warning|info|debug)
 slug: flaresolverr
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/flaresolverr'
-version: '1.2.0' # x-release-please-version
+version: '1.2.1' # x-release-please-version

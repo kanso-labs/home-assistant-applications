@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1](https://github.com/kanso-labs/home-assistant-applications/compare/flaresolverr-v1.2.0...flaresolverr-v1.2.1) (2026-08-13)
+
+
+### Bug Fixes
+
+* **flaresolverr:** stop Chromium failing to start ([#95](https://github.com/kanso-labs/home-assistant-applications/issues/95)) ([b27b2fd](https://github.com/kanso-labs/home-assistant-applications/commit/b27b2fd44b6250c9c29077d08066f09c59b308a9))
+
 ## [1.2.0](https://github.com/kanso-labs/home-assistant-applications/compare/flaresolverr-v1.1.0...flaresolverr-v1.2.0) (2026-08-13)
 
 
