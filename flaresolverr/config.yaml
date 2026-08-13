@@ -6,6 +6,8 @@ description:
   and their indexers. Prowlarr and the rest send a request through FlareSolverr
   and get the answer back.
 image: 'ghcr.io/kanso-labs/home-assistant-application-flaresolverr'
+ingress: true
+ingress_port: 8191
 init: false
 name: FlareSolverr
 options:

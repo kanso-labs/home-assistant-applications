@@ -9,21 +9,31 @@
 
 ## Connecting Prowlarr
 
-FlareSolverr has no interface of its own. It answers requests on port 8191 and
-is driven entirely by the application in front of it.
-
 In Prowlarr, go to **Settings → Indexers → Add Indexer Proxy → FlareSolverr**
-and set the host to:
+and set the host to your Home Assistant machine's address:
 
 ```
-http://<your-home-assistant-host>:8191
+http://192.168.1.10:8191
 ```
+
+**Replace the address Prowlarr suggests.** It defaults to
+`http://localhost:8191/`, which cannot work here. Every application runs in its
+own container, so `localhost` means Prowlarr itself rather than FlareSolverr.
+The symptom is a proxy that refuses to connect while FlareSolverr sits there
+running perfectly.
+
+**Do not add `/v1` to the end.** Prowlarr appends it, and a host that already
+ends in `/v1` becomes `/v1/v1` and fails.
 
 Give the proxy a tag, then apply that same tag to each indexer that needs it.
 Only tagged indexers are routed through FlareSolverr.
 
 Radarr, Sonarr and Bazarr reach it the same way if they talk to indexers
 directly.
+
+Ingress will not do for this. It serves through Home Assistant's authenticated
+proxy, which Prowlarr cannot sign in to, so the address above is the only route
+in.
 
 ## Configuration
 
@@ -39,8 +49,23 @@ mapped and nothing survives a restart. There is nothing to back up.
 
 ## Checking it works
 
-Opening `http://<host>:8191` in a browser returns a short JSON message rather
-than a page. That is the health response, and seeing it means the service is up.
+FlareSolverr has no interface. Opening it from Home Assistant shows a short JSON
+message rather than a page, and that message is the health response:
+
+```json
+{ "msg": "FlareSolverr is ready!", "version": "3.5.0", "userAgent": "..." }
+```
+
+Seeing it means the service is up. The same response comes back from the address
+Prowlarr uses, which is the quicker way to tell a connection problem from an
+application problem:
+
+```shell
+curl http://192.168.1.10:8191
+```
+
+If that answers and Prowlarr still cannot connect, the address in Prowlarr is
+wrong rather than FlareSolverr being down.
 
 ## Updating
 
