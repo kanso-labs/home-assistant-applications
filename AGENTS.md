@@ -251,6 +251,12 @@ pull request carrying them. `separate-pull-requests` was `true` until several
 applications first became releasable at once, and the reason it cannot go back
 is in Traps.
 
+Its title comes from `group-pull-request-title-pattern`, because the default
+names the target branch and reads `chore: release main`. Whatever it is changed
+to has to stay a type that releases nothing: the squash makes that title the
+only commit on `main`, so `feat` or `fix` there would release every application
+a second time.
+
 **Two annotations hold this together, and removing either fails silently.**
 
 - `# x-release-please-version` beside `version` in `config.yaml` tells
