@@ -1,0 +1,18 @@
+# Replaces the fragment Debian ships at this path.
+#
+# Chromium is launched through a wrapper script, and chromedriver reads that
+# process's stderr to finish starting the browser. Anything else written there
+# first breaks the handshake, and FlareSolverr reports that Chrome is not
+# reachable rather than anything about the output.
+#
+# Debian's version tests the space available on /dev/shm to decide whether to
+# add the flag below, and reads it unquoted. On a host where findmnt reports
+# more than one value the test writes "unexpected operator" to stderr, which is
+# enough to stop the browser starting. Quoting would not help: the test then
+# fails on a non-numeric argument and writes to stderr anyway.
+#
+# The flag is always wanted here, so the test is gone rather than corrected. A
+# container gets 64 MB of /dev/shm, Home Assistant offers no way to raise it,
+# and Chromium dies at startup without this.
+
+export CHROMIUM_FLAGS="$CHROMIUM_FLAGS --disable-dev-shm-usage"
