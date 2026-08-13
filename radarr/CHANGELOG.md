@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1](https://github.com/kanso-labs/home-assistant-applications/compare/radarr-v1.1.0...radarr-v1.1.1) (2026-08-13)
+
+
+### Bug Fixes
+
+* stop reporting an error when an application is stopped ([#97](https://github.com/kanso-labs/home-assistant-applications/issues/97)) ([68291d3](https://github.com/kanso-labs/home-assistant-applications/commit/68291d3f87b7edd3204eabc29fdfdf71e0273836))
+
 ## [1.1.0](https://github.com/kanso-labs/home-assistant-applications/compare/radarr-v1.0.0...radarr-v1.1.0) (2026-08-12)
 
 
