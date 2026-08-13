@@ -47,5 +47,5 @@
     }
   },
   "release-type": "simple",
-  "separate-pull-requests": true
+  "separate-pull-requests": false
 }

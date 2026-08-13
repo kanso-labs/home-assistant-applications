@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+concurrency:
+  cancel-in-progress: false
+  group: release-please
+
 permissions:
   contents: read
 

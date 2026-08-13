@@ -234,7 +234,7 @@ flowchart TD
     A[Renovate finds a newer application version] --> B[PR bumping ARG in the Dockerfile]
     B --> C{Merged to main?}
     C -- no --> D([Nothing released])
-    C -- yes --> E[release-please opens a release PR]
+    C -- yes --> E[release-please opens the release PR]
     E --> F[Bumps config.yaml version, writes the CHANGELOG]
     F --> G{Release PR merged?}
     G -- no --> D
@@ -244,6 +244,12 @@ flowchart TD
 
 Each application is its own release-please package. A commit is attributed to
 one by the files it touches, so a change under `radarr/` releases Radarr alone.
+
+**There is one release pull request, not one per application.** Each application
+still gets its own version, tag and changelog inside it; what is shared is the
+pull request carrying them. `separate-pull-requests` was `true` until several
+applications first became releasable at once, and the reason it cannot go back
+is in Traps.
 
 **Two annotations hold this together, and removing either fails silently.**
 
@@ -269,6 +275,40 @@ different SHAs and identical text. That is not hypothetical: it produced 10
 duplicated pairs across four open release pull requests before merge commits
 were turned off. Squashing writes one commit, and rebasing adds no merge commit
 to double-count, so both remaining strategies are safe.
+
+**A stale release pull request cannot merge, and release-please will not refresh
+it.** release-please rewrites a release pull request only when the release it
+computes changes. One whose release is unchanged keeps its original base for
+good, so everything merged to main since then leaves it behind.
+`.release-please-manifest.json` is enough to make that fatal on its own: its
+keys are one per application in alphabetical order, so releasing an
+application's alphabetical neighbour is an adjacent-line change and git refuses
+to merge it. Releasing qbittorrent and seerr is what stranded Radarr.
+
+`separate-pull-requests: false` is what keeps it from recurring. One release
+pull request at a time means nothing can land a competing manifest edit while it
+is open, so the neighbours it would have collided with no longer exist. The cost
+is that releases batch: you cannot hold one application back while shipping
+another.
+
+**Setting `separate-pull-requests` back to `true` brings the conflicts back the
+same day**, and the flag alone will not fix them. What that needs is a workflow
+step merging main into each open release pull request after every run and
+resolving the manifest itself: take main's copy and overlay the keys the pull
+request changed against its own merge base. That is always correct, because a
+release pull request only ever moves the versions it is releasing. Conflicts
+anywhere else are not worth guessing at and should be left to a human.
+
+What remains is narrow enough to fix by hand. It needs a commit that both
+changes no computed release, so `chore`, `docs`, `ci` or `refactor`, and touches
+a line next to one the open release pull request is editing. Registering a new
+application under a non-releasing type is the realistic way in.
+
+**Concurrent release-please runs race each other.** Every release merge pushes
+main and every push starts a run. Five auto-merges landing inside a minute
+started five overlapping runs that tried to cut the same tags and strip the same
+labels; one died on `Label does not exist`. The workflow has a `concurrency`
+group now. Do not add `cancel-in-progress` — the last push must still get a run.
 
 **Nothing enforces any of this.** There is no commitlint in this repository — no
 configuration, no dependency, no hook — and `.github/workflows/lint.yaml` runs
