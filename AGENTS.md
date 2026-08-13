@@ -229,6 +229,14 @@ If it never moves, nothing you change inside an image ever reaches anyone.
 
 Nobody edits that field by hand. release-please owns it.
 
+How it runs is shared with the other `kanso-labs` repositories rather than
+configured here:
+[`kanso-labs/github-actions`](https://github.com/kanso-labs/github-actions)
+holds the workflow, and `.github/workflows/release-please.yaml` calls it at a
+pinned tag. Changing the token, the auto-merge behaviour, or the release-please
+version means changing it there and bumping the pin here, which Renovate opens a
+pull request for.
+
 ```mermaid
 flowchart TD
     A[Renovate finds a newer application version] --> B[PR bumping ARG in the Dockerfile]
@@ -315,6 +323,12 @@ main and every push starts a run. Five auto-merges landing inside a minute
 started five overlapping runs that tried to cut the same tags and strip the same
 labels; one died on `Label does not exist`. The workflow has a `concurrency`
 group now. Do not add `cancel-in-progress` — the last push must still get a run.
+
+That group has to stay in `release-please.yaml` here, even though the rest of
+that workflow moved out. GitHub documents `concurrency` at the caller and says
+nothing either way about a group declared inside a called workflow, so keeping
+it here is the difference between a guard that is known to work and one that
+might quietly be doing nothing until the race above happens again.
 
 **Nothing enforces any of this.** There is no commitlint in this repository — no
 configuration, no dependency, no hook — and `.github/workflows/lint.yaml` runs

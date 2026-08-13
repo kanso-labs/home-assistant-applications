@@ -5,54 +5,32 @@ on:
     branches:
       - main
 
+# Every release merge pushes main, and every push starts a run. Five auto-merges
+# landing inside a minute started five overlapping runs that tried to cut the
+# same tags and strip the same labels, and one died on "Label does not exist".
+# Do not add cancel-in-progress: the last push must still get a run, or the
+# release it carries is never proposed.
+#
+# This stays in the caller rather than moving into the shared workflow. GitHub
+# documents concurrency at the caller and says nothing either way about a group
+# declared in a called workflow, and this guard only matters during exactly the
+# race above — the worst kind of thing to rest on undocumented behaviour.
 concurrency:
   cancel-in-progress: false
   group: release-please
 
+# The application token below does the writing, so GITHUB_TOKEN stays on read.
 permissions:
   contents: read
 
 jobs:
+  # Everything this used to do inline — minting the token, proposing the
+  # releases, enabling auto-merge — now lives in the shared workflow, which the
+  # other kanso-labs repositories call as well. What is left here is the part
+  # that is genuinely this repository's: its concurrency group and its secrets.
   release-please:
     name: Propose releases
-    runs-on: ubuntu-latest
-    steps:
-      # Pull requests opened with the default GITHUB_TOKEN do not start
-      # workflow runs. Their checks sit at action_required until somebody
-      # approves them by hand, so a release stalls until then. Requests made
-      # with an application token trigger the checks like any other.
-      - name: Mint an application token
-        id: token
-        uses: actions/create-github-app-token@v3.2.0
-        with:
-          app-id: ${{ secrets.RELEASE_PLEASE_APP_ID }}
-          private-key: ${{ secrets.RELEASE_PLEASE_PRIVATE_KEY }}
-
-      - name: Propose releases
-        id: release
-        uses: googleapis/release-please-action@v5.0.0
-        with:
-          token: ${{ steps.token.outputs.token }}
-
-      # Auto-merge only queues when something is already blocking the pull
-      # request, which here is the ruleset requiring the two Confirm checks.
-      # Remove that rule and this stops waiting for anything: --auto on an
-      # unblocked pull request merges it on the spot.
-      #
-      # Failing to enable it is not worth failing the run over. The release
-      # pull request itself is already open and correct, and merging it by hand
-      # still works, so this warns and moves on.
-      - name: Enable auto-merge on the release pull requests
-        if: steps.release.outputs.prs != '' && steps.release.outputs.prs != '[]'
-        env:
-          GH_TOKEN: ${{ steps.token.outputs.token }}
-          GH_REPO: ${{ github.repository }}
-          PRS: ${{ steps.release.outputs.prs }}
-        run: |
-          jq -r '.[].number' <<< "${PRS}" | while read -r pr; do
-            if gh pr merge --auto --squash "${pr}"; then
-              echo "Auto-merge enabled on #${pr}."
-            else
-              echo "::warning::Could not enable auto-merge on #${pr}. Merge it by hand."
-            fi
-          done
+    uses: kanso-labs/github-actions/.github/workflows/_release-please.yaml@v1.0.2
+    secrets:
+      app-id: ${{ secrets.RELEASE_PLEASE_APP_ID }}
+      private-key: ${{ secrets.RELEASE_PLEASE_PRIVATE_KEY }}
