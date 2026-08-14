@@ -259,11 +259,9 @@ pull request carrying them. `separate-pull-requests` was `true` until several
 applications first became releasable at once, and the reason it cannot go back
 is in Traps.
 
-Its title comes from `group-pull-request-title-pattern`, because the default
-names the target branch and reads `chore: release main`. Whatever it is changed
-to has to stay a type that releases nothing: the squash makes that title the
-only commit on `main`, so `feat` or `fix` there would release every application
-a second time.
+Its title reads `chore: release main`, which names the branch every release
+already targets and so says nothing. Leave it alone anyway; the reason is in
+Traps.
 
 **Two annotations hold this together, and removing either fails silently.**
 
@@ -317,6 +315,27 @@ What remains is narrow enough to fix by hand. It needs a commit that both
 changes no computed release, so `chore`, `docs`, `ci` or `refactor`, and touches
 a line next to one the open release pull request is editing. Registering a new
 application under a non-releasing type is the realistic way in.
+
+**The release pull request title is parsed back, so it cannot be a fixed
+string.** release-please reads the merged pull request's title to work out what
+to tag. `generateMatchPattern` compiles the configured pattern straight into a
+regex, turning each `${…}` into a named capture group — `${version}` becomes
+`v?(?<version>[0-9].*)`. A pattern carrying no placeholders compiles to a regex
+with no groups, the parse returns nothing, and release-please logs
+`Bad pull request title` and creates no release.
+
+Nothing recovers on its own from there. The merged pull request keeps its
+`autorelease: pending` label, and every later run stops at
+`There are untagged, merged release PRs outstanding - aborting`, so no
+application can be released until the title parses again.
+
+Setting `group-pull-request-title-pattern` to `chore: release applications` is
+what did that, to make the title say something more than the branch name. It
+cost n8n 1.1.1 its tag and blocked the queue until the pattern was reverted and
+the merged pull request retitled by hand. If a better title is wanted, the
+pattern has to keep `${version}`, and the way to check is
+`src/util/pull-request-title.ts` in the release-please version the workflow pins
+— not the schema, which accepts any string.
 
 **Concurrent release-please runs race each other.** Every release merge pushes
 main and every push starts a run. Five auto-merges landing inside a minute
