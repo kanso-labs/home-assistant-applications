@@ -58,6 +58,16 @@ stack can pick it up.
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
 
+### [Plex Media Server application](./plex-media-server)
+
+Recorded media, live TV, online news, and podcasts ready to stream.
+
+Plex Media Server organises what you already have and serves it to the Plex
+apps, on your network and away from it.
+
+![Supports aarch64 Architecture][aarch64-shield]
+![Supports amd64 Architecture][amd64-shield]
+
 ### [Prowlarr application](./prowlarr)
 
 Indexer manager and proxy for the arr stack.

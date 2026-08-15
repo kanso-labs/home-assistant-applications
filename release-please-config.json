@@ -21,6 +21,10 @@
       "component": "nzbget",
       "extra-files": [{ "path": "config.yaml", "type": "generic" }]
     },
+    "plex-media-server": {
+      "component": "plex-media-server",
+      "extra-files": [{ "path": "config.yaml", "type": "generic" }]
+    },
     "prowlarr": {
       "component": "prowlarr",
       "extra-files": [{ "path": "config.yaml", "type": "generic" }]

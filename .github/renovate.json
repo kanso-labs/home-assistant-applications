@@ -60,7 +60,8 @@
         "ghcr.io/seerr-team/seerr",
         "morpheus65535/bazarr",
         "n8n",
-        "nzbgetcom/nzbget"
+        "nzbgetcom/nzbget",
+        "plexinc/pms-docker"
       ],
       "semanticCommitType": "fix"
     }

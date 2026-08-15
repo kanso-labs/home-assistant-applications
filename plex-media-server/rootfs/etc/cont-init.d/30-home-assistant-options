@@ -1,0 +1,21 @@
+#!/usr/bin/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Plex Media Server
+# Passes the application's options to Plex
+# ==============================================================================
+
+# Plex's own start-up scripts read their settings from the container
+# environment, and run after this one. Writing the value here is what puts it
+# in front of them, since exporting a variable would not outlive this script.
+readonly environment='/var/run/s6/container_environment'
+
+if bashio::config.has_value 'claim_code'; then
+  bashio::log.info 'Claiming this server with the code from the options...'
+  printf '%s' "$(bashio::config 'claim_code')" > "${environment}/PLEX_CLAIM"
+else
+  bashio::log.notice 'No claim code set. The server will start unclaimed.'
+  bashio::log.notice 'Get one from https://plex.tv/claim, put it in the'
+  bashio::log.notice 'application options, and restart. A code expires four'
+  bashio::log.notice 'minutes after it is issued.'
+fi
