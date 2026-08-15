@@ -1,0 +1,14 @@
+configuration:
+  claim_code:
+    description: >-
+      A claim code from plex.tv/claim, used once on first start to link this
+      server to your account. A code expires four minutes after it is issued.
+    name: Claim code
+network:
+  32400/tcp: The port the Plex web interface and API listen on.
+  32410/udp: Discovery on the local network.
+  32412/udp: Discovery on the local network.
+  32413/udp: Discovery on the local network.
+  32414/udp: Discovery on the local network.
+  32469/tcp: The port the DLNA server listens on.
+  8324/tcp: Plex Companion, for controlling playback from another device.

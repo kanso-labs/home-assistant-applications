@@ -1,0 +1,15 @@
+configuration:
+  claim_code:
+    description: >-
+      Um código de vinculação de plex.tv/claim, usado uma única vez na primeira
+      execução para associar este servidor à sua conta. O código expira quatro
+      minutos após ser gerado.
+    name: Código de vinculação
+network:
+  32400/tcp: A porta em que a interface web e a API do Plex escutam.
+  32410/udp: Descoberta na rede local.
+  32412/udp: Descoberta na rede local.
+  32413/udp: Descoberta na rede local.
+  32414/udp: Descoberta na rede local.
+  32469/tcp: A porta em que o servidor DLNA escuta.
+  8324/tcp: Plex Companion, para controlar a reprodução de outro dispositivo.
