@@ -1,0 +1,12 @@
+configuration:
+  spotify_client_id:
+    description: >-
+      The client id of the Spotify application you created at
+      developer.spotify.com. Spotify cannot be reached without it.
+    name: Spotify client id
+  spotify_client_secret:
+    description: >-
+      The client secret of that same Spotify application.
+    name: Spotify client secret
+network:
+  9030/tcp: The port the web interface listens on.
