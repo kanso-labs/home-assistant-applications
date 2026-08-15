@@ -1,0 +1,61 @@
+#!/usr/bin/env bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Spotify to Plex
+# Puts the application's options into the environment, then starts it
+# ==============================================================================
+
+readonly key_file='/config/.encryption_key'
+
+# The application keeps everything it stores in one directory, chosen by this
+# variable. Left alone it writes inside the image, where an update discards it.
+export STORAGE_DIR='/config'
+
+# Home Assistant mounts this, so it is normally already here. Creating it makes
+# the key below writable even when it is not, rather than failing on the first
+# line that touches it.
+mkdir -p "${STORAGE_DIR}"
+
+# The key encrypts the credentials the application stores. Generating it once
+# and keeping it beside them is what lets them still be read after a restart:
+# a new key would leave the stored credentials unreadable.
+if ! bashio::fs.file_exists "${key_file}"; then
+  bashio::log.info 'Generating an encryption key for stored credentials...'
+  head -c 32 /dev/urandom | base64 | tr -d '\n' > "${key_file}"
+  chmod 600 "${key_file}"
+fi
+ENCRYPTION_KEY="$(<"${key_file}")"
+export ENCRYPTION_KEY
+
+# Identifies this application to Plex when authorising. It is the value the
+# project publishes, so authorisations issued here look the way Plex expects.
+export PLEX_APP_ID='eXf+f9ktw3CZ8i45OY468WxriOCtoFxuNPzVeDcAwfw='
+
+# Spotify sends the browser back here after sign-in. The project hosts the page
+# that receives it, which is what avoids needing one reachable from the
+# internet.
+export SPOTIFY_API_REDIRECT_URI='https://jjdenhertog.github.io/spotify-to-plex/callback.html'
+
+# Exported only when set. An empty value reads as configured to the
+# application, so an unset option has to leave the variable absent instead.
+if bashio::config.has_value 'spotify_client_id'; then
+  SPOTIFY_API_CLIENT_ID="$(bashio::config 'spotify_client_id')"
+  export SPOTIFY_API_CLIENT_ID
+fi
+
+if bashio::config.has_value 'spotify_client_secret'; then
+  SPOTIFY_API_CLIENT_SECRET="$(bashio::config 'spotify_client_secret')"
+  export SPOTIFY_API_CLIENT_SECRET
+fi
+
+if bashio::config.has_value 'spotify_client_id' \
+  && bashio::config.has_value 'spotify_client_secret'; then
+  bashio::log.info 'Spotify credentials found.'
+else
+  bashio::log.notice 'No Spotify credentials set. The interface will start,'
+  bashio::log.notice 'but it cannot reach Spotify until an application is'
+  bashio::log.notice 'created at developer.spotify.com and its client id and'
+  bashio::log.notice 'secret are added to the application options.'
+fi
+
+exec /docker-entrypoint.sh "$@"

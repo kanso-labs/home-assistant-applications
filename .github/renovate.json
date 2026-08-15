@@ -59,6 +59,7 @@
         "ghcr.io/flaresolverr/flaresolverr",
         "ghcr.io/seerr-team/seerr",
         "morpheus65535/bazarr",
+        "jjdenhertog/spotify-to-plex",
         "n8n",
         "nzbgetcom/nzbget",
         "plexinc/pms-docker"

@@ -119,6 +119,16 @@ renames what arrives.
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
 
+### [Spotify to Plex application](./spotify-to-plex)
+
+Keeps Spotify playlists synced with a Plex music library.
+
+Spotify to Plex matches each track against what Plex already has, and can hand
+the rest to Lidarr, Slskd or Tidal.
+
+![Supports aarch64 Architecture][aarch64-shield]
+![Supports amd64 Architecture][amd64-shield]
+
 ### [Unpackerr application](./unpackerr)
 
 Extracts completed downloads for the arr applications.
