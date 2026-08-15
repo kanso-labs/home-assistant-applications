@@ -28,5 +28,5 @@ schema:
   spotify_client_secret: password?
 slug: spotify-to-plex
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/spotify-to-plex'
-version: '1.0.0' # x-release-please-version
+version: '1.1.0' # x-release-please-version
 webui: 'http://[HOST]:[PORT:9030]'
