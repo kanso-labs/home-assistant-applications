@@ -20,7 +20,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ARG BUILD_ARCH=amd64
 ARG BUILD_VERSION=dev
 # renovate: datasource=github-releases depName=hassio-addons/bashio
-ARG BASHIO_VERSION=0.18.1
+ARG BASHIO_VERSION=0.19.0
 
 RUN \
   apt-get update && apt-get install --assume-yes --no-install-recommends \
