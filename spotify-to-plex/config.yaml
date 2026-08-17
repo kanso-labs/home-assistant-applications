@@ -17,6 +17,7 @@ map:
     type: addon_config
 name: Spotify to Plex
 options:
+  redirect_uri: ''
   spotify_client_id: ''
   spotify_client_secret: ''
 ports:
@@ -24,6 +25,7 @@ ports:
 ports_description:
   9030/tcp: Web interface
 schema:
+  redirect_uri: url?
   spotify_client_id: str?
   spotify_client_secret: password?
 slug: spotify-to-plex
