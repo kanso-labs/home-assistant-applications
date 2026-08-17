@@ -9,10 +9,28 @@
    fetch it when you are ready to start.
 4. Start the application, then open the web interface on port 32400.
 
-Claiming links the server to your Plex account. Without it the server still
-starts, but it belongs to nobody and anyone on your network can set it up.
+Claiming links the server to your Plex account, and is what lets you reach it.
+An unclaimed server starts and answers nothing: every browser gets "You do not
+have access to this server". Set `allowed_networks` instead if you would rather
+not use a Plex account.
 
 ## Configuration
+
+### `allowed_networks`
+
+Networks Plex answers without anyone signing in, as a list of addresses and
+masks, such as `192.168.1.0/24`. Empty by default, which means none.
+
+Use it instead of a claim code to run the server without a Plex account.
+Everyone on a listed network gets full control of it, so list only networks you
+would hand the server to.
+
+**Reach the server by the address of your Home Assistant machine, not by its
+name.** Plex refuses a host name it does not recognise as one of its own
+addresses, before it looks at the network the request came from, and the name of
+a container is never one of its own addresses. `http://192.168.1.10:32400` works
+where `http://homeassistant.local:32400` is refused. Claiming the server does
+not have this problem.
 
 ### `claim_code`
 

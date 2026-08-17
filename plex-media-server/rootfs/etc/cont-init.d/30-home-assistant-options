@@ -19,3 +19,17 @@ else
   bashio::log.notice 'application options, and restart. A code expires four'
   bashio::log.notice 'minutes after it is issued.'
 fi
+
+# Plex decides a client is on the local network by comparing its address
+# against the server's own. This one only ever sees the address Home Assistant
+# gave the container, so every browser on the real network looks remote to it
+# and is refused. These entries are the addresses it treats as local anyway.
+if bashio::config.has_value 'allowed_networks'; then
+  networks=''
+  for network in $(bashio::config 'allowed_networks'); do
+    networks="${networks:+${networks},}${network}"
+  done
+
+  bashio::log.info "Networks allowed without signing in: ${networks}"
+  printf '%s' "${networks}" > "${environment}/ALLOWED_NETWORKS"
+fi

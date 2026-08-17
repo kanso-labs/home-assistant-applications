@@ -1,4 +1,10 @@
 configuration:
+  allowed_networks:
+    description: >-
+      Redes que o Plex atende sem exigir login, como 192.168.1.0/24. Deixe vazio
+      a menos que esteja usando o servidor sem uma conta Plex. Acesse-o pelo
+      endereço, e não pelo nome, quando usar esta opção.
+    name: Redes permitidas
   claim_code:
     description: >-
       Um código de vinculação de plex.tv/claim, usado uma única vez na primeira

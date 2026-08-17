@@ -26,6 +26,15 @@
         "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+) versioning=(?<versioning>\\S+)\\s+ARG \\w+_VERSION=(?<currentValue>\\S+)"
       ],
       "versioningTemplate": "{{{versioning}}}"
+    },
+    {
+      "customType": "regex",
+      "datasourceTemplate": "{{{datasource}}}",
+      "description": "Tool versions pinned in a workflow, annotated above their env value",
+      "managerFilePatterns": ["/^\\.github/workflows/.+\\.yaml$/"],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\s+\\w+_VERSION: '(?<currentValue>[^']+)'"
+      ]
     }
   ],
   "extends": ["config:recommended"],
