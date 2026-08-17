@@ -47,10 +47,13 @@ appears to do nothing.
 | Path      | Access     | Holds                                 |
 | --------- | ---------- | ------------------------------------- |
 | `/config` | read/write | `unpackerr.conf`                      |
+| `/media`  | read/write | Your media library                    |
 | `/share`  | read/write | Downloads, which it extracts in place |
 
-`/media` is deliberately not mapped. Unpackerr unpacks where the download landed
-and leaves importing to Radarr and Sonarr, which have that access.
+Unpackerr still extracts where the download landed, and leaving the import to
+Radarr and Sonarr remains the tidier arrangement. `/media` is mapped so that it
+can also reach archives that were downloaded into a library path, which it
+otherwise could not see at all.
 
 ## Backups
 
