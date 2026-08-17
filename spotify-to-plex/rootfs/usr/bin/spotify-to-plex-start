@@ -31,10 +31,23 @@ export ENCRYPTION_KEY
 # project publishes, so authorisations issued here look the way Plex expects.
 export PLEX_APP_ID='eXf+f9ktw3CZ8i45OY468WxriOCtoFxuNPzVeDcAwfw='
 
-# Spotify sends the browser back here after sign-in. The project hosts the page
-# that receives it, which is what avoids needing one reachable from the
-# internet.
-export SPOTIFY_API_REDIRECT_URI='https://jjdenhertog.github.io/spotify-to-plex/callback.html'
+# Spotify sends the browser back here after sign-in, and requires the address
+# to be reachable over HTTPS, which rules out a Home Assistant instance on a
+# private one. This page receives the redirect and forwards it to whichever
+# instance started the sign-in.
+#
+# It is served from this repository so the application does not depend on a
+# page hosted elsewhere staying where it is. The option exists for anyone who
+# would rather host it themselves, and has to match what is registered with
+# Spotify either way.
+if bashio::config.has_value 'redirect_uri'; then
+  SPOTIFY_API_REDIRECT_URI="$(bashio::config 'redirect_uri')"
+else
+  SPOTIFY_API_REDIRECT_URI='https://kanso-labs.github.io/home-assistant-applications/spotify-to-plex/callback.html'
+fi
+export SPOTIFY_API_REDIRECT_URI
+
+bashio::log.info "Redirect URI: ${SPOTIFY_API_REDIRECT_URI}"
 
 # Exported only when set. An empty value reads as configured to the
 # application, so an unset option has to leave the variable absent instead.

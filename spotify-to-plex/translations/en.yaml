@@ -1,4 +1,10 @@
 configuration:
+  redirect_uri:
+    description: >-
+      Where Spotify sends the browser back to after sign-in. Leave this empty
+      unless you host the redirect page yourself, and register whatever it says
+      with Spotify.
+    name: Redirect URI
   spotify_client_id:
     description: >-
       The client id of the Spotify application you created at

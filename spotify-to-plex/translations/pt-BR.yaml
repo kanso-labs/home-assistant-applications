@@ -1,4 +1,10 @@
 configuration:
+  redirect_uri:
+    description: >-
+      Para onde o Spotify redireciona o navegador após o login. Deixe vazio, a
+      menos que você mesmo hospede a página de redirecionamento, e registre no
+      Spotify o endereço que estiver aqui.
+    name: URI de redirecionamento
   spotify_client_id:
     description: >-
       O client id do aplicativo Spotify que você criou em developer.spotify.com.

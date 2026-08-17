@@ -23,13 +23,29 @@ no shared credential to hand out.
 2. Set its redirect URI to exactly:
 
 ```
-https://jjdenhertog.github.io/spotify-to-plex/callback.html
+https://kanso-labs.github.io/home-assistant-applications/spotify-to-plex/callback.html
 ```
 
 3. Copy the client id and secret into this application's options.
 
-That redirect page is hosted by the project. Spotify sends the browser there
-after sign-in, which is what avoids needing a page reachable from the internet.
+Spotify requires that address to be reachable over HTTPS and to match what you
+register exactly, which a Home Assistant instance on a private address cannot
+be. The page there receives the redirect and forwards it to your instance,
+reading the address out of the request Spotify sends back.
+
+It is served from this repository, so the sign-in does not depend on a page
+hosted elsewhere staying where it is. Host your own instead if you would rather
+— see `redirect_uri` below.
+
+### If you set this up before version 1.2.0
+
+Earlier versions sent the browser to `jjdenhertog.github.io` instead, so that is
+what you registered with Spotify. Spotify matches the address exactly and will
+refuse the sign-in until the two agree again.
+
+Add the address above to your Spotify application, alongside the one already
+there. Setting `redirect_uri` to the old address works too, and keeps the
+sign-in on the page the upstream project hosts.
 
 ## Configuration
 
@@ -41,6 +57,17 @@ The client id of the Spotify application you created.
 
 Its client secret. Stored by Home Assistant and passed to the application at
 start.
+
+### `redirect_uri`
+
+Where Spotify sends the browser back to after sign-in. Leave it empty to use the
+page served from this repository.
+
+Set it only if you host that page yourself, and register the same address with
+Spotify. The page is
+[in this repository](https://github.com/kanso-labs/home-assistant-applications/blob/main/docs/spotify-to-plex/callback.html)
+and needs nothing but static hosting, since it reports back whichever address it
+was served from.
 
 Everything else is configured from the web interface, including the Plex server
 to sync with and whatever you use to fetch missing tracks.
@@ -89,7 +116,9 @@ jjdenhertog, licensed under Apache-2.0. Its
 [documentation](https://jjdenhertog.github.io/spotify-to-plex/) covers the parts
 configured from the web interface.
 
-The logo comes from that project.
+The logo comes from that project, as does the redirect page served from this
+repository, which is copied from it under the same licence and unmodified apart
+from a comment.
 
 There is no community Home Assistant packaging for this one, so nothing here is
 adapted from an existing application.
