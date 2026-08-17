@@ -2,8 +2,3 @@
 # until the next release rewrites it, and release-please reads these files back
 # to work out where the next entry goes, so reformatting is churn at best.
 */CHANGELOG.md
-
-# Copied from another project rather than written here. Formatting it would
-# make it harder to tell whether it still matches what that project serves,
-# which is the only way to notice it has drifted.
-docs/spotify-to-plex/callback.html

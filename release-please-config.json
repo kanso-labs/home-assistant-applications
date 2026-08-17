@@ -109,15 +109,6 @@
         }
       ]
     },
-    "spotify-to-plex": {
-      "component": "spotify-to-plex",
-      "extra-files": [
-        {
-          "path": "config.yaml",
-          "type": "generic"
-        }
-      ]
-    },
     "unpackerr": {
       "component": "unpackerr",
       "extra-files": [
