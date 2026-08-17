@@ -10,9 +10,8 @@
 4. Start the application, then open the web interface on port 32400.
 
 Claiming links the server to your Plex account, and is what lets you reach it.
-An unclaimed server starts and answers nothing: every browser gets "You do not
-have access to this server". Set `allowed_networks` instead if you would rather
-not use a Plex account.
+An unclaimed server starts, but answers nothing. Set `allowed_networks` instead
+if you would rather not use a Plex account.
 
 ## Configuration
 
