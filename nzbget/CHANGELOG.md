@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0](https://github.com/kanso-labs/home-assistant-applications/compare/nzbget-v1.1.1...nzbget-v1.2.0) (2026-08-17)
+
+
+### Features
+
+* **nzbget:** map /media ([#127](https://github.com/kanso-labs/home-assistant-applications/issues/127)) ([a0ede31](https://github.com/kanso-labs/home-assistant-applications/commit/a0ede31790b5a7e7d4803739b3804550e751bacf))
+
 ## [1.1.1](https://github.com/kanso-labs/home-assistant-applications/compare/nzbget-v1.1.0...nzbget-v1.1.1) (2026-08-13)
 
 

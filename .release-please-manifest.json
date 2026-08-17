@@ -3,13 +3,13 @@
   "flaresolverr": "1.2.2",
   "n8n": "1.1.1",
   "notifiarr": "1.1.1",
-  "nzbget": "1.1.1",
+  "nzbget": "1.2.0",
   "plex-media-server": "1.1.0",
   "prowlarr": "1.1.1",
-  "qbittorrent": "1.1.1",
+  "qbittorrent": "1.2.0",
   "radarr": "1.1.1",
   "seerr": "1.1.1",
   "sonarr": "1.1.1",
   "spotify-to-plex": "1.1.0",
-  "unpackerr": "1.1.1"
+  "unpackerr": "1.2.0"
 }
