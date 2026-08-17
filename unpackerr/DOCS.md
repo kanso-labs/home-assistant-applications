@@ -14,6 +14,11 @@ Unpackerr is a background service. It has no user interface, exposes no ports,
 and does not appear in the sidebar. Everything it does shows up in its log and
 in the arr applications it works for.
 
+The log line `Webserver Disabled` is expected and is not a fault. Unpackerr's
+optional web server serves Prometheus metrics only, never a user interface, and
+it is off in the upstream default. Nothing here turns it on, which is why the
+application declares no ports.
+
 ## Configuration
 
 Unpackerr has no application options, because its own configuration describes
@@ -21,7 +26,12 @@ several applications at once and does not reduce to a handful of fields. On
 first start it writes the upstream example to `/config/unpackerr.conf`, comments
 and all, and leaves it alone from then on.
 
-To make it useful, fill in a block for each application it should watch:
+The `[[radarr]]` and `[[sonarr]]` headers are commented out in what gets seeded.
+Upstream leaves them uncommented, which makes Unpackerr read a server with no
+address and log an error for each one on every start until you configure it.
+
+To make it useful, uncomment the header for each application it should watch and
+fill in the block:
 
 ```toml
 [[radarr]]
