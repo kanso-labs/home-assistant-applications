@@ -27,16 +27,6 @@ back.
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
 
-### [Jackett application](./jackett)
-
-Indexer proxy for the arr stack and other clients.
-
-Jackett translates a search into each tracker's own query format, and hands the
-results back in one shape that Radarr, Sonarr and the rest understand.
-
-![Supports aarch64 Architecture][aarch64-shield]
-![Supports amd64 Architecture][amd64-shield]
-
 ### [n8n application](./n8n)
 
 Flexible AI workflow automation for technical teams.
