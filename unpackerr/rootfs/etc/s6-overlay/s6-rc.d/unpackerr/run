@@ -15,9 +15,17 @@ if ! bashio::fs.file_exists "${config_file}"; then
   bashio::log.info 'No configuration found, seeding the example...'
   cp /opt/unpackerr/unpackerr.conf.example "${config_file}"
 
+  # The example leaves the [[sonarr]] and [[radarr]] headers uncommented while
+  # their url and api_key stay commented out. Unpackerr reads that as a server
+  # with no address and logs an error for each on every start, which the
+  # example itself warns about. Commenting the headers means an unconfigured
+  # install starts clean; uncommenting one is part of configuring it.
+  sed -i -E 's/^(\[\[(sonarr|radarr)\]\])/# \1/' "${config_file}"
+
   bashio::log.notice 'Unpackerr has nothing to do until it is configured.'
-  bashio::log.notice "Edit ${config_file} and add the url, api_key and paths"
-  bashio::log.notice 'for each application it should watch, then restart.'
+  bashio::log.notice "Edit ${config_file} and uncomment the [[radarr]] or"
+  bashio::log.notice '[[sonarr]] header you need, along with its url, api_key'
+  bashio::log.notice 'and paths, then restart.'
 fi
 
 bashio::log.info 'Starting Unpackerr...'
