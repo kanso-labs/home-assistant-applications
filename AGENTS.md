@@ -167,8 +167,13 @@ Run it with `/config` and `/data` mounted, then check the logs for the version
 and a listening port, and probe the port for a response. Build for the
 architecture you are actually on — see Traps.
 
-**Run `npx prettier --check`** over the application directory. Prettier formats
-YAML, JSON and Markdown here, and CI checks it.
+**Run `npx prettier --check .`** from the repository root. Prettier formats
+YAML, JSON and Markdown here, and CI runs the same command as
+`Check formatting`.
+
+Changelogs are exempt, in `.prettierignore`. release-please writes them in a
+style of its own and reads them back to place the next entry, so formatting one
+lasts until the next release and risks confusing the tool that owns it.
 
 **Verify the release wiring**, which catches a registration you forgot in step 6
 and an annotation you dropped:
@@ -349,12 +354,14 @@ nothing either way about a group declared inside a called workflow, so keeping
 it here is the difference between a guard that is known to work and one that
 might quietly be doing nothing until the race above happens again.
 
-**Nothing enforces any of this.** There is no commitlint in this repository — no
-configuration, no dependency, no hook — and `.github/workflows/lint.yaml` runs
-only `frenck/action-addon-linter` over each application directory. Nothing reads
-the pull request title. A malformed one reaches `main` unchallenged and either
-lands in a changelog exactly as written or silently skips a release that should
-have happened.
+**Nothing enforces the commit conventions.** There is no commitlint in this
+repository — no configuration, no dependency, no hook — and nothing reads the
+pull request title. A malformed one reaches `main` unchallenged and either lands
+in a changelog exactly as written or silently skips a release that should have
+happened.
+
+`.github/workflows/lint.yaml` covers the application configuration, the release
+wiring and the formatting, and none of those look at a commit message.
 
 **One pull request, one application.** Attribution is by the files a commit
 touches, and squashing makes a pull request exactly one commit. So a pull
