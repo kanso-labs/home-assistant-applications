@@ -45,11 +45,14 @@ afterwards is left alone.
 | Path      | Access     | Holds                                    |
 | --------- | ---------- | ---------------------------------------- |
 | `/config` | read/write | The qBittorrent configuration and state  |
+| `/media`  | read/write | Your media library                       |
 | `/share`  | read/write | Downloads, under `qbittorrent/downloads` |
 
-`/media` is deliberately not mapped. qBittorrent downloads into shared storage,
-and moving finished files into a library is the job of Radarr and Sonarr, which
-have that access.
+Downloads still land in `/share` by default, and letting Radarr and Sonarr file
+them into `/media` remains the tidier arrangement. `/media` is mapped so that
+qBittorrent can also be pointed straight at a library path when you want it to
+save there, and so that seeding from a file already in the library works without
+a second copy.
 
 ## Ports
 
