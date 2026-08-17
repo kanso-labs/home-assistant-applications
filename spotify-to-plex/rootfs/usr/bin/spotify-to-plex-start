@@ -19,11 +19,39 @@ mkdir -p "${STORAGE_DIR}"
 # The key encrypts the credentials the application stores. Generating it once
 # and keeping it beside them is what lets them still be read after a restart:
 # a new key would leave the stored credentials unreadable.
+#
+# It has to be the 64 hexadecimal characters of a 32-byte aes-256-cbc key,
+# which is what the project's installation instructions ask for and what
+# `openssl rand -hex 32` writes. The application reads the variable as
+# `Buffer.from(key, 'hex')`, and Node's hex decoder stops at the first
+# character it cannot read rather than reporting anything, so a key in any
+# other encoding decodes to a buffer too short to use. Nothing says so until a
+# credential is first encrypted, which fails with `invalid_key_length` — when
+# adding a Spotify user, in practice.
+#
+# Upper case passes the check below as well as lower. `openssl` writes lower,
+# but the decoder reads either, so a key put here by hand is as usable as a
+# generated one and replacing it would throw away credentials that can still
+# be read.
+#
+# Earlier versions of this application wrote base64 here, which never decoded
+# to a usable key, so no credential was ever encrypted with one. Replacing such
+# a file therefore loses nothing that was readable to begin with.
+if bashio::fs.file_exists "${key_file}" \
+  && [[ ! "$(<"${key_file}")" =~ ^[0-9a-fA-F]{64}$ ]]; then
+  bashio::log.warning 'The stored encryption key is not 64 hexadecimal'
+  bashio::log.warning 'characters, so the application cannot use it.'
+  bashio::log.warning 'Replacing it. Anything already connected has to be'
+  bashio::log.warning 'connected again from the interface.'
+  rm -f "${key_file}"
+fi
+
 if ! bashio::fs.file_exists "${key_file}"; then
   bashio::log.info 'Generating an encryption key for stored credentials...'
-  head -c 32 /dev/urandom | base64 | tr -d '\n' > "${key_file}"
+  openssl rand -hex 32 | tr -d '\n' > "${key_file}"
   chmod 600 "${key_file}"
 fi
+
 ENCRYPTION_KEY="$(<"${key_file}")"
 export ENCRYPTION_KEY
 

@@ -95,6 +95,12 @@ It is generated once and kept because the credentials cannot be read back
 without it. Deleting that file means reconnecting Spotify and Plex from the
 interface.
 
+The key is the 64 hexadecimal characters of a 32-byte AES key, the same thing
+`openssl rand -hex 32` produces. A key in any other form is not rejected at
+startup: it fails later, the first time a credential is encrypted, as
+`Invalid Encryption Key` with `invalid_key_length`. A key that is not in that
+form is replaced on the next start, and the log says so.
+
 ## Backups
 
 `backup: cold` stops the application before the backup is taken, so the sync
