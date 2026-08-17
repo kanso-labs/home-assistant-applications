@@ -1,0 +1,2 @@
+network:
+  9117/tcp: The port the Jackett web interface and API listen on.

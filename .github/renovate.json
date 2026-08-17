@@ -50,6 +50,7 @@
     {
       "description": "Bumping the application a container runs is what users see, so it has to reach them. release-please only cuts a release for fix and feat, and it attributes a commit to an application by the files that commit touches.",
       "matchDepNames": [
+        "Jackett/Jackett",
         "Notifiarr/notifiarr",
         "Prowlarr/Prowlarr",
         "Radarr/Radarr",
@@ -58,8 +59,8 @@
         "alpine_3_24/qbittorrent-nox",
         "ghcr.io/flaresolverr/flaresolverr",
         "ghcr.io/seerr-team/seerr",
-        "morpheus65535/bazarr",
         "jjdenhertog/spotify-to-plex",
+        "morpheus65535/bazarr",
         "n8n",
         "nzbgetcom/nzbget",
         "plexinc/pms-docker"

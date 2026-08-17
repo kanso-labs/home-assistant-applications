@@ -3,55 +3,129 @@
   "packages": {
     "bazarr": {
       "component": "bazarr",
-      "extra-files": [{ "path": "config.yaml", "type": "generic" }]
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
     },
     "flaresolverr": {
       "component": "flaresolverr",
-      "extra-files": [{ "path": "config.yaml", "type": "generic" }]
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
+    },
+    "jackett": {
+      "component": "jackett",
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
     },
     "n8n": {
       "component": "n8n",
-      "extra-files": [{ "path": "config.yaml", "type": "generic" }]
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
     },
     "notifiarr": {
       "component": "notifiarr",
-      "extra-files": [{ "path": "config.yaml", "type": "generic" }]
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
     },
     "nzbget": {
       "component": "nzbget",
-      "extra-files": [{ "path": "config.yaml", "type": "generic" }]
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
     },
     "plex-media-server": {
       "component": "plex-media-server",
-      "extra-files": [{ "path": "config.yaml", "type": "generic" }]
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
     },
     "prowlarr": {
       "component": "prowlarr",
-      "extra-files": [{ "path": "config.yaml", "type": "generic" }]
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
     },
     "qbittorrent": {
       "component": "qbittorrent",
-      "extra-files": [{ "path": "config.yaml", "type": "generic" }]
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
     },
     "radarr": {
       "component": "radarr",
-      "extra-files": [{ "path": "config.yaml", "type": "generic" }]
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
     },
     "seerr": {
       "component": "seerr",
-      "extra-files": [{ "path": "config.yaml", "type": "generic" }]
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
     },
     "sonarr": {
       "component": "sonarr",
-      "extra-files": [{ "path": "config.yaml", "type": "generic" }]
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
     },
     "spotify-to-plex": {
       "component": "spotify-to-plex",
-      "extra-files": [{ "path": "config.yaml", "type": "generic" }]
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
     },
     "unpackerr": {
       "component": "unpackerr",
-      "extra-files": [{ "path": "config.yaml", "type": "generic" }]
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
     }
   },
   "release-type": "simple",
