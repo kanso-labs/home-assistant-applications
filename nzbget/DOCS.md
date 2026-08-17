@@ -46,11 +46,13 @@ afterwards is left alone.
 | Path      | Access     | Holds                     |
 | --------- | ---------- | ------------------------- |
 | `/config` | read/write | The NZBGet configuration  |
+| `/media`  | read/write | Your media library        |
 | `/share`  | read/write | Downloads, under `nzbget` |
 
-`/media` is deliberately not mapped. NZBGet downloads into shared storage, and
-moving finished files into a library is the job of Radarr and Sonarr, which have
-that access.
+Downloads still land in `/share` by default, and letting Radarr and Sonarr file
+them into `/media` remains the tidier arrangement. `/media` is mapped so that a
+category or post-processing script can also be pointed straight at a library
+path when you want NZBGet to put files there itself.
 
 ## Backups
 
