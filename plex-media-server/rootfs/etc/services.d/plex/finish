@@ -1,0 +1,34 @@
+#!/usr/bin/with-contenv bash
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Plex Media Server
+# Replaces the base image's stop script
+# ==============================================================================
+#
+# Copied from plexinc/pms-docker, which took it from the init.d stop method of
+# non-Dockerized Plex. One thing differs: the first kill is guarded the way the
+# second one already was, since s6 has usually stopped Plex before this runs and
+# the search comes back empty.
+#
+# The wait below stays outside the guard, on purpose. The second search is
+# broader than the first, so it can still find a helper the first one missed,
+# and that helper should get the same grace before it is killed outright.
+
+echo "Stopping Plex Media Server."
+
+# Ask nicely
+pids="$(ps -ef | grep 'Plex Media Server' | grep -v grep | awk '{print $2}')"
+
+if [ "$pids" != "" ]; then
+  kill -15 $pids
+fi
+
+sleep 5
+
+# Stuck
+pids="$(ps -ef | grep /usr/lib/plexmediaserver | grep -v grep | awk '{print $2}')"
+
+if [ "$pids" != "" ]; then
+  kill -9 $pids
+  sleep 2
+fi
