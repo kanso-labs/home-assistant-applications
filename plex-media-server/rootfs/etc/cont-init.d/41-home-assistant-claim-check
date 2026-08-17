@@ -1,0 +1,60 @@
+#!/usr/bin/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Plex Media Server
+# Reports whether anything will be able to reach this server
+# ==============================================================================
+#
+# An unclaimed Plex server with no allowed network refuses every request, and
+# says so only as "You do not have access to this server" in the browser. Plex
+# exchanges the claim code in the script that runs before this one and stays
+# silent when the exchange fails, which a code four minutes old always does.
+#
+# So the one state that leaves the application unusable is also the one it
+# reports nothing about. This reports it.
+
+# shellcheck source=/dev/null
+[ -f /etc/default/plexmediaserver ] && . /etc/default/plexmediaserver
+support="${PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR:-/config/Library/Application Support}"
+readonly preferences="${support}/Plex Media Server/Preferences.xml"
+
+if ! bashio::fs.file_exists "${preferences}"; then
+  bashio::log.warning 'Plex has not written its settings yet, so whether this'
+  bashio::log.warning 'server can be reached cannot be reported.'
+  exit 0
+fi
+
+function preference() {
+  xmlstarlet sel -T -t -m '/Preferences' -v "@${1}" -n "${preferences}"
+}
+
+token="$(preference 'PlexOnlineToken')"
+allowed="$(preference 'allowedNetworks')"
+
+if bashio::var.has_value "${token}"; then
+  bashio::log.info 'This server is claimed. Sign in with the Plex account it'
+  bashio::log.info 'was claimed with to reach it.'
+  exit 0
+fi
+
+if bashio::var.has_value "${allowed}"; then
+  bashio::log.info "This server is unclaimed, and open to ${allowed} without"
+  bashio::log.info 'signing in. Reach it by the address of this machine, since'
+  bashio::log.info 'Plex refuses a host name it does not recognise as its own.'
+  exit 0
+fi
+
+bashio::log.error 'This server is unclaimed and allows no network, so Plex'
+bashio::log.error 'refuses every request with "You do not have access to this'
+bashio::log.error 'server". Nothing can reach it in this state.'
+
+if bashio::config.has_value 'claim_code'; then
+  bashio::log.error 'A claim code is set, so it was already expired or wrong'
+  bashio::log.error 'by the time Plex tried it. Codes last four minutes.'
+  bashio::log.error 'Take a fresh one from https://plex.tv/claim and restart'
+  bashio::log.error 'straight away.'
+else
+  bashio::log.error 'Take a claim code from https://plex.tv/claim, put it in'
+  bashio::log.error 'claim_code, and restart within four minutes. Setting'
+  bashio::log.error 'allowed_networks instead works without a Plex account.'
+fi

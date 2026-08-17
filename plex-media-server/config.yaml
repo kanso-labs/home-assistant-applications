@@ -33,6 +33,7 @@ map:
     type: share
 name: Plex Media Server
 options:
+  allowed_networks: []
   claim_code: ''
 ports:
   32400/tcp: 32400
@@ -51,6 +52,8 @@ ports_description:
   32469/tcp: DLNA server
   8324/tcp: Plex Companion, for controlling playback from another device
 schema:
+  allowed_networks:
+    - str
   claim_code: str?
 slug: plex-media-server
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/plex-media-server'

@@ -1,4 +1,10 @@
 configuration:
+  allowed_networks:
+    description: >-
+      Networks Plex answers without anyone signing in, such as 192.168.1.0/24.
+      Leave this empty unless you are running the server without a Plex account.
+      Reach it by address rather than by name when you use this.
+    name: Allowed networks
   claim_code:
     description: >-
       A claim code from plex.tv/claim, used once on first start to link this
