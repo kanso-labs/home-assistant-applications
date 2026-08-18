@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0](https://github.com/kanso-labs/home-assistant-applications/compare/cleanuparr-v1.1.0...cleanuparr-v1.2.0) (2026-08-18)
+
+
+### Features
+
+* **cleanuparr:** map the media library ([#152](https://github.com/kanso-labs/home-assistant-applications/issues/152)) ([258cf5a](https://github.com/kanso-labs/home-assistant-applications/commit/258cf5a7ae3130e425dea45df4c3f65f4bdf647f))
+
 ## [1.1.0](https://github.com/kanso-labs/home-assistant-applications/compare/cleanuparr-v1.0.0...cleanuparr-v1.1.0) (2026-08-18)
 
 
