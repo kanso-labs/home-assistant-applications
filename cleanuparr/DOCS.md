@@ -21,10 +21,28 @@ so they survive restarts and updates.
 | Path      | Access     | Holds                                       |
 | --------- | ---------- | ------------------------------------------- |
 | `/config` | read/write | Settings, the strike database, and the logs |
+| `/media`  | read/write | Your media library                          |
 
-No media or share mapping is granted, and none is needed. Cleanuparr never
-touches the files themselves — it asks the download clients and the arr
-applications to remove and replace what it finds, and they do the writing.
+Most of what Cleanuparr does needs neither. Striking stalled downloads, cleaning
+finished ones and blocking unwanted files all happen through the download client
+and arr APIs, and those applications do the writing.
+
+**One feature is different, and it is why `/media` is writable.** The orphaned
+files cleanup works on disk instead: it reads the directories you point it at,
+moves anything no longer claimed by a download into a directory of its own, and
+deletes those entries once they are older than the age you set.
+
+That feature is off until you configure it. It skips any download client with no
+scan directories set, so an installation that never fills those in touches
+nothing.
+
+**The directories you give it have to be under `/media`.** `/share` is not
+mapped, so a scan directory there is invisible to Cleanuparr and the cleanup
+skips it. Which of the two your downloads land in is set by the download client,
+not by Cleanuparr — the qBittorrent and NZBGet documentation here suggests paths
+under `/share`, and plenty of installations point them at `/media` instead.
+
+Everything else works either way, since it never reads the disk.
 
 ## Backups
 

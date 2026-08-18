@@ -15,6 +15,12 @@ map:
   # same linter. Switch this once the linter's schema catches up.
   - read_only: false
     type: addon_config
+  # Write access, because the orphaned files cleanup moves entries it no longer
+  # recognises into a directory of its own and deletes them once they are old
+  # enough. Every other part of Cleanuparr works through the download client
+  # and arr APIs and touches nothing here.
+  - read_only: false
+    type: media
 name: Cleanuparr
 ports:
   11011/tcp: 11011
