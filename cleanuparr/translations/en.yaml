@@ -1,0 +1,2 @@
+network:
+  11011/tcp: The port the Cleanuparr web interface answers on.

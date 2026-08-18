@@ -16,6 +16,17 @@ ask for, and keeps them alongside the media.
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
 
+### [Cleanuparr application](./cleanuparr)
+
+Removes stuck and unwanted downloads from the arr applications and their
+download clients.
+
+Cleanuparr watches the queues, strikes what is not progressing, and asks for a
+replacement.
+
+![Supports aarch64 Architecture][aarch64-shield]
+![Supports amd64 Architecture][amd64-shield]
+
 ### [FlareSolverr application](./flaresolverr)
 
 Proxy server that solves the challenges standing between the arr applications

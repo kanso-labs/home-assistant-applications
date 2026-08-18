@@ -1,0 +1,12 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Cleanuparr
+# Runs Cleanuparr
+# ==============================================================================
+
+bashio::log.info 'Starting Cleanuparr...'
+
+cd /app || bashio::exit.nok 'The application directory is missing'
+
+exec ./Cleanuparr

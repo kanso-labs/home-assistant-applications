@@ -10,6 +10,15 @@
         }
       ]
     },
+    "cleanuparr": {
+      "component": "cleanuparr",
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
+    },
     "flaresolverr": {
       "component": "flaresolverr",
       "extra-files": [
