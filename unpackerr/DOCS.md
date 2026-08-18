@@ -8,11 +8,17 @@
    nothing to do.
 4. Edit that configuration, then restart it.
 
-## There is no web interface
+## There is no web interface, and no Configuration tab
 
 Unpackerr is a background service. It has no user interface, exposes no ports,
 and does not appear in the sidebar. Everything it does shows up in its log and
 in the arr applications it works for.
+
+Home Assistant shows a Configuration tab only for an application that declares
+options, and this one declares none, so that tab is absent as well. Between the
+two, an installed Unpackerr offers nothing to click, which is expected rather
+than a sign that something failed to load. It is configured by editing a file,
+described below.
 
 The log line `Webserver Disabled` is expected and is not a fault. Unpackerr's
 optional web server serves Prometheus metrics only, never a user interface, and
@@ -29,6 +35,26 @@ and all, and leaves it alone from then on.
 The `[[radarr]]` and `[[sonarr]]` headers are commented out in what gets seeded.
 Upstream leaves them uncommented, which makes Unpackerr read a server with no
 address and log an error for each one on every start until you configure it.
+
+### Reaching the file
+
+`/config` is the path inside the container. Home Assistant keeps that directory
+outside it, in the folder it gives each application, and you need something able
+to edit files there.
+
+1. Install a file editor, such as
+   [File editor](https://github.com/home-assistant/addons/tree/master/configurator)
+   or [Studio Code Server](https://github.com/hassio-addons/addon-vscode).
+2. Open its own configuration and let it see the application configuration
+   folder. In File editor this is the `Enforce Basepath` option; in Studio Code
+   Server it is there by default.
+3. Open the folder whose name ends in `_unpackerr`. The part before it
+   identifies this repository, so it will not read as a plain slug.
+4. Edit `unpackerr.conf`, then restart Unpackerr.
+
+Editing it from a terminal works too, if you already have one.
+
+### What to put in it
 
 To make it useful, uncomment the header for each application it should watch and
 fill in the block:
