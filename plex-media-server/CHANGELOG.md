@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1](https://github.com/kanso-labs/home-assistant-applications/compare/plex-media-server-v1.2.0...plex-media-server-v1.2.1) (2026-08-19)
+
+
+### Bug Fixes
+
+* **plex-media-server:** run Plex as the user that owns the shares ([#163](https://github.com/kanso-labs/home-assistant-applications/issues/163)) ([670899d](https://github.com/kanso-labs/home-assistant-applications/commit/670899d589ca1a33d22e6e36c241b5ccd489c8e5))
+
 ## [1.2.0](https://github.com/kanso-labs/home-assistant-applications/compare/plex-media-server-v1.1.3...plex-media-server-v1.2.0) (2026-08-19)
 
 
