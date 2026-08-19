@@ -4,8 +4,13 @@
 # image. Plex has no source to build and no versioned release feed Renovate can
 # read: its download API reports 1.43.3.10861-07dfddaeb while repology reports
 # 1.43.3.10861 without the build hash the download URL needs. The published
-# image carries the full version as its tag, so the existing BUILD_FROM manager
-# tracks it with nothing new to maintain.
+# image carries the full version as its tag, so the BUILD_FROM manager reads it
+# from there.
+#
+# That tag needs a versioning rule to go with it, and renovate.json carries one.
+# The build hash after the dash is a compatibility suffix to docker versioning,
+# which never updates across one; since every Plex release mints a fresh hash,
+# the default would silently offer no update at all, ever.
 #
 # Unlike the other applications built this way, no s6-overlay is installed
 # here. Plex's image already runs it, already declares /init as its entrypoint,
