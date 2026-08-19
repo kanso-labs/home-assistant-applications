@@ -59,6 +59,11 @@ web interface and recording live TV to the library, need somewhere to write.
 `/share` stays read-only, because nothing Plex does writes there. Applications
 that organise files, such as Radarr and Sonarr, are what write to it.
 
+**Plex runs as root here, and what it writes under `/media` is owned by root.**
+Home Assistant owns the shares it hands out, so an application that writes to
+one has to run as the user that owns it. Plex's own image would otherwise drop
+to its `plex` user, which owns nothing on those shares and cannot write to them.
+
 Add your libraries from paths under `/media` or `/share` when Plex asks where
 your media is.
 

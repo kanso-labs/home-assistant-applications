@@ -27,6 +27,19 @@ ARG BUILD_VERSION=dev
 # renovate: datasource=github-releases depName=hassio-addons/bashio
 ARG BASHIO_VERSION=0.19.0
 
+# Plex's image drops to its own `plex` user, uid 1000, before starting the
+# server. Home Assistant's shares are bind-mounted with the host's ownership
+# and Supervisor never remaps a uid, so /media and /share arrive owned by root
+# and uid 1000 cannot write to either. That surfaces as Plex failing to create
+# its transcoder directory, and would equally stop a recording or a deletion.
+#
+# PLEX_UID and PLEX_GID are the base image's own knob for this, and it handles
+# 0 as a special case: the home directory is left at /config rather than being
+# moved aside, so the library stays where it is. Running as root is also what
+# every other application here does, since it is what the shares are owned by.
+ENV PLEX_UID=0
+ENV PLEX_GID=0
+
 RUN \
   apt-get update && apt-get install --assume-yes --no-install-recommends \
     curl \
