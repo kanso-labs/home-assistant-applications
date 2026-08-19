@@ -70,6 +70,7 @@
         "Sonarr/Sonarr",
         "Unpackerr/unpackerr",
         "alpine_3_24/qbittorrent-nox",
+        "ghcr.io/cleanuparr/cleanuparr",
         "ghcr.io/flaresolverr/flaresolverr",
         "ghcr.io/seerr-team/seerr",
         "morpheus65535/bazarr",
