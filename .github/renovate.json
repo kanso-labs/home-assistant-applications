@@ -3,12 +3,6 @@
   "customManagers": [
     {
       "customType": "regex",
-      "datasourceTemplate": "docker",
-      "managerFilePatterns": ["/Dockerfile$/"],
-      "matchStrings": ["ARG BUILD_FROM=(?<depName>.*?):(?<currentValue>.*?)\\s"]
-    },
-    {
-      "customType": "regex",
       "datasourceTemplate": "{{{datasource}}}",
       "description": "Application versions, annotated above their ARG in each Dockerfile",
       "extractVersionTemplate": "^v(?<version>.*)$",

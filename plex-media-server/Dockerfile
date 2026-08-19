@@ -4,8 +4,8 @@
 # image. Plex has no source to build and no versioned release feed Renovate can
 # read: its download API reports 1.43.3.10861-07dfddaeb while repology reports
 # 1.43.3.10861 without the build hash the download URL needs. The published
-# image carries the full version as its tag, so the BUILD_FROM manager reads it
-# from there.
+# image carries the full version as its tag, so Renovate's built-in Dockerfile
+# manager reads it from there.
 #
 # That tag needs a versioning rule to go with it, and renovate.json carries one.
 # The build hash after the dash is a compatibility suffix to docker versioning,
