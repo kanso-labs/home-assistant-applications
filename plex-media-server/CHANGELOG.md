@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0](https://github.com/kanso-labs/home-assistant-applications/compare/plex-media-server-v1.1.3...plex-media-server-v1.2.0) (2026-08-19)
+
+
+### Features
+
+* **plex-media-server:** map the media library read-write ([#161](https://github.com/kanso-labs/home-assistant-applications/issues/161)) ([c7074d6](https://github.com/kanso-labs/home-assistant-applications/commit/c7074d6b47d4ae82a39ec2a06144ff7c4b3e5c1c))
+
 ## [1.1.3](https://github.com/kanso-labs/home-assistant-applications/compare/plex-media-server-v1.1.2...plex-media-server-v1.1.3) (2026-08-19)
 
 
