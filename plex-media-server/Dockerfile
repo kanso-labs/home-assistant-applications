@@ -16,7 +16,7 @@
 # here. Plex's image already runs it, already declares /init as its entrypoint,
 # and already starts Plex. Only bashio is missing, and it is what lets the
 # application's options reach Plex.
-ARG BUILD_FROM=plexinc/pms-docker:1.43.3.10861-07dfddaeb
+ARG BUILD_FROM=plexinc/pms-docker:1.43.3.10896-cb3ebc72d
 FROM ${BUILD_FROM}
 
 # Set shell
