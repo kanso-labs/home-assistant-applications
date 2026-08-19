@@ -1,4 +1,10 @@
 configuration:
+  advertise_addresses:
+    description: >-
+      Endereços que os aplicativos devem usar para alcançar este servidor, como
+      http://192.168.1.10:32400. Defina quando um aplicativo encontra o servidor
+      e navega por ele, mas não consegue reproduzir.
+    name: Endereços divulgados
   allowed_networks:
     description: >-
       Redes que o Plex atende sem exigir login, como 192.168.1.0/24. Deixe vazio

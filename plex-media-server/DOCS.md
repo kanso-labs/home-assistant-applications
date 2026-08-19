@@ -15,6 +15,25 @@ if you would rather not use a Plex account.
 
 ## Configuration
 
+### `advertise_addresses`
+
+Addresses apps should use to reach this server, as a list of URLs, such as
+`http://192.168.1.10:32400`. Empty by default. Use the address of your Home
+Assistant machine and the port Plex listens on.
+
+**Set this if an app finds the server and browses it, but fails to play from
+it.** Plex publishes the addresses it finds on itself to plex.tv, and an app
+picks one of those to play from. Inside a container the only address it finds is
+the one Home Assistant gave it, on a network nothing outside the machine can
+route to, so the published list contains an address that reaches nothing. What
+you set here is published alongside it.
+
+Apps differ in how they handle the unreachable one. A browser drops it and moves
+on, which is why the web interface keeps working while a television app does
+not. Plex's own name for these is "Custom server access URLs", under Settings →
+Network, and setting them there works too — this option only saves them being
+lost whenever the application's configuration is rebuilt.
+
 ### `allowed_networks`
 
 Networks Plex answers without anyone signing in, as a list of addresses and

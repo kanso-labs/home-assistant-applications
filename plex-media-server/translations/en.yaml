@@ -1,4 +1,10 @@
 configuration:
+  advertise_addresses:
+    description: >-
+      Addresses apps should use to reach this server, such as
+      http://192.168.1.10:32400. Set this when an app finds the server and
+      browses it, but fails to play from it.
+    name: Advertised addresses
   allowed_networks:
     description: >-
       Networks Plex answers without anyone signing in, such as 192.168.1.0/24.
