@@ -48,13 +48,16 @@ live in the application's configuration directory.
 | Path      | Access     | Holds                                        |
 | --------- | ---------- | -------------------------------------------- |
 | `/config` | read/write | Settings, the library database, and metadata |
-| `/media`  | read-only  | Your library                                 |
+| `/media`  | read/write | Your library                                 |
 | `/share`  | read-only  | Anything shared between applications         |
 
-**The library mappings are read-only on purpose.** Plex reads your media and
-writes nothing back to it — artwork and metadata live in its own directory. If
-you want Plex to move or delete files, that is a different job and belongs to
-whatever manages the library.
+**`/media` is writable so Plex can act on your library.** Plex reads your media
+and writes nothing back to it on its own — artwork and metadata live in its own
+directory — but the features that do touch it, such as deleting a file from the
+web interface and recording live TV to the library, need somewhere to write.
+
+`/share` stays read-only, because nothing Plex does writes there. Applications
+that organise files, such as Radarr and Sonarr, are what write to it.
 
 Add your libraries from paths under `/media` or `/share` when Plex asks where
 your media is.
