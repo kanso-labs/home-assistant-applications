@@ -33,3 +33,20 @@ if bashio::config.has_value 'allowed_networks'; then
   bashio::log.info "Networks allowed without signing in: ${networks}"
   printf '%s' "${networks}" > "${environment}/ALLOWED_NETWORKS"
 fi
+
+# Plex publishes the addresses it finds on itself to plex.tv, and an app picks
+# one of them to play from. The only address it finds here is the one Home
+# Assistant gave the container, on a network nothing outside the machine can
+# route to, and an app that picks that one reaches nothing. Apps differ in how
+# they take that: a browser drops it and moves on, while several television
+# apps do not, and fail to play from a server they can otherwise browse. These
+# entries are published alongside it, so there is an address worth picking.
+if bashio::config.has_value 'advertise_addresses'; then
+  addresses=''
+  for address in $(bashio::config 'advertise_addresses'); do
+    addresses="${addresses:+${addresses},}${address}"
+  done
+
+  bashio::log.info "Addresses advertised to apps: ${addresses}"
+  printf '%s' "${addresses}" > "${environment}/ADVERTISE_IP"
+fi

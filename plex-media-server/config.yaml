@@ -33,6 +33,7 @@ map:
     type: share
 name: Plex Media Server
 options:
+  advertise_addresses: []
   allowed_networks: []
   claim_code: ''
 ports:
@@ -52,6 +53,8 @@ ports_description:
   32469/tcp: DLNA server
   8324/tcp: Plex Companion, for controlling playback from another device
 schema:
+  advertise_addresses:
+    - str
   allowed_networks:
     - str
   claim_code: str?
