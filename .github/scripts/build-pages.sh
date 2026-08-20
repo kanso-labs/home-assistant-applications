@@ -248,4 +248,11 @@ $(cat .github/scripts/pages.css)
 </html>
 PAGE
 
+# The custom domain has to travel with the artifact. Pages serves whatever the
+# workflow uploads, so a CNAME that only exists in the repository is not applied
+# to the published site.
+if [[ -f 'docs/CNAME' ]]; then
+  cp 'docs/CNAME' "${out}/CNAME"
+fi
+
 printf 'Built %s with %s application(s).\n' "${out}" "${count}"
