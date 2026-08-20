@@ -1,0 +1,56 @@
+name: Deploy Pages
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# Pages publishes one deployment at a time. Queue rather than cancel, so the
+# last push to main is the one that ends up published.
+concurrency:
+  cancel-in-progress: false
+  group: pages
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build the site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7.0.1
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v6.0.0
+
+      - name: Build the site
+        run: ./.github/scripts/build-pages.sh
+
+      - name: Upload the site
+        uses: actions/upload-pages-artifact@v5.0.0
+        with:
+          path: '_site'
+
+  # Pull requests build but do not publish, so a generator that no longer runs
+  # is caught while it is still someone's branch rather than on main.
+  deploy:
+    name: Publish the site
+    needs: build
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      id-token: write
+      pages: write
+    steps:
+      - name: Deploy to Pages
+        id: deployment
+        uses: actions/deploy-pages@v5.0.0

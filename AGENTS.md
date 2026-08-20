@@ -136,9 +136,14 @@ and stay empty.
 
 ### 6. Register it
 
-- Add a section to the repository `README.md`, in alphabetical order.
+- Add a row to the applications table in the repository `README.md`, in
+  alphabetical order. One line on what it does, and the port it serves its web
+  interface on, or `Ingress`, or `None`.
 - Add the package to `release-please-config.json` and
   `.release-please-manifest.json`, both alphabetically.
+- The website needs nothing. It is generated from every `config.yaml` and
+  `icon.png` at deploy time, so the directory existing is enough — see The
+  website.
 
 ### 7. Verify before pushing
 
@@ -267,6 +272,42 @@ updates, and nobody notices until someone checks.
 for the registrations in step 6. It runs in CI as `Verify release wiring`.
 Nothing yet guards the Renovate annotation.
 
+## The website
+
+[kanso-labs.github.io/home-assistant-applications](https://kanso-labs.github.io/home-assistant-applications/)
+is built by `.github/scripts/build-pages.sh` and published by
+`.github/workflows/deploy-pages.yaml` on every push to `main`. Pull requests
+build it without publishing, so a generator that has stopped working is caught
+while it is still someone's branch.
+
+**Nothing about the site is committed.** There is no `docs/` directory and no
+generated HTML in the tree — the script assembles `_site/` at deploy time and
+that is uploaded straight to Pages. `_site/` is git-ignored. Do not add a
+checked-in copy; it would be one more thing to keep in step, which is the
+problem this arrangement exists to avoid.
+
+**Every fact on the page is read from the applications themselves**, so the page
+cannot describe something the repository does not ship:
+
+| On a card   | Read from                                            |
+| ----------- | ---------------------------------------------------- |
+| Title       | `name`                                               |
+| Sentence    | the first sentence of `description`                  |
+| Access chip | `ingress: true`, else the port in `webui`, else none |
+| Icon        | `icon.png`                                           |
+
+That makes `config.yaml` load-bearing for the website as well as for the store.
+Rewording a `description` changes both, and its first sentence has to stand on
+its own as a tagline — which is how every application here already writes it.
+Adding an application needs nothing done to the site, and removing one is the
+same in reverse.
+
+The repository `README.md` is the part that does need a hand, because its
+applications table is written rather than generated. Nothing checks it, so a
+change to what an application is or how it is reached means editing that row in
+the same pull request. The page and the README are the two places a reader meets
+an application before installing it, and only one of them keeps itself honest.
+
 ## Commits and pull requests
 
 Pull requests are squash-merged, with the pull request title as the commit
@@ -357,6 +398,15 @@ that workflow moved out. GitHub documents `concurrency` at the caller and says
 nothing either way about a group declared inside a called workflow, so keeping
 it here is the difference between a guard that is known to work and one that
 might quietly be doing nothing until the race above happens again.
+
+**The Pages configuration outlived the files it served.** Removing the Spotify
+to Plex application took `docs/spotify-to-plex/` with it, and that was the only
+thing Pages served. The configuration was never turned off, so it went on
+building a branch path that no longer existed and erroring, silently, for as
+long as nobody thought to look. Building from a workflow removes that particular
+failure — there is no branch path left to go missing — but the shape is worth
+keeping in mind: what Pages is set to serve lives in repository settings, and
+nothing in the tree tells you it is there.
 
 **Nothing enforces the commit conventions.** There is no commitlint in this
 repository — no configuration, no dependency, no hook — and nothing reads the
