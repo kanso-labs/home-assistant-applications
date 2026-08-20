@@ -17,10 +17,11 @@ configuration:
       server to your account. A code expires four minutes after it is issued.
     name: Claim code
 network:
+  3005/tcp: Plex Companion, for controlling playback from another device.
   32400/tcp: The port the Plex web interface and API listen on.
   32410/udp: Discovery on the local network.
   32412/udp: Discovery on the local network.
   32413/udp: Discovery on the local network.
   32414/udp: Discovery on the local network.
   32469/tcp: The port the DLNA server listens on.
-  8324/tcp: Plex Companion, for controlling playback from another device.
+  8324/tcp: Plex Companion, on the separate port Plex for Roku uses.
