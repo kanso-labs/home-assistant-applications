@@ -248,6 +248,35 @@ flowchart TD
 Each application is its own release-please package. A commit is attributed to
 one by the files it touches, so a change under `radarr/` releases Radarr alone.
 
+**Which commit types release.** `feat` takes a minor; `fix` and `deps` take a
+patch; everything else releases nothing. `release-please-config.json` spells the
+list out in `changelog-sections`, and that list supersedes release-please's
+defaults rather than extending them — a type dropped from it becomes invisible
+rather than merely unstyled, so removing `feat` or `fix` there would silently
+stop those releases too.
+
+`deps` is not a Conventional Commits type. It is here because Renovate's default
+is `chore(deps)`, and `chore` is hidden — release-please then decides there are
+no user-facing commits and opens no release pull request at all. Every other
+`kanso-labs` repository sets the same three keys for the same reason.
+
+**This widened what releases, and that is the intended effect.** A bump inside
+an application directory that is not one of the curated `depNames` below — a
+Home Assistant base image, most obviously — used to be `chore(deps)` and
+released nothing, so it reached users silently, folded into whatever `fix`
+happened to land next. It now reads `deps` and cuts a patch of its own.
+
+A bump outside every application directory still releases nothing, because there
+is no root package for it to be attributed to. That is what keeps a Prettier or
+`actions/checkout` bump from versioning thirteen applications.
+
+**The curated `semanticCommitType: "fix"` rule in `.github/renovate.json` stays,
+and is not now redundant.** A `packageRule` overrides the global type for the
+packages it matches, so the application versions users actually see keep landing
+under **Bug Fixes** exactly as before, rather than moving to **Dependencies**.
+Deleting the rule would not stop them releasing — it would re-file them, which
+is the part worth keeping.
+
 **There is one release pull request, not one per application.** Each application
 still gets its own version, tag and changelog inside it; what is shared is the
 pull request carrying them. `separate-pull-requests` was `true` until several

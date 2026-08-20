@@ -4,6 +4,15 @@ on:
   push:
     branches:
       - main
+  # release-please only ever reacts to a push, which leaves no way to ask it to
+  # look again. That matters when a release pull request has to be discarded:
+  # release-please rewrites one only when the release it computes changes, so a
+  # pull request that cannot merge is not repaired by closing it, and nothing
+  # proposes a replacement until somebody happens to push. This is that lever.
+  #
+  # It matters more here than elsewhere: one release pull request carries every
+  # application, so a stuck one holds up all thirteen rather than one package.
+  workflow_dispatch:
 
 # Every release merge pushes main, and every push starts a run. Five auto-merges
 # landing inside a minute started five overlapping runs that tried to cut the
