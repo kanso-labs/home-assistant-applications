@@ -56,3 +56,6 @@ ehthumbs_vista.db
 
 # npx writes this when running prettier from the repository root.
 node_modules/
+
+# The GitHub Pages site is generated from the applications at deploy time.
+_site/

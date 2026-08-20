@@ -1,0 +1,465 @@
+:root {
+  --ground: #f2f4f3;
+  --surface: #ffffff;
+  --ink: #141a19;
+  --ink-soft: #5c6866;
+  --accent: #0f6e64;
+  --accent-ink: #ffffff;
+  --line: #d9dfdd;
+  --line-strong: #c2cbc8;
+
+  --display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --prose: 'Newsreader', Georgia, 'Times New Roman', serif;
+  --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --rail: 148px;
+  --gap: 40px;
+  --max: 1120px;
+}
+
+/* The default "system" setting stamps nothing on the root element, so the
+         un-stamped document is the common case and has to resolve on its own. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --ground: #0d1211;
+    --surface: #151d1b;
+    --ink: #e7edea;
+    --ink-soft: #8c9b97;
+    --accent: #43c4b2;
+    --accent-ink: #06110f;
+    --line: #25302e;
+    --line-strong: #35433f;
+  }
+}
+
+:root[data-theme='dark'] {
+  --ground: #0d1211;
+  --surface: #151d1b;
+  --ink: #e7edea;
+  --ink-soft: #8c9b97;
+  --accent: #43c4b2;
+  --accent-ink: #06110f;
+  --line: #25302e;
+  --line-strong: #35433f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+.wrap {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: var(--rail) minmax(0, 1fr);
+  gap: var(--gap);
+  align-items: start;
+}
+
+.rail {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  padding-top: 6px;
+}
+
+.rail span {
+  display: block;
+  border-top: 2px solid var(--accent);
+  padding-top: 10px;
+}
+
+section {
+  border-top: 1px solid var(--line);
+  padding: 64px 0;
+}
+
+.hero {
+  border-top: 0;
+  padding: 88px 0 72px;
+}
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 22px;
+}
+
+h1 {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  margin: 0 0 24px;
+  max-width: 15ch;
+  text-wrap: balance;
+}
+
+.lede {
+  font-family: var(--prose);
+  font-weight: 300;
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
+  line-height: 1.55;
+  color: var(--ink-soft);
+  margin: 0 0 40px;
+  max-width: 58ch;
+}
+
+.install {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: stretch;
+}
+
+.urlbox {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  min-width: 0;
+  flex: 1 1 320px;
+}
+
+.urlbox code {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ink);
+  padding: 14px 16px;
+  overflow-x: auto;
+  white-space: nowrap;
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+}
+
+.copy {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 0;
+  border-left: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--ink-soft);
+  padding: 0 18px;
+  cursor: pointer;
+  transition:
+    color 0.15s,
+    background 0.15s;
+  white-space: nowrap;
+}
+
+.copy:hover {
+  color: var(--accent);
+  background: var(--ground);
+}
+
+.copy[data-done='1'] {
+  color: var(--accent);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: 1px solid var(--accent);
+  padding: 14px 22px;
+  text-decoration: none;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  opacity: 0.86;
+}
+
+.btn svg {
+  flex: none;
+}
+
+.install-note {
+  font-family: var(--prose);
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+  margin: 18px 0 0;
+  max-width: 58ch;
+}
+
+.install-note kbd {
+  font-family: var(--mono);
+  font-size: 0.82em;
+  border: 1px solid var(--line-strong);
+  padding: 1px 5px;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+/* Hairlines are drawn on the cards rather than as a gap over the grid's
+         own background, so a partly filled last row reads as blank surface
+         instead of a stray block of the line colour. */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(272px, 1fr));
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-bottom: 0;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 22px 20px;
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+}
+
+.app::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px solid transparent;
+  transition: border-color 0.15s;
+  pointer-events: none;
+}
+
+.app:hover::after {
+  border-color: var(--accent);
+}
+
+.app:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.app__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.app__icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  flex: none;
+}
+
+.app__name {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: -0.015em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.app__desc {
+  font-family: var(--prose);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.chip {
+  display: inline-block;
+  margin-top: auto;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border: 1px solid var(--line-strong);
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.chip--port {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.chip--ingress {
+  color: var(--ink);
+  border-color: var(--line-strong);
+}
+
+.notes {
+  display: grid;
+  gap: 34px;
+  max-width: 66ch;
+}
+
+.note h3 {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: -0.015em;
+  margin: 0 0 8px;
+}
+
+.note p {
+  font-family: var(--prose);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.note code {
+  font-family: var(--mono);
+  font-size: 0.84em;
+  color: var(--ink);
+  word-break: break-all;
+}
+
+footer {
+  border-top: 1px solid var(--line);
+  padding: 40px 0 64px;
+}
+
+.flinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 26px;
+  margin: 0 0 24px;
+  padding: 0;
+  list-style: none;
+}
+
+.flinks a {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line-strong);
+  padding-bottom: 2px;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
+}
+
+.flinks a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.colophon {
+  font-family: var(--prose);
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  margin: 0;
+  max-width: 62ch;
+}
+
+.rise {
+  animation: rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.rise:nth-child(2) {
+  animation-delay: 0.05s;
+}
+
+.rise:nth-child(3) {
+  animation-delay: 0.1s;
+}
+
+.rise:nth-child(4) {
+  animation-delay: 0.15s;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+@media (max-width: 560px) {
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .urlbox {
+    flex: 1 1 100%;
+  }
+}
+
+/* minmax(0, 1fr) rather than a bare 1fr: the implicit auto minimum lets
+         the track grow to its content and push the whole page sideways. */
+@media (max-width: 860px) {
+  .row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .rail span {
+    display: inline-block;
+  }
+
+  section {
+    padding: 48px 0;
+  }
+
+  .hero {
+    padding: 56px 0 48px;
+  }
+}
