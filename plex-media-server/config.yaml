@@ -63,5 +63,5 @@ schema:
   claim_code: str?
 slug: plex-media-server
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/plex-media-server'
-version: '1.4.0' # x-release-please-version
+version: '1.4.1' # x-release-please-version
 webui: 'http://[HOST]:[PORT:32400]/web'
