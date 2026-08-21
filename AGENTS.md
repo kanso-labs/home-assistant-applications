@@ -173,8 +173,9 @@ and a listening port, and probe the port for a response. Build for the
 architecture you are actually on — see Traps.
 
 **Run `npx prettier --check .`** from the repository root. Prettier formats
-YAML, JSON and Markdown here, and CI runs the same command as
-`Check formatting`.
+YAML, JSON and Markdown here, and `Check formatting` runs the same check at the
+version `lint.yaml` pins in `PRETTIER_VERSION` — match it if the two ever
+disagree. There is no `package.json` here, so there is no `format` script.
 
 Changelogs are exempt, in `.prettierignore`. release-please writes them in a
 style of its own and reads them back to place the next entry, so formatting one
@@ -206,8 +207,8 @@ Shared with the other `kanso-labs` repositories:
   a moving major or `@main`. Renovate opens the bump pull requests.
 - **Dependency versions are pinned exactly.** Every `dependencies`,
   `devDependencies`, and `optionalDependencies` entry is a bare version,
-  `2.35.7`, never `^2.35.7`, `~2.35.7`, `>=2.35.7`, `*`, `2.x`, or an `||`
-  union. Renovate opens those bumps too. `peerDependencies` are the deliberate
+  `1.2.3`, never `^1.2.3`, `~1.2.3`, `>=1.2.3`, `*`, `1.x`, or an `||` union.
+  Renovate opens those bumps too. `peerDependencies` are the deliberate
   exception: they state what the consumer's own installed copy must satisfy, so
   ranges are correct there and stay.
 - **`.tool-versions` pins a fully-specified version on every line**,
@@ -222,9 +223,11 @@ cosmetic there, because that directory has no lockfile. The Dockerfile runs
 caret would let an image built today and the same image rebuilt next month ship
 different n8n versions off an unchanged commit.
 
-**Prettier formats the YAML, JSON and Markdown here**, and CI checks it. Run
-`npm run format` before pushing. This matches `github-actions` and nothing else
-in the organization — see that repository's `AGENTS.md` for what the others do.
+**Prettier formats the YAML, JSON and Markdown here**, and CI checks it. There
+is no `package.json`, so there is no `format` script — run
+`npx prettier --write .` before pushing. `github-actions` formats the same three
+with Prettier and does have that script; see that repository's `AGENTS.md` for
+what the rest of the organization does.
 
 ### Image naming
 
@@ -333,11 +336,19 @@ is built by `.github/scripts/build-pages.sh` and published by
 build it without publishing, so a generator that has stopped working is caught
 while it is still someone's branch.
 
-**Nothing about the site is committed.** There is no `docs/` directory and no
-generated HTML in the tree — the script assembles `_site/` at deploy time and
-that is uploaded straight to Pages. `_site/` is git-ignored. Do not add a
-checked-in copy; it would be one more thing to keep in step, which is the
-problem this arrangement exists to avoid.
+**Nothing about the site is built here.** No generated HTML is in the tree — the
+script assembles `_site/` at deploy time and that is uploaded straight to Pages.
+`_site/` is git-ignored. Do not add a checked-in copy; it would be one more
+thing to keep in step, which is the problem this arrangement exists to avoid.
+
+`docs/CNAME` is the one committed file the site left behind, and it is a
+leftover rather than part of the build. It declares
+`home-assistant.kansolabs.org` for the branch-based Pages build that preceded
+this workflow. An Actions deployment reads the custom domain from the Pages
+configuration and never sees the file, since it is not part of `_site/`, so
+deleting it changes nothing today — and re-picking a branch source in the UI
+would rewrite it anyway. Leave it be. `kanso-ui` carries the same leftover at
+its repository root.
 
 **Every fact on the page is read from the applications themselves**, so the page
 cannot describe something the repository does not ship:
