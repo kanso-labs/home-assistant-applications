@@ -27,6 +27,21 @@ The authorities, in the order you should trust them:
    has had no release since 2025-11 and rejects things Supervisor accepts. See
    Traps.
 
+## Commands
+
+There is no `package.json` here, so nothing is an npm script. Everything below
+is run directly from the repository root.
+
+| Task                  | Command                                      | Notes                                            |
+| --------------------- | -------------------------------------------- | ------------------------------------------------ |
+| Format                | `npx prettier --write .`                     | YAML, JSON and Markdown; changelogs are exempt   |
+| Check formatting      | `npx prettier --check .`                     | `Check formatting` runs this at a pinned version |
+| Verify release wiring | `./.github/scripts/verify-release-wiring.sh` | Runs in CI as `Verify release wiring`            |
+| Build the site        | `./.github/scripts/build-pages.sh`           | Assembles `_site/`; nothing is committed         |
+
+Building and booting an application image is the other thing worth running by
+hand, and it has its own step under Adding an application.
+
 ## Adding an application
 
 ### 1. Start from existing packaging
@@ -458,9 +473,9 @@ group now. Do not add `cancel-in-progress` — the last push must still get a ru
 
 That group has to stay in `release-please.yaml` here, even though the rest of
 that workflow moved out. GitHub documents `concurrency` at the caller and says
-nothing either way about a group declared inside a called workflow, so keeping
-it here is the difference between a guard that is known to work and one that
-might quietly be doing nothing until the race above happens again.
+nothing either way about a group declared in a called workflow, so keeping it
+here is the difference between a guard that is known to work and one that might
+quietly be doing nothing until the race above happens again.
 
 **The Pages configuration outlived the files it served.** Removing the Spotify
 to Plex application took `docs/spotify-to-plex/` with it, and that was the only
