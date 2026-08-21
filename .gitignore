@@ -57,5 +57,19 @@ ehthumbs_vista.db
 # npx writes this when running prettier from the repository root.
 node_modules/
 
+### Agent working directories ###
+# Both are created by coding agents inside this checkout, and neither exists in
+# CI. `.claude/worktrees/` holds a full checkout of this repository per session,
+# so git records it as a gitlink and one `git add -A` would commit a pointer to
+# a commit that only exists on somebody's laptop. `.context/` holds pull request
+# drafts.
+#
+# Listed here rather than left to a personal global gitignore or this clone's
+# .git/info/exclude, because Prettier reads .gitignore and neither of those
+# — so `npx prettier --check .` from the repository root, which AGENTS.md tells
+# you to run, would otherwise fail on files this repository does not own.
+.claude/worktrees/
+.context/
+
 # The GitHub Pages site is generated from the applications at deploy time.
 _site/
