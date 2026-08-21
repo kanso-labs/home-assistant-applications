@@ -39,7 +39,7 @@ jobs:
   # that is genuinely this repository's: its concurrency group and its secrets.
   release-please:
     name: Propose releases
-    uses: kanso-labs/github-actions/.github/workflows/_release-please.yaml@v3.0.0
+    uses: kanso-labs/github-actions/.github/workflows/_release-please.yaml@v3.0.2
     secrets:
       client-id: ${{ secrets.RELEASE_PLEASE_CLIENT_ID }}
       private-key: ${{ secrets.RELEASE_PLEASE_PRIVATE_KEY }}
