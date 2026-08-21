@@ -204,6 +204,23 @@ Shared with the other `kanso-labs` repositories:
   and matrix keys are exempt.
 - **Actions are pinned to exact release tags**, `actions/checkout@v7.0.1`, never
   a moving major or `@main`. Renovate opens the bump pull requests.
+- **Dependency versions are pinned exactly.** Every `dependencies`,
+  `devDependencies`, and `optionalDependencies` entry is a bare version,
+  `2.35.7`, never `^2.35.7`, `~2.35.7`, `>=2.35.7`, `*`, `2.x`, or an `||`
+  union. Renovate opens those bumps too. `peerDependencies` are the deliberate
+  exception: they state what the consumer's own installed copy must satisfy, so
+  ranges are correct there and stay.
+- **`.tool-versions` pins a fully-specified version on every line**,
+  `nodejs 24.19.0`, never `nodejs 24` or `nodejs lts`.
+
+Both of those rules land in one place here: `n8n/rootfs/usr/src/n8n/`, the only
+application carrying a `package.json` and a `.tool-versions`. Neither is
+cosmetic there, because that directory has no lockfile. The Dockerfile runs
+`mise install` and then `npm install` at build time, so the pin in
+`package.json` is the only thing deciding which version an image resolves, and
+`.tool-versions` is the only thing deciding which Node and npm resolve it. A
+caret would let an image built today and the same image rebuilt next month ship
+different n8n versions off an unchanged commit.
 
 **Prettier formats the YAML, JSON and Markdown here**, and CI checks it. Run
 `npm run format` before pushing. This matches `github-actions` and nothing else
