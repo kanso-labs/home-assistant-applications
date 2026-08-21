@@ -389,12 +389,11 @@ an application before installing it, and only one of them keeps itself honest.
 ## Commits and pull requests
 
 Pull requests are squash-merged, with the pull request title as the commit
-subject and an empty body. That title becomes the only commit on `main`, so it
-is the single input to everything below. Branch commit messages are discarded by
-the squash and never reach history.
+subject and an empty body. That title becomes the only commit on `main`, and
+branch commit messages are discarded by the squash and never reach history.
 
-The title is a Conventional Commit. Its type decides whether users see the
-change:
+That title is therefore the single input to everything below, and it is a
+Conventional Commit. Its type decides whether users see the change:
 
 | Type of the pull request title | Effect                                               |
 | ------------------------------ | ---------------------------------------------------- |
@@ -413,8 +412,9 @@ parses as a Conventional Commit, and it brings the branch's own commit onto
 `main` alongside it. release-please counts both and writes two entries with
 different SHAs and identical text. That is not hypothetical: it produced 10
 duplicated pairs across four open release pull requests before merge commits
-were turned off. Squashing writes one commit, and rebasing adds no merge commit
-to double-count, so both remaining strategies are safe.
+were turned off. Squashing writes one commit, so it cannot double-count, and it
+is the only strategy this repository allows — rebase merging is disabled too.
+Rebasing would be equally safe for the same reason if it were ever turned on.
 
 **A stale release pull request cannot merge, and release-please will not refresh
 it.** release-please rewrites a release pull request only when the release it
