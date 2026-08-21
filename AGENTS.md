@@ -347,8 +347,7 @@ leftover rather than part of the build. It declares
 this workflow. An Actions deployment reads the custom domain from the Pages
 configuration and never sees the file, since it is not part of `_site/`, so
 deleting it changes nothing today — and re-picking a branch source in the UI
-would rewrite it anyway. Leave it be. `kanso-ui` carries the same leftover at
-its repository root.
+would rewrite it anyway. Leave it be.
 
 **Every fact on the page is read from the applications themselves**, so the page
 cannot describe something the repository does not ship:
