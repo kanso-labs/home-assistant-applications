@@ -81,8 +81,5 @@
   "recreateWhen": "always",
   "semanticCommitScope": null,
   "semanticCommitType": "deps",
-  "semanticCommits": "enabled",
-  "vulnerabilityAlerts": {
-    "enabled": false
-  }
+  "semanticCommits": "enabled"
 }
