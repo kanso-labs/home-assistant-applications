@@ -270,6 +270,13 @@ A bump outside every application directory still releases nothing, because there
 is no root package for it to be attributed to. That is what keeps a Prettier or
 `actions/checkout` bump from versioning thirteen applications.
 
+**Both `semanticCommitType` settings are `packageRules`, and neither can be a
+top-level key.** `config:recommended` extends
+`:semanticPrefixFixDepsChoreOthers`, which sets the type through `packageRules`
+of its own, and `packageRules` beat top-level config. The catch-all `deps` rule
+is therefore first, so the curated rule below still overrides it for the
+applications it names.
+
 **The curated `semanticCommitType: "fix"` rule in `.github/renovate.json` stays,
 and is not now redundant.** A `packageRule` overrides the global type for the
 packages it matches, so the application versions users actually see keep landing
