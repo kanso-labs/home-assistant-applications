@@ -42,6 +42,52 @@ is run directly from the repository root.
 Building and booting an application image is the other thing worth running by
 hand, and it has its own step under Adding an application.
 
+## Conventions
+
+Shared with the other `kanso-labs` repositories:
+
+- **Keys in JSON and YAML are ordered by name.** Files whose order carries
+  meaning are exempt: workflows, where step order is execution order;
+  changelogs, which are chronological; and `package.json`, where the npm
+  ecosystem expects `name` and `version` first.
+- **A workflow's filename is the kebab-case of its `name:` field.** Reusable
+  workflows, meaning those triggered only by `workflow_call`, take a leading
+  underscore.
+- **Job names and step names are imperative verb phrases.** Job ids, step ids,
+  and matrix keys are exempt.
+- **Actions are pinned to exact release tags**, `actions/checkout@v7.0.1`, never
+  a moving major or `@main`. Renovate opens the bump pull requests.
+- **Dependency versions are pinned exactly.** Every `dependencies`,
+  `devDependencies`, and `optionalDependencies` entry is a bare version,
+  `1.2.3`, never `^1.2.3`, `~1.2.3`, `>=1.2.3`, `*`, `1.x`, or an `||` union.
+  Renovate opens those bumps too. `peerDependencies` are the deliberate
+  exception: they state what the consumer's own installed copy must satisfy, so
+  ranges are correct there and stay.
+- **`.tool-versions` pins a fully-specified version on every line**,
+  `nodejs 24.19.0`, never `nodejs 24` or `nodejs lts`.
+
+Both of those rules land in one place here: `n8n/rootfs/usr/src/n8n/`, the only
+application carrying a `package.json` and a `.tool-versions`. Neither is
+cosmetic there, because that directory has no lockfile. The Dockerfile runs
+`mise install` and then `npm install` at build time, so the pin in
+`package.json` is the only thing deciding which version an image resolves, and
+`.tool-versions` is the only thing deciding which Node and npm resolve it. A
+caret would let an image built today and the same image rebuilt next month ship
+different n8n versions off an unchanged commit.
+
+**Prettier formats the YAML, JSON and Markdown here**, and CI checks it. There
+is no `package.json`, so there is no `format` script — run
+`npx prettier --write .` before pushing. `github-actions` formats the same three
+with Prettier and does have that script; see that repository's `AGENTS.md` for
+what the rest of the organization does.
+
+### Image naming
+
+An application's `image` is the generic multi-architecture name with no
+placeholder. The per-architecture images published underneath it are named
+`{arch}-<image>`, architecture first — that order is fixed by the build action
+and is not ours to choose.
+
 ## Adding an application
 
 ### 1. Start from existing packaging
@@ -95,7 +141,7 @@ version: '1.0.0' # x-release-please-version
 ```
 
 - **`image`** is the generic multi-architecture name, with no `{arch}`
-  placeholder. See "Image naming" below.
+  placeholder. See "Image naming" above.
 - **`init: false`** because the base image supplies s6-overlay.
 - **`backup: cold`** for anything storing state in SQLite, which is most of
   them. A hot backup copies the database while it is being written and can
@@ -204,52 +250,6 @@ and an annotation you dropped:
 ```
 
 CI runs this too, as `Verify release wiring`.
-
-## Conventions
-
-Shared with the other `kanso-labs` repositories:
-
-- **Keys in JSON and YAML are ordered by name.** Files whose order carries
-  meaning are exempt: workflows, where step order is execution order;
-  changelogs, which are chronological; and `package.json`, where the npm
-  ecosystem expects `name` and `version` first.
-- **A workflow's filename is the kebab-case of its `name:` field.** Reusable
-  workflows, meaning those triggered only by `workflow_call`, take a leading
-  underscore.
-- **Job names and step names are imperative verb phrases.** Job ids, step ids,
-  and matrix keys are exempt.
-- **Actions are pinned to exact release tags**, `actions/checkout@v7.0.1`, never
-  a moving major or `@main`. Renovate opens the bump pull requests.
-- **Dependency versions are pinned exactly.** Every `dependencies`,
-  `devDependencies`, and `optionalDependencies` entry is a bare version,
-  `1.2.3`, never `^1.2.3`, `~1.2.3`, `>=1.2.3`, `*`, `1.x`, or an `||` union.
-  Renovate opens those bumps too. `peerDependencies` are the deliberate
-  exception: they state what the consumer's own installed copy must satisfy, so
-  ranges are correct there and stay.
-- **`.tool-versions` pins a fully-specified version on every line**,
-  `nodejs 24.19.0`, never `nodejs 24` or `nodejs lts`.
-
-Both of those rules land in one place here: `n8n/rootfs/usr/src/n8n/`, the only
-application carrying a `package.json` and a `.tool-versions`. Neither is
-cosmetic there, because that directory has no lockfile. The Dockerfile runs
-`mise install` and then `npm install` at build time, so the pin in
-`package.json` is the only thing deciding which version an image resolves, and
-`.tool-versions` is the only thing deciding which Node and npm resolve it. A
-caret would let an image built today and the same image rebuilt next month ship
-different n8n versions off an unchanged commit.
-
-**Prettier formats the YAML, JSON and Markdown here**, and CI checks it. There
-is no `package.json`, so there is no `format` script — run
-`npx prettier --write .` before pushing. `github-actions` formats the same three
-with Prettier and does have that script; see that repository's `AGENTS.md` for
-what the rest of the organization does.
-
-### Image naming
-
-An application's `image` is the generic multi-architecture name with no
-placeholder. The per-architecture images published underneath it are named
-`{arch}-<image>`, architecture first — that order is fixed by the build action
-and is not ours to choose.
 
 ## Releases
 
