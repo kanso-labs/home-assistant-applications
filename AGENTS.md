@@ -285,15 +285,25 @@ one by the files it touches, so a change under `radarr/` releases Radarr alone.
 
 **Which commit types release.** `feat` takes a minor; `fix` and `deps` take a
 patch; everything else releases nothing. `release-please-config.json` spells the
-list out in `changelog-sections`, and that list supersedes release-please's
-defaults rather than extending them — a type dropped from it becomes invisible
-rather than merely unstyled, so removing `feat` or `fix` there would silently
-stop those releases too.
+list out in `changelog-sections`, so removing `feat` or `fix` from it would
+silently stop those releases too — for the reason the paragraph below gives.
 
-`deps` is not a Conventional Commits type. It is here because Renovate's default
-is `chore(deps)`, and `chore` is hidden — release-please then decides there are
-no user-facing commits and opens no release pull request at all. Every other
-`kanso-labs` repository sets the same three keys for the same reason.
+**Renovate commits are typed `deps:`, and that is what makes them release.**
+release-please computes a patch bump for any commit that is not a `feat` or a
+breaking change, but it only opens a release pull request when the notes it
+generates are non-empty — a run whose every commit falls in a hidden changelog
+section is skipped as "No user facing commits found". Renovate's default,
+`chore(deps):`, lands in exactly such a section, so an upgrade never cut a
+release of its own: it shipped only when a feature happened to land beside it,
+and a run of nothing but upgrades published nothing at all.
+
+`.github/renovate.json` therefore sets `semanticCommits: enabled` and
+`semanticCommitScope: null` at the top level, and `semanticCommitType: deps` in
+a `packageRule` rather than beside them. `release-please-config.json` spells out
+`changelog-sections` with `deps` visible under a `Dependencies` heading. The two
+move together: that list replaces release-please's defaults wholesale, so a type
+missing from it is invisible rather than merely unstyled, and `deps` with no
+matching section would put the upgrades back where they started.
 
 **This widened what releases, and that is the intended effect.** A bump inside
 an application directory that is not one of the curated `depNames` below — a
