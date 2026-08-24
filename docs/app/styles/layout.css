@@ -1,0 +1,173 @@
+/* Layout only.
+ *
+ * kanso-ui has no container or stack primitive, so page width, the rhythm
+ * between sections, and the few rows and columns this page arranges are set
+ * here. Everything with a look of its own is a component; nothing below styles
+ * one. Values come from --kui-* so the page keeps step with the library's
+ * spacing, radii and colour, in both schemes. */
+
+/* kanso-ui sets no box-sizing on its own components, so a Card's padding and
+ * border are added to whatever width it is given. Inside the library's own Feed
+ * that overflows the grid cell — 404px of column, a 438px card. Every app is
+ * expected to bring this reset; the React Router template's did, by way of
+ * Tailwind's preflight, and removing Tailwind took it with it. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  color-scheme: light dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  /* The page ground, which the theme sets a step below `surface` — cards and
+   * the app bar take `surface` and lift off it. */
+  background: var(--kui-color-background);
+  color: var(--kui-color-on-surface);
+  font-family: var(--kui-typography-body-medium-font);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The measure every region is set to. M3's expanded window is 840px and up;
+ * this holds the catalogue to a comfortable line length past that.
+ *
+ * The gutter is 16px rather than the 24px M3 gives a medium window, because
+ * that is where AppBar insets its own headline and the bar's padding cannot be
+ * reached from here — see the note on `.bar`. Matching it is what puts the
+ * headline and every line beneath it on one left edge. */
+.shell {
+  margin-inline: auto;
+  max-width: 1100px;
+  padding-inline: 16px;
+}
+
+/* AppBar paints its own surface and insets its text by a fixed 16px. Since no
+ * kanso-ui component forwards `className`, that inset cannot be widened to keep
+ * a full-bleed bar's headline over the page measure — so the bar is held to the
+ * measure instead, and the two line up at every width. */
+.bar {
+  margin-inline: auto;
+  max-width: 1100px;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kui-spacing-lg);
+}
+
+.section {
+  padding-block: var(--kui-spacing-xxxl);
+}
+
+.section-head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kui-spacing-xs);
+  margin-block-end: var(--kui-spacing-xl);
+}
+
+/* Hero -------------------------------------------------------------------- */
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kui-spacing-xl);
+  padding-block: var(--kui-spacing-lg) var(--kui-spacing-xxxl);
+}
+
+.hero__lede {
+  max-width: 60ch;
+}
+
+.hero__actions a {
+  text-decoration: none;
+}
+
+.hero__actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kui-spacing-md);
+}
+
+/* CopyField has no width of its own and a repository URL is long, so it is
+ * given room to take the rest of the row and to shrink below its content. */
+.hero__copy {
+  flex: 1 1 22rem;
+  min-width: 0;
+}
+
+.hero__note {
+  max-width: 60ch;
+}
+
+/* A chord of keycaps reads as one instruction, so it wraps as words do. */
+.keys {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--kui-spacing-xs);
+  vertical-align: middle;
+}
+
+/* Cards ------------------------------------------------------------------- */
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kui-spacing-md);
+  height: 100%;
+  text-align: start;
+}
+
+.card-head {
+  align-items: center;
+  display: flex;
+  gap: var(--kui-spacing-md);
+}
+
+/* Pushes the badge to the bottom edge, so a row of cards lines its badges up
+ * however long the taglines run. */
+.card-foot {
+  display: flex;
+  margin-block-start: auto;
+  padding-block-start: var(--kui-spacing-xs);
+}
+
+.note-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--kui-spacing-sm);
+}
+
+/* Footer ------------------------------------------------------------------ */
+
+.footer {
+  padding-block: var(--kui-spacing-xxl) var(--kui-spacing-xxxl);
+}
+
+.footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--kui-spacing-lg);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.footer__colophon {
+  max-width: 70ch;
+}

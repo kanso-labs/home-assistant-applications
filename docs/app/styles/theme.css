@@ -1,0 +1,209 @@
+/* Home Assistant's palette and typefaces, expressed as kanso-ui tokens.
+ *
+ * Every value below is a `--kui-*` custom property — the library's whole
+ * theming contract — so this file retints and resets the type of every
+ * component without styling any of them. Nothing here changes Material's
+ * shape, spacing or type scale; only which colours and faces fill them.
+ *
+ * Overrides must sit at `:root`. kanso-ui resolves tokens once, at the root, so
+ * the same declarations on a wrapping element would not reach a component.
+ *
+ * Sampled from home-assistant.io: #1abcf2 is the blue it leads with, #007fa8
+ * the darker one it switches to for text on light, and Figtree/Instrument Sans
+ * are the only two faces it loads. The dark scheme follows Home Assistant's own
+ * frontend dark theme (#111111 ground, #1c1c1c cards) rather than the marketing
+ * site, which has no dark mode to copy — those two values land on `surface` and
+ * `surface-container-low` respectively.
+ *
+ * The blue is #007a9f rather than the site's #007fa8: the original clears 4.5:1
+ * on white but only reaches 4.22:1 on the page ground, and a primary-toned
+ * badge sits on both. */
+
+:root {
+  /* Neutrals ------------------------------------------------------------- */
+  /* `surface` is the page ground rather than the card colour, so the app bar —
+   * which paints `surface` — meets the page with no seam. Cards lift off it on
+   * `surface-container-low`, which is how Home Assistant's own dashboard reads:
+   * white cards on a cool grey ground. */
+  --kui-color-background: #f4f6f9;
+  --kui-color-on-background: #222222;
+  --kui-color-surface: #f4f6f9;
+  --kui-color-on-surface: #222222;
+  --kui-color-surface-variant: #e8edf0;
+  --kui-color-on-surface-variant: #5b6670;
+  --kui-color-surface-bright: #ffffff;
+  --kui-color-surface-dim: #dfe4ea;
+  --kui-color-surface-container-lowest: #ffffff;
+  --kui-color-surface-container-low: #ffffff;
+  --kui-color-surface-container: #edf1f6;
+  --kui-color-surface-container-high: #e8edf0;
+  --kui-color-surface-container-highest: #e3e9ee;
+  --kui-color-surface-tint: #007a9f;
+  --kui-color-outline: #b9c3cc;
+  --kui-color-outline-variant: #dde3e9;
+
+  /* Primary — Home Assistant blue ---------------------------------------- */
+  --kui-color-primary: #007a9f;
+  --kui-color-on-primary: #ffffff;
+  --kui-color-primary-container: #cceffe;
+  --kui-color-on-primary-container: #001f2a;
+  --kui-color-primary-fixed: #cceffe;
+  --kui-color-primary-fixed-dim: #41bdf5;
+  --kui-color-on-primary-fixed: #001f2a;
+  --kui-color-on-primary-fixed-variant: #005b7b;
+
+  /* Secondary — the blue, desaturated ------------------------------------ */
+  --kui-color-secondary: #4d616c;
+  --kui-color-on-secondary: #ffffff;
+  --kui-color-secondary-container: #d0e6ef;
+  --kui-color-on-secondary-container: #091e27;
+  --kui-color-secondary-fixed: #d0e6ef;
+  --kui-color-secondary-fixed-dim: #b4cad7;
+  --kui-color-on-secondary-fixed: #091e27;
+  --kui-color-on-secondary-fixed-variant: #354a54;
+
+  /* Tertiary — the crimson home-assistant.io accents with --------------- */
+  --kui-color-tertiary: #a4173c;
+  --kui-color-on-tertiary: #ffffff;
+  --kui-color-tertiary-container: #ffd9df;
+  --kui-color-on-tertiary-container: #3e0011;
+  --kui-color-tertiary-fixed: #ffd9df;
+  --kui-color-tertiary-fixed-dim: #ffb2bf;
+  --kui-color-on-tertiary-fixed: #3e0011;
+  --kui-color-on-tertiary-fixed-variant: #82002a;
+
+  /* Status --------------------------------------------------------------- */
+  --kui-color-error: #ba1a1a;
+  --kui-color-on-error: #ffffff;
+  --kui-color-error-container: #ffdad6;
+  --kui-color-on-error-container: #410002;
+  --kui-color-negative: #ba1a1a;
+  --kui-color-on-negative: #ffffff;
+  --kui-color-negative-container: #ffdad6;
+  --kui-color-on-negative-container: #410002;
+  --kui-color-positive: #146c2e;
+  --kui-color-on-positive: #ffffff;
+  --kui-color-positive-container: #a6f2b6;
+  --kui-color-on-positive-container: #00210a;
+
+  /* Inverse and overlays -------------------------------------------------- */
+  --kui-color-inverse-surface: #2e3236;
+  --kui-color-inverse-on-surface: #f1f3f5;
+  --kui-color-inverse-primary: #41bdf5;
+  --kui-color-shadow: #000000;
+  --kui-color-scrim: #000000;
+
+  /* Typefaces ------------------------------------------------------------
+   *
+   * home-assistant.io loads exactly two: Figtree for headings and Instrument
+   * Sans for everything else. kanso-ui reads a face per type role rather than
+   * from the three family tokens alone, so each role is set — the families are
+   * set too, for the components that reach for them directly. Code is left on a
+   * system stack, which is what home-assistant.io uses for it. */
+  --kui-typography-font-family-brand:
+    'Figtree', 'Helvetica Neue', Arial, sans-serif;
+  --kui-typography-font-family-plain:
+    'Instrument Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --kui-typography-font-family-mono:
+    ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  --kui-typography-display-large-font: var(--kui-typography-font-family-brand);
+  --kui-typography-display-medium-font: var(--kui-typography-font-family-brand);
+  --kui-typography-display-small-font: var(--kui-typography-font-family-brand);
+  --kui-typography-headline-large-font: var(--kui-typography-font-family-brand);
+  --kui-typography-headline-medium-font: var(
+    --kui-typography-font-family-brand
+  );
+  --kui-typography-headline-small-font: var(--kui-typography-font-family-brand);
+  --kui-typography-title-large-font: var(--kui-typography-font-family-brand);
+  --kui-typography-title-medium-font: var(--kui-typography-font-family-plain);
+  --kui-typography-title-small-font: var(--kui-typography-font-family-plain);
+  --kui-typography-body-large-font: var(--kui-typography-font-family-plain);
+  --kui-typography-body-medium-font: var(--kui-typography-font-family-plain);
+  --kui-typography-body-small-font: var(--kui-typography-font-family-plain);
+  --kui-typography-label-large-font: var(--kui-typography-font-family-plain);
+  --kui-typography-label-medium-font: var(--kui-typography-font-family-plain);
+  --kui-typography-label-small-font: var(--kui-typography-font-family-plain);
+
+  /* Home Assistant sets its headings heavy — 800 on the page title, 600 below
+   * it — where Material leaves every heading at 400. Weight is the whole
+   * difference between Figtree reading as Home Assistant's face and reading as
+   * an anonymous one, so the headline roles take theirs. */
+  --kui-typography-display-large-weight: 800;
+  --kui-typography-display-medium-weight: 800;
+  --kui-typography-display-small-weight: 800;
+  --kui-typography-headline-large-weight: 800;
+  --kui-typography-headline-medium-weight: 800;
+  --kui-typography-headline-small-weight: 700;
+  --kui-typography-title-large-weight: 600;
+  --kui-typography-title-medium-weight: 600;
+}
+
+/* The default "system" setting stamps nothing on the root element, so the
+ * un-stamped document is the common case and has to resolve on its own. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Home Assistant's own dark theme: a near-black ground with lighter cards,
+     * and the brand blue lightened to carry on it. */
+    --kui-color-background: #111111;
+    --kui-color-on-background: #e1e1e1;
+    --kui-color-surface: #111111;
+    --kui-color-on-surface: #e1e1e1;
+    --kui-color-surface-variant: #2f2f2f;
+    --kui-color-on-surface-variant: #9b9b9b;
+    --kui-color-surface-bright: #383838;
+    --kui-color-surface-dim: #111111;
+    --kui-color-surface-container-lowest: #0a0a0a;
+    --kui-color-surface-container-low: #1c1c1c;
+    --kui-color-surface-container: #1f1f1f;
+    --kui-color-surface-container-high: #272727;
+    --kui-color-surface-container-highest: #2c2c2c;
+    --kui-color-surface-tint: #41bdf5;
+    --kui-color-outline: #4a4a4a;
+    --kui-color-outline-variant: #333333;
+
+    --kui-color-primary: #41bdf5;
+    --kui-color-on-primary: #00344a;
+    --kui-color-primary-container: #005b7b;
+    --kui-color-on-primary-container: #cceffe;
+    --kui-color-primary-fixed: #cceffe;
+    --kui-color-primary-fixed-dim: #41bdf5;
+    --kui-color-on-primary-fixed: #001f2a;
+    --kui-color-on-primary-fixed-variant: #005b7b;
+
+    --kui-color-secondary: #b4cad7;
+    --kui-color-on-secondary: #1f333d;
+    --kui-color-secondary-container: #354a54;
+    --kui-color-on-secondary-container: #d0e6ef;
+    --kui-color-secondary-fixed: #d0e6ef;
+    --kui-color-secondary-fixed-dim: #b4cad7;
+    --kui-color-on-secondary-fixed: #091e27;
+    --kui-color-on-secondary-fixed-variant: #354a54;
+
+    --kui-color-tertiary: #ffb2bf;
+    --kui-color-on-tertiary: #65001f;
+    --kui-color-tertiary-container: #82002a;
+    --kui-color-on-tertiary-container: #ffd9df;
+    --kui-color-tertiary-fixed: #ffd9df;
+    --kui-color-tertiary-fixed-dim: #ffb2bf;
+    --kui-color-on-tertiary-fixed: #3e0011;
+    --kui-color-on-tertiary-fixed-variant: #82002a;
+
+    --kui-color-error: #ffb4ab;
+    --kui-color-on-error: #690005;
+    --kui-color-error-container: #93000a;
+    --kui-color-on-error-container: #ffdad6;
+    --kui-color-negative: #ffb4ab;
+    --kui-color-on-negative: #690005;
+    --kui-color-negative-container: #93000a;
+    --kui-color-on-negative-container: #ffdad6;
+    --kui-color-positive: #8bd69b;
+    --kui-color-on-positive: #003916;
+    --kui-color-positive-container: #005322;
+    --kui-color-on-positive-container: #a6f2b6;
+
+    --kui-color-inverse-surface: #e1e1e1;
+    --kui-color-inverse-on-surface: #1c1c1c;
+    --kui-color-inverse-primary: #007a9f;
+  }
+}
