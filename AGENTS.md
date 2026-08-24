@@ -29,15 +29,17 @@ The authorities, in the order you should trust them:
 
 ## Commands
 
-There is no `package.json` here, so nothing is an npm script. Everything below
-is run directly from the repository root.
+There is no `package.json` at the root, so nothing below is a root npm script.
+Everything is run from the repository root; the site's own scripts live in
+`docs/package.json` and are reached with `npm --prefix docs`.
 
-| Task                  | Command                                      | Notes                                            |
-| --------------------- | -------------------------------------------- | ------------------------------------------------ |
-| Format                | `npx prettier --write .`                     | YAML, JSON and Markdown; changelogs are exempt   |
-| Check formatting      | `npx prettier --check .`                     | `Check formatting` runs this at a pinned version |
-| Verify release wiring | `./.github/scripts/verify-release-wiring.sh` | Runs in CI as `Verify release wiring`            |
-| Build the site        | `./.github/scripts/build-pages.sh`           | Assembles `_site/`; nothing is committed         |
+| Task                  | Command                                      | Notes                                                   |
+| --------------------- | -------------------------------------------- | ------------------------------------------------------- |
+| Format                | `npx prettier --write .`                     | YAML, JSON, Markdown, and the site's TypeScript and CSS |
+| Check formatting      | `npx prettier --check .`                     | `Check formatting` runs this at a pinned version        |
+| Verify release wiring | `./.github/scripts/verify-release-wiring.sh` | Runs in CI as `Verify release wiring`                   |
+| Build the site        | `./.github/scripts/build-pages.sh`           | Assembles `_site/`; nothing is committed                |
+| Develop the site      | `npm --prefix docs run dev`                  | See `docs/README.md`                                    |
 
 Building and booting an application image is the other thing worth running by
 hand, and it has its own step under Adding an application.
@@ -66,20 +68,25 @@ Shared with the other `kanso-labs` repositories:
 - **`.tool-versions` pins a fully-specified version on every line**,
   `nodejs 24.19.0`, never `nodejs 24` or `nodejs lts`.
 
-Both of those rules land in one place here: `n8n/rootfs/usr/src/n8n/`, the only
-application carrying a `package.json` and a `.tool-versions`. Neither is
-cosmetic there, because that directory has no lockfile. The Dockerfile runs
-`mise install` and then `npm install` at build time, so the pin in
-`package.json` is the only thing deciding which version an image resolves, and
-`.tool-versions` is the only thing deciding which Node and npm resolve it. A
+Two directories here carry a `package.json` and a `.tool-versions`:
+`n8n/rootfs/usr/src/n8n/` and `docs/`. Neither rule is cosmetic in
+`n8n/rootfs/usr/src/n8n/`, because that directory has no lockfile. The
+Dockerfile runs `mise install` and then `npm install` at build time, so the pin
+in `package.json` is the only thing deciding which version an image resolves,
+and `.tool-versions` is the only thing deciding which Node and npm resolve it. A
 caret would let an image built today and the same image rebuilt next month ship
 different n8n versions off an unchanged commit.
 
-**Prettier formats the YAML, JSON and Markdown here**, and CI checks it. There
-is no `package.json`, so there is no `format` script — run
-`npx prettier --write .` before pushing. `github-actions` formats the same three
-with Prettier and does have that script; see that repository's `AGENTS.md` for
-what the rest of the organization does.
+`docs/` does have a lockfile, so the pins there are about reproducibility rather
+than resolution: `.tool-versions` is what makes CI and a laptop build the site
+on the same Node, and the workflow reads that same file through
+`actions/setup-node`.
+
+**Prettier formats the YAML, JSON and Markdown here**, and the site's TypeScript
+and CSS along with them; CI checks it. There is no root `package.json`, so there
+is no root `format` script — run `npx prettier --write .` before pushing.
+`github-actions` formats the same three with Prettier and does have that script;
+see that repository's `AGENTS.md` for what the rest of the organization does.
 
 ### Image naming
 
@@ -234,9 +241,10 @@ and a listening port, and probe the port for a response. Build for the
 architecture you are actually on — see Traps.
 
 **Run `npx prettier --check .`** from the repository root. Prettier formats
-YAML, JSON and Markdown here, and `Check formatting` runs the same check at the
-version `lint.yaml` pins in `PRETTIER_VERSION` — match it if the two ever
-disagree. There is no `package.json` here, so there is no `format` script.
+YAML, JSON and Markdown here, plus the site's TypeScript and CSS, and
+`Check formatting` runs the same check at the version `lint.yaml` pins in
+`PRETTIER_VERSION` — match it if the two ever disagree. There is no root
+`package.json`, so there is no root `format` script.
 
 Changelogs are exempt, in `.prettierignore`. release-please writes them in a
 style of its own and reads them back to place the next entry, so formatting one
@@ -355,27 +363,36 @@ Nothing yet guards the Renovate annotation.
 
 ## The website
 
-[kanso-labs.github.io/home-assistant-applications](https://kanso-labs.github.io/home-assistant-applications/)
-is built by `.github/scripts/build-pages.sh` and published by
+[home-assistant.kansolabs.org](https://home-assistant.kansolabs.org/) is a React
+Router SPA in `docs/`, built with
+[`@kanso-labs/kanso-ui`](https://kanso-ui.kansolabs.org/) and published by
 `.github/workflows/deploy-pages.yaml` on every push to `main`. Pull requests
-build it without publishing, so a generator that has stopped working is caught
-while it is still someone's branch.
+build it without publishing, so a build that has stopped working is caught while
+it is still someone's branch.
 
-**Nothing about the site is built here.** No generated HTML is in the tree — the
-script assembles `_site/` at deploy time and that is uploaded straight to Pages.
-`_site/` is git-ignored. Do not add a checked-in copy; it would be one more
-thing to keep in step, which is the problem this arrangement exists to avoid.
+`.github/scripts/build-pages.sh` is the whole deploy: it runs the app's own
+build and assembles `_site/` from it. `docs/README.md` covers running the site
+locally; the rest of this section is what someone changing an application needs
+to know.
 
-`docs/CNAME` is the one committed file the site left behind, and it is a
-leftover rather than part of the build. It declares
-`home-assistant.kansolabs.org` for the branch-based Pages build that preceded
-this workflow. An Actions deployment reads the custom domain from the Pages
-configuration and never sees the file, since it is not part of `_site/`, so
-deleting it changes nothing today — and re-picking a branch source in the UI
-would rewrite it anyway. Leave it be.
+**The site is themed to Home Assistant, through tokens alone.**
+`docs/app/styles/theme.css` overrides `--kui-*` custom properties at `:root` —
+Home Assistant's blue, its Figtree and Instrument Sans, and its dark theme's
+greys. It styles no component, and Material's shape, spacing and type scale are
+untouched. Retinting the site is editing that one file; every text pair in it
+was checked against WCAG AA in both schemes, so changing a colour means
+rechecking the pairs it appears in.
+
+**Nothing about the site is built here.** No bundle, no HTML, and no generated
+data is in the tree — `_site/`, `docs/build/`, `docs/app/generated/` and
+`docs/public/icons/` are all git-ignored and rebuilt on every run. Do not add a
+checked-in copy; it would be one more thing to keep in step, which is the
+problem this arrangement exists to avoid.
 
 **Every fact on the page is read from the applications themselves**, so the page
-cannot describe something the repository does not ship:
+cannot describe something the repository does not ship.
+`docs/scripts/generate-catalogue.mjs` runs ahead of `dev` and `build`, reads
+every `*/config.yaml`, and writes the catalogue the page renders:
 
 | On a card   | Read from                                            |
 | ----------- | ---------------------------------------------------- |
@@ -395,6 +412,31 @@ applications table is written rather than generated. Nothing checks it, so a
 change to what an application is or how it is reached means editing that row in
 the same pull request. The page and the README are the two places a reader meets
 an application before installing it, and only one of them keeps itself honest.
+
+**The site is built for wherever Pages serves it.** `SITE_BASE` sets both Vite's
+`base` and the router's `basename`, and the workflow passes whatever
+`actions/configure-pages` reports — empty at the custom domain,
+`/home-assistant-applications` at the project domain. One tree works at either,
+and `SITE_BASE=/home-assistant-applications ./.github/scripts/build-pages.sh`
+checks the subpath case by hand. Hard-coding absolute `/assets/…` anywhere would
+break the project domain silently.
+
+`docs/CNAME` predates all of this and is a leftover rather than part of the app.
+It declares `home-assistant.kansolabs.org` for the branch-based Pages build that
+preceded this workflow. An Actions deployment reads the custom domain from the
+Pages configuration, so the file changes nothing today — but the build script
+copies it into `_site/` anyway, because Pages serves whatever the workflow
+uploads and a CNAME that only exists in the repository would not be applied if
+the configuration were ever lost. Leave it be.
+
+**`docs/` holds an application in the npm sense, so the repository conventions
+apply to it.** Dependencies are pinned exactly, `.tool-versions` pins the Node
+that CI and a laptop both resolve, and Renovate opens the bumps. Those bumps
+release nothing, because `docs/` is not a release-please package — see Releases.
+
+**Prettier formats the site's TypeScript and CSS too**, not just the YAML, JSON
+and Markdown it formats elsewhere here. `npx prettier --write .` from the
+repository root covers it, and `Check formatting` runs the same check.
 
 ## Commits and pull requests
 
@@ -495,6 +537,28 @@ long as nobody thought to look. Building from a workflow removes that particular
 failure — there is no branch path left to go missing — but the shape is worth
 keeping in mind: what Pages is set to serve lives in repository settings, and
 nothing in the tree tells you it is there.
+
+**kanso-ui components drop `className` and `style`.** Every component spreads
+the props you passed and then spreads StyleX's output over the top, and StyleX's
+output carries both keys — so a `className` handed to `Text`, `Card`, `AppBar`
+or any other component silently does not arrive. Nothing warns. Put layout on a
+wrapper element the page owns instead, which is why `docs/app/routes/home.tsx`
+never styles a component directly.
+
+**kanso-ui ships no `box-sizing` and no reset.** Its components are
+`content-box`, so padding and border are added to whatever width they are given
+— a `Card` in the library's own `Feed` overflows its grid cell by exactly its
+padding and border. `docs/app/styles/layout.css` carries the usual global
+border-box reset for that reason. The React Router template had one by way of
+Tailwind's preflight; removing Tailwind took it with it.
+
+**The stylesheet kanso-ui needs is not the one its README names.** The compiled
+rules live at `dist/assets/stylex.css`, which the package neither exports nor
+imports from any module, so components arrive unstyled despite the README saying
+no setup is needed. `docs/vite.config.ts` aliases the documented
+`@kanso-labs/kanso-ui/styles.css` specifier onto the real file. Delete the alias
+once the package exports it, and not before — without it the page renders as
+unstyled HTML, which looks like a build failure rather than a missing import.
 
 **Nothing enforces the commit conventions.** There is no commitlint in this
 repository — no configuration, no dependency, no hook — and nothing reads the

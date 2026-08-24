@@ -1,0 +1,12 @@
+.DS_Store
+.env
+/node_modules/
+
+# React Router
+/.react-router/
+/build/
+
+# Rebuilt from each application's config.yaml by `npm run dev` and
+# `npm run build`. Nothing generated is committed — see AGENTS.md.
+/app/generated/
+/public/icons/

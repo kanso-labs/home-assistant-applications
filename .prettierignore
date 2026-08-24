@@ -2,3 +2,15 @@
 # until the next release rewrites it, and release-please reads these files back
 # to work out where the next entry goes, so reformatting is churn at best.
 */CHANGELOG.md
+
+# The site's build output and the catalogue generated from each application's
+# config.yaml. Both are rebuilt by `npm --prefix docs run build` and neither is
+# committed; docs/.gitignore keeps them out of git, which Prettier does not read
+# from a subdirectory.
+docs/.react-router/
+docs/app/generated/
+docs/build/
+docs/public/icons/
+
+# npm owns this file's formatting, and rewrites it on every install.
+docs/package-lock.json
