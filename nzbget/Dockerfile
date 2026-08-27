@@ -8,7 +8,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ARG BUILD_ARCH=amd64
 ARG BUILD_VERSION=dev
 # renovate: datasource=github-releases depName=nzbgetcom/nzbget
-ARG NZBGET_VERSION=26.2
+ARG NZBGET_VERSION=26.3
 
 # Install requirements for application
 RUN \
