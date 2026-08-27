@@ -556,39 +556,14 @@ failure — there is no branch path left to go missing — but the shape is wort
 keeping in mind: what Pages is set to serve lives in repository settings, and
 nothing in the tree tells you it is there.
 
-**kanso-ui components drop `className` and `style`.** Every component spreads
-the props you passed and then spreads StyleX's output over the top, and StyleX's
-output carries both keys — so a `className` handed to `Text`, `Card`, `AppBar`
-or any other component silently does not arrive. Nothing warns. Put layout on a
-wrapper element the page owns instead, which is why `docs/app/routes/home.tsx`
-never styles a component directly.
-
-**kanso-ui ships no `box-sizing` and no reset.** Its components are
-`content-box`, so padding and border are added to whatever width they are given
-— a `Card` in the library's own `Feed` overflows its grid cell by exactly its
-padding and border. `docs/app/styles/layout.css` carries the usual global
-border-box reset for that reason. The React Router template had one by way of
-Tailwind's preflight; removing Tailwind took it with it.
-
-**kanso-ui's stylesheet has to be bundled into the SSR build.** Its entry does
-`import './styles.css'` for the side effect, and Vite leaves a dependency
-external when it builds for the server — so the prerender that writes
-`index.html` hands that specifier to Node, which cannot load a `.css` file and
-fails the build with an opaque 500. `docs/vite.config.ts` sets `ssr.noExternal`
-for the package, which puts the import back through Vite's pipeline and into the
-emitted stylesheet.
-
-**The exports map is the authority on where that stylesheet is, and aliasing
-around it broke Pages for nineteen consecutive runs.** kanso-ui 0.8.0 shipped
-its compiled StyleX rules at `dist/assets/stylex.css` and exported no path for
-them, so `vite.config.ts` resolved the documented
-`@kanso-labs/kanso-ui/styles.css` specifier onto that file by hand. 0.8.2 moved
-the file to `dist/styles.css` and added the `./styles.css` export — and the
-alias, still overriding the now-correct map, pinned resolution to a path that
-had stopped existing. Every push to `main` failed from that bump onward, and the
-error named a file nobody had written in the repository. Read the installed
-package's `exports` before reaching for an alias, and delete a workaround in the
-same change that makes it unnecessary.
+**kanso-ui's entry imports its own stylesheet, which SSR has to be told about.**
+The package delivers its compiled CSS by importing it from `dist/index.js`, so
+components arrive styled with nothing to import by hand. Left external to the
+server build, that import reaches Node as a bare `.css` while React Router
+prerenders the SPA's fallback HTML, and the build fails there rather than in the
+browser. `docs/vite.config.ts` lists the package under `ssr.noExternal` for that
+reason, and removing the line breaks `npm run build` while leaving `dev`
+working.
 
 **Nothing enforces the commit conventions.** There is no commitlint in this
 repository — no configuration, no dependency, no hook — and nothing reads the

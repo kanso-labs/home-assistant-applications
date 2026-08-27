@@ -55,9 +55,31 @@ hand:
 SITE_BASE=/home-assistant-applications ./.github/scripts/build-pages.sh
 ```
 
+## Theming
+
+`app/styles/theme.css` is the whole of it: `--kui-*` overrides at `:root`,
+carrying Home Assistant's palette and its two faces. Nothing there styles a
+component — it retints and resets the type of all of them at once, which is what
+kanso-ui's token contract is for. Material's shape, spacing and type scale are
+left alone; only the colours and faces filling them change.
+
+The values are sampled from [home-assistant.io](https://www.home-assistant.io/):
+its blue, its Figtree and Instrument Sans, and its heavy headings. The dark
+scheme follows Home Assistant's own frontend dark theme, since the marketing
+site has none to copy. Every text pair was checked against WCAG AA in both
+schemes, which is why the blue is a shade darker than the site's own.
+
+Overrides have to sit at `:root` — kanso-ui resolves tokens once, at the root,
+so the same declarations on a wrapper would not reach a component.
+
 ## What is hand-written
 
-The library plus a little layout CSS, and no more than that.
-`app/styles/layout.css` holds page width, section rhythm, and the few rows and
-columns kanso-ui has no primitive for — it styles no component. Everything with
-a look of its own is a kanso-ui component, at its default tokens.
+The library, the theme above, and what is left of `app/styles/layout.css` — no
+more than that. `Container` carries the page measure and gutter, `Stack` carries
+every gap, and `AppBar` is told the same measure and gutter so a full-bleed bar
+lines its headline up with the content beneath it.
+
+What remains in `layout.css` is the handful of things a layout primitive has no
+opinion about: the rhythm between the page's regions, a prose measure in `ch`,
+and two rules that answer to their contents rather than to the grid. It styles
+no component.

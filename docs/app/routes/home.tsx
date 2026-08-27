@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   Code,
+  Container,
   CopyField,
   Feed,
   IconButton,
@@ -11,6 +12,7 @@ import {
   Link,
   ProductIcon,
   Separator,
+  Stack,
   Text,
 } from '@kanso-labs/kanso-ui'
 import { useEffect, useState } from 'react'
@@ -20,6 +22,12 @@ import { type Access, applications } from '../generated/applications'
 const repository = 'https://github.com/kanso-labs/home-assistant-applications'
 
 const addRepository = `https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=${encodeURIComponent(repository)}`
+
+// The page's measure and gutter. The app bar is told both, so its headline
+// lands over the content beneath it while its surface still paints edge to
+// edge.
+const MEASURE = '1100px'
+const GUTTER = '24px'
 
 // M3 separates a bar from the content scrolled beneath it with a fill rather
 // than a shadow, and AppBar's `scrolled` is controlled — only the app knows
@@ -60,41 +68,60 @@ function accessTone(kind: Access['kind']) {
   return kind === 'ingress' ? 'primary' : 'neutral'
 }
 
+function PackagingNote({
+  children,
+  title,
+}: {
+  children: React.ReactNode
+  title: string
+}) {
+  return (
+    <Card variant="filled">
+      <Stack gap="sm">
+        <Text render={<h3 />} variant="titleMedium">
+          {title}
+        </Text>
+        <Text block tone="muted" variant="bodyMedium">
+          {children}
+        </Text>
+      </Stack>
+    </Card>
+  )
+}
+
 export default function Home() {
   const scrolled = useScrolled()
 
   return (
     <>
-      <div className="bar">
-        <AppBar
-          headline="A media stack your Home Assistant can install."
-          scrolled={scrolled}
-          size="large"
-          subtitle="Home Assistant applications, built for aarch64 and amd64"
-          trailing={
-            <IconButton
-              aria-label="View this repository on GitHub"
-              nativeButton={false}
-              render={<a href={repository} rel="noreferrer" target="_blank" />}
-            >
-              <GitHubMark />
-            </IconButton>
-          }
-        />
-      </div>
+      <AppBar
+        contentInset={GUTTER}
+        contentMaxInlineSize={MEASURE}
+        headline="A media stack your Home Assistant can install."
+        scrolled={scrolled}
+        size="large"
+        subtitle="Home Assistant applications, built for aarch64 and amd64"
+        trailing={
+          <IconButton
+            aria-label="View this repository on GitHub"
+            nativeButton={false}
+            render={<a href={repository} rel="noreferrer" target="_blank" />}
+          >
+            <GitHubMark />
+          </IconButton>
+        }
+      />
 
-      <main>
-        <div className="shell hero">
-          <div className="hero__lede">
-            <Text tone="muted" variant="bodyLarge">
-              A media, download and automation stack, packaged as Home Assistant
-              applications — add-ons, if your Home Assistant still calls them
-              that. Each one follows its upstream project's releases without
-              anyone having to remember to check.
-            </Text>
-          </div>
+      <Container maxInlineSize={MEASURE} render={<main />}>
+        <Stack className="hero" gap="xl">
+          <Text block className="measure" tone="muted" variant="bodyLarge">
+            A media, download and automation stack, packaged as Home Assistant
+            applications — add-ons, if your Home Assistant still calls them
+            that. Each one follows its upstream project's releases without
+            anyone having to remember to check.
+          </Text>
 
-          <div className="hero__actions">
+          <Stack align="center" direction="row" gap="md" wrap>
             <Button
               nativeButton={false}
               render={
@@ -105,42 +132,42 @@ export default function Home() {
               Add to Home Assistant
             </Button>
 
-            <div className="hero__copy">
-              <CopyField aria-label="Repository URL" value={repository} />
-            </div>
-          </div>
+            <CopyField
+              aria-label="Repository URL"
+              className="hero__copy"
+              value={repository}
+            />
+          </Stack>
 
-          <div className="hero__note">
-            <Text tone="muted" variant="bodySmall">
-              The button works if you use My Home Assistant. Otherwise paste the
-              URL under{' '}
-              <span className="keys">
-                <Keycap>Settings</Keycap>
-                <span aria-hidden="true">→</span>
-                <Keycap>Add-ons</Keycap>
-                <span aria-hidden="true">→</span>
-                <Keycap>Add-on store</Keycap>
-                <span aria-hidden="true">→</span>
-                <Keycap>⋮</Keycap>
-                <span aria-hidden="true">→</span>
-                <Keycap>Repositories</Keycap>
-              </span>
-              .
-            </Text>
-          </div>
-        </div>
+          <Text block className="measure" tone="muted" variant="bodySmall">
+            The button works if you use My Home Assistant. Otherwise paste the
+            URL under{' '}
+            <span className="keys">
+              <Keycap>Settings</Keycap>
+              <span aria-hidden="true">→</span>
+              <Keycap>Add-ons</Keycap>
+              <span aria-hidden="true">→</span>
+              <Keycap>Add-on store</Keycap>
+              <span aria-hidden="true">→</span>
+              <Keycap>⋮</Keycap>
+              <span aria-hidden="true">→</span>
+              <Keycap>Repositories</Keycap>
+            </span>
+            .
+          </Text>
+        </Stack>
 
         <Separator />
 
-        <section className="shell section">
-          <div className="section-head">
+        <Stack className="section" gap="xl" render={<section />}>
+          <Stack gap="xs">
             <Text render={<h2 />} variant="headlineSmall">
               Applications
             </Text>
-            <Text tone="muted" variant="bodyMedium">
+            <Text block tone="muted" variant="bodyMedium">
               {applications.length} applications, each installable on its own.
             </Text>
-          </div>
+          </Stack>
 
           <Feed minItemWidth="260px">
             {applications.map((application) => (
@@ -152,8 +179,8 @@ export default function Home() {
                 }
                 variant="elevated"
               >
-                <div className="card-body">
-                  <div className="card-head">
+                <Stack className="card-body" gap="md">
+                  <Stack align="center" direction="row" gap="md">
                     <ProductIcon
                       name={application.name}
                       src={`${import.meta.env.BASE_URL}${application.icon}`}
@@ -161,145 +188,112 @@ export default function Home() {
                     <Text render={<h3 />} variant="titleMedium">
                       {application.name}
                     </Text>
-                  </div>
+                  </Stack>
 
-                  <Text tone="muted" variant="bodySmall">
+                  <Text block tone="muted" variant="bodySmall">
                     {application.tagline}
                   </Text>
 
-                  <div className="card-foot">
+                  <Stack align="start" className="card-foot" gap="none">
                     <Badge
                       tone={accessTone(application.access.kind)}
                       variant="outlined"
                     >
                       {application.access.label}
                     </Badge>
-                  </div>
-                </div>
+                  </Stack>
+                </Stack>
               </Card>
             ))}
           </Feed>
-        </section>
+        </Stack>
 
         <Separator />
 
-        <section className="shell section">
-          <div className="section-head">
-            <Text render={<h2 />} variant="headlineSmall">
-              How these are packaged
-            </Text>
-          </div>
+        <Stack className="section" gap="xl" render={<section />}>
+          <Text render={<h2 />} variant="headlineSmall">
+            How these are packaged
+          </Text>
 
           <Feed minItemWidth="360px">
-            <Card variant="filled">
-              <div className="note-body">
-                <Text render={<h3 />} variant="titleMedium">
-                  Two architectures, one image name
-                </Text>
-                <Text tone="muted" variant="bodyMedium">
-                  Each application publishes a multi-architecture image to{' '}
-                  <Code>
-                    ghcr.io/kanso-labs/home-assistant-application-&lt;slug&gt;
-                  </Code>
-                  , covering aarch64 and amd64.
-                </Text>
-              </div>
-            </Card>
+            <PackagingNote title="Two architectures, one image name">
+              Each application publishes a multi-architecture image to{' '}
+              <Code>
+                ghcr.io/kanso-labs/home-assistant-application-&lt;slug&gt;
+              </Code>
+              , covering aarch64 and amd64.
+            </PackagingNote>
 
-            <Card variant="filled">
-              <div className="note-body">
-                <Text render={<h3 />} variant="titleMedium">
-                  As little mapped as possible
-                </Text>
-                <Text tone="muted" variant="bodyMedium">
-                  An application is given write access only where it actually
-                  writes. Radarr and Sonarr get <Code>/media</Code> and{' '}
-                  <Code>/share</Code>, because moving and renaming files is
-                  their job. Prowlarr manages indexer definitions and gets
-                  neither, even though its upstream packaging maps both.
-                </Text>
-              </div>
-            </Card>
+            <PackagingNote title="As little mapped as possible">
+              An application is given write access only where it actually
+              writes. Radarr and Sonarr get <Code>/media</Code> and{' '}
+              <Code>/share</Code>, because moving and renaming files is their
+              job. Prowlarr manages indexer definitions and gets neither, even
+              though its upstream packaging maps both.
+            </PackagingNote>
 
-            <Card variant="filled">
-              <div className="note-body">
-                <Text render={<h3 />} variant="titleMedium">
-                  Cold backups where the state is a database
-                </Text>
-                <Text tone="muted" variant="bodyMedium">
-                  Most of these keep their settings in SQLite, so Home Assistant
-                  stops them for the duration of a backup. Copying a database
-                  while it is being written produces a backup that will not
-                  restore.
-                </Text>
-              </div>
-            </Card>
+            <PackagingNote title="Cold backups where the state is a database">
+              Most of these keep their settings in SQLite, so Home Assistant
+              stops them for the duration of a backup. Copying a database while
+              it is being written produces a backup that will not restore.
+            </PackagingNote>
 
-            <Card variant="filled">
-              <div className="note-body">
-                <Text render={<h3 />} variant="titleMedium">
-                  Updates that arrive
-                </Text>
-                <Text tone="muted" variant="bodyMedium">
-                  Renovate watches each upstream project's releases,
-                  release-please cuts a version, and Home Assistant offers the
-                  update. The arr applications' own updaters are switched off
-                  deliberately — they would announce a new version and then
-                  refuse to install it — so this packaging is the one route in.
-                </Text>
-              </div>
-            </Card>
+            <PackagingNote title="Updates that arrive">
+              Renovate watches each upstream project's releases, release-please
+              cuts a version, and Home Assistant offers the update. The arr
+              applications' own updaters are switched off deliberately — they
+              would announce a new version and then refuse to install it — so
+              this packaging is the one route in.
+            </PackagingNote>
           </Feed>
-        </section>
+        </Stack>
 
         <Separator />
-      </main>
 
-      <footer className="shell footer stack">
-        <ul className="footer__links">
-          <li>
-            <Link href={repository} tone="inherit" underline="hover">
-              Repository
-            </Link>
-          </li>
-          <li>
-            <Link
-              href={`${repository}/blob/main/CONTRIBUTING.md`}
-              tone="inherit"
-              underline="hover"
-            >
-              Contributing
-            </Link>
-          </li>
-          <li>
-            <Link
-              href={`${repository}/issues`}
-              tone="inherit"
-              underline="hover"
-            >
-              Issues
-            </Link>
-          </li>
-          <li>
-            <Link
-              href={`${repository}/blob/main/LICENSE.md`}
-              tone="inherit"
-              underline="hover"
-            >
-              Licence
-            </Link>
-          </li>
-        </ul>
+        <Stack className="footer" gap="lg" render={<footer />}>
+          <Stack direction="row" gap="lg" render={<ul />} wrap>
+            <li>
+              <Link href={repository} tone="inherit" underline="hover">
+                Repository
+              </Link>
+            </li>
+            <li>
+              <Link
+                href={`${repository}/blob/main/CONTRIBUTING.md`}
+                tone="inherit"
+                underline="hover"
+              >
+                Contributing
+              </Link>
+            </li>
+            <li>
+              <Link
+                href={`${repository}/issues`}
+                tone="inherit"
+                underline="hover"
+              >
+                Issues
+              </Link>
+            </li>
+            <li>
+              <Link
+                href={`${repository}/blob/main/LICENSE.md`}
+                tone="inherit"
+                underline="hover"
+              >
+                Licence
+              </Link>
+            </li>
+          </Stack>
 
-        <div className="footer__colophon">
-          <Text tone="muted" variant="bodySmall">
+          <Text block className="measure" tone="muted" variant="bodySmall">
             This packaging is MIT licensed. The applications it packages keep
             their own terms — mostly GPLv3 or MIT, with Plex Media Server
             proprietary and used under Plex's. Each application's docs record
             its licence and credit the packaging it was ported from.
           </Text>
-        </div>
-      </footer>
+        </Stack>
+      </Container>
     </>
   )
 }
