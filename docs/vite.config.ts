@@ -7,13 +7,12 @@ export default defineConfig({
   resolve: {
     tsconfigPaths: true,
   },
-  // kanso-ui's entry does `import './styles.css'` for its side effect, and Vite
-  // leaves a dependency external in the SSR build — so the prerender that
-  // produces index.html would hand that specifier to Node, which cannot load a
-  // .css file and fails the whole build. Bundling the library into the SSR
-  // build instead puts the import back through Vite's pipeline, where it
-  // becomes part of the emitted stylesheet.
   ssr: {
+    // kanso-ui's entry imports its own compiled stylesheet, which is what makes
+    // components arrive styled without the consumer importing anything. Left
+    // external, that import reaches Node as a bare `.css` while the SPA's
+    // fallback HTML is prerendered, and Node has no loader for it. Bundling the
+    // package through Vite lets its own CSS pipeline handle the import.
     noExternal: ['@kanso-labs/kanso-ui'],
   },
 })
