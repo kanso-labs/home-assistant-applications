@@ -552,13 +552,25 @@ padding and border. `docs/app/styles/layout.css` carries the usual global
 border-box reset for that reason. The React Router template had one by way of
 Tailwind's preflight; removing Tailwind took it with it.
 
-**The stylesheet kanso-ui needs is not the one its README names.** The compiled
-rules live at `dist/assets/stylex.css`, which the package neither exports nor
-imports from any module, so components arrive unstyled despite the README saying
-no setup is needed. `docs/vite.config.ts` aliases the documented
-`@kanso-labs/kanso-ui/styles.css` specifier onto the real file. Delete the alias
-once the package exports it, and not before — without it the page renders as
-unstyled HTML, which looks like a build failure rather than a missing import.
+**kanso-ui's stylesheet has to be bundled into the SSR build.** Its entry does
+`import './styles.css'` for the side effect, and Vite leaves a dependency
+external when it builds for the server — so the prerender that writes
+`index.html` hands that specifier to Node, which cannot load a `.css` file and
+fails the build with an opaque 500. `docs/vite.config.ts` sets `ssr.noExternal`
+for the package, which puts the import back through Vite's pipeline and into the
+emitted stylesheet.
+
+**The exports map is the authority on where that stylesheet is, and aliasing
+around it broke Pages for nineteen consecutive runs.** kanso-ui 0.8.0 shipped
+its compiled StyleX rules at `dist/assets/stylex.css` and exported no path for
+them, so `vite.config.ts` resolved the documented
+`@kanso-labs/kanso-ui/styles.css` specifier onto that file by hand. 0.8.2 moved
+the file to `dist/styles.css` and added the `./styles.css` export — and the
+alias, still overriding the now-correct map, pinned resolution to a path that
+had stopped existing. Every push to `main` failed from that bump onward, and the
+error named a file nobody had written in the repository. Read the installed
+package's `exports` before reaching for an alias, and delete a workaround in the
+same change that makes it unnecessary.
 
 **Nothing enforces the commit conventions.** There is no commitlint in this
 repository — no configuration, no dependency, no hook — and nothing reads the
