@@ -353,6 +353,24 @@ updates, and nobody notices until someone checks.
 for the registrations in step 6. It runs in CI as `Verify release wiring`.
 Nothing yet guards the Renovate annotation.
 
+### Asking Renovate to redo a pull request
+
+`@renovate rebase` on one of its pull requests works here, the way
+`@dependabot rebase` does elsewhere. `retry`, `recreate` and `run` are accepted
+too, and the first three are one command under three names.
+
+Renovate itself has no comment commands — it reads a checkbox in the pull
+request body on its next scheduled run, which is up to three hours away.
+`.github/workflows/renovate-command.yaml` closes both halves of that gap by
+calling the shared workflow in
+[`kanso-labs/github-actions`](https://github.com/kanso-labs/github-actions),
+which ticks the box and then dispatches the runner in `kanso-labs/renovate`. The
+bot reacts as it goes: 👀 accepted, 🚀 dispatched, 😕 refused.
+
+The commands need write access to this repository, and only work on pull
+requests Renovate opened — anything else has no checkbox to tick, and the run
+fails rather than pretending otherwise.
+
 ## The website
 
 [kanso-labs.github.io/home-assistant-applications](https://kanso-labs.github.io/home-assistant-applications/)
