@@ -25,5 +25,5 @@ ports_description:
   8080/tcp: Web interface
 slug: qbittorrent
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/qbittorrent'
-version: '1.2.0' # x-release-please-version
+version: '1.2.1' # x-release-please-version
 webui: 'http://[HOST]:[PORT:8080]'

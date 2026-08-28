@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2](https://github.com/kanso-labs/home-assistant-applications/compare/prowlarr-v1.1.1...prowlarr-v1.1.2) (2026-08-28)
+
+
+### Bug Fixes
+
+* **prowlarr:** use the app_config map type Supervisor expects ([#233](https://github.com/kanso-labs/home-assistant-applications/issues/233)) ([6fcb830](https://github.com/kanso-labs/home-assistant-applications/commit/6fcb8304d9e97321de41aa142d20c1b788140cf1))
+
 ## [1.1.1](https://github.com/kanso-labs/home-assistant-applications/compare/prowlarr-v1.1.0...prowlarr-v1.1.1) (2026-08-13)
 
 

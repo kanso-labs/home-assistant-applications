@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.2](https://github.com/kanso-labs/home-assistant-applications/compare/plex-media-server-v1.4.1...plex-media-server-v1.4.2) (2026-08-28)
+
+
+### Bug Fixes
+
+* **plex-media-server:** use the app_config map type Supervisor expects ([#232](https://github.com/kanso-labs/home-assistant-applications/issues/232)) ([43e56ba](https://github.com/kanso-labs/home-assistant-applications/commit/43e56ba4787f7e693436a8247cdc8fd38b19c928))
+
 ## [1.4.1](https://github.com/kanso-labs/home-assistant-applications/compare/plex-media-server-v1.4.0...plex-media-server-v1.4.1) (2026-08-20)
 
 

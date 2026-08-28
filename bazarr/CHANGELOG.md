@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.3](https://github.com/kanso-labs/home-assistant-applications/compare/bazarr-v1.1.2...bazarr-v1.1.3) (2026-08-28)
+
+
+### Bug Fixes
+
+* **bazarr:** use the app_config map type Supervisor expects ([#228](https://github.com/kanso-labs/home-assistant-applications/issues/228)) ([427cefc](https://github.com/kanso-labs/home-assistant-applications/commit/427cefc1e12ec99b3c85ee2a4eaca3a9f8f60908))
+
 ## [1.1.2](https://github.com/kanso-labs/home-assistant-applications/compare/bazarr-v1.1.1...bazarr-v1.1.2) (2026-08-13)
 
 
