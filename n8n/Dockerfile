@@ -2,8 +2,13 @@
 ARG BUILD_FROM=ghcr.io/home-assistant/base-ubuntu:26.04
 FROM ${BUILD_FROM}
 
+# Set shell
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 ARG BUILD_ARCH=amd64
 ARG BUILD_VERSION=dev
+# renovate: datasource=github-releases depName=jdx/mise
+ARG MISE_VERSION=2026.8.14
 
 # Install requirements for application
 RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
@@ -19,7 +24,8 @@ RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
   && rm -rf /var/lib/apt/lists/*
 
 # Install mise
-RUN curl -L -f --retry 8 --retry-all-errors --retry-max-time 180 https://mise.run | sh
+RUN curl -L -f --retry 8 --retry-all-errors --retry-max-time 180 https://mise.run \
+  | MISE_VERSION="${MISE_VERSION}" sh
 ENV PATH="/root/.local/bin:$PATH"
 
 # Copy root filesystem
@@ -38,6 +44,6 @@ EXPOSE 5678
 
 LABEL \
     org.opencontainers.image.title="Home Assistant Application: n8n" \
-    org.opencontainers.image.description="Flexible AI workflow automation for technical teams. Build with the precision of code or the speed of drag-n-drop. Host with on-prem control or in-the-cloud convenience. n8n gives you more freedom to implement multi-step AI agents and integrate apps than any other tool." \
+    org.opencontainers.image.description="Flexible AI workflow automation for technical teams." \
     org.opencontainers.image.source="https://github.com/kanso-labs/home-assistant-applications" \
     org.opencontainers.image.licenses="MIT"
