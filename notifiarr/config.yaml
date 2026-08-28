@@ -19,8 +19,6 @@ options:
   api_key: ''
 ports:
   5454/tcp: 5454
-ports_description:
-  5454/tcp: Web interface
 schema:
   api_key: password?
 slug: notifiarr

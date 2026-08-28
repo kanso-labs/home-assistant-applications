@@ -14,8 +14,6 @@ options:
   log_level: info
 ports:
   8191/tcp: 8191
-ports_description:
-  8191/tcp: API endpoint
 schema:
   log_level: list(error|warning|info|debug)
 slug: flaresolverr

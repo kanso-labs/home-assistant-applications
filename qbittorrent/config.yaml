@@ -19,10 +19,6 @@ ports:
   6881/tcp: 6881
   6881/udp: 6881
   8080/tcp: 8080
-ports_description:
-  6881/tcp: Peer connections
-  6881/udp: Peer connections and DHT
-  8080/tcp: Web interface
 slug: qbittorrent
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/qbittorrent'
 version: '1.2.1' # x-release-please-version

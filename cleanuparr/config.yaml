@@ -20,8 +20,6 @@ map:
 name: Cleanuparr
 ports:
   11011/tcp: 11011
-ports_description:
-  11011/tcp: Web interface
 slug: cleanuparr
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/cleanuparr'
 version: '1.2.1' # x-release-please-version

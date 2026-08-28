@@ -42,15 +42,6 @@ ports:
   32414/udp: 32414
   32469/tcp: 32469
   8324/tcp: 8324
-ports_description:
-  3005/tcp: Plex Companion, for controlling playback from another device
-  32400/tcp: Web interface and API
-  32410/udp: Discovery on the local network
-  32412/udp: Discovery on the local network
-  32413/udp: Discovery on the local network
-  32414/udp: Discovery on the local network
-  32469/tcp: DLNA server
-  8324/tcp: Plex Companion, on the separate port Plex for Roku uses
 schema:
   advertise_addresses:
     - str
