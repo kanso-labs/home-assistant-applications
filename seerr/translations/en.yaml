@@ -1,0 +1,2 @@
+network:
+  5055/tcp: The port the Seerr web interface listens on.
