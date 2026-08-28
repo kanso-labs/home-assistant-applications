@@ -585,11 +585,18 @@ releases both, at whatever bump its single title implies — there is no way to
 say `feat` for one and `fix` for the other. Keeping a pull request to one
 application is what keeps changelogs clean.
 
-**The linter is behind Supervisor.** Supervisor deprecated `addon_config` for
-`app_config` in 2026.07, but `frenck/action-addon-linter` only accepts the old
-spelling and has had no release since 2025-11. Home Assistant's own apps-example
-runs the same linter. Use `addon_config` and leave the comment explaining why.
-Validate against the linter's schema locally rather than discovering this in CI.
+**The linter can be months behind Supervisor, and the wait is invisible.**
+Supervisor deprecated `addon_config` for `app_config` in 2026.07; the linter
+went on rejecting `app_config` until v2.21.1, nine months after its previous
+release. Every application here carried a comment explaining the workaround for
+as long as that lasted. Nothing announced the end of it — the linter's release
+moved a tag this repository was already pinned to, so no pull request was ever
+opened. Check the linter's own schema when Supervisor changes something, rather
+than waiting to be told.
+
+Both spellings still work, because Supervisor keeps the legacy map types as
+aliases, so nothing breaks on the day it deprecates one. What you get instead is
+a line per application in the Supervisor log, which is easy to never look at.
 
 **Every arr project names its release assets differently.** These cannot be
 copied between applications:
