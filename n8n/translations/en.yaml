@@ -13,3 +13,12 @@ configuration:
   node_function_external_modules:
     description: npm modules that Code nodes are allowed to import.
     name: External modules for Code nodes
+  webhook_url:
+    description: >-
+      The address that reaches this application from outside Home Assistant,
+      such as https://n8n.example.com. n8n shows it when you build a webhook
+      trigger. Leave it empty unless you have published the port and put
+      something in front of it.
+    name: External webhook address
+network:
+  5678/tcp: The port n8n listens on, for reaching it without ingress.

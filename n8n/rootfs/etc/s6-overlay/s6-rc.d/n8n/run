@@ -22,6 +22,15 @@ N8N_SECURE_COOKIE=$(bashio::config 'enable_ssl')
 export GENERIC_TIMEZONE N8N_EDITOR_BASE_URL N8N_LOG_LEVEL N8N_PATH
 export N8N_RUNNERS_ENABLED N8N_SECURE_COOKIE
 
+# n8n derives the URL it shows for production webhooks from N8N_HOST and
+# N8N_PORT, which are the bind address here — so without this it advertises
+# http://0.0.0.0:5678/, which nothing can reach. Set webhook_url to whatever
+# address actually routes to this application from outside.
+if bashio::config.has_value 'webhook_url'; then
+  N8N_WEBHOOK_URL=$(bashio::config 'webhook_url')
+  export N8N_WEBHOOK_URL
+fi
+
 EXT_MODULES=""
 for package in $(bashio::config 'node_function_external_modules'); do
     EXT_MODULES="${EXT_MODULES}${package},"
