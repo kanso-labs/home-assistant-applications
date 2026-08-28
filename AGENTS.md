@@ -598,6 +598,15 @@ Both spellings still work, because Supervisor keeps the legacy map types as
 aliases, so nothing breaks on the day it deprecates one. What you get instead is
 a line per application in the Supervisor log, which is easy to never look at.
 
+**The icon and logo sizes are a target, not a checked one.** The linter does not
+look at either file, and nothing else does either, so an application ships
+whatever it was given. Only Radarr matches both sizes above today. Seven
+applications ship a `logo.png` byte-identical to their `icon.png`, and nine ship
+a square one, which the store then renders in a slot shaped like a banner.
+
+Match the sizes when you add an application, and expect no build to tell you if
+you do not.
+
 **Every arr project names its release assets differently.** These cannot be
 copied between applications:
 

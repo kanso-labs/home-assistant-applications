@@ -36,10 +36,18 @@ it asks Radarr and Sonarr to fetch them, and they do the writing.
 requests in SQLite, and copying that file while it is being written can restore
 into a corrupt database.
 
-## Updating
+## Updates
 
 Version bumps arrive as pull requests against the repository and reach you as an
 application update once released. Seerr's own updater is not used.
+
+## Support
+
+Open an issue on the
+[issue tracker](https://github.com/kanso-labs/home-assistant-applications/issues).
+
+For questions about Seerr itself rather than this packaging, see
+[its own repository](https://github.com/seerr-team/seerr).
 
 ## Credits
 

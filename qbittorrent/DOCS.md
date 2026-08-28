@@ -68,6 +68,11 @@ Backups are taken cold, so Home Assistant stops qBittorrent for the duration.
 Torrent state is written continuously while it runs, and copying it mid-write
 can produce a backup that restores into a broken session.
 
+## Updates
+
+Version bumps arrive as pull requests against the repository and reach you as an
+application update once released. qBittorrent ships no updater of its own.
+
 ## Support
 
 Open an issue on the

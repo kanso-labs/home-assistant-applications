@@ -52,6 +52,11 @@ over their APIs rather than touching their libraries.
 
 Backups are taken cold, so Home Assistant stops Notifiarr for the duration.
 
+## Updates
+
+Version bumps arrive as pull requests against the repository and reach you as an
+application update once released. Notifiarr ships no updater of its own.
+
 ## Support
 
 Open an issue on the

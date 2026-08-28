@@ -60,6 +60,11 @@ Backups are taken cold, so Home Assistant stops NZBGet for the duration. Queue
 state is written continuously while it runs, and copying it mid-write can
 produce a backup that restores into a broken queue.
 
+## Updates
+
+Version bumps arrive as pull requests against the repository and reach you as an
+application update once released. NZBGet's own updater is not used.
+
 ## Support
 
 Open an issue on the
