@@ -47,6 +47,11 @@ failing and you want to see what the browser did.
 None. FlareSolverr keeps no configuration and no database, so no directory is
 mapped and nothing survives a restart. There is nothing to back up.
 
+## Backups
+
+There is nothing to back up. FlareSolverr keeps no state, so no `backup` mode is
+declared and a backup of this application is empty by design.
+
 ## Checking it works
 
 FlareSolverr has no interface. Opening it from Home Assistant shows a short JSON
@@ -67,10 +72,18 @@ curl http://192.168.1.10:8191
 If that answers and Prowlarr still cannot connect, the address in Prowlarr is
 wrong rather than FlareSolverr being down.
 
-## Updating
+## Updates
 
 Version bumps arrive as pull requests against the repository and reach you as an
 application update once released.
+
+## Support
+
+Open an issue on the
+[issue tracker](https://github.com/kanso-labs/home-assistant-applications/issues).
+
+For questions about FlareSolverr itself rather than this packaging, see
+[its own repository](https://github.com/FlareSolverr/FlareSolverr).
 
 ## Credits
 

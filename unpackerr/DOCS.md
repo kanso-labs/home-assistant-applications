@@ -71,6 +71,11 @@ Backups are taken hot, unlike most applications here, so Unpackerr keeps running
 while one is taken. It stores no database — `/config` holds a single text file —
 and stopping it mid-extraction would be the more disruptive choice.
 
+## Updates
+
+Version bumps arrive as pull requests against the repository and reach you as an
+application update once released. Unpackerr ships no updater of its own.
+
 ## Support
 
 Open an issue on the

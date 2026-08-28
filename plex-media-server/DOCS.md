@@ -102,7 +102,7 @@ The render devices under `/dev/dri` are offered to the container, so Plex can
 use them if your hardware and your Plex subscription both support it. Nothing
 breaks when they are absent — Plex falls back to transcoding on the processor.
 
-## Updating
+## Updates
 
 Version bumps arrive as pull requests against the repository and reach you as an
 application update once released.
@@ -110,6 +110,14 @@ application update once released.
 Plex's own updater does not run here. Only its `beta` and `public` images update
 themselves; a version-tagged image has the version built in, which is what makes
 the packaging the single route to a new one.
+
+## Support
+
+Open an issue on the
+[issue tracker](https://github.com/kanso-labs/home-assistant-applications/issues).
+
+For questions about Plex itself rather than this packaging, see
+[Plex support](https://support.plex.tv/).
 
 ## Credits
 
