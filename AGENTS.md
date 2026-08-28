@@ -23,9 +23,9 @@ The authorities, in the order you should trust them:
    to, and record the reason.
 3. **[The apps documentation](https://developers.home-assistant.io/docs/apps)**
    — correct in the large, occasionally behind in the details.
-4. **`frenck/action-addon-linter`** — not an authority, but it is the gate. It
-   has had no release since 2025-11 and rejects things Supervisor accepts. See
-   Traps.
+4. **`frenck/action-app-linter`** — not an authority, but it is the gate. It
+   trails Supervisor, and has rejected values Supervisor documents as current.
+   See Traps.
 
 ## Commands
 
@@ -58,7 +58,11 @@ Shared with the other `kanso-labs` repositories:
 - **Job names and step names are imperative verb phrases.** Job ids, step ids,
   and matrix keys are exempt.
 - **Actions are pinned to exact release tags**, `actions/checkout@v7.0.1`, never
-  a moving major or `@main`. Renovate opens the bump pull requests.
+  `@main` and never a tag the publisher moves — `@v7` and `@v7.0` both move.
+  Renovate opens the bump pull requests, and it has nothing to open when the pin
+  never changes: `frenck/action-app-linter@v2.21` sat still through a repository
+  rename and a release that fixed something this repository was working around,
+  because the tag it named was moved onto both.
 - **Dependency versions are pinned exactly.** Every `dependencies`,
   `devDependencies`, and `optionalDependencies` entry is a bare version,
   `1.2.3`, never `^1.2.3`, `~1.2.3`, `>=1.2.3`, `*`, `1.x`, or an `||` union.
@@ -221,7 +225,7 @@ Every one of these has caught a real failure. Run them.
 you:
 
 ```shell
-gh api repos/frenck/action-addon-linter/contents/src/config.schema.json \
+gh api repos/frenck/action-app-linter/contents/src/config.schema.json \
   --jq '.content' | base64 -D > /tmp/addon.schema.json
 ```
 
