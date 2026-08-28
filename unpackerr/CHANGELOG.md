@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.2](https://github.com/kanso-labs/home-assistant-applications/compare/unpackerr-v1.2.1...unpackerr-v1.2.2) (2026-08-28)
+
+
+### Bug Fixes
+
+* **unpackerr:** use the app_config map type Supervisor expects ([#238](https://github.com/kanso-labs/home-assistant-applications/issues/238)) ([709d82b](https://github.com/kanso-labs/home-assistant-applications/commit/709d82b4bea1c3f079b91e48895c2aeb213f4449))
+
 ## [1.2.1](https://github.com/kanso-labs/home-assistant-applications/compare/unpackerr-v1.2.0...unpackerr-v1.2.1) (2026-08-17)
 
 

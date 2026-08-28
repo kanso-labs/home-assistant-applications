@@ -20,5 +20,5 @@ ports:
   7878/tcp: 7878
 slug: radarr
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/radarr'
-version: '1.1.1' # x-release-please-version
+version: '1.1.2' # x-release-please-version
 webui: 'http://[HOST]:[PORT:7878]'
