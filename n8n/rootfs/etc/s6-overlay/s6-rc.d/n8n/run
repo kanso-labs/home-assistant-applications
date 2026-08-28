@@ -1,0 +1,35 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: n8n
+# Runs n8n
+# ==============================================================================
+
+# Expose n8n locally
+export N8N_PORT=5678
+export N8N_HOST=0.0.0.0
+
+# Ensure data persistence
+export N8N_USER_FOLDER=/data
+
+# Setup integration with Home Assistant
+GENERIC_TIMEZONE=$(bashio::info.timezone)
+N8N_EDITOR_BASE_URL=$(bashio::addon.ingress_url)
+N8N_LOG_LEVEL=$(bashio::config 'log_level')
+N8N_PATH="$(bashio::addon.ingress_entry | sed 's|/*$|/|')"
+N8N_RUNNERS_ENABLED=$(bashio::config 'enable_task_runners')
+N8N_SECURE_COOKIE=$(bashio::config 'enable_ssl')
+export GENERIC_TIMEZONE N8N_EDITOR_BASE_URL N8N_LOG_LEVEL N8N_PATH
+export N8N_RUNNERS_ENABLED N8N_SECURE_COOKIE
+
+EXT_MODULES=""
+for package in $(bashio::config 'node_function_external_modules'); do
+    EXT_MODULES="${EXT_MODULES}${package},"
+done
+export NODE_FUNCTION_ALLOW_EXTERNAL=${EXT_MODULES%,}
+
+bashio::log.info 'Starting n8n...'
+
+cd /usr/src/n8n || bashio::exit.nok 'Could not enter the n8n install directory'
+export PATH="/root/.local/share/mise/shims:${PATH}"
+exec ./node_modules/.bin/n8n start

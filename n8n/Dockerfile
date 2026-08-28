@@ -2,6 +2,9 @@
 ARG BUILD_FROM=ghcr.io/home-assistant/base-ubuntu:26.04
 FROM ${BUILD_FROM}
 
+ARG BUILD_ARCH=amd64
+ARG BUILD_VERSION=dev
+
 # Install requirements for application
 RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
     bash \
