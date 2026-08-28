@@ -13,3 +13,12 @@ configuration:
   node_function_external_modules:
     description: Módulos npm que os nós Code podem importar.
     name: Módulos externos para nós Code
+  webhook_url:
+    description: >-
+      O endereço que alcança esta aplicação de fora do Home Assistant, como
+      https://n8n.example.com. O n8n o exibe quando você monta um gatilho de
+      webhook. Deixe vazio a menos que você tenha publicado a porta e colocado
+      algo na frente dela.
+    name: Endereço externo de webhook
+network:
+  5678/tcp: A porta em que o n8n escuta, para alcançá-lo sem o ingress.

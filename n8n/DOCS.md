@@ -15,16 +15,21 @@ owner account the first time you open it.
 
 ## Configuration
 
-| Option                           | Default | Does                                               |
-| -------------------------------- | ------- | -------------------------------------------------- |
-| `enable_ssl`                     | `false` | Requires n8n's session cookie to travel over HTTPS |
-| `enable_task_runners`            | `false` | Runs Code node tasks in a separate process         |
-| `log_level`                      | `info`  | How much n8n writes to its log                     |
-| `node_function_external_modules` | empty   | npm modules Code nodes are allowed to import       |
+| Option                           | Default | Does                                                |
+| -------------------------------- | ------- | --------------------------------------------------- |
+| `enable_ssl`                     | `false` | Requires n8n's session cookie to travel over HTTPS  |
+| `enable_task_runners`            | `false` | Runs Code node tasks in a separate process          |
+| `log_level`                      | `info`  | How much n8n writes to its log                      |
+| `node_function_external_modules` | empty   | npm modules Code nodes are allowed to import        |
+| `webhook_url`                    | empty   | The external address n8n shows for webhook triggers |
 
 **`enable_ssl` is about the cookie, not about certificates.** Turn it on only
 when you reach Home Assistant over HTTPS. With it on and an HTTP connection, the
 browser will not send the session cookie back and n8n will not let you sign in.
+
+**`webhook_url` does nothing on its own.** It changes the address n8n prints for
+webhook triggers, not what can reach n8n. See "Reaching n8n from outside" for
+the part that does.
 
 **`node_function_external_modules` lists module names, not install commands.**
 The modules must already be present in the image, so this allows what is there
@@ -49,6 +54,37 @@ application's own storage and is reached through the n8n interface.
 `/share` is mapped read-only because n8n never needs to write there. A workflow
 that reads a file from shared storage works; one that writes to it does not, by
 design.
+
+## Reaching n8n from outside
+
+Ingress is the only way in as installed, and it is authenticated — every request
+carries a Home Assistant session cookie that Supervisor checks before the
+request reaches n8n. That is what makes the sidebar work without a second login,
+and it is also why an external service cannot call in.
+
+**Webhook triggers therefore do not work out of the box.** Nothing outside your
+network can reach n8n, and n8n cannot tell that on its own: with no external
+address configured it builds webhook URLs from the address it binds to, and
+shows you `http://0.0.0.0:5678/…`, which resolves nowhere.
+
+Home Assistant Cloud does not change this. Its remote URL is a tunnel to the
+same authenticated frontend, so an ingress path reached that way still answers
+`401` to anything without a session.
+
+To accept webhooks you need two things.
+
+1. **Publish the port.** `5678/tcp` is declared but unmapped, so open
+   **Configuration → Network** and give it a host port. Nothing is published
+   until you do.
+2. **Set the external address.** Put whatever URL routes to that port into
+   `webhook_url`, and n8n will show it instead of its bind address.
+
+**The published port is not authenticated.** Anything that can reach it can
+reach n8n's editor, so put a reverse proxy or a tunnel in front of it rather
+than forwarding it from a router, and terminate TLS there.
+
+Ingress keeps working alongside this. The sidebar stays the comfortable way in
+for you, and the port exists for the machines.
 
 ## Backups
 
