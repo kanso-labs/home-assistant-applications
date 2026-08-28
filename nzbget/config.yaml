@@ -17,8 +17,6 @@ map:
 name: NZBGet
 ports:
   6789/tcp: 6789
-ports_description:
-  6789/tcp: Web interface
 slug: nzbget
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/nzbget'
 version: '1.2.2' # x-release-please-version
