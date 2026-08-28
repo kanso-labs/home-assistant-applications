@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.1.11...n8n-v1.2.0) (2026-08-28)
+
+
+### Features
+
+* **n8n:** let webhooks reach it from outside Home Assistant ([#251](https://github.com/kanso-labs/home-assistant-applications/issues/251)) ([4b46a80](https://github.com/kanso-labs/home-assistant-applications/commit/4b46a8073694bb26a4a923e283ce8f1cf8fd0c43))
+
 ## [1.1.11](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.1.10...n8n-v1.1.11) (2026-08-28)
 
 
