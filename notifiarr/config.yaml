@@ -9,12 +9,8 @@ description:
 image: 'ghcr.io/kanso-labs/home-assistant-application-notifiarr'
 init: false
 map:
-  # Supervisor deprecated `addon_config` for `app_config` in 2026.07, but
-  # frenck/action-addon-linter still only accepts the older spelling and has
-  # had no release since 2025-11. Home Assistant's own apps-example runs the
-  # same linter. Switch this once the linter's schema catches up.
   - read_only: false
-    type: addon_config
+    type: app_config
   # Notifiarr reports free space on the storage it can see, and never writes.
   - read_only: true
     type: share
