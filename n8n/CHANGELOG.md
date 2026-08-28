@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.11](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.1.10...n8n-v1.1.11) (2026-08-28)
+
+
+### Bug Fixes
+
+* **n8n:** align its packaging with the other applications ([#246](https://github.com/kanso-labs/home-assistant-applications/issues/246)) ([5516970](https://github.com/kanso-labs/home-assistant-applications/commit/5516970f9951966c172cb160afd5ce17c7b0ade0))
+* **n8n:** pin mise and make the shell it builds under explicit ([#247](https://github.com/kanso-labs/home-assistant-applications/issues/247)) ([d4e8b4c](https://github.com/kanso-labs/home-assistant-applications/commit/d4e8b4cfcf98ecc6bfd3f357f26a5adec4ea2d2b))
+
 ## [1.1.10](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.1.9...n8n-v1.1.10) (2026-08-28)
 
 
