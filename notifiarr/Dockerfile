@@ -8,7 +8,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ARG BUILD_ARCH=amd64
 ARG BUILD_VERSION=dev
 # renovate: datasource=github-releases depName=Notifiarr/notifiarr
-ARG NOTIFIARR_VERSION=0.9.5
+ARG NOTIFIARR_VERSION=0.9.7
 
 # Install requirements for application.
 # The published binary is statically linked Go, so it runs against musl
