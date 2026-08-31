@@ -52,6 +52,22 @@ Unpackerr after editing.
 application sees. If Unpackerr and Radarr disagree about a path, extraction
 appears to do nothing.
 
+## Extraction limits
+
+From 0.16.0 Unpackerr caps what it will unpack, and the caps are on by default:
+20GB uncompressed for Sonarr, 75GB for Radarr, 4GB for Lidarr, 1GB for Readarr,
+plus a fixed 1000 files, 5:1 compression ratio and 8 nested archives for all of
+them. Hitting a cap fails that item without retrying. The startup log prints the
+whole set, so what is in force is never a guess.
+
+Raise or remove the byte cap with `max_bytes` in the relevant block — a size
+such as `"100G"`, or `0` for no limit. The file-count, ratio and nesting caps
+are not tunable.
+
+Leftovers from an extract that was interrupted are renamed to `*.remnant` and
+the extract retried, which is `remnant_action = "rename"` in what gets seeded.
+Set it to `off` to fail instead.
+
 ## Storage
 
 | Path      | Access     | Holds                                 |
