@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.3](https://github.com/kanso-labs/home-assistant-applications/compare/unpackerr-v1.2.2...unpackerr-v1.2.3) (2026-08-31)
+
+
+### Bug Fixes
+
+* unpack unpackerr 0.16.1 from its new release tarball ([#260](https://github.com/kanso-labs/home-assistant-applications/issues/260)) ([2bf1650](https://github.com/kanso-labs/home-assistant-applications/commit/2bf1650394925006fe0379e53bf4a9a3bc00f7b9))
+
 ## [1.2.2](https://github.com/kanso-labs/home-assistant-applications/compare/unpackerr-v1.2.1...unpackerr-v1.2.2) (2026-08-28)
 
 
