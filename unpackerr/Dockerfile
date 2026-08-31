@@ -8,7 +8,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ARG BUILD_ARCH=amd64
 ARG BUILD_VERSION=dev
 # renovate: datasource=github-releases depName=Unpackerr/unpackerr
-ARG UNPACKERR_VERSION=0.15.2
+ARG UNPACKERR_VERSION=0.16.1
 
 # Install requirements for application
 RUN \
