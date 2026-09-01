@@ -8,7 +8,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ARG BUILD_ARCH=amd64
 ARG BUILD_VERSION=dev
 # renovate: datasource=github-releases depName=jdx/mise
-ARG MISE_VERSION=2026.8.16
+ARG MISE_VERSION=2026.9.0
 
 # Install requirements for application
 RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
