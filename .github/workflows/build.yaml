@@ -43,7 +43,7 @@ jobs:
 
           # If a workflow file itself changed, rebuild every application
           if [[ "${CHANGED_FILES}" =~ \.github/workflows/(build|_build-application)\.yaml ]]; then
-            changed_apps=(${APPS})
+            read -ra changed_apps <<< "${APPS}"
           else
             for app in ${APPS}; do
               for file in ${MONITORED_FILES}; do

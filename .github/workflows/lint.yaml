@@ -69,6 +69,21 @@ jobs:
       - name: Check formatting
         run: npx --yes "prettier@${PRETTIER_VERSION}" --check .
 
+  # The shared action asks to be run as a step of a job the ruleset already
+  # requires, because a check name nothing requires is advisory and can fail
+  # without stopping anything. Here that guarantee comes from `confirm` instead:
+  # it is the required name, and it fails when any job it needs does, so a job
+  # of its own gates merges exactly as a step would.
+  lint-workflows:
+    name: Lint workflows
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7.0.1
+
+      - name: Lint workflows
+        uses: kanso-labs/github-actions/actions/lint-workflows@v3.2.1
+
   # One job with a fixed name for branch protection to require. The linter runs
   # once per application, so its own check names change whenever an application
   # is added, and a forgotten name fails silently by never being required.
@@ -82,6 +97,7 @@ jobs:
     needs:
       - format
       - lint
+      - lint-workflows
       - verify
     if: always()
     steps:
@@ -91,6 +107,15 @@ jobs:
         run: |
           if [[ "${RESULT}" != 'success' ]]; then
             echo "At least one application failed linting (${RESULT})."
+            exit 1
+          fi
+
+      - name: Check the workflow lint result
+        env:
+          RESULT: ${{ needs.lint-workflows.result }}
+        run: |
+          if [[ "${RESULT}" != 'success' ]]; then
+            echo "Workflow linting failed (${RESULT})."
             exit 1
           fi
 
