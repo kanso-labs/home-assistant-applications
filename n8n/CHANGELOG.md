@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.3](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.2.2...n8n-v1.2.3) (2026-09-03)
+
+
+### Dependencies
+
+* update dependency jdx/mise to v2026.9.1 ([#269](https://github.com/kanso-labs/home-assistant-applications/issues/269)) ([c88ac9a](https://github.com/kanso-labs/home-assistant-applications/commit/c88ac9a41fad2fd0f2eb111b0cfdadeaeb191e4c))
+
 ## [1.2.2](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.2.1...n8n-v1.2.2) (2026-09-02)
 
 
