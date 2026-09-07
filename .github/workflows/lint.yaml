@@ -69,6 +69,34 @@ jobs:
       - name: Check formatting
         run: npx --yes "prettier@${PRETTIER_VERSION}" --check .
 
+  # Vite strips the site's types rather than checking them, so a type error
+  # reaches the published page instead of the build log. `npm run typecheck` is
+  # what notices, and nothing ran it until this job: a kanso-ui API that had
+  # been removed under the site took the page blank for three days while the
+  # build, and every other check here, stayed green.
+  typecheck:
+    name: Check types
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7.0.1
+
+      # The version docs/.tool-versions pins, so this check and a local one
+      # resolve the same Node and npm. react-router typegen, which the
+      # typecheck script runs first, warns on anything older.
+      - name: Set up Node
+        uses: actions/setup-node@v7.0.0
+        with:
+          cache: npm
+          cache-dependency-path: docs/package-lock.json
+          node-version-file: docs/.tool-versions
+
+      - name: Install dependencies
+        run: npm --prefix docs ci
+
+      - name: Check types
+        run: npm --prefix docs run typecheck
+
   # The shared action asks to be run as a step of a job the ruleset already
   # requires, because a check name nothing requires is advisory and can fail
   # without stopping anything. Here that guarantee comes from `confirm` instead:
@@ -98,6 +126,7 @@ jobs:
       - format
       - lint
       - lint-workflows
+      - typecheck
       - verify
     if: always()
     steps:
@@ -134,5 +163,14 @@ jobs:
         run: |
           if [[ "${RESULT}" != 'success' ]]; then
             echo "Formatting check failed (${RESULT})."
+            exit 1
+          fi
+
+      - name: Check the type checking result
+        env:
+          RESULT: ${{ needs.typecheck.result }}
+        run: |
+          if [[ "${RESULT}" != 'success' ]]; then
+            echo "Type checking failed (${RESULT})."
             exit 1
           fi
