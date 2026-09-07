@@ -104,8 +104,9 @@ export default function Home() {
         trailing={
           <IconButton
             aria-label="View this repository on GitHub"
-            nativeButton={false}
-            render={<a href={repository} rel="noreferrer" target="_blank" />}
+            href={repository}
+            rel="noreferrer"
+            target="_blank"
           >
             <GitHubMark />
           </IconButton>
@@ -123,11 +124,10 @@ export default function Home() {
 
           <Stack align="center" direction="row" gap="md" wrap>
             <Button
-              nativeButton={false}
-              render={
-                <a href={addRepository} rel="noreferrer" target="_blank" />
-              }
+              href={addRepository}
+              rel="noreferrer"
               size="lg"
+              target="_blank"
             >
               Add to Home Assistant
             </Button>
