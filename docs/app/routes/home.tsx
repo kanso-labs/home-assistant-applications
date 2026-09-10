@@ -1,6 +1,5 @@
 import {
   AppBar,
-  Badge,
   Button,
   Card,
   Code,
@@ -13,6 +12,7 @@ import {
   ProductIcon,
   Separator,
   Stack,
+  Tag,
   Text,
 } from '@kanso-labs/kanso-ui'
 import { useEffect, useState } from 'react'
@@ -195,12 +195,12 @@ export default function Home() {
                   </Text>
 
                   <Stack align="start" className="card-foot" gap="none">
-                    <Badge
+                    <Tag
                       tone={accessTone(application.access.kind)}
                       variant="outlined"
                     >
                       {application.access.label}
-                    </Badge>
+                    </Tag>
                   </Stack>
                 </Stack>
               </Card>
