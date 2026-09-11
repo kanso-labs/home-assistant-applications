@@ -10,7 +10,7 @@
     "typecheck": "npm run generate && react-router typegen && tsc"
   },
   "dependencies": {
-    "@kanso-labs/kanso-ui": "0.21.0",
+    "@kanso-labs/kanso-ui": "0.22.0",
     "isbot": "5.2.2",
     "react": "19.3.0",
     "react-dom": "19.3.0",
