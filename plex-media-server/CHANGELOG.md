@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.3](https://github.com/kanso-labs/home-assistant-applications/compare/plex-media-server-v1.4.2...plex-media-server-v1.4.3) (2026-09-11)
+
+
+### Bug Fixes
+
+* update plexinc/pms-docker docker tag to v1.43.4.10903-e5521bd8c ([#307](https://github.com/kanso-labs/home-assistant-applications/issues/307)) ([30d6a11](https://github.com/kanso-labs/home-assistant-applications/commit/30d6a118835dbf21647304bc04f00b796fb0450a))
+
 ## [1.4.2](https://github.com/kanso-labs/home-assistant-applications/compare/plex-media-server-v1.4.1...plex-media-server-v1.4.2) (2026-08-28)
 
 
