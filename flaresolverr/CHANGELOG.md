@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.3](https://github.com/kanso-labs/home-assistant-applications/compare/flaresolverr-v1.2.2...flaresolverr-v1.2.3) (2026-09-12)
+
+
+### Bug Fixes
+
+* update ghcr.io/flaresolverr/flaresolverr docker tag to v3.5.2 ([#318](https://github.com/kanso-labs/home-assistant-applications/issues/318)) ([65a8a09](https://github.com/kanso-labs/home-assistant-applications/commit/65a8a099350e754357532b4e9684cabcf9122d2e))
+
 ## [1.2.2](https://github.com/kanso-labs/home-assistant-applications/compare/flaresolverr-v1.2.1...flaresolverr-v1.2.2) (2026-08-13)
 
 
