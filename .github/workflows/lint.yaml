@@ -110,7 +110,7 @@ jobs:
         uses: actions/checkout@v7.0.1
 
       - name: Lint workflows
-        uses: kanso-labs/github-actions/actions/lint-workflows@v3.2.2
+        uses: kanso-labs/github-actions/actions/lint-workflows@v3.3.0
 
   # One job with a fixed name for branch protection to require. The linter runs
   # once per application, so its own check names change whenever an application
