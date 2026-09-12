@@ -1,0 +1,57 @@
+name: Upstream Changelog
+
+# Applications here are packaging: what a user sees when Sonarr's version moves
+# is Sonarr's release notes, not ours. Without this, the changelog Home
+# Assistant shows them says only "update dependency Sonarr/Sonarr to v4.0.20",
+# which is the one fact they already had.
+#
+# The shared action rewrites the Renovate pull request body so that
+# release-please reads the upstream notes out of it at merge time. How that
+# works is in
+# https://github.com/kanso-labs/github-actions/tree/main/actions/upstream-changelog.
+
+on:
+  pull_request:
+    branches:
+      - main
+    # `edited` is not optional. Renovate rewrites a pull request body whenever
+    # it recomputes one — a new version on the same branch, a change to its
+    # config, a dashboard edit — and that rewrite replaces everything the
+    # action wrote. The action puts its block where Renovate's own comparison
+    # cannot see it, which stops the routine rewrites, but a rewrite Renovate
+    # genuinely intends still lands. This trigger is what puts the block back
+    # before the pull request merges.
+    #
+    # It cannot loop. The rewrite is made with GITHUB_TOKEN, and an event
+    # raised by that token starts no workflow run.
+    types:
+      - edited
+      - opened
+      - synchronize
+
+permissions:
+  contents: read
+
+jobs:
+  upstream-changelog:
+    name: Carry the upstream release notes
+    # A fork's pull request gets a read-only GITHUB_TOKEN, so the edit below
+    # would fail rather than being skipped. Renovate's branches are in this
+    # repository, so nothing this runs for is ever a fork.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    permissions:
+      contents: read
+      pull-requests: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # No checkout: the action reads the pull request over the API and writes
+      # nothing to the workspace.
+      #
+      # The action only rewrites pull requests whose title is a `fix`, which is
+      # the type `.github/renovate.json` gives the curated list of application
+      # versions. That is the filter — and it is one this repository already
+      # maintains for the release itself, rather than a second copy of the list
+      # that would go stale the day an application is added.
+      - name: Carry the upstream release notes
+        uses: kanso-labs/github-actions/actions/upstream-changelog@v3.3.0

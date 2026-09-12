@@ -365,6 +365,45 @@ updates, and nobody notices until someone checks.
 for the registrations in step 6. It runs in CI as `Verify release wiring`.
 Nothing yet guards the Renovate annotation.
 
+### Upstream release notes in the changelog
+
+What a user sees when Sonarr's version moves is Sonarr's release notes, not
+ours. `.github/workflows/upstream-changelog.yaml` is what gets them there: it
+calls a shared composite action which rewrites the Renovate pull request body so
+that release-please reads the upstream notes out of it at merge time, and files
+them under an **Upstream changes** heading beside the bump's own line.
+
+The body is where this has to happen, and that is not a design preference.
+Squash merging here uses `squash_merge_commit_message: BLANK`, so a branch's
+commit bodies never reach `main` — but release-please reads the _pull request_
+body of the commit it is parsing, and honours a `BEGIN_COMMIT_OVERRIDE` block in
+it. Renovate's own `fetchChangeLogs: branch` and `commitBody` write a commit
+body that nothing here would ever read.
+
+**Three things have to agree, and two of them are in this repository.**
+
+- `release-please-config.json` carries an `upstream` entry in
+  `changelog-sections`. Without it the lines are parsed and then hidden, which
+  looks exactly like the action not running.
+- The workflow triggers on `edited` as well as `opened` and `synchronize`,
+  because a Renovate rewrite of the body replaces what the action wrote.
+- The action itself lives in
+  [`kanso-labs/github-actions`](https://github.com/kanso-labs/github-actions/tree/main/actions/upstream-changelog),
+  pinned by tag. Its README holds the mechanism and the traps.
+
+**It runs for the applications, not for every upgrade**, and the filter is the
+commit type rather than a list. The curated `packageRule` in
+`.github/renovate.json` types the application versions `fix` and everything else
+`deps`; the action only rewrites a `fix`. Adding an application to that rule is
+therefore all it takes — there is no second roster here to keep in step.
+
+**A bump with no upstream notes is left alone**, and that is the ordinary case
+for some of these. Renovate has to be able to find the source repository to
+fetch notes at all: Plex publishes none that it can reach, qBittorrent comes
+through repology whose version never matches a GitHub tag, and Cleanuparr's
+image carries no `org.opencontainers.image.source` label. Those releases read
+the way they always have.
+
 ### Asking Renovate to redo a pull request
 
 `@renovate rebase` on one of its pull requests works here, the way
