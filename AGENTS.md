@@ -399,10 +399,10 @@ therefore all it takes — there is no second roster here to keep in step.
 
 **A bump with no upstream notes is left alone**, and that is the ordinary case
 for some of these. Renovate has to be able to find the source repository to
-fetch notes at all: Plex publishes none that it can reach, qBittorrent comes
-through repology whose version never matches a GitHub tag, and Cleanuparr's
-image carries no `org.opencontainers.image.source` label. Those releases read
-the way they always have.
+fetch notes at all: Plex publishes none that it can reach, qBittorrent is read
+out of Alpine's package index, which records a homepage and no source
+repository, and Cleanuparr's image carries no `org.opencontainers.image.source`
+label. Those releases read the way they always have.
 
 ### Asking Renovate to redo a pull request
 
