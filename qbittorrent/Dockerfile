@@ -8,9 +8,11 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ARG BUILD_ARCH=amd64
 ARG BUILD_VERSION=dev
 # The version is pinned so that a new qBittorrent produces a release rather
-# than arriving silently. depName carries the Alpine branch, so it needs
-# updating when the base image moves to a newer Alpine.
-# renovate: datasource=repology depName=alpine_3_24/qbittorrent-nox versioning=loose
+# than arriving silently. registryUrl carries the Alpine branch, so it needs
+# updating when the base image above moves to a newer Alpine. The arch only
+# chooses which index is read; Alpine ships one version per branch, so it does
+# not have to be one of the architectures this application builds.
+# renovate: datasource=apk depName=qbittorrent-nox registryUrl=https://dl-cdn.alpinelinux.org/alpine?branch=v3.24&components=community&arch=x86_64
 ARG QBITTORRENT_VERSION=5.2.1-r0
 
 # Install requirements for application

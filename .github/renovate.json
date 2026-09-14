@@ -14,12 +14,12 @@
     {
       "customType": "regex",
       "datasourceTemplate": "{{{datasource}}}",
-      "description": "Application versions supplied as distribution packages, annotated above their ARG",
+      "description": "Application versions supplied as distribution packages, annotated above their ARG. The datasource builds an index URL out of the registryUrl rather than fetching it, so the branch and component belong in the annotation beside the base image they follow.",
       "managerFilePatterns": ["/Dockerfile$/"],
       "matchStrings": [
-        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+) versioning=(?<versioning>\\S+)\\s+ARG \\w+_VERSION=(?<currentValue>\\S+)"
+        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+) registryUrl=(?<registryUrl>\\S+)\\s+ARG \\w+_VERSION=(?<currentValue>\\S+)"
       ],
-      "versioningTemplate": "{{{versioning}}}"
+      "registryUrlTemplate": "{{{registryUrl}}}"
     },
     {
       "customType": "regex",
@@ -68,14 +68,14 @@
         "Radarr/Radarr",
         "Sonarr/Sonarr",
         "Unpackerr/unpackerr",
-        "alpine_3_24/qbittorrent-nox",
         "ghcr.io/cleanuparr/cleanuparr",
         "ghcr.io/flaresolverr/flaresolverr",
         "ghcr.io/seerr-team/seerr",
         "morpheus65535/bazarr",
         "n8n",
         "nzbgetcom/nzbget",
-        "plexinc/pms-docker"
+        "plexinc/pms-docker",
+        "qbittorrent-nox"
       ],
       "semanticCommitType": "fix"
     }
