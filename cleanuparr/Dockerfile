@@ -10,7 +10,7 @@
 # the base image. Both are installed below, and the service layout under
 # rootfs/ is unchanged from every other application. Unlike Seerr, the image
 # underneath is Debian rather than Alpine, so the packages come from apt.
-ARG BUILD_FROM=ghcr.io/cleanuparr/cleanuparr:2.10.5
+ARG BUILD_FROM=ghcr.io/cleanuparr/cleanuparr:2.10.6
 FROM ${BUILD_FROM}
 
 # Set shell
