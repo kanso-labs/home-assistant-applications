@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.14](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.2.13...n8n-v1.2.14) (2026-09-16)
+
+
+### Bug Fixes
+
+* update dependency n8n to v2.39.6 ([#341](https://github.com/kanso-labs/home-assistant-applications/issues/341)) ([28ef0b6](https://github.com/kanso-labs/home-assistant-applications/commit/28ef0b63a0df11eef75bd746bc6c88ee876e8f2e))
+
+
+### Upstream changes
+
+* **v2.39.6:** [**core:** Add v3 breaking change rule for the storage directory rename](https://github.com/n8n-io/n8n/issues/38636) ([28ef0b6](https://github.com/kanso-labs/home-assistant-applications/commit/28ef0b63a0df11eef75bd746bc6c88ee876e8f2e))
+* **v2.39.6:** [**core:** Check Gateway credits eligibility against the correct sub-node](https://github.com/n8n-io/n8n/issues/38673) ([28ef0b6](https://github.com/kanso-labs/home-assistant-applications/commit/28ef0b63a0df11eef75bd746bc6c88ee876e8f2e))
+* **v2.39.6:** [**core:** Warn on deprecated N8N_DB_PING_TIMEOUT env var](https://github.com/n8n-io/n8n/issues/38569) ([28ef0b6](https://github.com/kanso-labs/home-assistant-applications/commit/28ef0b63a0df11eef75bd746bc6c88ee876e8f2e))
+
 ## [1.2.13](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.2.12...n8n-v1.2.13) (2026-09-15)
 
 

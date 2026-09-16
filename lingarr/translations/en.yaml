@@ -1,0 +1,14 @@
+configuration:
+  job_timeout_minutes:
+    description: >-
+      How long a translation may go quiet before Lingarr treats it as stalled
+      and runs it again. Raise it if long files are being restarted part way
+      through.
+    name: Job timeout in minutes
+  max_concurrent_jobs:
+    description: >-
+      How many translations Lingarr runs at once. More finish sooner, at the
+      cost of memory and of more requests to your translation service.
+    name: Concurrent jobs
+network:
+  9876/tcp: The port the Lingarr web interface listens on.
