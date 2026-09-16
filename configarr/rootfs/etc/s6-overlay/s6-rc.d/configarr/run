@@ -1,0 +1,131 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Configarr
+# Runs Configarr
+# ==============================================================================
+
+readonly config_file='/config/config.yml'
+readonly secrets_file='/config/secrets.yml'
+
+# Configarr resolves all three against its working directory unless it is told
+# otherwise, which is not something to leave to whatever s6 happens to start
+# the service in. /config is what a user edits.
+#
+# The guide repositories go to /data instead, because they are a cache rather
+# than configuration: around 10MB that Configarr refreshes at the start of
+# every sync and clones again from nothing if they are missing.
+export CONFIG_LOCATION="${config_file}"
+export SECRETS_LOCATION="${secrets_file}"
+export CUSTOM_REPO_ROOT='/data/repos'
+
+# Both are exported only when they have a value, the way FlareSolverr's are and
+# for the same reason. Configarr parses its environment through a zod schema
+# that rejects an empty LOG_LEVEL outright, and an option that cannot be read
+# is exactly what hands it one, so a hiccup reaching Supervisor would turn into
+# a crash on every sync rather than a run at the default level.
+if bashio::config.has_value 'log_level'; then
+  LOG_LEVEL=$(bashio::config 'log_level')
+  export LOG_LEVEL
+fi
+
+dry_run='false'
+if bashio::config.has_value 'dry_run'; then
+  dry_run=$(bashio::config 'dry_run')
+  DRY_RUN="${dry_run}"
+  export DRY_RUN
+fi
+readonly dry_run
+
+# Seeded on first start only, so a user's own files are never overwritten. What
+# is seeded defines no instance, which is what lets a first start finish
+# quietly instead of failing against an address nobody has set yet.
+if ! bashio::fs.file_exists "${config_file}"; then
+  bashio::log.info 'No configuration found, seeding the example...'
+  cp /opt/configarr/config.yml "${config_file}"
+
+  bashio::log.notice 'Configarr has nothing to sync until it is configured.'
+  bashio::log.notice "Edit ${config_file} and uncomment the sonarr or radarr"
+  bashio::log.notice "block you need, put its API key in ${secrets_file}, then"
+  bashio::log.notice 'restart.'
+fi
+
+if ! bashio::fs.file_exists "${secrets_file}"; then
+  cp /opt/configarr/secrets.yml "${secrets_file}"
+fi
+
+if bashio::var.true "${dry_run}"; then
+  bashio::log.notice 'Dry run is on. Configarr will report what it would'
+  bashio::log.notice 'change and write nothing.'
+fi
+
+# An unreadable interval is worse here than an unreadable log level. Arithmetic
+# on an empty string is zero in bash, so the sleep below would return at once
+# and the loop would hammer GitHub and every arr application for as long as it
+# ran. The default is the one config.yaml declares.
+sync_interval=24
+if bashio::config.has_value 'sync_interval'; then
+  sync_interval=$(bashio::config 'sync_interval')
+fi
+readonly sync_interval
+
+declare sleep_pid=''
+declare terminate='false'
+
+# Configarr is a job rather than a service: it syncs once and exits, and
+# upstream leaves the scheduling to cron or a Kubernetes CronJob. Home
+# Assistant has neither, so the interval is kept here.
+#
+# The wait is on a background sleep rather than a foreground one because bash
+# runs a trap only once the foreground command returns. Stopping the
+# application would otherwise sit out the rest of the interval and be killed on
+# the timeout instead.
+stop() {
+  terminate='true'
+
+  if [[ -n "${sleep_pid}" ]]; then
+    kill "${sleep_pid}" 2> /dev/null || true
+  fi
+
+  return 0
+}
+trap stop TERM INT
+
+bashio::log.info 'Starting Configarr...'
+
+while true; do
+  bashio::log.info 'Syncing...'
+
+  # A failed sync is logged and left to the next interval rather than treated
+  # as a fault. Configarr talks to applications that get restarted, updated and
+  # are briefly unreachable, and taking the container down for that would stop
+  # the schedule until somebody noticed.
+  #
+  # Exiting zero only means the run itself completed. An instance Configarr
+  # could not reach is counted as a failure in the Execution Summary it prints
+  # and does not change the exit code, which is why the message below points at
+  # the summary rather than claiming everything applied.
+  if /usr/local/bin/configarr; then
+    bashio::log.info 'Sync run finished, see the summary above for what it did.'
+  else
+    bashio::log.warning 'Sync run failed. Leaving it to the next one.'
+  fi
+
+  if [[ "${terminate}" == 'true' ]]; then
+    break
+  fi
+
+  bashio::log.info \
+    "Next sync in ${sync_interval}h. Restart to sync straight away."
+
+  sleep "$((sync_interval * 3600))" &
+  sleep_pid="${!}"
+  wait "${sleep_pid}" || true
+  sleep_pid=''
+
+  if [[ "${terminate}" == 'true' ]]; then
+    break
+  fi
+done
+
+bashio::log.info 'Configarr stopped.'

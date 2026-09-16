@@ -80,6 +80,15 @@
         }
       ]
     },
+    "configarr": {
+      "component": "configarr",
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
+    },
     "flaresolverr": {
       "component": "flaresolverr",
       "extra-files": [
