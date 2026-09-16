@@ -31,5 +31,5 @@ schema:
   parser_port: port
 slug: profilarr
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/profilarr'
-version: '1.0.0' # x-release-please-version
+version: '1.1.0' # x-release-please-version
 webui: 'http://[HOST]:[PORT:6868]'
