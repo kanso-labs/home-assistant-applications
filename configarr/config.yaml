@@ -1,0 +1,28 @@
+arch:
+  - aarch64
+  - amd64
+description:
+  Syncs TRaSH Guides and Recyclarr templates into the arr applications.
+  Configarr reads one configuration and writes the custom formats, quality
+  profiles and scores it describes into Sonarr, Radarr and Prowlarr.
+image: 'ghcr.io/kanso-labs/home-assistant-application-configarr'
+init: false
+map:
+  # Read/write, because the seeded config.yml and secrets.yml are written here
+  # on first start and edited by hand afterwards. Configarr reaches every
+  # application it manages over its API, so nothing else needs mapping — not
+  # /media and not /share, unlike the arr applications themselves.
+  - read_only: false
+    type: app_config
+name: Configarr
+options:
+  dry_run: false
+  log_level: info
+  sync_interval: 24
+schema:
+  dry_run: bool
+  log_level: list(trace|debug|info|warn|error|fatal)
+  sync_interval: int(1,)
+slug: configarr
+url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/configarr'
+version: '1.0.0' # x-release-please-version

@@ -1,0 +1,15 @@
+configuration:
+  dry_run:
+    description: >-
+      Report what a sync would change and write nothing. Worth turning on before
+      a large change, because Configarr rewrites quality profiles and custom
+      formats in place.
+    name: Dry run
+  log_level:
+    description: How much detail Configarr writes to its log.
+    name: Log level
+  sync_interval:
+    description: >-
+      Hours between syncs. The first one runs as the application starts, so
+      restarting it is how you sync straight away.
+    name: Hours between syncs

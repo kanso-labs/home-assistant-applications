@@ -75,7 +75,8 @@
         "n8n",
         "nzbgetcom/nzbget",
         "plexinc/pms-docker",
-        "qbittorrent-nox"
+        "qbittorrent-nox",
+        "raydak-labs/configarr"
       ],
       "semanticCommitType": "fix"
     }

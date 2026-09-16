@@ -1,0 +1,15 @@
+configuration:
+  dry_run:
+    description: >-
+      Relatar o que uma sincronização mudaria, sem escrever nada. Vale ativar
+      antes de uma mudança grande, porque o Configarr reescreve perfis de
+      qualidade e formatos personalizados no lugar.
+    name: Simulação
+  log_level:
+    description: Quanto detalhe o Configarr registra no log.
+    name: Nível de log
+  sync_interval:
+    description: >-
+      Horas entre sincronizações. A primeira acontece quando a aplicação inicia,
+      então reiniciá-la é como sincronizar imediatamente.
+    name: Horas entre sincronizações
