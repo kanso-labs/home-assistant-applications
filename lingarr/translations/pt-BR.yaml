@@ -1,0 +1,15 @@
+configuration:
+  job_timeout_minutes:
+    description: >-
+      Por quanto tempo uma tradução pode ficar sem atividade antes de o Lingarr
+      considerá-la travada e executá-la novamente. Aumente se arquivos longos
+      estiverem sendo reiniciados no meio.
+    name: Tempo limite da tarefa em minutos
+  max_concurrent_jobs:
+    description: >-
+      Quantas traduções o Lingarr executa ao mesmo tempo. Mais traduções
+      terminam antes, ao custo de memória e de mais requisições ao seu serviço
+      de tradução.
+    name: Traduções simultâneas
+network:
+  9876/tcp: A porta em que a interface web do Lingarr escuta.

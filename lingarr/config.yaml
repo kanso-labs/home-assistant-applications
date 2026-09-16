@@ -1,0 +1,33 @@
+arch:
+  - aarch64
+  - amd64
+backup: cold
+description:
+  Subtitle translator for Radarr and Sonarr. Lingarr finds the subtitles your
+  library is missing and translates them with LibreTranslate, DeepL or an AI
+  service of your choosing.
+image: 'ghcr.io/kanso-labs/home-assistant-application-lingarr'
+init: false
+map:
+  - read_only: false
+    type: app_config
+  # Write access, because a finished translation is written as a subtitle file
+  # beside the media it belongs to, exactly as Bazarr does. Read-only mappings
+  # would let Lingarr translate and then have nowhere to put the result.
+  - read_only: false
+    type: media
+  - read_only: false
+    type: share
+name: Lingarr
+options:
+  job_timeout_minutes: 30
+  max_concurrent_jobs: 1
+ports:
+  9876/tcp: 9876
+schema:
+  job_timeout_minutes: int(1,)
+  max_concurrent_jobs: int(1,)
+slug: lingarr
+url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/lingarr'
+version: '1.0.0' # x-release-please-version
+webui: 'http://[HOST]:[PORT:9876]'

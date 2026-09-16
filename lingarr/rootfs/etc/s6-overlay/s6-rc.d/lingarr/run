@@ -1,0 +1,37 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Lingarr
+# Runs Lingarr
+# ==============================================================================
+
+# The port Lingarr listens on inside the container. The image inherits
+# ASPNETCORE_HTTP_PORTS=8080 from the ASP.NET base image, and ASPNETCORE_URLS
+# is what overrides it; config.yaml is what publishes the result.
+export ASPNETCORE_URLS='http://+:9876'
+
+# Lingarr expects MySQL and a second container by default. SQLite needs
+# neither, and is what every other database-backed application here uses.
+export DB_CONNECTION='sqlite'
+
+# Everything Lingarr writes goes to /app/config unless it is told otherwise,
+# and that path is an anonymous Docker volume declared by the upstream image:
+# invisible to Home Assistant, absent from backups, and discarded on update.
+# These three variables move the application database, the job store and the
+# data protection keys into the configuration directory instead.
+#
+# ENCRYPTION_KEYS is lowercased before it is used, so its path has to be
+# lowercase already or the keys land somewhere other than where they were put.
+export SQLITE_DB_PATH='/config/local.db'
+export DB_HANGFIRE_SQLITE_PATH='/config/Hangfire.db'
+export ENCRYPTION_KEYS='/config/keys'
+
+MAX_CONCURRENT_JOBS=$(bashio::config 'max_concurrent_jobs')
+JOB_TIMEOUT_MINUTES=$(bashio::config 'job_timeout_minutes')
+export MAX_CONCURRENT_JOBS JOB_TIMEOUT_MINUTES
+
+bashio::log.info 'Starting Lingarr...'
+
+cd /app || bashio::exit.nok 'The application directory is missing'
+
+exec dotnet Lingarr.Server.dll
