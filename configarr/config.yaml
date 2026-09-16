@@ -25,4 +25,4 @@ schema:
   sync_interval: int(1,)
 slug: configarr
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/configarr'
-version: '1.0.0' # x-release-please-version
+version: '1.1.0' # x-release-please-version
