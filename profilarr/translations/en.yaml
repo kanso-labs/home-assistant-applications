@@ -1,0 +1,25 @@
+configuration:
+  enable_authentication:
+    description: >-
+      Require a Profilarr username and password. Leave it on unless you are
+      certain nobody else can reach port 6868, because that port is published on
+      your network and Home Assistant's own login does not cover it.
+    name: Require a login
+  external_url:
+    description: >-
+      The address that reaches this application from outside Home Assistant,
+      such as https://profilarr.example.com. Profilarr only needs it to build
+      OIDC redirects and to decide whether its cookie may be marked secure.
+      Leave it empty unless something is in front of this application.
+    name: External address
+  parser_host:
+    description: >-
+      Hostname of a Profilarr parser service, which the custom format and
+      quality profile testing pages need. This application does not include one.
+      Leave it empty unless you run the parser elsewhere.
+    name: Parser host
+  parser_port:
+    description: The port the parser answers on. Ignored when no host is set.
+    name: Parser port
+network:
+  6868/tcp: The port the Profilarr web interface listens on.
