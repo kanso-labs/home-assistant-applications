@@ -29,5 +29,5 @@ schema:
   max_concurrent_jobs: int(1,)
 slug: lingarr
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/lingarr'
-version: '1.0.0' # x-release-please-version
+version: '1.1.0' # x-release-please-version
 webui: 'http://[HOST]:[PORT:9876]'
