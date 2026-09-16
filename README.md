@@ -29,23 +29,24 @@ one's `DOCS.md` covers its options, what it maps, and how it is backed up.
 
 ## Applications
 
-| Application                              | What it does                                                                                      | Web interface      |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------ |
-| [Bazarr](./bazarr)                       | Subtitle manager for Radarr and Sonarr, keeping subtitles alongside the media.                    | Port 6767          |
-| [Cleanuparr](./cleanuparr)               | Strikes stuck and unwanted downloads from the arr queues and asks for replacements.               | Port 11011         |
-| [Configarr](./configarr)                 | Syncs TRaSH Guides and Recyclarr templates into Sonarr, Radarr and Prowlarr.                      | None               |
-| [FlareSolverr](./flaresolverr)           | Proxy that solves the challenges standing between the arr applications and their indexers.        | Ingress, port 8191 |
-| [Lingarr](./lingarr)                     | Translates the subtitles your library is missing, through LibreTranslate, DeepL or an AI service. | Port 9876          |
-| [n8n](./n8n)                             | Workflow and AI automation, built with the precision of code or the speed of drag and drop.       | Ingress            |
-| [Notifiarr](./notifiarr)                 | Unified client for Notifiarr.com, reporting on the stack and letting Discord drive it.            | Port 5454          |
-| [NZBGet](./nzbget)                       | Usenet downloader, fetching from your news servers into shared storage.                           | Port 6789          |
-| [Plex Media Server](./plex-media-server) | Serves recorded media, live TV, online news and podcasts to the Plex apps.                        | Port 32400         |
-| [Prowlarr](./prowlarr)                   | Indexer manager, pushing one set of definitions out to the whole arr stack.                       | Port 9696          |
-| [qBittorrent](./qbittorrent)             | BitTorrent client, downloading into shared storage for the rest of the stack.                     | Port 8080          |
-| [Radarr](./radarr)                       | Movie collection manager that grabs, sorts and renames what your indexers turn up.                | Port 7878          |
-| [Seerr](./seerr)                         | Request and discovery front end for Jellyfin, Plex and Emby, feeding Radarr and Sonarr.           | Port 5055          |
-| [Sonarr](./sonarr)                       | Smart PVR that follows the shows you watch and grabs new episodes as they appear.                 | Port 8989          |
-| [Unpackerr](./unpackerr)                 | Extracts completed downloads in place, then cleans up once the arr applications import.           | None               |
+| Application                              | What it does                                                                                                             | Web interface      |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------ |
+| [Bazarr](./bazarr)                       | Subtitle manager for Radarr and Sonarr, keeping subtitles alongside the media.                                           | Port 6767          |
+| [Cleanuparr](./cleanuparr)               | Strikes stuck and unwanted downloads from the arr queues and asks for replacements.                                      | Port 11011         |
+| [Configarr](./configarr)                 | Syncs TRaSH Guides and Recyclarr templates into Sonarr, Radarr and Prowlarr.                                             | None               |
+| [FlareSolverr](./flaresolverr)           | Proxy that solves the challenges standing between the arr applications and their indexers.                               | Ingress, port 8191 |
+| [Lingarr](./lingarr)                     | Translates the subtitles your library is missing, through LibreTranslate, DeepL or an AI service.                        | Port 9876          |
+| [n8n](./n8n)                             | Workflow and AI automation, built with the precision of code or the speed of drag and drop.                              | Ingress            |
+| [Notifiarr](./notifiarr)                 | Unified client for Notifiarr.com, reporting on the stack and letting Discord drive it.                                   | Port 5454          |
+| [NZBGet](./nzbget)                       | Usenet downloader, fetching from your news servers into shared storage.                                                  | Port 6789          |
+| [Plex Media Server](./plex-media-server) | Serves recorded media, live TV, online news and podcasts to the Plex apps.                                               | Port 32400         |
+| [Profilarr](./profilarr)                 | Builds quality profiles and custom formats, tracks them against curated databases, and syncs them to every arr instance. | Port 6868          |
+| [Prowlarr](./prowlarr)                   | Indexer manager, pushing one set of definitions out to the whole arr stack.                                              | Port 9696          |
+| [qBittorrent](./qbittorrent)             | BitTorrent client, downloading into shared storage for the rest of the stack.                                            | Port 8080          |
+| [Radarr](./radarr)                       | Movie collection manager that grabs, sorts and renames what your indexers turn up.                                       | Port 7878          |
+| [Seerr](./seerr)                         | Request and discovery front end for Jellyfin, Plex and Emby, feeding Radarr and Sonarr.                                  | Port 5055          |
+| [Sonarr](./sonarr)                       | Smart PVR that follows the shows you watch and grabs new episodes as they appear.                                        | Port 8989          |
+| [Unpackerr](./unpackerr)                 | Extracts completed downloads in place, then cleans up once the arr applications import.                                  | None               |
 
 ## How these are packaged
 

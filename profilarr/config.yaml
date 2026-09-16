@@ -1,0 +1,35 @@
+arch:
+  - aarch64
+  - amd64
+backup: cold
+description:
+  Configuration management for Radarr and Sonarr. Profilarr builds quality
+  profiles and custom formats, tracks them against curated databases like
+  Dictionarry and TRaSH Guides, and syncs them out to every instance you run.
+image: 'ghcr.io/kanso-labs/home-assistant-application-profilarr'
+init: false
+map:
+  # Read/write, and nothing else. Profilarr keeps its databases, git clones,
+  # logs and backups here, and reaches every application it manages over its
+  # API — including the renames, which are issued as Radarr and Sonarr commands
+  # rather than carried out against the files. So no /media and no /share,
+  # the same reasoning that leaves Prowlarr with neither.
+  - read_only: false
+    type: app_config
+name: Profilarr
+options:
+  enable_authentication: true
+  external_url: ''
+  parser_host: ''
+  parser_port: 5000
+ports:
+  6868/tcp: 6868
+schema:
+  enable_authentication: bool
+  external_url: str?
+  parser_host: str?
+  parser_port: port
+slug: profilarr
+url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/profilarr'
+version: '1.0.0' # x-release-please-version
+webui: 'http://[HOST]:[PORT:6868]'

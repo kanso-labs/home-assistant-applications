@@ -143,6 +143,15 @@
         }
       ]
     },
+    "profilarr": {
+      "component": "profilarr",
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
+    },
     "prowlarr": {
       "component": "prowlarr",
       "extra-files": [

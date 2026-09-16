@@ -1,0 +1,50 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Profilarr
+# Runs Profilarr
+# ==============================================================================
+
+# The image already points APP_BASE_PATH at /config, which is where Supervisor
+# mounts the application's configuration directory, so nothing has to move.
+# Profilarr expects these four to exist under it rather than creating them
+# itself — the entrypoint this service replaces is what used to.
+mkdir -p \
+  /config/backups \
+  /config/data \
+  /config/databases \
+  /config/logs
+
+# Profilarr's own login. It is on by default, which is the right answer for a
+# port published on your network; turning it off is for a network where you
+# would rather not have a second password than a media stack.
+if bashio::config.true 'enable_authentication'; then
+  export AUTH='on'
+else
+  export AUTH='off'
+  bashio::log.warning \
+    'Authentication is disabled — anyone who can reach port 6868 can use Profilarr.'
+fi
+
+# Only used to build OIDC redirects and to decide whether a cookie may be
+# marked secure, so it matters when something is in front of this application
+# and not otherwise. Left unset, Profilarr uses the address it is bound to.
+if bashio::config.has_value 'external_url'; then
+  ORIGIN=$(bashio::config 'external_url')
+  export ORIGIN
+fi
+
+# The parser is a separate service upstream ships as its own image, and it is
+# what the custom format and quality profile testing pages call. A Home
+# Assistant application is one container, so there is none here; set this to
+# one running elsewhere to turn those pages on. Everything else works without.
+if bashio::config.has_value 'parser_host'; then
+  PARSER_HOST=$(bashio::config 'parser_host')
+  PARSER_PORT=$(bashio::config 'parser_port')
+  export PARSER_HOST PARSER_PORT
+  bashio::log.info "Using the parser at ${PARSER_HOST}:${PARSER_PORT}."
+fi
+
+bashio::log.info 'Starting Profilarr...'
+
+exec /app/profilarr

@@ -1,0 +1,25 @@
+configuration:
+  enable_authentication:
+    description: >-
+      Exigir um nome de usuário e senha do Profilarr. Deixe ativado a menos que
+      tenha certeza de que ninguém mais alcança a porta 6868, pois essa porta é
+      publicada na sua rede e o login do próprio Home Assistant não a cobre.
+    name: Exigir login
+  external_url:
+    description: >-
+      O endereço que alcança esta aplicação de fora do Home Assistant, como
+      https://profilarr.exemplo.com. O Profilarr só precisa dele para montar
+      redirecionamentos OIDC e para decidir se o cookie pode ser marcado como
+      seguro. Deixe vazio a menos que haja algo à frente desta aplicação.
+    name: Endereço externo
+  parser_host:
+    description: >-
+      Nome de host de um serviço parser do Profilarr, necessário para as páginas
+      de teste de formatos personalizados e perfis de qualidade. Esta aplicação
+      não inclui um. Deixe vazio a menos que execute o parser em outro lugar.
+    name: Host do parser
+  parser_port:
+    description: A porta em que o parser responde. Ignorada quando não há host.
+    name: Porta do parser
+network:
+  6868/tcp: A porta em que a interface web do Profilarr escuta.
