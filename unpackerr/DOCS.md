@@ -35,15 +35,22 @@ fill in the block:
 
 ```toml
 [[radarr]]
-  url = "http://addon_local_radarr:7878"
+  url = "http://homeassistant.local:7878"
   api_key = "your radarr api key"
   paths = ['/share/qbittorrent/downloads', '/share/nzbget']
 
 [[sonarr]]
-  url = "http://addon_local_sonarr:8989"
+  url = "http://homeassistant.local:8989"
   api_key = "your sonarr api key"
   paths = ['/share/qbittorrent/downloads', '/share/nzbget']
 ```
+
+**Use your Home Assistant machine's address, the same one you open these on in a
+browser** — they publish their ports on the host, so it always reaches them.
+Their internal hostname is not worth guessing at: Supervisor builds it from a
+hash of this repository's URL, and that hash changes with how the URL was typed,
+so there is no fixed name to document. `addon_local_` is not it either; that
+prefix belongs to applications copied into the `/addons` folder by hand.
 
 Take each API key from that application, under Settings then General. Restart
 Unpackerr after editing.
