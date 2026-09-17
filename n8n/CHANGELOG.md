@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.15](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.2.14...n8n-v1.2.15) (2026-09-17)
+
+
+### Bug Fixes
+
+* update dependency n8n to v2.39.7 ([#354](https://github.com/kanso-labs/home-assistant-applications/issues/354)) ([8d37dd1](https://github.com/kanso-labs/home-assistant-applications/commit/8d37dd19642669d357104cea57dc1db6eae4b805))
+
+
+### Upstream changes
+
+* **v2.39.7:** [**core:** Keep breaking change detection running when a rule throws](https://github.com/n8n-io/n8n/issues/38790) ([8d37dd1](https://github.com/kanso-labs/home-assistant-applications/commit/8d37dd19642669d357104cea57dc1db6eae4b805))
+* **v2.39.7:** [**editor:** Send number values in credential inputs](https://github.com/n8n-io/n8n/issues/38881) ([8d37dd1](https://github.com/kanso-labs/home-assistant-applications/commit/8d37dd19642669d357104cea57dc1db6eae4b805))
+
+
+### Dependencies
+
+* update dependency jdx/mise to v2026.9.10 ([#350](https://github.com/kanso-labs/home-assistant-applications/issues/350)) ([b8fcbca](https://github.com/kanso-labs/home-assistant-applications/commit/b8fcbca71d0d4cb0d55e5441e0c0f72493530e09))
+
 ## [1.2.14](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.2.13...n8n-v1.2.14) (2026-09-16)
 
 
