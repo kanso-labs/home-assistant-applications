@@ -73,11 +73,15 @@ one's `DOCS.md` covers its options, what it maps, and how it is backed up.
 
 ## Contributing
 
-Issues and pull requests are welcome. [CONTRIBUTING.md](./CONTRIBUTING.md)
-covers the workflow, and [AGENTS.md](./AGENTS.md) is the working reference for
-adding an application: the directory layout, what belongs in `config.yaml`, and
-the traps that have already caught someone. Both are written for people and
-coding agents alike.
+Issues and pull requests are welcome. The organization's contributing guide
+lives in
+[kanso-labs/.github](https://github.com/kanso-labs/.github/blob/main/CONTRIBUTING.md)
+and covers how to report, propose and submit.
+
+[AGENTS.md](./AGENTS.md) is the working reference for anything specific to this
+repository: the directory layout, what belongs in `config.yaml`, how releases
+reach an installed instance, and the traps that have already caught someone. It
+is written for people and coding agents alike.
 
 Participation is governed by the [code of conduct](./CODE_OF_CONDUCT.md).
 
