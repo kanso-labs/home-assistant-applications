@@ -8,7 +8,7 @@ name: Upstream Changelog
 # The shared action rewrites the Renovate pull request body so that
 # release-please reads the upstream notes out of it at merge time. How that
 # works is in
-# https://github.com/kanso-labs/github-actions/tree/main/actions/upstream-changelog.
+# https://github.com/kanso-labs/actions/tree/main/actions/upstream-changelog.
 
 on:
   pull_request:
@@ -54,4 +54,4 @@ jobs:
       # maintains for the release itself, rather than a second copy of the list
       # that would go stale the day an application is added.
       - name: Carry the upstream release notes
-        uses: kanso-labs/github-actions/actions/upstream-changelog@v3.3.1
+        uses: kanso-labs/actions/upstream-changelog@v4.0.0
