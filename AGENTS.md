@@ -92,6 +92,24 @@ is no root `format` script — run `npx prettier --write .` before pushing.
 `github-actions` formats the same three with Prettier and does have that script;
 see that repository's `AGENTS.md` for what the rest of the organization does.
 
+### Workflow naming
+
+The shared rule is the Conventions bullet above; what it looks like here:
+
+| `name:`             | Trigger                            | Filename                  |
+| ------------------- | ---------------------------------- | ------------------------- |
+| `Build`             | `push`, `pull_request`             | `build.yaml`              |
+| `Lint`              | `push`, `pull_request`, `schedule` | `lint.yaml`               |
+| `Build application` | `workflow_call`                    | `_build-application.yaml` |
+
+The leading underscore on a reusable workflow is what separates entry points
+from building blocks in the folder listing.
+
+A job name takes any matrix values appended to it, which the shared bullet does
+not say. **`build.yaml` matches its own filename in a regular expression**, so
+renaming either build workflow means updating that pattern too — nothing else in
+the repository refers to a workflow by name.
+
 ### Image naming
 
 An application's `image` is the generic multi-architecture name with no
