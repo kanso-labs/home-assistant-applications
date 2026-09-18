@@ -14,3 +14,8 @@ docs/public/icons/
 
 # npm owns this file's formatting, and rewrites it on every install.
 docs/package-lock.json
+
+# The organization's licence, byte-identical across every repository. Both
+# formatters accept it as it stands, but reformatting it here would break that
+# equality the moment either one changes its mind about Markdown.
+LICENSE.md
