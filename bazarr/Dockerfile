@@ -1,7 +1,8 @@
 # https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
-# Bazarr supports Python 3.13 and below. It starts on 3.14 and then says so
-# itself: "Python version greater than 3.13.x is unsupported [...] you're on
-# your own". Renovate is held to 3.13 for this image; see renovate.json.
+# Bazarr warns above Python 3.13 — "Python version greater than 3.13.x is
+# unsupported [...] you're on your own" — but check_python_version() only exits
+# below 3.10, and upstream CI runs its backend suite on 3.14. The warning is not
+# a ceiling, so Renovate follows this image wherever it goes.
 ARG BUILD_FROM=ghcr.io/home-assistant/base-python:3.13-alpine3.22
 FROM ${BUILD_FROM}
 
