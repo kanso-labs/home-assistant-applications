@@ -70,7 +70,7 @@ Shared with the other `kanso-labs` repositories:
   exception: they state what the consumer's own installed copy must satisfy, so
   ranges are correct there and stay.
 - **`.tool-versions` pins a fully-specified version on every line**,
-  `nodejs 24.19.0`, never `nodejs 24` or `nodejs lts`.
+  `nodejs 24.21.0`, never `nodejs 24` or `nodejs lts`.
 
 Two directories here carry a `package.json` and a `.tool-versions`:
 `n8n/rootfs/usr/src/n8n/` and `docs/`. Neither rule is cosmetic in
