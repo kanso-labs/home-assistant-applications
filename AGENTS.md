@@ -92,8 +92,8 @@ on the same Node, and the workflow reads that same file through
 **Prettier formats the YAML, JSON and Markdown here**, and the site's TypeScript
 and CSS along with them; CI checks it. There is no root `package.json`, so there
 is no root `format` script — run `npx prettier --write .` before pushing.
-`github-actions` formats the same three with Prettier and does have that script;
-see that repository's `AGENTS.md` for what the rest of the organization does.
+`actions` formats the same three with Prettier and does have that script; see
+that repository's `AGENTS.md` for what the rest of the organization does.
 
 ### Workflow naming
 
@@ -293,8 +293,7 @@ If it never moves, nothing you change inside an image ever reaches anyone.
 Nobody edits that field by hand. release-please owns it.
 
 How it runs is shared with the other `kanso-labs` repositories rather than
-configured here:
-[`kanso-labs/github-actions`](https://github.com/kanso-labs/github-actions)
+configured here: [`kanso-labs/actions`](https://github.com/kanso-labs/actions)
 holds the workflow, and `.github/workflows/release-please.yaml` calls it at a
 pinned tag. Changing the token, the auto-merge behaviour, or the release-please
 version means changing it there and bumping the pin here, which Renovate opens a
@@ -409,7 +408,7 @@ body that nothing here would ever read.
 - The workflow triggers on `edited` as well as `opened` and `synchronize`,
   because a Renovate rewrite of the body replaces what the action wrote.
 - The action itself lives in
-  [`kanso-labs/github-actions`](https://github.com/kanso-labs/github-actions/tree/main/actions/upstream-changelog),
+  [`kanso-labs/actions`](https://github.com/kanso-labs/actions/tree/main/actions/upstream-changelog),
   pinned by tag. Its README holds the mechanism and the traps.
 
 **It runs for the applications, not for every upgrade**, and the filter is the
@@ -435,9 +434,9 @@ Renovate itself has no comment commands — it reads a checkbox in the pull
 request body on its next scheduled run, which is up to three hours away.
 `.github/workflows/renovate-command.yaml` closes both halves of that gap by
 calling the shared workflow in
-[`kanso-labs/github-actions`](https://github.com/kanso-labs/github-actions),
-which ticks the box and then dispatches the runner in `kanso-labs/renovate`. The
-bot reacts as it goes: 👀 accepted, 🚀 dispatched, 😕 refused.
+[`kanso-labs/actions`](https://github.com/kanso-labs/actions), which ticks the
+box and then dispatches the runner in `kanso-labs/renovate`. The bot reacts as
+it goes: 👀 accepted, 🚀 dispatched, 😕 refused.
 
 The commands need write access to this repository, and only work on pull
 requests Renovate opened — anything else has no checkbox to tick, and the run
