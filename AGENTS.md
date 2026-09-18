@@ -46,7 +46,10 @@ hand, and it has its own step under Adding an application.
 
 ## Conventions
 
-Shared with the other `kanso-labs` repositories:
+Shared with the other `kanso-labs` repositories. The canonical text is
+[`CONVENTIONS.md`](https://github.com/kanso-labs/.github/blob/main/CONVENTIONS.md)
+in `kanso-labs/.github`; this is a copy, kept in step by hand. Change that file
+first, then every copy.
 
 - **Keys in JSON and YAML are ordered by name.** Files whose order carries
   meaning are exempt: workflows, where step order is execution order;
@@ -61,7 +64,7 @@ Shared with the other `kanso-labs` repositories:
   `@main` and never a tag the publisher moves — `@v7` and `@v7.0` both move.
   Renovate opens the bump pull requests, and it has nothing to open when the pin
   never changes: `frenck/action-app-linter@v2.21` sat still through a repository
-  rename and a release that fixed something this repository was working around,
+  rename and a release that fixed something a consumer was working around,
   because the tag it named was moved onto both.
 - **Dependency versions are pinned exactly.** Every `dependencies`,
   `devDependencies`, and `optionalDependencies` entry is a bare version,
@@ -70,7 +73,7 @@ Shared with the other `kanso-labs` repositories:
   exception: they state what the consumer's own installed copy must satisfy, so
   ranges are correct there and stay.
 - **`.tool-versions` pins a fully-specified version on every line**,
-  `nodejs 24.21.0`, never `nodejs 24` or `nodejs lts`.
+  `nodejs <major>.<minor>.<patch>`, never `nodejs 24` or `nodejs lts`.
 
 Two directories here carry a `package.json` and a `.tool-versions`:
 `n8n/rootfs/usr/src/n8n/` and `docs/`. Neither rule is cosmetic in
