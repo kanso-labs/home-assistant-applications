@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.19](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.2.18...n8n-v1.2.19) (2026-09-21)
+
+
+### Bug Fixes
+
+* update dependency n8n to v2.39.10 ([#384](https://github.com/kanso-labs/home-assistant-applications/issues/384)) ([42643d6](https://github.com/kanso-labs/home-assistant-applications/commit/42643d646806c6184c39b7ca583027347d435833))
+
+
+### Upstream changes
+
+* **v2.39.10:** [Limit declarative routing during base URL ownership checks](https://github.com/n8n-io/n8n/issues/39146) ([42643d6](https://github.com/kanso-labs/home-assistant-applications/commit/42643d646806c6184c39b7ca583027347d435833))
+
 ## [1.2.18](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.2.17...n8n-v1.2.18) (2026-09-21)
 
 
