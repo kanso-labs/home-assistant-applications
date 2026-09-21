@@ -1,0 +1,49 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Authentik
+# Runs the PostgreSQL that Authentik stores everything in
+# ==============================================================================
+
+# Debian keeps the server binaries out of PATH so that several major versions
+# can be installed side by side. Only one is installed here.
+export PATH="/usr/lib/postgresql/17/bin:${PATH}"
+
+readonly data_dir='/data/postgresql'
+readonly socket_dir='/run/postgresql'
+
+mkdir -p "${socket_dir}"
+chown postgres:postgres "${socket_dir}"
+
+# /data is where Home Assistant keeps an application's private state and is
+# included in backups, which is what makes this the database's home. It is also
+# why the service below never runs Authentik as root: `ak` chowns all of /data
+# to the authentik user when it is, and that takes the cluster with it.
+if [[ ! -s "${data_dir}/PG_VERSION" ]]; then
+  bashio::log.info 'Creating the PostgreSQL cluster...'
+
+  mkdir -p "${data_dir}"
+  chown postgres:postgres "${data_dir}"
+  chmod 0700 "${data_dir}"
+
+  # Local connections are trusted because nothing outside this container can
+  # make one: the server is told below to listen on the loopback address alone,
+  # and no port for it is published in config.yaml.
+  s6-setuidgid postgres initdb \
+    --pgdata="${data_dir}" \
+    --encoding='UTF8' \
+    --locale='C.UTF-8' \
+    --auth-local='trust' \
+    --auth-host='trust' \
+    > /dev/null || bashio::exit.nok 'Could not create the PostgreSQL cluster'
+fi
+
+chown postgres:postgres "${data_dir}"
+
+bashio::log.info 'Starting PostgreSQL...'
+
+exec s6-setuidgid postgres postgres \
+  -D "${data_dir}" \
+  -c listen_addresses='127.0.0.1' \
+  -c port=5432 \
+  -c unix_socket_directories="${socket_dir}"
