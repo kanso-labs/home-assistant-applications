@@ -37,5 +37,5 @@ schema:
   log_level: list(trace|debug|info|warning|error)
 slug: authentik
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/authentik'
-version: '0.1.0' # x-release-please-version
+version: '0.2.0' # x-release-please-version
 webui: 'http://[HOST]:[PORT:9000]'
