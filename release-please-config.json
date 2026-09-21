@@ -62,6 +62,15 @@
     }
   ],
   "packages": {
+    "authentik": {
+      "component": "authentik",
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
+    },
     "bazarr": {
       "component": "bazarr",
       "extra-files": [

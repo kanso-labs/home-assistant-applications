@@ -1,0 +1,41 @@
+arch:
+  - aarch64
+  - amd64
+backup: cold
+description:
+  Self-hosted identity provider for single sign-on. Authentik puts OAuth2, OIDC,
+  SAML, LDAP and proxy authentication in front of the applications you run, with
+  one set of users and one login.
+image: 'ghcr.io/kanso-labs/home-assistant-application-authentik'
+init: false
+map:
+  # Read/write, and nothing else. This holds the drop-in directories a user
+  # fills by hand — custom email templates and certificates. The database, the
+  # media uploads and the secret key are private state and live in /data, which
+  # Home Assistant already backs up without being mapped. Blueprints stay inside
+  # the image: they are what the default flows are built from, so an empty
+  # mapped directory would mean a fresh install with no login flow at all.
+  #
+  # Note what is deliberately absent: the media map type. Authentik uses
+  # /media for its own icon and background uploads, so mapping the Home
+  # Assistant media library there would mount a film collection on top of it.
+  - read_only: false
+    type: app_config
+name: Authentik
+options:
+  bootstrap_email: ''
+  bootstrap_password: ''
+  cookie_domain: ''
+  log_level: info
+ports:
+  9000/tcp: 9000
+  9443/tcp: 9443
+schema:
+  bootstrap_email: email?
+  bootstrap_password: password?
+  cookie_domain: str?
+  log_level: list(trace|debug|info|warning|error)
+slug: authentik
+url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/authentik'
+version: '1.0.0' # x-release-please-version
+webui: 'http://[HOST]:[PORT:9000]'

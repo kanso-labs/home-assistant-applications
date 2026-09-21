@@ -1,0 +1,25 @@
+configuration:
+  bootstrap_email:
+    description: >-
+      Email address for the first administrator, read only when that account is
+      created on the very first start. Setting it later changes nothing.
+    name: First administrator's email
+  bootstrap_password:
+    description: >-
+      Password for the first administrator, read only when that account is
+      created on the very first start. Clear it once you have logged in — it
+      does nothing afterwards, and leaving it here keeps it in your
+      configuration in plain sight.
+    name: First administrator's password
+  cookie_domain:
+    description: >-
+      The domain the session cookie is issued for, such as example.com. Set it
+      when Authentik protects several subdomains, so that a login on one is
+      accepted by the others. Leave it empty when reaching Authentik by address.
+    name: Cookie domain
+  log_level:
+    description: How much detail Authentik writes to its log.
+    name: Log level
+network:
+  9000/tcp: The port the Authentik web interface listens on.
+  9443/tcp: The same interface over HTTPS, with a self-signed certificate.

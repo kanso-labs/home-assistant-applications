@@ -1,0 +1,123 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Authentik
+# Runs Authentik
+# ==============================================================================
+
+export PATH="/usr/lib/postgresql/17/bin:${PATH}"
+
+readonly secret_file='/data/secret_key'
+readonly database='authentik'
+
+# s6 starts this service as soon as PostgreSQL's service has started, which is
+# not the same as PostgreSQL being ready to answer. `ak` waits for the database
+# itself, but the role and the database have to exist before it can.
+bashio::log.info 'Waiting for PostgreSQL...'
+for _ in {1..60}; do
+  pg_isready --host='/run/postgresql' --username='postgres' --quiet && break
+  sleep 1
+done
+pg_isready --host='/run/postgresql' --username='postgres' --quiet \
+  || bashio::exit.nok 'PostgreSQL did not become ready'
+
+if ! s6-setuidgid postgres psql --host='/run/postgresql' --username='postgres' \
+    --no-align --tuples-only --command='SELECT 1 FROM pg_database WHERE datname = '"'${database}'" \
+    | grep -q 1; then
+  bashio::log.info 'Creating the Authentik database...'
+  s6-setuidgid postgres createuser --host='/run/postgresql' "${database}"
+  s6-setuidgid postgres createdb --host='/run/postgresql' --owner="${database}" "${database}"
+fi
+
+# Sessions, tokens and every encrypted field are tied to this key. Generating
+# it once and keeping it is what makes them survive a restart; losing it logs
+# everyone out and invalidates what it encrypted, which is why it lives in
+# /data with the database rather than being an option someone can retype.
+if [[ ! -s "${secret_file}" ]]; then
+  bashio::log.info 'Generating the Authentik secret key...'
+  openssl rand -base64 60 | tr -d '\n' > "${secret_file}"
+  chmod 0600 "${secret_file}"
+fi
+
+AUTHENTIK_SECRET_KEY=$(<"${secret_file}")
+export AUTHENTIK_SECRET_KEY
+
+export AUTHENTIK_POSTGRESQL__HOST='127.0.0.1'
+export AUTHENTIK_POSTGRESQL__PORT='5432'
+export AUTHENTIK_POSTGRESQL__NAME="${database}"
+export AUTHENTIK_POSTGRESQL__USER="${database}"
+export AUTHENTIK_POSTGRESQL__PASSWORD=''
+export AUTHENTIK_POSTGRESQL__SSLMODE='disable'
+
+# /config is the application's configuration directory, and these are the two
+# drop-in folders a user is expected to put files into. Both default to a path
+# inside the image, where anything written would be lost on the next update.
+#
+# Blueprints are deliberately left where they are. They ship inside the image
+# and are what Authentik builds its default flows from, so pointing this at an
+# empty mapped directory would start a fresh install with no login flow, and
+# copying them out once would strand the copies at that version.
+export AUTHENTIK_EMAIL__TEMPLATE_DIR='/config/templates'
+export AUTHENTIK_CERT_DISCOVERY_DIR='/config/certs'
+mkdir -p /config/certs /config/templates
+
+AUTHENTIK_LOG_LEVEL=$(bashio::config 'log_level')
+export AUTHENTIK_LOG_LEVEL
+
+# The packaging is the only route to a new version here, exactly as it is for
+# the arr applications, so the check that would advertise one is turned off
+# rather than left to report updates nobody can install from inside.
+export AUTHENTIK_DISABLE_UPDATE_CHECK='true'
+export AUTHENTIK_DISABLE_STARTUP_ANALYTICS='true'
+
+# Set when Authentik is reached under a domain rather than by address, so that
+# the session cookie is accepted across the subdomains it protects.
+if bashio::config.has_value 'cookie_domain'; then
+  AUTHENTIK_COOKIE_DOMAIN=$(bashio::config 'cookie_domain')
+  export AUTHENTIK_COOKIE_DOMAIN
+fi
+
+# Only read on the very first start, when the akadmin user is created. Setting
+# them afterwards changes nothing, which is why DOCS.md says to clear them.
+if bashio::config.has_value 'bootstrap_email'; then
+  AUTHENTIK_BOOTSTRAP_EMAIL=$(bashio::config 'bootstrap_email')
+  export AUTHENTIK_BOOTSTRAP_EMAIL
+fi
+
+if bashio::config.has_value 'bootstrap_password'; then
+  AUTHENTIK_BOOTSTRAP_PASSWORD=$(bashio::config 'bootstrap_password')
+  export AUTHENTIK_BOOTSTRAP_PASSWORD
+fi
+
+# Icons and flow backgrounds people upload are written under /media, which the
+# image leaves inside itself — an update replaces that layer and takes them
+# with it. /data is the application's private directory and is backed up, so
+# /media is pointed there instead. The image ships /data/media as a symlink the
+# other way round, which has to go first or the two chase each other.
+if [[ -L /data/media ]]; then
+  rm -f /data/media
+fi
+mkdir -p /data/media
+if [[ ! -L /media ]]; then
+  rm -r -f /media
+  ln -s /data/media /media
+fi
+
+chown -R authentik:authentik /config /data/media
+chown authentik:authentik /data "${secret_file}"
+
+bashio::log.info 'Starting Authentik...'
+
+# `ak` runs `python -m lifecycle.wait_for_db`, which resolves that package out
+# of the working directory. The image sets WORKDIR to /, s6 starts a service in
+# whatever directory it likes, and the mismatch surfaces as a ModuleNotFoundError
+# with nothing in it pointing at the cause.
+cd / || bashio::exit.nok 'The root directory is missing'
+
+# `allinone` is upstream's own mode for running the server and the worker in one
+# process, which is what lets three containers become one application.
+#
+# Dropping to the authentik user here is load-bearing rather than tidiness: `ak`
+# chowns the whole of /data to that user when it runs as root, and the
+# PostgreSQL cluster is under /data.
+exec s6-setuidgid authentik ak allinone
