@@ -1,0 +1,10 @@
+network:
+  80/tcp: >-
+    A entrada HTTP. Aponte a porta 80 do seu roteador para cá, e os hosts que
+    você encaminha respondem nela. O Let's Encrypt também a usa para verificar
+    um domínio.
+  81/tcp:
+    A porta em que a interface de administração do Nginx Proxy Manager escuta.
+  443/tcp: >-
+    A entrada HTTPS. Aponte a porta 443 do seu roteador para cá, e os hosts que
+    você encaminha respondem nela com os certificados que receberam.
