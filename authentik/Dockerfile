@@ -84,9 +84,17 @@ ENTRYPOINT ["/init"]
 
 # The base image's health check runs `ak healthcheck`, which as root chowns
 # /data to the authentik user — and the PostgreSQL cluster lives under /data.
-# Supervisor decides an application's state from the container rather than from
-# a health check, so there is nothing to replace it with.
-HEALTHCHECK NONE
+# It has to be replaced rather than removed: Supervisor reads the container's
+# `Healthcheck` config, and `HEALTHCHECK NONE` writes `Test: ["NONE"]`, which is
+# truthy. An application with no health check at all is reported started as soon
+# as it runs, but one with an inert check waits in `startup` for a health status
+# Docker never emits, and never comes out of it.
+#
+# A plain request for the liveness endpoint has none of `ak healthcheck`'s side
+# effects and works whatever the host maps the port to. The start period is long
+# because a first boot runs every migration and imports the default flows.
+HEALTHCHECK --interval=30s --timeout=10s --start-period=600s --retries=5 \
+    CMD curl -f -s -S -o /dev/null http://127.0.0.1:9000/-/health/live/ || exit 1
 
 # Expose the ports
 EXPOSE 9000 9443
