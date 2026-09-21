@@ -1,0 +1,43 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Home Assistant Community App: Nginx Proxy Manager
+# This file applies patches so the app becomes compatible
+# ==============================================================================
+mkdir -p \
+    /config/access \
+    /config/custom_ssl \
+    /config/letsencrypt \
+    /config/letsencrypt-acme-challenge \
+    /config/logs \
+    /config/nginx/dead_host \
+    /config/nginx/default_host \
+    /config/nginx/default_www \
+    /config/nginx/proxy_host \
+    /config/nginx/redirection_host \
+    /config/nginx/stream \
+    /config/nginx/temp \
+    /tmp/letsencrypt-lib \
+    /tmp/nginx/body \
+    /tmp/nginx/cache/private \
+    /tmp/nginx/cache/public \
+    /tmp/nginx/proxy \
+    || bashio::exit.nok "Could not create the required directories"
+
+# Nginx keeps its temporary paths under /var/cache/nginx. Point that at tmpfs,
+# so proxy buffering never writes to the container filesystem.
+ln -sfT /tmp/nginx /var/cache/nginx \
+    || bashio::exit.nok "Could not link the Nginx temporary directory"
+ln -sfT /config /opt/nginx-proxy-manager/config \
+    || bashio::exit.nok "Could not link the app configuration directory"
+ln -sfT /config/letsencrypt /etc/letsencrypt \
+    || bashio::exit.nok "Could not link the Let's Encrypt directory"
+
+# Nginx opens its compile-time default error log before it reads the
+# configuration, which redirects logging to stdout. It never writes here.
+mkdir -p /var/log/nginx \
+    || bashio::exit.nok "Could not create the Nginx log directory"
+touch /var/log/nginx/error.log \
+    || bashio::exit.nok "Could not create the Nginx error log"
+chmod 644 /var/log/nginx/error.log \
+    || bashio::exit.nok "Could not set permissions on the Nginx error log"

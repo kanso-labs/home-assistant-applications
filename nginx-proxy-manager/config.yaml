@@ -1,0 +1,30 @@
+arch:
+  - aarch64
+  - amd64
+backup: cold
+backup_exclude:
+  - '*/logs'
+description:
+  Reverse proxy with a web interface and free SSL certificates. Nginx Proxy
+  Manager puts your services behind one hostname each, and gets Let's Encrypt
+  certificates for them without touching a configuration file.
+hassio_api: true
+image: 'ghcr.io/kanso-labs/home-assistant-application-nginx-proxy-manager'
+init: false
+map:
+  # Read/write, and nothing else. Everything Nginx Proxy Manager keeps is here:
+  # its SQLite database, the generated Nginx host files, the Let's Encrypt
+  # account and certificates, and the access lists. It reaches the services it
+  # proxies over the network, so it needs no other mapping.
+  - read_only: false
+    type: app_config
+name: Nginx Proxy Manager
+ports:
+  80/tcp: 80
+  81/tcp: 81
+  443/tcp: 443
+slug: nginx-proxy-manager
+startup: services
+url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/nginx-proxy-manager'
+version: '1.0.0' # x-release-please-version
+webui: 'http://[HOST]:[PORT:81]'

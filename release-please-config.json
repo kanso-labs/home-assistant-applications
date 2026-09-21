@@ -125,6 +125,15 @@
         }
       ]
     },
+    "nginx-proxy-manager": {
+      "component": "nginx-proxy-manager",
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
+    },
     "notifiarr": {
       "component": "notifiarr",
       "extra-files": [

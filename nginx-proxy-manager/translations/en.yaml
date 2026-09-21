@@ -1,0 +1,8 @@
+network:
+  80/tcp: >-
+    The HTTP entrance. Point your router's port 80 here, and the hosts you proxy
+    answer on it. Let's Encrypt also uses it to verify a domain.
+  81/tcp: The port the Nginx Proxy Manager admin interface listens on.
+  443/tcp: >-
+    The HTTPS entrance. Point your router's port 443 here, and the hosts you
+    proxy answer on it with the certificates they were issued.
