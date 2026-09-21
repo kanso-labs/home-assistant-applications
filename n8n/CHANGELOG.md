@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.18](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.2.17...n8n-v1.2.18) (2026-09-21)
+
+
+### Bug Fixes
+
+* update dependency n8n to v2.39.9 ([#382](https://github.com/kanso-labs/home-assistant-applications/issues/382)) ([3762162](https://github.com/kanso-labs/home-assistant-applications/commit/376216237543350f2ce98a93948347811458e5fa))
+
+
+### Upstream changes
+
+* **v2.39.9:** [**API:** Resolve HTTP 405 error on PATCH /credentials/{credentialId} public API endpoint](https://github.com/n8n-io/n8n/issues/38982) ([3762162](https://github.com/kanso-labs/home-assistant-applications/commit/376216237543350f2ce98a93948347811458e5fa))
+* **v2.39.9:** [**core:** Tear down workflow triggers when publication meets a node type the instance cannot load](https://github.com/n8n-io/n8n/issues/39057) ([3762162](https://github.com/kanso-labs/home-assistant-applications/commit/376216237543350f2ce98a93948347811458e5fa))
+
 ## [1.2.17](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.2.16...n8n-v1.2.17) (2026-09-20)
 
 
