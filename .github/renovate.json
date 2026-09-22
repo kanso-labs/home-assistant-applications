@@ -34,19 +34,7 @@
   "description": "local>kanso-labs/.github:renovate-config is the organization's shared Renovate preset, holding the settings that have to hold in every kanso-labs repository. It is listed last because a later preset wins a conflict with an earlier one: moved ahead of config:recommended it would be overridden by the very preset it exists to correct. This file is merged over the runner's config.js rather than inheriting from it, so extending the preset here is what carries an organization-wide setting into this repository at all. See the README in kanso-labs/.github.",
   "extends": ["config:recommended", "local>kanso-labs/.github:renovate-config"],
   "minimumReleaseAge": null,
-  "mise": {
-    "enabled": true
-  },
   "packageRules": [
-    {
-      "description": "Renovate's own config:recommended sets semanticCommitType through a packageRule, and packageRules beat top-level config. Setting it at the top level therefore does nothing at all: every upgrade stays chore and cuts no release.",
-      "matchPackageNames": ["*"],
-      "semanticCommitType": "deps"
-    },
-    {
-      "automerge": true,
-      "matchUpdateTypes": ["minor", "patch"]
-    },
     {
       "description": "Plex tags carry a per-build commit hash, and docker versioning treats everything after the first dash as a compatibility suffix it will not cross. Every release mints a fresh hash, so no newer tag is ever compatible and no update was ever offered. Parsing the four numeric parts and declaring no compatibility group is what lets the build number order the tags.",
       "matchPackageNames": ["plexinc/pms-docker"],
@@ -80,11 +68,5 @@
       ],
       "semanticCommitType": "fix"
     }
-  ],
-  "prConcurrentLimit": 0,
-  "prHourlyLimit": 0,
-  "rebaseWhen": "behind-base-branch",
-  "recreateWhen": "always",
-  "semanticCommitScope": null,
-  "semanticCommits": "enabled"
+  ]
 }
