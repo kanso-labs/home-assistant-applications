@@ -117,6 +117,27 @@ Read Authentik's release notes before taking a major one. Its releases sometimes
 carry migrations that cannot be rolled back, and restoring the Home Assistant
 backup you took first is the only way down.
 
+## The first start is slow, and says so in the log
+
+A first boot runs every database migration and imports the default flows, which
+takes minutes rather than seconds on modest hardware. Home Assistant shows the
+application as starting for the whole of it.
+
+Two things in that log are expected and need no action. The liveness endpoint
+answers 500 until the migrations finish, which is why the health check is given
+a long grace period. And a PostgreSQL deadlock between two blueprint tasks can
+appear as the default flows are imported:
+
+```text
+ERROR:  deadlock detected
+DETAIL: Process 426 waits for ShareLock on transaction 3088; blocked by process 428.
+        Process 428 waits for ShareLock on transaction 3044; blocked by process 426.
+```
+
+Authentik imports its blueprints concurrently and retries the task that lost, so
+the import completes either way. It is upstream behaviour rather than something
+this packaging causes.
+
 ## Support
 
 Open an issue on the
