@@ -54,4 +54,4 @@ jobs:
       # maintains for the release itself, rather than a second copy of the list
       # that would go stale the day an application is added.
       - name: Carry the upstream release notes
-        uses: kanso-labs/actions/upstream-changelog@v4.0.1
+        uses: kanso-labs/actions/upstream-changelog@v4.0.2
