@@ -41,6 +41,12 @@
       "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)-\\w+$"
     },
     {
+      "description": "Radarr, Sonarr, Prowlarr and s6-overlay publish four-part versions such as 2.6.5.5623, which are not valid semver. semver-coerced, the default versioning, therefore judges every one of them unstable, the pin included, and from an unstable pin it offers only releases sharing its major, minor and patch. None of those coerces to anything greater, so no update was ever offered and nothing was logged. Matching the pin's shape rather than a list of names catches the next application that versions this way, and GitHub's prerelease flag still keeps the develop builds out.",
+      "matchCurrentValue": "/^\\d+\\.\\d+\\.\\d+\\.\\d+$/",
+      "matchDatasources": ["github-releases"],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)$"
+    },
+    {
       "groupName": "Home Assistant Base Images",
       "matchPackageNames": ["ghcr.io/home-assistant/**"]
     },
