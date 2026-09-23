@@ -10,7 +10,8 @@ What the fork adds:
 
 - **A provider marketplace** — a plugin catalogue of subtitle providers, rather
   than only the set compiled in.
-- **AI translation** through OpenRouter, and translation from embedded tracks.
+- **Machine translation** through Lingarr, Gemini, Google Translate or
+  OpenRouter, and translation from embedded tracks.
 - **Bilingual and trilingual subtitles** in one file.
 - **Multi-engine subtitle synchronisation.**
 
@@ -29,6 +30,17 @@ database schema has diverged from the one Bazarr writes.
 3. Start it, then open the web interface on port **6768**.
 4. Work through the setup wizard: Sonarr and Radarr, then languages and
    providers.
+
+### Turn on a login
+
+Bazarr+ starts with no authentication, and port 6768 is published on your
+network. Until you add a login, anyone who can reach the port has the whole
+interface, including the provider passwords and the Sonarr and Radarr API keys
+it stores.
+
+Set **Settings → General → Security → Authentication** to **Form** and choose a
+username and password. Anything that talks to Bazarr+ through its API key keeps
+working.
 
 ### Why 6768
 
@@ -49,9 +61,23 @@ Point it at Radarr and Sonarr under Settings, then choose the subtitle languages
 and providers you want. It reaches them over the internal network, so use their
 application hostnames rather than `localhost`.
 
-Translation through OpenRouter needs an API key, which you supply under the
-translation settings. It is a paid third-party service and nothing here sends
-anything to it until you configure one.
+Language profiles are applied automatically only to series and movies Bazarr+
+syncs after you set a default under **Settings → Languages**. Anything it synced
+before that has no profile and gets no subtitles, so assign one from **Mass
+Edit** on the Series and Movies pages.
+
+### Translation
+
+Nothing is translated until you choose a translator under **Settings →
+Translator**. [Lingarr](../lingarr), which this repository also ships, needs
+only its address and API key here; which service does the translating is set in
+Lingarr. Gemini and OpenRouter are paid third-party services with API keys of
+their own, and nothing is sent to any of them until you configure one.
+
+To translate automatically, set **Translate From** on a language in a language
+profile — Portuguese (Brazil) from English, say. When that language is missing
+and a subtitle in the source language exists, Bazarr+'s search for missing
+subtitles translates it rather than looking for it on the providers.
 
 ## Storage
 
