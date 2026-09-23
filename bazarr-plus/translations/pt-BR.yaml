@@ -1,0 +1,5 @@
+network:
+  6767/tcp: >-
+    A porta em que a interface web do Bazarr+ escuta. É publicada na 6768 por
+    padrão, porque o Bazarr do qual este é um fork usa a 6767 e instalar os dois
+    na mesma porta gera conflito.

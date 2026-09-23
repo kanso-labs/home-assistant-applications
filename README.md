@@ -33,6 +33,7 @@ one's `DOCS.md` covers its options, what it maps, and how it is backed up.
 | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------ |
 | [Authentik](./authentik)                     | Identity provider for single sign-on, fronting your applications with OAuth2, OIDC, SAML, LDAP and proxy auth.           | Port 9000          |
 | [Bazarr](./bazarr)                           | Subtitle manager for Radarr and Sonarr, keeping subtitles alongside the media.                                           | Port 6767          |
+| [Bazarr+](./bazarr-plus)                     | Bazarr fork adding a subtitle provider marketplace, bilingual subtitles and AI translation.                              | Port 6768          |
 | [Cleanuparr](./cleanuparr)                   | Strikes stuck and unwanted downloads from the arr queues and asks for replacements.                                      | Port 11011         |
 | [Configarr](./configarr)                     | Syncs TRaSH Guides and Recyclarr templates into Sonarr, Radarr and Prowlarr.                                             | None               |
 | [FlareSolverr](./flaresolverr)               | Proxy that solves the challenges standing between the arr applications and their indexers.                               | Ingress, port 8191 |
