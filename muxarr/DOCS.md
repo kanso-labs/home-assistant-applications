@@ -86,18 +86,6 @@ Updates arrive by updating this application.
 as a prerelease and the project is pre-1.0, so treat an update the way you would
 treat any pre-1.0 software: read what changed, and take a backup first.
 
-## Why this starts at 0.1.0
-
-Every other application in this repository starts at `1.0.0`. This one does not,
-because nothing has run it against a real library yet — it has been built,
-booted and driven through its setup wizard, and that is all.
-
-It moves to `1.0.0` once it has processed real files on a real instance without
-surprises. Until then the version is saying what is actually known about it.
-
-Nothing about the packaging is provisional — the version is a statement about
-how much it has been exercised, not about what is in the image.
-
 ## Support
 
 Open an issue on the
