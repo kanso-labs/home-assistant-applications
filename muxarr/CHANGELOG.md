@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0](https://github.com/kanso-labs/home-assistant-applications/compare/muxarr-v0.2.0...muxarr-v1.0.0) (2026-09-23)
+
+
+### Features
+
+* **muxarr:** release 1.0.0 ([89be67c](https://github.com/kanso-labs/home-assistant-applications/commit/89be67c820e5fa5805992595c00604fc6577a15a))
+
 ## [0.2.0](https://github.com/kanso-labs/home-assistant-applications/compare/muxarr-v0.1.0...muxarr-v0.2.0) (2026-09-23)
 
 
