@@ -116,6 +116,15 @@
         }
       ]
     },
+    "muxarr": {
+      "component": "muxarr",
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
+    },
     "n8n": {
       "component": "n8n",
       "extra-files": [

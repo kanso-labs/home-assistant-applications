@@ -37,6 +37,7 @@ one's `DOCS.md` covers its options, what it maps, and how it is backed up.
 | [Configarr](./configarr)                     | Syncs TRaSH Guides and Recyclarr templates into Sonarr, Radarr and Prowlarr.                                             | None               |
 | [FlareSolverr](./flaresolverr)               | Proxy that solves the challenges standing between the arr applications and their indexers.                               | Ingress, port 8191 |
 | [Lingarr](./lingarr)                         | Translates the subtitles your library is missing, through LibreTranslate, DeepL or an AI service.                        | Port 9876          |
+| [Muxarr](./muxarr)                           | Strips unwanted audio and subtitle tracks from your media, remuxing rather than re-encoding.                             | Port 8183          |
 | [n8n](./n8n)                                 | Workflow and AI automation, built with the precision of code or the speed of drag and drop.                              | Ingress            |
 | [Nginx Proxy Manager](./nginx-proxy-manager) | Reverse proxy with a web interface and free Let's Encrypt certificates for the services behind it.                       | Port 81            |
 | [Notifiarr](./notifiarr)                     | Unified client for Notifiarr.com, reporting on the stack and letting Discord drive it.                                   | Port 5454          |

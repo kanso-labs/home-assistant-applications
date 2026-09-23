@@ -1,0 +1,10 @@
+configuration:
+  umask:
+    description: >-
+      As permissões que o Muxarr dá aos arquivos que reescreve. 022 os deixa
+      graváveis apenas pelo dono, que é o padrão; 002 os torna graváveis pelo
+      grupo, que é o necessário para uma biblioteca compartilhada com outras
+      aplicações ou usuários.
+    name: Máscara de permissão de arquivos
+network:
+  8183/tcp: A porta em que a interface web do Muxarr escuta.

@@ -1,0 +1,10 @@
+configuration:
+  umask:
+    description: >-
+      The permissions Muxarr gives the files it rewrites. 022 leaves them
+      writable by their owner alone, which is the default; 002 makes them
+      group-writable, which is what a library shared with other applications or
+      users needs.
+    name: File permission mask
+network:
+  8183/tcp: The port the Muxarr web interface listens on.
