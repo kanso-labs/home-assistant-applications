@@ -8,7 +8,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ARG BUILD_ARCH=amd64
 ARG BUILD_VERSION=dev
 # renovate: datasource=github-releases depName=Prowlarr/Prowlarr
-ARG PROWLARR_VERSION=2.5.2.5491
+ARG PROWLARR_VERSION=2.6.5.5623
 
 ENV XDG_CONFIG_HOME="/config/xdg"
 
