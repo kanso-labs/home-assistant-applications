@@ -1,0 +1,31 @@
+arch:
+  - aarch64
+  - amd64
+backup: cold
+description:
+  Strips unwanted audio and subtitle tracks from your media. Muxarr remuxes
+  rather than re-encodes, so a file is rewritten in about a minute with no loss
+  of quality, and Sonarr and Radarr can hand it new imports as they arrive.
+image: 'ghcr.io/kanso-labs/home-assistant-application-muxarr'
+init: false
+map:
+  - read_only: false
+    type: app_config
+  # Write access, because Muxarr rewrites the file in place — that is the whole
+  # job. Read-only mappings would let it scan a library, show you what it would
+  # strip, and fail at the point of doing it.
+  - read_only: false
+    type: media
+  - read_only: false
+    type: share
+name: Muxarr
+options:
+  umask: '022'
+ports:
+  8183/tcp: 8183
+schema:
+  umask: match(^[0-7]{3,4}$)
+slug: muxarr
+url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/muxarr'
+version: '0.1.0' # x-release-please-version
+webui: 'http://[HOST]:[PORT:8183]'

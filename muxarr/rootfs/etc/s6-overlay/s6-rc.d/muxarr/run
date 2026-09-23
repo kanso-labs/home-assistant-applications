@@ -1,0 +1,30 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Muxarr
+# Runs Muxarr
+# ==============================================================================
+
+# The port Muxarr listens on inside the container. The image already sets it;
+# config.yaml is what publishes the result.
+export ASPNETCORE_HTTP_PORTS='8183'
+
+# The database and settings. /config is where Supervisor mounts the
+# application's configuration directory, and where Muxarr looks by default.
+#
+# Older versions kept the database in /data and the image still declares that
+# path as a volume. Nothing here writes to it, so an install that started on a
+# newer version never has one — and Muxarr says so in its own interface if it
+# ever finds one.
+mkdir -p /config
+
+# Muxarr rewrites files in the library, so the permissions they land with are
+# the user's business. 022 leaves them writable by their owner alone; 002 is
+# what a library shared with a group needs.
+umask "$(bashio::config 'umask')"
+
+bashio::log.info 'Starting Muxarr...'
+
+cd /app || bashio::exit.nok 'The application directory is missing'
+
+exec dotnet Muxarr.Web.dll
