@@ -1,0 +1,28 @@
+arch:
+  - aarch64
+  - amd64
+backup: cold
+description:
+  Subtitle manager with a provider marketplace and AI translation. Bazarr+ is a
+  fork of Bazarr that adds a plugin catalogue of subtitle providers, bilingual
+  subtitles, and translation through OpenRouter or embedded tracks.
+image: 'ghcr.io/kanso-labs/home-assistant-application-bazarr-plus'
+init: false
+map:
+  - read_only: false
+    type: app_config
+  - read_only: false
+    type: media
+  - read_only: false
+    type: share
+name: Bazarr+
+ports:
+  # Published on 6768 rather than 6767, because this repository also ships the
+  # Bazarr this is forked from and both listen on 6767 inside their container.
+  # Installing the two with the same host port is a conflict Supervisor reports
+  # only when the second one starts.
+  6767/tcp: 6768
+slug: bazarr-plus
+url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/bazarr-plus'
+version: '0.1.0' # x-release-please-version
+webui: 'http://[HOST]:[PORT:6767]'

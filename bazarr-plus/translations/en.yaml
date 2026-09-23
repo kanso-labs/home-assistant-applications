@@ -1,0 +1,5 @@
+network:
+  6767/tcp: >-
+    The port the Bazarr+ web interface listens on. It is published on 6768 by
+    default, because the Bazarr this is forked from uses 6767 and installing
+    both on the same port is a conflict.
