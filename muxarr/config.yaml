@@ -27,5 +27,5 @@ schema:
   umask: match(^[0-7]{3,4}$)
 slug: muxarr
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/muxarr'
-version: '0.1.0' # x-release-please-version
+version: '0.2.0' # x-release-please-version
 webui: 'http://[HOST]:[PORT:8183]'
