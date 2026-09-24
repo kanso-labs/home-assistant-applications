@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.21](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.2.20...n8n-v1.2.21) (2026-09-24)
+
+
+### Bug Fixes
+
+* update dependency n8n to v2.40.6 ([#419](https://github.com/kanso-labs/home-assistant-applications/issues/419)) ([3b7dd88](https://github.com/kanso-labs/home-assistant-applications/commit/3b7dd88e684dcf03d1f31589ddb28566a63e3ff4))
+
+
+### Upstream changes
+
+* **v2.40.6:** [**core:** Authenticate instance reports with the license certificate](https://github.com/n8n-io/n8n/issues/39381) ([3b7dd88](https://github.com/kanso-labs/home-assistant-applications/commit/3b7dd88e684dcf03d1f31589ddb28566a63e3ff4))
+* **v2.40.6:** [**core:** Keep OpenTelemetry export working after a restart when Sentry is enabled](https://github.com/n8n-io/n8n/issues/39368) ([3b7dd88](https://github.com/kanso-labs/home-assistant-applications/commit/3b7dd88e684dcf03d1f31589ddb28566a63e3ff4))
+* **v2.40.6:** [**core:** Retry instance reports that cross the UTC midnight boundary](https://github.com/n8n-io/n8n/issues/39434) ([3b7dd88](https://github.com/kanso-labs/home-assistant-applications/commit/3b7dd88e684dcf03d1f31589ddb28566a63e3ff4))
+
 ## [1.2.20](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.2.19...n8n-v1.2.20) (2026-09-22)
 
 
