@@ -27,7 +27,7 @@ COPY patches/*.patch /usr/src/
 # renovate: datasource=pypi depName=certbot
 ARG CERTBOT_VERSION=5.8.0
 # renovate: datasource=github-releases depName=NginxProxyManager/nginx-proxy-manager
-ARG NGINX_PROXY_MANAGER_VERSION=2.15.1
+ARG NGINX_PROXY_MANAGER_VERSION=2.16.0
 # hadolint ignore=DL3003,DL3042
 RUN \
     apt-get update \
