@@ -36,4 +36,4 @@ schema:
   interfaces: match(^[A-Za-z0-9_.:-]+(,[A-Za-z0-9_.:-]+)*$)?
 slug: avahi-publisher
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/avahi-publisher'
-version: '0.1.0' # x-release-please-version
+version: '0.2.0' # x-release-please-version
