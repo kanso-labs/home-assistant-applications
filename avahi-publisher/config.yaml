@@ -16,22 +16,24 @@ options:
   publish_aliases: true
   publish_services: true
   services: []
+# The options, and the fields of each alias and service, are in the order the
+# Configuration tab shows them, which is why they are not alphabetical.
 schema:
-  aliases:
-    - address: match(^([0-9]{1,3}(\.[0-9]{1,3}){3}|[0-9A-Fa-f:.]*:[0-9A-Fa-f:.]*)$)?
-      enabled: bool?
-      name: match(^[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?)*$)
-  interfaces: match(^[A-Za-z0-9_.:-]+(,[A-Za-z0-9_.:-]+)*$)?
   publish_aliases: bool
+  aliases:
+    - name: match(^[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?)*$)
+      address: match(^([0-9]{1,3}(\.[0-9]{1,3}){3}|[0-9A-Fa-f:.]*:[0-9A-Fa-f:.]*)$)?
+      enabled: bool?
   publish_services: bool
   services:
-    - enabled: bool?
-      host: match(^[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?)*$)?
-      name: str
+    - name: str
+      type: match(^_[A-Za-z0-9-]+\._(tcp|udp)$)
       port: port
+      host: match(^[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?)*$)?
       txt:
         - str?
-      type: match(^_[A-Za-z0-9-]+\._(tcp|udp)$)
+      enabled: bool?
+  interfaces: match(^[A-Za-z0-9_.:-]+(,[A-Za-z0-9_.:-]+)*$)?
 slug: avahi-publisher
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/avahi-publisher'
 version: '0.1.0' # x-release-please-version

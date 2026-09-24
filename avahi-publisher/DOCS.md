@@ -53,11 +53,15 @@ Each alias is an extra name:
 - `address` is optional. Without it, the alias points at this Home Assistant
   host, which is how each application gets a name of its own. With it, the alias
   points at any IPv4 or IPv6 address.
-- `enabled` is optional. Set it to `false` to switch one alias off and keep it
-  in the list.
+- `enabled` is optional and on unless it is set to `false`. Switch it off to
+  stop publishing one alias and keep it in the list.
 
 An alias is a name and nothing more, so the port stays part of the address:
 `http://sonarr.local:8989`.
+
+The **Configuration** tab shows a new alias or service with **Enabled** switched
+off, because Home Assistant starts every switch in a new list entry off. The
+entry is published all the same, until you switch it off and save.
 
 ### Option: `publish_services`
 
@@ -77,8 +81,8 @@ Each service announces something a device offers:
   an alias with an address as well, as `nas` does in the example.
 - `txt` is optional, a list of `key=value` records such as `path=/admin` for a
   web page.
-- `enabled` is optional. Set it to `false` to switch one service off and keep it
-  in the list.
+- `enabled` is optional and on unless it is set to `false`. Switch it off to
+  stop publishing one service and keep it in the list.
 
 A service only helps a client find the device. The connection itself goes
 straight to the device and never passes through this application.

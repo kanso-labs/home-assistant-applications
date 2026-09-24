@@ -1,9 +1,23 @@
 configuration:
   aliases:
     description: >-
-      Extra .local names. Each needs a name, such as sonarr, and takes an
-      optional address; without one it points at this host. Set enabled to false
-      to switch one off.
+      Extra .local names. An alias with no address points at this host.
+    fields:
+      address:
+        description: >-
+          The IPv4 or IPv6 address the name points at. Leave it empty to point
+          at this host.
+        name: Address
+      enabled:
+        description: >-
+          Switch it off to stop publishing this alias without deleting it. A new
+          alias shows this switched off, but is published until you switch it
+          off yourself.
+        name: Enabled
+      name:
+        description: >-
+          The name to publish, without .local. sonarr becomes sonarr.local.
+        name: Name
     name: Aliases
   interfaces:
     description: >-
@@ -19,6 +33,32 @@ configuration:
     name: Publish services
   services:
     description: >-
-      Bonjour services to announce. Each needs a name, a type such as _smb._tcp
-      and a port, and takes an optional host, txt records and enabled.
+      Bonjour services to announce, so they show up in apps that browse the
+      network.
+    fields:
+      enabled:
+        description: >-
+          Switch it off to stop publishing this service without deleting it. A
+          new service shows this switched off, but is published until you switch
+          it off yourself.
+        name: Enabled
+      host:
+        description: >-
+          The device offering the service, without .local. Leave it empty for
+          this host.
+        name: Host
+      name:
+        description: What apps browsing the network show, such as Office NAS.
+        name: Name
+      port:
+        description: The port the service answers on.
+        name: Port
+      txt:
+        description: Optional key=value records, such as path=/admin.
+        name: TXT records
+      type:
+        description: >-
+          The DNS-SD service type, such as _smb._tcp for file sharing or
+          _http._tcp for a web page.
+        name: Type
     name: Services
