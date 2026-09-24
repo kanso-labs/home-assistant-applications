@@ -1,0 +1,4 @@
+network:
+  9091/tcp: >-
+    A porta em que o Authelia escuta. Aponte seu proxy reverso para ela; o login
+    só funciona no endereço que o configuration.yml define como authelia_url.

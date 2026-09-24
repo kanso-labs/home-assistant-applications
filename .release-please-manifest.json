@@ -1,4 +1,5 @@
 {
+  "authelia": "0.1.0",
   "authentik": "1.0.0",
   "avahi-publisher": "0.1.0",
   "bazarr": "1.1.5",

@@ -1,0 +1,18 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Authelia
+# Runs Authelia
+# ==============================================================================
+
+# The secrets reach Authelia through its _FILE variables, which is how they stay
+# out of configuration.yml.
+export AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE='/config/secrets/jwt_secret'
+export AUTHELIA_SESSION_SECRET_FILE='/config/secrets/session_secret'
+export AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE='/config/secrets/storage_encryption_key'
+
+bashio::log.info 'Starting Authelia...'
+
+cd /config || bashio::exit.nok 'The configuration folder is missing'
+
+exec authelia --config /config/configuration.yml
