@@ -1,4 +1,16 @@
+configuration:
+  authelia_url:
+    name: Endereço de login
+    description: >-
+      O endereço da página de login do Authelia, dentro do domínio. Deixe vazio
+      para usar https://auth. seguido do domínio.
+  domain:
+    name: Domínio
+    description: >-
+      O domínio em que o Authelia faz o login das pessoas, como example.org, sem
+      https:// na frente. Toda aplicação que ele protege precisa estar dentro
+      dele.
 network:
   9091/tcp: >-
     A porta em que o Authelia escuta. Aponte seu proxy reverso para ela; o login
-    só funciona no endereço que o configuration.yml define como authelia_url.
+    só funciona no endereço de login.
