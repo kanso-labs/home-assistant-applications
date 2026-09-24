@@ -12,8 +12,16 @@ map:
   - read_only: false
     type: app_config
 name: Authelia
+options:
+  authelia_url: ''
 ports:
   9091/tcp: 9091
+# The options are in the order the Configuration tab shows them, which is why
+# they are not alphabetical. The domain has no default, so Home Assistant will
+# not start the application until it is set.
+schema:
+  domain: match(^[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?)+$)
+  authelia_url: str?
 slug: authelia
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/authelia'
 version: '0.1.0' # x-release-please-version

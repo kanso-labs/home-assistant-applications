@@ -5,7 +5,8 @@ reverse proxy.
 
 Authelia signs people in once, with a second factor where you ask for one, and
 tells the proxy who may reach what. It sits behind a reverse proxy such as Nginx
-Proxy Manager and is configured from its own `configuration.yml`.
+Proxy Manager. You set your domain in the Configuration tab, and everything else
+in Authelia's own `configuration.yml`.
 
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]

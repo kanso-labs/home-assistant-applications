@@ -2,8 +2,7 @@
 # shellcheck shell=bash
 # ==============================================================================
 # Kanso Labs Home Assistant Application: Authelia
-# Generates the secrets, a starting configuration and the first user, and holds
-# Authelia back until the configuration names a real domain
+# Generates the secrets, a starting configuration and the first user
 # ==============================================================================
 readonly config='/config/configuration.yml'
 readonly users='/config/users_database.yml'
@@ -35,6 +34,7 @@ if ! bashio::fs.file_exists "${users}"; then
   if ! bashio::var.has_value "${password}" || ! bashio::var.has_value "${digest}"; then
     bashio::exit.nok 'Could not generate a password for the first user'
   fi
+  domain="$(bashio::config 'domain')"
 
   cat > "${users}" << EOF
 users:
@@ -42,7 +42,7 @@ users:
     disabled: false
     displayname: 'Administrator'
     password: '${digest}'
-    email: 'admin@example.com'
+    email: 'admin@${domain}'
     groups:
       - 'admins'
 EOF
@@ -50,13 +50,4 @@ EOF
 
   bashio::log.notice "Created the user admin, with the password ${password}"
   bashio::log.notice 'The password is not shown again. Delete users_database.yml to get a new one.'
-fi
-
-# The starting configuration names example.com, and Authelia would run with it:
-# it is a valid domain, just not one anybody could sign in through. Stopping
-# here says so, where a running Authelia would only look broken.
-if grep -vE '^[[:space:]]*#' "${config}" | grep -q 'example\.com'; then
-  slug="$(bashio::addon.slug 2> /dev/null || true)"
-  bashio::log.fatal "configuration.yml still uses example.com. Replace it with your own domain in addon_configs/${slug:-<this application>}/configuration.yml, then start the application again."
-  bashio::exit.nok
 fi

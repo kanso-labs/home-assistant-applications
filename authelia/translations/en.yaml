@@ -1,4 +1,15 @@
+configuration:
+  authelia_url:
+    name: Sign-in address
+    description: >-
+      The address of Authelia's sign-in page, under the domain. Leave it empty
+      for https://auth. followed by the domain.
+  domain:
+    name: Domain
+    description: >-
+      The domain Authelia signs people in for, such as example.org, with no
+      https:// in front. Every application it protects has to be under it.
 network:
   9091/tcp: >-
     The port Authelia listens on. Point your reverse proxy at it; signing in
-    only works at the address configuration.yml gives as authelia_url.
+    only works at the sign-in address.

@@ -11,7 +11,21 @@ export AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET_FILE='/config/secr
 export AUTHELIA_SESSION_SECRET_FILE='/config/secrets/session_secret'
 export AUTHELIA_STORAGE_ENCRYPTION_KEY_FILE='/config/secrets/storage_encryption_key'
 
-bashio::log.info 'Starting Authelia...'
+# configuration.yml is read as a template, and takes the domain and the sign-in
+# address from the Configuration tab through these. They are not prefixed
+# AUTHELIA_, because Authelia reads every variable that is as a configuration
+# key, and warns about each one it does not know.
+domain="$(bashio::config 'domain')"
+if bashio::config.has_value 'authelia_url'; then
+  authelia_url="$(bashio::config 'authelia_url')"
+else
+  authelia_url="https://auth.${domain}"
+fi
+export APP_DOMAIN="${domain}"
+export APP_AUTHELIA_URL="${authelia_url}"
+export X_AUTHELIA_CONFIG_FILTERS='template'
+
+bashio::log.info "Starting Authelia for ${domain}, signing in at ${authelia_url}..."
 
 cd /config || bashio::exit.nok 'The configuration folder is missing'
 

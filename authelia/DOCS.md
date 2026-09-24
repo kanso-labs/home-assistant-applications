@@ -5,37 +5,51 @@ applications behind your reverse proxy. The proxy asks Authelia about every
 request: someone who is not signed in is sent to Authelia's sign-in page, and
 someone who is gets through, with a second factor where you ask for one.
 
-It has no settings screen. Everything is in its own `configuration.yml`, which
-this application writes for you on first start and then leaves to you.
+Your domain is set in the Configuration tab. Everything else is in Authelia's
+own `configuration.yml`, which this application writes for you on first start
+and then leaves to you.
 
 ## Installation
 
 1. Add this repository to your Home Assistant instance.
 2. Install the "Authelia" application.
-3. Start it. The first start writes a starting configuration, generates the
-   secrets and the first user, prints that user's password in the log, and
-   stops.
-4. Edit `configuration.yml` and replace every `example.com` with your own
-   domain. See Configuration below.
-5. Start it again.
-6. Put its sign-in page behind your reverse proxy. See Behind Nginx Proxy
+3. In its Configuration tab, set **Domain** to your own domain, such as
+   `example.org`. Home Assistant will not start the application without it.
+4. Start it. The first start writes a starting configuration, generates the
+   secrets and the first user, and prints that user's password in the log.
+5. Put its sign-in page behind your reverse proxy. See Behind Nginx Proxy
    Manager below.
 
-**Copy the password from the log in step 3.** It is printed once and never
+**Copy the password from the log in step 4.** It is printed once and never
 stored in the clear.
 
 ## Configuration
 
-There are no application options. Authelia reads `configuration.yml` from this
-application's configuration folder, `addon_configs/<repository>_authelia` on the
-host, which the Samba and Studio Code Server applications can reach.
+| Option          | What it sets                                                                                                 |
+| --------------- | ------------------------------------------------------------------------------------------------------------ |
+| Domain          | The domain Authelia signs people in for, such as `example.org`. Every application it protects is under it.   |
+| Sign-in address | The address of its sign-in page, under the domain. Left empty, it is `https://auth.` followed by the domain. |
 
-The starting configuration is complete apart from your domain:
+Everything else is in `configuration.yml`, in this application's configuration
+folder: `addon_configs/<repository>_authelia` on the host, which the Samba and
+Studio Code Server applications can reach.
 
-- **`session.cookies`** names the domain Authelia signs people in for, such as
-  `example.com`, and the address of its sign-in page, such as
-  `https://auth.example.com`.
-- **`access_control`** asks for a password on everything under your domain and
+The two options reach `configuration.yml` through Authelia's
+[template filter](https://www.authelia.com/configuration/methods/files/#file-filters).
+The file reads them as `{{ mustEnv "APP_DOMAIN" }}` and
+`{{ mustEnv "APP_AUTHELIA_URL" }}`, which are filled in from the Configuration
+tab every time the application starts. Replace one with a value of your own and
+that part of the file stops following the Configuration tab.
+
+Because the whole file is read as a template, `{{` and `}}` mean something
+anywhere in it, comments included. A pair holding something that is not a valid
+template stops Authelia from starting, and the log names the line.
+
+The starting configuration:
+
+- **`session.cookies`** takes the domain and the sign-in address from the
+  Configuration tab.
+- **`access_control`** asks for a password on everything under the domain and
   refuses everything else. Change `one_factor` to `two_factor` to ask for a
   one-time code or a passkey as well.
 - **`authentication_backend`** keeps the users in `users_database.yml`, and
@@ -45,10 +59,6 @@ The starting configuration is complete apart from your domain:
 - **`notifier`** writes password reset links and one-time codes to
   `notification.txt` until you set up
   [email](https://www.authelia.com/configuration/notifications/smtp/).
-
-The application refuses to start while the configuration still uses
-`example.com`, because Authelia would run with it and nobody could sign in. The
-log says so.
 
 Every other option is in
 [Authelia's documentation](https://www.authelia.com/configuration/prologue/introduction/).
@@ -67,8 +77,8 @@ backup of this application.
 ### The first user
 
 The first start creates one user, `admin`, in the `admins` group, and prints its
-password in the log. Change its email address in `users_database.yml` to one you
-read.
+password in the log. Its email address is `admin@` followed by your domain;
+change it in `users_database.yml` to one you read.
 
 To add users or change a password, add or edit entries in `users_database.yml`
 with password hashes from
@@ -83,16 +93,16 @@ Assistant, `<repository>-authelia`, on port `9091`. The repository part is the
 same eight characters as in its configuration folder: `2dd33fbd-authelia` for
 `2dd33fbd_authelia`.
 
-1. Add a proxy host for the sign-in page at the address you gave as
-   `authelia_url`, forwarding to `http://<repository>-authelia:9091`, with
-   websockets support on and an SSL certificate.
+1. Add a proxy host for the sign-in page at the sign-in address, forwarding to
+   `http://<repository>-authelia:9091`, with websockets support on and an SSL
+   certificate.
 2. Protect each application by following Authelia's
    [Nginx Proxy Manager guide](https://www.authelia.com/integration/proxies/nginx-proxy-manager/),
    which adds the snippets to each proxy host's advanced configuration.
 
-Signing in only works at the address in `authelia_url`, because that is the
-address its cookies belong to. Reach the sign-in page through your proxy rather
-than on port 9091 directly.
+Signing in only works at the sign-in address, because that is the address its
+cookies belong to. Reach the sign-in page through your proxy rather than on port
+9091 directly.
 
 ## Storage
 
@@ -137,7 +147,8 @@ This packaging is new rather than a port, and its shape follows the other
 applications in this repository.
 [BenoitAnastay/authelia-home-assistant-addon](https://github.com/BenoitAnastay/authelia-home-assistant-addon)
 packages Authelia for Home Assistant as well, generating its configuration from
-application options, where this one leaves `configuration.yml` to you.
+application options, where this one takes only the domain and the sign-in
+address from them and leaves the rest of `configuration.yml` to you.
 
 Authelia is developed by the [Authelia team](https://github.com/authelia) and is
 licensed under the Apache License 2.0. The icon and logo are Authelia's own.
