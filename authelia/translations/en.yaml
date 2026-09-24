@@ -7,8 +7,10 @@ configuration:
   domain:
     name: Domain
     description: >-
-      The domain Authelia signs people in for, such as example.org, with no
-      https:// in front. Every application it protects has to be under it.
+      The domain Authelia signs people in for, such as example.org or
+      home.local, with no https:// in front. It needs at least one dot, because
+      browsers will not share a sign-in across a whole top-level domain such as
+      local. Every application it protects has to be under it.
 network:
   9091/tcp: >-
     The port Authelia listens on. Point your reverse proxy at it; signing in

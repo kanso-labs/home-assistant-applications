@@ -7,8 +7,10 @@ configuration:
   domain:
     name: Domínio
     description: >-
-      O domínio em que o Authelia faz o login das pessoas, como example.org, sem
-      https:// na frente. Toda aplicação que ele protege precisa estar dentro
+      O domínio em que o Authelia faz o login das pessoas, como example.org ou
+      home.local, sem https:// na frente. Ele precisa ter pelo menos um ponto,
+      porque os navegadores não compartilham um login por um domínio de topo
+      inteiro, como local. Toda aplicação que ele protege precisa estar dentro
       dele.
 network:
   9091/tcp: >-

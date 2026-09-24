@@ -30,6 +30,17 @@ stored in the clear.
 | Domain          | The domain Authelia signs people in for, such as `example.org`. Every application it protects is under it.   |
 | Sign-in address | The address of its sign-in page, under the domain. Left empty, it is `https://auth.` followed by the domain. |
 
+**The domain needs at least one dot.** Authelia refuses a single label such as
+`local`, and browsers will not share a sign-in cookie across a whole top-level
+domain anyway, so `auth.local` cannot sign anyone in to `sonarr.local`. For
+`.local` names, use a domain such as `home.local`, with the sign-in page at
+`auth.home.local` and every application under it.
+
+Check that your devices resolve names like `auth.home.local` before relying on
+them. On Linux, nss-mdns skips `.local` names with more than two labels until
+`/etc/mdns.allow` lists `.local`, as its
+[documentation](https://github.com/avahi/nss-mdns#etcmdnsallow) describes.
+
 Everything else is in `configuration.yml`, in this application's configuration
 folder: `addon_configs/<repository>_authelia` on the host, which the Samba and
 Studio Code Server applications can reach.
