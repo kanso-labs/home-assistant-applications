@@ -59,6 +59,7 @@
         "Radarr/Radarr",
         "Sonarr/Sonarr",
         "Unpackerr/unpackerr",
+        "authelia/authelia",
         "avahi",
         "ghcr.io/cleanuparr/cleanuparr",
         "ghcr.io/dictionarry-hub/profilarr",

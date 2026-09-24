@@ -1,0 +1,4 @@
+network:
+  9091/tcp: >-
+    The port Authelia listens on. Point your reverse proxy at it; signing in
+    only works at the address configuration.yml gives as authelia_url.

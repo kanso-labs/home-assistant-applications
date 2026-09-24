@@ -1,0 +1,19 @@
+arch:
+  - aarch64
+  - amd64
+backup: cold
+description:
+  Single sign-on and two-factor authentication for the applications behind your
+  reverse proxy. Authelia signs people in once, with a second factor where you
+  ask for one, and tells the proxy who may reach what.
+image: 'ghcr.io/kanso-labs/home-assistant-application-authelia'
+init: false
+map:
+  - read_only: false
+    type: app_config
+name: Authelia
+ports:
+  9091/tcp: 9091
+slug: authelia
+url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/authelia'
+version: '0.1.0' # x-release-please-version

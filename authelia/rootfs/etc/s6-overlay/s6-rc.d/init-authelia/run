@@ -1,0 +1,62 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Authelia
+# Generates the secrets, a starting configuration and the first user, and holds
+# Authelia back until the configuration names a real domain
+# ==============================================================================
+readonly config='/config/configuration.yml'
+readonly users='/config/users_database.yml'
+readonly secrets='/config/secrets'
+
+# Authelia needs three secrets. They are generated once and kept beside the
+# configuration rather than in it, so configuration.yml can be shared or pasted
+# into an issue without giving anything away.
+mkdir -p "${secrets}"
+for secret in jwt_secret session_secret storage_encryption_key; do
+  if ! bashio::fs.file_exists "${secrets}/${secret}"; then
+    authelia crypto rand --length 64 --charset alphanumeric \
+      --file "${secrets}/${secret}" > /dev/null
+    bashio::log.info "Generated ${secret}"
+  fi
+done
+
+if ! bashio::fs.file_exists "${config}"; then
+  cp /usr/share/authelia/configuration.yml "${config}"
+  bashio::log.notice 'Wrote a starting configuration.yml'
+fi
+
+# A first user, so there is someone to sign in as. Its password is printed here
+# once and never stored in the clear.
+if ! bashio::fs.file_exists "${users}"; then
+  generated="$(cd / && authelia crypto hash generate argon2 --random)"
+  password="$(sed -n 's/^Random Password: //p' <<< "${generated}")"
+  digest="$(sed -n 's/^Digest: //p' <<< "${generated}")"
+  if ! bashio::var.has_value "${password}" || ! bashio::var.has_value "${digest}"; then
+    bashio::exit.nok 'Could not generate a password for the first user'
+  fi
+
+  cat > "${users}" << EOF
+users:
+  admin:
+    disabled: false
+    displayname: 'Administrator'
+    password: '${digest}'
+    email: 'admin@example.com'
+    groups:
+      - 'admins'
+EOF
+  chmod 600 "${users}"
+
+  bashio::log.notice "Created the user admin, with the password ${password}"
+  bashio::log.notice 'The password is not shown again. Delete users_database.yml to get a new one.'
+fi
+
+# The starting configuration names example.com, and Authelia would run with it:
+# it is a valid domain, just not one anybody could sign in through. Stopping
+# here says so, where a running Authelia would only look broken.
+if grep -vE '^[[:space:]]*#' "${config}" | grep -q 'example\.com'; then
+  slug="$(bashio::addon.slug 2> /dev/null || true)"
+  bashio::log.fatal "configuration.yml still uses example.com. Replace it with your own domain in addon_configs/${slug:-<this application>}/configuration.yml, then start the application again."
+  bashio::exit.nok
+fi
