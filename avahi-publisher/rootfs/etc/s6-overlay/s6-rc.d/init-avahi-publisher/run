@@ -1,0 +1,107 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Avahi Publisher
+# Writes Avahi's configuration, its service files and the alias list from the
+# application's options
+# ==============================================================================
+readonly avahi_dir='/etc/avahi'
+readonly services_dir='/etc/avahi/services'
+readonly state_dir='/run/avahi-publisher'
+
+# One request for the whole set of options, rendered with jq below, rather than
+# one Supervisor request per field of every entry.
+options="$(bashio::addon.config)"
+
+# Avahi answers on the interface the host reaches the network through, unless
+# the interfaces option names others. Publishing everywhere would put the
+# records on the Docker bridges as well.
+if bashio::config.has_value 'interfaces'; then
+  interfaces="$(bashio::config 'interfaces')"
+else
+  interfaces="$(ip -4 route \
+    | awk '$1 == "default" { for (i = 1; i < NF; i++) if ($i == "dev") { print $(i + 1); exit } }')"
+fi
+if ! bashio::var.has_value "${interfaces}"; then
+  bashio::exit.nok 'There is no network interface to publish on. Set the interfaces option.'
+fi
+
+# An alias with no address points at this host, so it takes the host's address
+# on the first interface Avahi publishes on.
+host_address="$(ip -4 address show dev "${interfaces%%,*}" \
+  | awk '$1 == "inet" { split($2, a, "/"); print a[1]; exit }')"
+
+# A service with no host of its own names Avahi's host, and the container's name
+# is one nothing on the network answers for. Taking the host's name points those
+# services at the name the host already answers for itself.
+host_name="$(bashio::info.hostname)"
+
+bashio::log.info "Publishing on ${interfaces} for ${host_name:-this host}"
+
+mkdir -p "${services_dir}" "${state_dir}"
+rm -f "${services_dir}"/*.service
+: > "${state_dir}/aliases"
+
+# publish-addresses is off because the host already answers for its own name.
+# Avahi publishes only what the options ask for, and never competes with the
+# host for that name. Other mDNS stacks are allowed for the same reason: Home
+# Assistant runs its own on this host.
+cat > "${avahi_dir}/avahi-daemon.conf" << EOF
+[server]
+${host_name:+host-name=${host_name}}
+use-ipv4=yes
+use-ipv6=yes
+allow-interfaces=${interfaces}
+enable-dbus=yes
+disallow-other-stacks=no
+ratelimit-interval-usec=1000000
+ratelimit-burst=1000
+
+[wide-area]
+enable-wide-area=no
+
+[publish]
+publish-addresses=no
+publish-hinfo=no
+publish-workstation=no
+publish-domain=no
+
+[reflector]
+enable-reflector=no
+EOF
+
+# Services become Avahi's own service files, which it reads as it starts. Every
+# value is escaped for XML, since a name such as "Tom & Jerry's NAS" is ordinary.
+if bashio::config.true 'publish_services'; then
+  for index in $(jq -r '.services | to_entries[] | select(.value.enabled != false) | .key' <<< "${options}"); do
+    jq -r --argjson i "${index}" '
+      def local: if test("\\.local$"; "i") then . else . + ".local" end;
+      .services[$i]
+      | "<?xml version=\"1.0\" standalone=\"no\"?>",
+        "<!DOCTYPE service-group SYSTEM \"avahi-service.dtd\">",
+        "<service-group>",
+        "  <name>\(.name | @html)</name>",
+        "  <service>",
+        "    <type>\(.type | @html)</type>",
+        "    <port>\(.port)</port>",
+        (.host // empty | "    <host-name>\(local | @html)</host-name>"),
+        ((.txt // [])[] | select(. != null and . != "") | "    <txt-record>\(@html)</txt-record>"),
+        "  </service>",
+        "</service-group>"
+    ' <<< "${options}" > "${services_dir}/${index}.service"
+    bashio::log.info "Publishing service $(jq -r --argjson i "${index}" \
+      '.services[$i] | "\(.name) (\(.type), port \(.port))"' <<< "${options}")"
+  done
+else
+  bashio::log.info 'Services are switched off'
+fi
+
+# Aliases are handed to the avahi-aliases service as name and address pairs.
+if bashio::config.true 'publish_aliases'; then
+  jq -r --arg host "${host_address}" '
+    def local: if test("\\.local$"; "i") then . else . + ".local" end;
+    .aliases[] | select(.enabled != false) | [(.name | local), (.address // $host)] | @tsv
+  ' <<< "${options}" > "${state_dir}/aliases"
+else
+  bashio::log.info 'Aliases are switched off'
+fi

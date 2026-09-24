@@ -1,0 +1,19 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Avahi Publisher
+# Runs Avahi
+# ==============================================================================
+
+# s6 starts this once the bus is running, which is not the same as the bus
+# accepting connections, and Avahi gives up at once if it cannot connect.
+for _ in $(seq 50); do
+  [[ -S /run/dbus/system_bus_socket ]] && break
+  sleep 0.1
+done
+
+bashio::log.info 'Starting Avahi...'
+
+# The container already confines Avahi, so it is not asked to chroot itself or
+# to set resource limits of its own.
+exec avahi-daemon --no-chroot --no-rlimits
