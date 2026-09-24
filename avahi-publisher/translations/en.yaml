@@ -1,0 +1,24 @@
+configuration:
+  aliases:
+    description: >-
+      Extra .local names. Each needs a name, such as sonarr, and takes an
+      optional address; without one it points at this host. Set enabled to false
+      to switch one off.
+    name: Aliases
+  interfaces:
+    description: >-
+      The network interfaces to publish on, separated by commas. Leave it empty
+      to use the one this host reaches the network through.
+    name: Interfaces
+  publish_aliases:
+    description: Publish the aliases. Turn it off to take them all down at once.
+    name: Publish aliases
+  publish_services:
+    description:
+      Publish the services. Turn it off to take them all down at once.
+    name: Publish services
+  services:
+    description: >-
+      Bonjour services to announce. Each needs a name, a type such as _smb._tcp
+      and a port, and takes an optional host, txt records and enabled.
+    name: Services

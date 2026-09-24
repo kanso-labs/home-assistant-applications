@@ -1,0 +1,23 @@
+configuration:
+  aliases:
+    description: >-
+      Nomes .local extras. Cada um precisa de um nome, como sonarr, e aceita um
+      endereço opcional; sem ele, aponta para este host. Defina enabled como
+      false para desligar um.
+    name: Apelidos
+  interfaces:
+    description: >-
+      As interfaces de rede em que publicar, separadas por vírgulas. Deixe vazio
+      para usar aquela pela qual este host alcança a rede.
+    name: Interfaces
+  publish_aliases:
+    description: Publica os apelidos. Desligue para retirar todos de uma vez.
+    name: Publicar apelidos
+  publish_services:
+    description: Publica os serviços. Desligue para retirar todos de uma vez.
+    name: Publicar serviços
+  services:
+    description: >-
+      Serviços Bonjour a anunciar. Cada um precisa de um nome, um tipo como
+      _smb._tcp e uma porta, e aceita host, registros txt e enabled opcionais.
+    name: Serviços

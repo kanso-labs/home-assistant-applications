@@ -1,0 +1,40 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Avahi Publisher
+# Publishes the aliases
+# ==============================================================================
+readonly aliases='/run/avahi-publisher/aliases'
+
+pids=()
+trap 'kill "${pids[@]}" 2> /dev/null' TERM
+
+while IFS=$'\t' read -r name address; do
+  if [[ -z "${address}" ]]; then
+    bashio::log.warning "Not publishing ${name}: it has no address, and this host has no IPv4 address to give it"
+    continue
+  fi
+
+  bashio::log.info "Publishing ${name} at ${address}"
+
+  # --no-reverse, because every alias for this host shares its address, and each
+  # reverse record would claim that address for a different name. --no-fail
+  # keeps avahi-publish waiting through an Avahi restart and publishing again
+  # afterwards, rather than exiting.
+  avahi-publish --address --no-reverse --no-fail "${name}" "${address}" &
+  pids+=("$!")
+done < "${aliases}"
+
+# s6 restarts a service that exits, so with nothing to publish this one stays up
+# and does nothing.
+if [[ ${#pids[@]} -eq 0 ]]; then
+  exec sleep infinity
+fi
+
+# avahi-publish rides out a name collision by taking the next free name, so one
+# that stops has hit an error it cannot recover from, and its log line says
+# which. Stopping the others to retry would only take their records down too, so
+# this waits for all of them.
+wait "${pids[@]}"
+bashio::log.warning 'Every alias has stopped publishing, so they are being published again'
+exit 1

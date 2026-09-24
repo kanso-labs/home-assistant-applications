@@ -1,0 +1,13 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Avahi Publisher
+# Runs the message bus avahi-publish reaches Avahi over
+# ==============================================================================
+
+# This bus belongs to the container. The host's is never mounted.
+mkdir -p /run/dbus
+rm -f /run/dbus/system_bus_socket
+dbus-uuidgen --ensure
+
+exec dbus-daemon --system --nofork --nopidfile

@@ -1,5 +1,6 @@
 {
   "authentik": "1.0.0",
+  "avahi-publisher": "0.1.0",
   "bazarr": "1.1.5",
   "bazarr-plus": "1.0.0",
   "cleanuparr": "1.2.3",
