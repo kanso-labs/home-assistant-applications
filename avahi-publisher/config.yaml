@@ -1,9 +1,6 @@
 arch:
   - aarch64
   - amd64
-# Hot, because there is no state to catch mid-write. Everything this application
-# publishes comes from its options, which Supervisor keeps and backs up itself.
-backup: hot
 description:
   Publishes extra .local names and Bonjour services on your network with Avahi.
   Give an application a name of its own, such as sonarr.local, or announce a
