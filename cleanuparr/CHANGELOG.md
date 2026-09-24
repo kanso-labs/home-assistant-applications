@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.4](https://github.com/kanso-labs/home-assistant-applications/compare/cleanuparr-v1.2.3...cleanuparr-v1.2.4) (2026-09-24)
+
+
+### Bug Fixes
+
+* update ghcr.io/cleanuparr/cleanuparr docker tag to v2.10.8 ([#432](https://github.com/kanso-labs/home-assistant-applications/issues/432)) ([55443e9](https://github.com/kanso-labs/home-assistant-applications/commit/55443e92e3b4967043bef6f21d7d29859ab9c6f0))
+
 ## [1.2.3](https://github.com/kanso-labs/home-assistant-applications/compare/cleanuparr-v1.2.2...cleanuparr-v1.2.3) (2026-09-23)
 
 
