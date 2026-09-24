@@ -62,15 +62,6 @@
     }
   ],
   "packages": {
-    "authelia": {
-      "component": "authelia",
-      "extra-files": [
-        {
-          "path": "config.yaml",
-          "type": "generic"
-        }
-      ]
-    },
     "authentik": {
       "component": "authentik",
       "extra-files": [
