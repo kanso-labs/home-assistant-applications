@@ -1,9 +1,23 @@
 configuration:
   aliases:
     description: >-
-      Nomes .local extras. Cada um precisa de um nome, como sonarr, e aceita um
-      endereço opcional; sem ele, aponta para este host. Defina enabled como
-      false para desligar um.
+      Nomes .local extras. Um apelido sem endereço aponta para este host.
+    fields:
+      address:
+        description: >-
+          O endereço IPv4 ou IPv6 para o qual o nome aponta. Deixe vazio para
+          apontar para este host.
+        name: Endereço
+      enabled:
+        description: >-
+          Desligue para parar de publicar este apelido sem apagá-lo. Um apelido
+          novo aparece com isto desligado, mas é publicado até você desligar por
+          conta própria.
+        name: Ativado
+      name:
+        description: >-
+          O nome a publicar, sem .local. sonarr vira sonarr.local.
+        name: Nome
     name: Apelidos
   interfaces:
     description: >-
@@ -18,6 +32,34 @@ configuration:
     name: Publicar serviços
   services:
     description: >-
-      Serviços Bonjour a anunciar. Cada um precisa de um nome, um tipo como
-      _smb._tcp e uma porta, e aceita host, registros txt e enabled opcionais.
+      Serviços Bonjour a anunciar, para que apareçam nos aplicativos que
+      exploram a rede.
+    fields:
+      enabled:
+        description: >-
+          Desligue para parar de publicar este serviço sem apagá-lo. Um serviço
+          novo aparece com isto desligado, mas é publicado até você desligar por
+          conta própria.
+        name: Ativado
+      host:
+        description: >-
+          O dispositivo que oferece o serviço, sem .local. Deixe vazio para este
+          host.
+        name: Host
+      name:
+        description: >-
+          O que os aplicativos que exploram a rede mostram, como NAS do
+          Escritório.
+        name: Nome
+      port:
+        description: A porta em que o serviço responde.
+        name: Porta
+      txt:
+        description: Registros chave=valor opcionais, como path=/admin.
+        name: Registros TXT
+      type:
+        description: >-
+          O tipo de serviço DNS-SD, como _smb._tcp para compartilhamento de
+          arquivos ou _http._tcp para uma página web.
+        name: Tipo
     name: Serviços

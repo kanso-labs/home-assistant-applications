@@ -162,6 +162,11 @@ the intro and DOCS as the full documentation.
 Keys are ordered by name. Required: `name`, `version`, `slug`, `description`,
 `arch`.
 
+The one exception is inside `schema`, whose order carries meaning: the
+Configuration tab shows the options, and the fields of a list entry, in the
+order `schema` declares them. Order those the way a person fills them in, and
+say so in a comment.
+
 ```yaml
 arch:
   - aarch64
