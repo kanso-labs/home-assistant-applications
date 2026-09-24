@@ -20,6 +20,17 @@ for secret in jwt_secret session_secret storage_encryption_key; do
   fi
 done
 
+# 0.1.0 wrote a configuration.yml naming example.com, and would not start until
+# it was edited. One still exactly as 0.1.0 wrote it is replaced, since it holds
+# nothing of anybody's and the new one takes the domain from the Configuration
+# tab. An edited one is left alone.
+readonly unedited_from_0_1_0='0eb8e66a1b99247bff8785a185768bdf2648abefcd16de4e4a045f5ca9174948'
+if bashio::fs.file_exists "${config}" \
+  && [[ "$(sha256sum "${config}" | cut -d ' ' -f 1)" == "${unedited_from_0_1_0}" ]]; then
+  cp /usr/share/authelia/configuration.yml "${config}"
+  bashio::log.notice 'Replaced the unedited configuration.yml from 0.1.0 with one that takes the domain from the Configuration tab'
+fi
+
 if ! bashio::fs.file_exists "${config}"; then
   cp /usr/share/authelia/configuration.yml "${config}"
   bashio::log.notice 'Wrote a starting configuration.yml'

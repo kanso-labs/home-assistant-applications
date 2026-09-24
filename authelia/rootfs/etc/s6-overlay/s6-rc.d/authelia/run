@@ -25,7 +25,7 @@ export APP_DOMAIN="${domain}"
 export APP_AUTHELIA_URL="${authelia_url}"
 export X_AUTHELIA_CONFIG_FILTERS='template'
 
-bashio::log.info "Starting Authelia for ${domain}, signing in at ${authelia_url}..."
+bashio::log.info "Starting Authelia, with the domain ${domain} and the sign-in address ${authelia_url} from the Configuration tab..."
 
 cd /config || bashio::exit.nok 'The configuration folder is missing'
 
