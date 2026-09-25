@@ -51,6 +51,7 @@ one's `DOCS.md` covers its options, what it maps, and how it is backed up.
 | [Radarr](./radarr)                           | Movie collection manager that grabs, sorts and renames what your indexers turn up.                                       | Port 7878          |
 | [Seerr](./seerr)                             | Request and discovery front end for Jellyfin, Plex and Emby, feeding Radarr and Sonarr.                                  | Port 5055          |
 | [Sonarr](./sonarr)                           | Smart PVR that follows the shows you watch and grabs new episodes as they appear.                                        | Port 8989          |
+| [Traefik](./traefik)                         | Reverse proxy that sends each request to the application its host name belongs to, routed from the Configuration tab.    | Ingress            |
 | [Unpackerr](./unpackerr)                     | Extracts completed downloads in place, then cleans up once the arr applications import.                                  | None               |
 
 ## How these are packaged
