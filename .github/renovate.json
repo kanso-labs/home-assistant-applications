@@ -73,7 +73,8 @@
         "nzbgetcom/nzbget",
         "plexinc/pms-docker",
         "qbittorrent-nox",
-        "raydak-labs/configarr"
+        "raydak-labs/configarr",
+        "traefik/traefik"
       ],
       "semanticCommitType": "fix"
     }

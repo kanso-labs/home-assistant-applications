@@ -1,0 +1,47 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Traefik
+# Runs Traefik
+# ==============================================================================
+declare -a entrypoints
+declare -a options
+
+# HTTP always, HTTPS only when SSL is on, and the port the Home Assistant
+# sidebar reaches the dashboard through.
+entrypoints=(web:80)
+if bashio::config.true 'ssl'; then
+  entrypoints+=(websecure:443)
+fi
+entrypoints+=(ingress:8099)
+
+# A header named X_Auth_User or X.Auth.User reaches a Python, PHP or nginx
+# backend as X-Auth-User, so a client could pass off one of its own as a header
+# a forward-auth middleware set. Traefik forwards them as they are unless told
+# otherwise, and says so on every start.
+for entrypoint in "${entrypoints[@]}"; do
+  name="${entrypoint%%:*}"
+  options+=("--entryPoints.${name}.address=:${entrypoint##*:}")
+  options+=("--entryPoints.${name}.http.aliasHeadersStrategy=delete")
+done
+
+# Everything routed comes from the files in the configuration folder: the one
+# the init script writes from the Configuration tab, and any added by hand.
+# Changes to them apply without a restart.
+options+=(--providers.file.directory=/config --providers.file.watch=true)
+
+# The dashboard is served under the sidebar's own path, so that the addresses
+# it builds for itself go back through Home Assistant.
+options+=(--api.dashboard=true)
+ingress_entry="$(bashio::addon.ingress_entry)"
+if bashio::var.has_value "${ingress_entry}" && [[ "${ingress_entry}" != 'null' ]]; then
+  options+=("--api.basePath=${ingress_entry}")
+fi
+
+log_level="$(bashio::config 'log_level')"
+options+=("--log.level=${log_level^^}")
+options+=(--global.checkNewVersion=false --global.sendAnonymousUsage=false)
+
+bashio::log.info 'Starting Traefik...'
+
+exec traefik "${options[@]}"

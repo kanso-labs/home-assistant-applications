@@ -1,0 +1,133 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Traefik
+# Writes the routes from the Configuration tab, and the dashboard's route through
+# the Home Assistant sidebar, as Traefik configuration
+# ==============================================================================
+readonly generated='/config/generated.yml'
+
+if bashio::config.true 'ssl'; then
+  for option in certfile keyfile; do
+    file="/ssl/$(bashio::config "${option}")"
+    if ! bashio::fs.file_exists "${file}"; then
+      bashio::exit.nok "SSL is on, but ${file} does not exist. Check ${option} in the Configuration tab."
+    fi
+  done
+fi
+
+options="$(bashio::addon.config)"
+
+# Host names are matched without regard to case, so two routes differing only in
+# case would compete for the same requests. The first one wins, and says so.
+duplicates="$(jq -r '
+  [.routes // [] | .[].host | ascii_downcase]
+  | group_by(.) | map(select(length > 1) | .[0]) | .[]
+' <<< "${options}")"
+for host in ${duplicates}; do
+  bashio::log.warning "${host} has more than one route. Only the first is used."
+done
+
+# The sidebar reaches the dashboard with its own path stripped, and Traefik
+# serves the dashboard under that path, so the router puts it back. Only the
+# Supervisor, which the sidebar goes through, may connect to that entrypoint.
+ingress_entry="$(bashio::addon.ingress_entry)"
+if [[ "${ingress_entry}" == 'null' ]]; then
+  ingress_entry=''
+fi
+
+{
+  echo '# Written by the Traefik application every time it starts, from its'
+  echo '# Configuration tab. Changes here are overwritten: put your own'
+  echo '# configuration in another file in this folder.'
+  jq -r --arg ingress "${ingress_entry}" '
+    # Objects become YAML blocks, and everything else a JSON value, which YAML
+    # reads as it is. That keeps every string quoted and escaped.
+    def yaml($indent):
+      to_entries
+      | map(
+          if (.value | type) == "object" and (.value | length) > 0
+          then "\($indent)\(.key):\n\(.value | yaml($indent + "  "))"
+          else "\($indent)\(.key): \(.value | tojson)\n"
+          end)
+      | add;
+
+    def name: "route-" + (.host | gsub("\\."; "-"));
+    def middlewares:
+      if (.middlewares // [] | length) > 0
+      then {middlewares: .middlewares}
+      else {}
+      end;
+
+    (.routes // [] | map(.host |= ascii_downcase) | unique_by(.host)) as $routes
+    | .ssl as $ssl
+    | {
+        http: {
+          routers: (
+            [
+              $routes[] | name as $name
+              | {
+                  key: $name,
+                  value: ({
+                    rule: "Host(`\(.host)`)",
+                    entryPoints: ["web"],
+                    service: $name
+                  } + middlewares)
+                },
+                (if $ssl then {
+                  key: "\($name)-https",
+                  value: ({
+                    rule: "Host(`\(.host)`)",
+                    entryPoints: ["websecure"],
+                    service: $name
+                  } + middlewares + {tls: {}})
+                } else empty end)
+            ]
+            | from_entries
+          ) + {
+            "ingress-dashboard": {
+              rule: "PathPrefix(`/`)",
+              entryPoints: ["ingress"],
+              service: "api@internal",
+              middlewares: (
+                ["ingress-allow-supervisor"]
+                + (if $ingress != "" then ["ingress-path"] else [] end)
+              )
+            }
+          },
+          middlewares: ({
+            "ingress-allow-supervisor": {
+              ipAllowList: {sourceRange: ["172.30.32.2/32"]}
+            }
+          } + (if $ingress != "" then {
+            "ingress-path": {addPrefix: {prefix: $ingress}}
+          } else {} end)),
+          services: (
+            [
+              $routes[]
+              | {key: name, value: {loadBalancer: {servers: [{url: .url}]}}}
+            ]
+            | from_entries
+          )
+        }
+      }
+      + (if $ssl then {
+          tls: {
+            stores: {
+              default: {
+                defaultCertificate: {
+                  certFile: "/ssl/\(.certfile)",
+                  keyFile: "/ssl/\(.keyfile)"
+                }
+              }
+            }
+          }
+        } else {} end)
+    # Traefik rejects the whole file over an empty section, which is what
+    # services is until the first route is added.
+    | .http |= with_entries(select(.value != {}))
+    | yaml("")
+  ' <<< "${options}"
+} > "${generated}"
+
+bashio::log.info "Routing $(jq '[.routes // [] | .[].host | ascii_downcase] | unique | length' <<< "${options}") host names from the Configuration tab"
