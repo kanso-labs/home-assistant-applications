@@ -47,9 +47,11 @@ jobs:
             image="ghcr.io/kanso-labs/home-assistant-application-${{ inputs.app }}"
             publish=false
           fi
-          echo "publish=${publish}" >> "$GITHUB_OUTPUT"
-          echo "image_name=${image##*/}" >> "$GITHUB_OUTPUT"
-          echo "registry_prefix=${image%/*}" >> "$GITHUB_OUTPUT"
+          {
+            echo "publish=${publish}"
+            echo "image_name=${image##*/}"
+            echo "registry_prefix=${image%/*}"
+          } >> "$GITHUB_OUTPUT"
           version=${{ steps.info.outputs.version }}
           echo "version=${version}" >> "$GITHUB_OUTPUT"
           name=${{ steps.info.outputs.name }}
