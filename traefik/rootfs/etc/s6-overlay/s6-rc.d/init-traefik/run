@@ -53,6 +53,12 @@ fi
       | add;
 
     def name: "route-" + (.host | gsub("\\."; "-"));
+
+    # Traefik compares a Host rule with the name exactly as the request carries
+    # it, so a client that kept capitals missed its route with a 404. The rule is
+    # an expression that ignores case instead. The schema admits only letters,
+    # digits, dashes and dots, so the dots are all it has to escape.
+    def rule: "HostRegexp(`(?i)^\(.host | gsub("\\."; "\\."))$`)";
     def middlewares:
       if (.middlewares // [] | length) > 0
       then {middlewares: .middlewares}
@@ -69,7 +75,7 @@ fi
               | {
                   key: $name,
                   value: ({
-                    rule: "Host(`\(.host)`)",
+                    rule: rule,
                     entryPoints: ["web"],
                     service: $name
                   } + middlewares)
@@ -77,7 +83,7 @@ fi
                 (if $ssl then {
                   key: "\($name)-https",
                   value: ({
-                    rule: "Host(`\(.host)`)",
+                    rule: rule,
                     entryPoints: ["websecure"],
                     service: $name
                   } + middlewares + {tls: {}})
