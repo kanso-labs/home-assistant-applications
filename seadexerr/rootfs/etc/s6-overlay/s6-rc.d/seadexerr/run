@@ -1,0 +1,59 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Seadexerr
+# Runs Seadexerr
+# ==============================================================================
+
+# Seadexerr works with Sonarr, Radarr or both, and takes an API key as the sign
+# that one is wanted. Without either it has nothing to look titles up in.
+if ! bashio::config.has_value 'sonarr_api_key' \
+  && ! bashio::config.has_value 'radarr_api_key'; then
+  bashio::exit.nok 'Set the Sonarr API key, the Radarr API key, or both, in the Configuration tab.'
+fi
+
+# Seadexerr joins its API paths onto these addresses, which drops the last part
+# of one given without a trailing slash, such as a /sonarr base path.
+if bashio::config.has_value 'sonarr_api_key'; then
+  SONARR_BASE_URL="$(bashio::config 'sonarr_url')"
+  SONARR_BASE_URL="${SONARR_BASE_URL%/}/"
+  SONARR_API_KEY="$(bashio::config 'sonarr_api_key')"
+  export SONARR_BASE_URL SONARR_API_KEY
+  bashio::log.info "Looking titles up in Sonarr at ${SONARR_BASE_URL}"
+fi
+
+if bashio::config.has_value 'radarr_api_key'; then
+  RADARR_BASE_URL="$(bashio::config 'radarr_url')"
+  RADARR_BASE_URL="${RADARR_BASE_URL%/}/"
+  RADARR_API_KEY="$(bashio::config 'radarr_api_key')"
+  export RADARR_BASE_URL RADARR_API_KEY
+  bashio::log.info "Looking titles up in Radarr at ${RADARR_BASE_URL}"
+fi
+
+if bashio::config.has_value 'anilist_access_token'; then
+  ANILIST_ACCESS_TOKEN="$(bashio::config 'anilist_access_token')"
+  export ANILIST_ACCESS_TOKEN
+fi
+
+if bashio::config.has_value 'animebytes_passkey'; then
+  AB_PASSKEY="$(bashio::config 'animebytes_passkey')"
+  export AB_PASSKEY
+fi
+
+RUST_LOG="$(bashio::config 'log_level')"
+export RUST_LOG
+
+# Seadexerr keeps its data in ./data, which from / is the application's own
+# storage, and reads its scoring from there too. The scoring file belongs in the
+# configuration folder, where it can be edited, so it is linked in. Until one
+# exists the link leads nowhere, and Seadexerr falls back to its defaults.
+ln -sf /config/scoring.toml /data/scoring.toml
+if bashio::fs.file_exists '/config/scoring.toml'; then
+  bashio::log.info 'Scoring releases with scoring.toml from the configuration folder'
+fi
+
+cd / || bashio::exit.nok 'Could not reach the application storage'
+
+bashio::log.info 'Starting Seadexerr...'
+
+exec /usr/local/bin/seadexerr

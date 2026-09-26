@@ -20,6 +20,7 @@ jobs:
       image_name: ${{ steps.normalize.outputs.image_name }}
       name: ${{ steps.normalize.outputs.name }}
       description: ${{ steps.normalize.outputs.description }}
+      publish: ${{ steps.normalize.outputs.publish }}
       url: ${{ steps.normalize.outputs.url }}
       registry_prefix: ${{ steps.normalize.outputs.registry_prefix }}
       version: ${{ steps.normalize.outputs.version }}
@@ -37,8 +38,20 @@ jobs:
         id: normalize
         run: |
           image=${{ steps.info.outputs.image }}
-          echo "image_name=${image##*/}" >> "$GITHUB_OUTPUT"
-          echo "registry_prefix=${image%/*}" >> "$GITHUB_OUTPUT"
+          publish=${{ inputs.publish }}
+          # An application naming no image is built by each Home Assistant
+          # itself, and nothing of it may be published: Seadexerr is one, because
+          # it carries no licence to redistribute it under. It is still built
+          # here, under the name it would have had, to show that it builds.
+          if [[ -z "${image}" || "${image}" == 'null' ]]; then
+            image="ghcr.io/kanso-labs/home-assistant-application-${{ inputs.app }}"
+            publish=false
+          fi
+          {
+            echo "publish=${publish}"
+            echo "image_name=${image##*/}"
+            echo "registry_prefix=${image%/*}"
+          } >> "$GITHUB_OUTPUT"
           version=${{ steps.info.outputs.version }}
           echo "version=${version}" >> "$GITHUB_OUTPUT"
           name=${{ steps.info.outputs.name }}
@@ -82,7 +95,7 @@ jobs:
           cache-gha-scope: ${{ inputs.app }}
           container-registry-password: ${{ secrets.GITHUB_TOKEN }}
           context: './${{ inputs.app }}'
-          cosign: ${{ inputs.publish }}
+          cosign: ${{ needs.prepare.outputs.publish == 'true' }}
           image: ${{ matrix.image }}
           image-tags: |
             ${{ needs.prepare.outputs.version }}
@@ -92,13 +105,13 @@ jobs:
             io.hass.name=${{ needs.prepare.outputs.name }}
             io.hass.description=${{ needs.prepare.outputs.description }}
             ${{ needs.prepare.outputs.url && format('io.hass.url={0}', needs.prepare.outputs.url) || '' }}
-          push: ${{ inputs.publish }}
+          push: ${{ needs.prepare.outputs.publish == 'true' }}
           version: ${{ needs.prepare.outputs.version }}
 
   manifest:
     name: Publish multi-arch manifest
     needs: [prepare, build]
-    if: inputs.publish
+    if: needs.prepare.outputs.publish == 'true'
     runs-on: ubuntu-latest
     permissions:
       id-token: write

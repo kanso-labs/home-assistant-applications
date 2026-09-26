@@ -224,6 +224,15 @@
         }
       ]
     },
+    "seadexerr": {
+      "component": "seadexerr",
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
+    },
     "seerr": {
       "component": "seerr",
       "extra-files": [

@@ -120,6 +120,12 @@ placeholder. The per-architecture images published underneath it are named
 `{arch}-<image>`, architecture first — that order is fixed by the build action
 and is not ours to choose.
 
+**An application whose software may not be redistributed names no `image`.**
+Each Home Assistant then builds it from the Dockerfile itself, and
+`_build-application.yaml` builds it on every change without ever publishing it.
+Seadexerr is the one, because it carries no licence; its Dockerfile takes the
+binary from the image its author publishes, at build time on the user's machine.
+
 ## Adding an application
 
 ### 1. Start from existing packaging
