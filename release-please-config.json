@@ -249,8 +249,7 @@
           "path": "config.yaml",
           "type": "generic"
         }
-      ],
-      "release-as": "1.0.0"
+      ]
     },
     "unpackerr": {
       "component": "unpackerr",
