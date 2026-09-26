@@ -31,4 +31,4 @@ schema:
   log_level: list(trace|debug|info|warn|error)
 slug: seadexerr
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/seadexerr'
-version: '0.1.0' # x-release-please-version
+version: '0.2.0' # x-release-please-version
