@@ -1,8 +1,8 @@
 {
   "authentik": "1.0.0",
   "avahi-publisher": "0.2.0",
-  "bazarr": "1.1.5",
-  "bazarr-plus": "1.0.0",
+  "bazarr": "1.1.6",
+  "bazarr-plus": "1.0.1",
   "cleanuparr": "1.2.4",
   "configarr": "1.1.1",
   "flaresolverr": "1.2.3",
