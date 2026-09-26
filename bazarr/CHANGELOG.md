@@ -6,6 +6,31 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.6](https://github.com/kanso-labs/home-assistant-applications/compare/bazarr-v1.1.5...bazarr-v1.1.6) (2026-09-26)
+
+
+### Bug Fixes
+
+* update dependency morpheus65535/bazarr to v1.6.2 ([#443](https://github.com/kanso-labs/home-assistant-applications/issues/443)) ([42b8954](https://github.com/kanso-labs/home-assistant-applications/commit/42b8954393b7780c065ec7c395314f357efeb8aa))
+
+
+### Upstream changes
+
+* **v1.6.2:** [Added additional URL parameters to the generic webhook call](https://github.com/morpheus65535/bazarr/commit/58e8729f61315aba5bda1cc5b1a47478b7ffedd6) ([42b8954](https://github.com/kanso-labs/home-assistant-applications/commit/42b8954393b7780c065ec7c395314f357efeb8aa))
+* **v1.6.2:** [Added anime provider tsukihime](https://github.com/morpheus65535/bazarr/pull/3597) ([42b8954](https://github.com/kanso-labs/home-assistant-applications/commit/42b8954393b7780c065ec7c395314f357efeb8aa))
+* **v1.6.2:** [Added clickable GitHub issue links to release notes by parsing #\&lt;number&gt; patterns and converting them to hyperlinks](https://github.com/morpheus65535/bazarr/commit/02bae52912867767e2b484e9408b6041d8d0450b) ([42b8954](https://github.com/kanso-labs/home-assistant-applications/commit/42b8954393b7780c065ec7c395314f357efeb8aa))
+* **v1.6.2:** [Added distinct clause to history queries to prevent duplicate entries in episode and movie subtitle history API endpoints.](https://github.com/morpheus65535/bazarr/issues/3558) ([42b8954](https://github.com/kanso-labs/home-assistant-applications/commit/42b8954393b7780c065ec7c395314f357efeb8aa))
+* **v1.6.2:** [Added existence of subtitle in database before attempting deletion to prevent unauthorized file deletion](https://github.com/morpheus65535/bazarr/commit/c76f5833d5c9c8ec462c593e9e0b961918cde209) ([42b8954](https://github.com/kanso-labs/home-assistant-applications/commit/42b8954393b7780c065ec7c395314f357efeb8aa))
+* **v1.6.2:** [Added hash-only mode to napiprojekt provider.](https://github.com/morpheus65535/bazarr/issues/3227) ([42b8954](https://github.com/kanso-labs/home-assistant-applications/commit/42b8954393b7780c065ec7c395314f357efeb8aa))
+* **v1.6.2:** [Added quality check parameters for subsync framerate-fix mode to prevent ruining correct subtitles by settings minimum score, max offset, and max framerate deviation.](https://github.com/morpheus65535/bazarr/issues/3599) ([42b8954](https://github.com/kanso-labs/home-assistant-applications/commit/42b8954393b7780c065ec7c395314f357efeb8aa))
+* **v1.6.2:** [Fixed cutoff logic to correctly consider non-HI subtitles when HI is excluded in language profile for both series and movies.](https://github.com/morpheus65535/bazarr/issues/3607) ([42b8954](https://github.com/kanso-labs/home-assistant-applications/commit/42b8954393b7780c065ec7c395314f357efeb8aa))
+* **v1.6.2:** [Fixed duplicate history entries by using subquery with MIN to select single external subtitle path per episode/movie instead of joining all subtitle records.](https://github.com/morpheus65535/bazarr/issues/3558) ([42b8954](https://github.com/kanso-labs/home-assistant-applications/commit/42b8954393b7780c065ec7c395314f357efeb8aa))
+* **v1.6.2:** [Fixed mass checkbox disabled for non srt formats](https://github.com/morpheus65535/bazarr/commit/fc8ab886e35046bfbefd2b4400d2fdaad4b64883) ([42b8954](https://github.com/kanso-labs/home-assistant-applications/commit/42b8954393b7780c065ec7c395314f357efeb8aa))
+* **v1.6.2:** [Fixed napiprojekt to use SSL](https://github.com/morpheus65535/bazarr/commit/d30a659d87c28fed41736b8678e186802132b861) ([42b8954](https://github.com/kanso-labs/home-assistant-applications/commit/42b8954393b7780c065ec7c395314f357efeb8aa))
+* **v1.6.2:** [Improved subssabbz by adding a fallback to folder/file title for non-ASCII titles and prevent empty query dumps](https://github.com/morpheus65535/bazarr/commit/3f012ccc23f63a8bb5baff3159b9e69afc68a8b3) ([42b8954](https://github.com/kanso-labs/home-assistant-applications/commit/42b8954393b7780c065ec7c395314f357efeb8aa))
+* **v1.6.2:** [Refactored post-processing placeholder replacement to use dictionary-based lookup and single regex pattern](https://github.com/morpheus65535/bazarr/commit/954b47b11648f7b1e4d6c3339168bb573a368b33) ([42b8954](https://github.com/kanso-labs/home-assistant-applications/commit/42b8954393b7780c065ec7c395314f357efeb8aa))
+* **v1.6.2:** [Refactored post-processing to pass arguments as list instead of command string to prevent shell injection and fix Windows path handling.](https://github.com/morpheus65535/bazarr/issues/3598) ([42b8954](https://github.com/kanso-labs/home-assistant-applications/commit/42b8954393b7780c065ec7c395314f357efeb8aa))
+
 ## [1.1.5](https://github.com/kanso-labs/home-assistant-applications/compare/bazarr-v1.1.4...bazarr-v1.1.5) (2026-09-18)
 
 
