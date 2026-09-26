@@ -1,0 +1,36 @@
+configuration:
+  anilist_access_token:
+    name: AniList access token
+    description: >-
+      Optional. Sends AniList requests as you, for when AniList starts limiting
+      or refusing them. A token lasts a year.
+  animebytes_passkey:
+    name: AnimeBytes passkey
+    description: >-
+      Optional. Also offers the AnimeBytes releases SeaDex lists, with download
+      links that carry this passkey.
+  log_level:
+    name: Log level
+    description: How much detail Seadexerr writes to its log.
+  radarr_api_key:
+    name: Radarr API key
+    description: >-
+      From Radarr's Settings, under General. Leave it empty to leave movies out.
+  radarr_url:
+    name: Radarr address
+    description: >-
+      Where Radarr is reached. The default is this repository's Radarr
+      application.
+  sonarr_api_key:
+    name: Sonarr API key
+    description: >-
+      From Sonarr's Settings, under General. Leave it empty to leave series out.
+  sonarr_url:
+    name: Sonarr address
+    description: >-
+      Where Sonarr is reached. The default is this repository's Sonarr
+      application.
+network:
+  2071/tcp: >-
+    Only for a Prowlarr outside Home Assistant. One inside it reaches Seadexerr
+    at http://2dd33fbd-seadexerr:2071 with no port opened.

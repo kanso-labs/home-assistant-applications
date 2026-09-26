@@ -1,0 +1,34 @@
+arch:
+  - aarch64
+  - amd64
+description:
+  Prowlarr indexer that offers the SeaDex release of each anime, so Sonarr and
+  Radarr can prefer the best one. Built on your Home Assistant rather than
+  downloaded, because Seadexerr has no licence to redistribute it under.
+init: false
+map:
+  - type: app_config
+name: Seadexerr
+options:
+  anilist_access_token: ''
+  animebytes_passkey: ''
+  log_level: info
+  radarr_api_key: ''
+  radarr_url: 'http://2dd33fbd-radarr:7878'
+  sonarr_api_key: ''
+  sonarr_url: 'http://2dd33fbd-sonarr:8989'
+ports:
+  2071/tcp: null
+# The options are in the order the Configuration tab shows them, which is why
+# they are not alphabetical.
+schema:
+  sonarr_url: url
+  sonarr_api_key: password?
+  radarr_url: url
+  radarr_api_key: password?
+  anilist_access_token: password?
+  animebytes_passkey: password?
+  log_level: list(trace|debug|info|warn|error)
+slug: seadexerr
+url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/seadexerr'
+version: '0.1.0' # x-release-please-version
