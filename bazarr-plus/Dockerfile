@@ -8,7 +8,7 @@
 #
 # The image underneath is python:3.14-slim-trixie, so the packages come from
 # apt as they do for Cleanuparr.
-ARG BUILD_FROM=ghcr.io/lavx/bazarr:2.6.2
+ARG BUILD_FROM=ghcr.io/lavx/bazarr:2.7.0
 FROM ${BUILD_FROM}
 
 # Set shell
