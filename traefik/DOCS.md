@@ -34,7 +34,7 @@ Each route sends the requests for one host name somewhere else.
 
 - **Host name** is the name the browser asks for, such as `sonarr.home.local`,
   with no `http://` and no port. A request is matched whatever port it arrived
-  on.
+  on, and whatever the case of the name it carries.
 - **Forward to** is where its requests go. Another application is reached by its
   hostname inside Home Assistant, which is the repository's eight characters, a
   dash and the application's slug: `http://2dd33fbd-sonarr:8989`. A device on
