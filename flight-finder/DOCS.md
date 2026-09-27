@@ -118,9 +118,9 @@ so a new one arrives as a release of this application rather than silently.
 
 ## Why this starts at 0.1.0
 
-Every other application in this repository started at `1.0.0`. This one does
-not, because it has only been built and run against a stand-in for Home
-Assistant, and has not yet tracked real prices on a real instance.
+Most applications in this repository start at `1.0.0`. This one does not,
+because it has only been built and run against a stand-in for Home Assistant,
+and has not yet tracked real prices on a real instance.
 
 It moves to `1.0.0` once it has done that without surprises.
 
