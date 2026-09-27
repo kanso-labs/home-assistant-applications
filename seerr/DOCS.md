@@ -62,9 +62,9 @@ The icon and logo come from that packaging.
 
 ## A note on the base image
 
-Every other application here starts from a Home Assistant base image, which
-supplies s6-overlay and bashio. Seerr starts from the image its own project
-publishes instead.
+Most applications here start from a Home Assistant base image, which supplies
+s6-overlay and bashio. Seerr starts from the image its own project publishes
+instead.
 
 Seerr ships no release asset and is not an npm package, so the alternative is
 cloning the repository and running its pnpm and Next.js build, including the
