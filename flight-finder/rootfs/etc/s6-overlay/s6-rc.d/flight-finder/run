@@ -1,0 +1,96 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Flight Finder
+# Runs Flight Finder
+# ==============================================================================
+readonly database='flight_finder'
+readonly socket_dir='/run/postgresql'
+readonly secrets='/data/secrets'
+
+# s6 starts this service as soon as PostgreSQL's service has started, which is
+# not the same as PostgreSQL being ready to answer, and the role and the
+# database have to exist before Flight Finder can reach them.
+bashio::log.info 'Waiting for PostgreSQL...'
+for _ in {1..60}; do
+  pg_isready --host="${socket_dir}" --username='postgres' --quiet && break
+  sleep 1
+done
+pg_isready --host="${socket_dir}" --username='postgres' --quiet \
+  || bashio::exit.nok 'PostgreSQL did not become ready'
+
+if ! s6-setuidgid postgres psql --host="${socket_dir}" --username='postgres' \
+    --no-align --tuples-only \
+    --command="SELECT 1 FROM pg_database WHERE datname = '${database}'" \
+    | grep -q 1; then
+  bashio::log.info 'Creating the Flight Finder database...'
+  s6-setuidgid postgres createuser --host="${socket_dir}" "${database}"
+  s6-setuidgid postgres createdb --host="${socket_dir}" --owner="${database}" "${database}"
+fi
+
+export DATABASE_URL="postgresql://${database}@127.0.0.1:5432/${database}"
+
+# Upstream's entrypoint generates both secrets afresh on every start unless
+# they are given, which signs everybody out on every restart. Generating them
+# once and keeping them in /data is what makes a session survive one.
+mkdir -p "${secrets}"
+chmod 0700 "${secrets}"
+for secret in admin_session_secret cron_secret; do
+  if [[ ! -s "${secrets}/${secret}" ]]; then
+    head -c 32 /dev/urandom | od -An -tx1 | tr -d ' \n' > "${secrets}/${secret}"
+    chmod 0600 "${secrets}/${secret}"
+  fi
+done
+ADMIN_SESSION_SECRET="$(<"${secrets}/admin_session_secret")"
+CRON_SECRET="$(<"${secrets}/cron_secret")"
+export ADMIN_SESSION_SECRET CRON_SECRET
+
+# Self-hosted, Flight Finder skips its admin sign-in entirely, so this password
+# guards nothing here. It is only set because upstream otherwise generates and
+# prints a new one on every start, which reads as though it mattered.
+if [[ ! -s "${secrets}/admin_password" ]]; then
+  head -c 12 /dev/urandom | od -An -tx1 | tr -d ' \n' > "${secrets}/admin_password"
+  chmod 0600 "${secrets}/admin_password"
+fi
+ADMIN_PASSWORD="$(<"${secrets}/admin_password")"
+export ADMIN_PASSWORD
+
+# Without an access password Flight Finder trusts whoever reaches it. With
+# one, it stands in front of every page and API. Upstream quietly leaves the
+# gate off for a password under 16 characters, so a short one stops the start
+# instead of leaving someone believing they are protected.
+if bashio::config.has_value 'access_password'; then
+  FF_ACCESS_PASSWORD="$(bashio::config 'access_password')"
+  if (( ${#FF_ACCESS_PASSWORD} < 16 )); then
+    bashio::exit.nok 'The access password needs at least 16 characters. Flight Finder would ignore a shorter one and stay open.'
+  fi
+  export FF_ACCESS_PASSWORD
+  bashio::log.info 'Every page and API needs the access password'
+else
+  bashio::log.warning 'No access password is set, so anyone who can reach Flight Finder can use it and change its settings'
+fi
+
+# The Claude Code and Codex CLIs are left out. Their logins can only be copied
+# in from a computer's home directory, which a Home Assistant application has
+# no way to reach, and upstream's step that prunes old CLI versions refuses to
+# run unless its entrypoint is the only thing running in the container, which
+# PostgreSQL here never lets it be.
+export INSTALL_CLI_PROVIDERS='false'
+
+# The price history outside PostgreSQL. The image links /app/data to it.
+mkdir -p /data/app
+chown node:node /data/app
+
+# Upstream derives this path from the working directory unless it is given,
+# which is inside the image rather than on /data.
+export ANALYTICS_DB_PATH='/app/data/analytics.db'
+
+# s6-setuidgid changes the user without changing the home directory.
+export HOME='/home/node'
+export USER='node'
+
+cd /app || bashio::exit.nok 'Flight Finder is missing from the image'
+
+bashio::log.info 'Starting Flight Finder...'
+
+exec s6-setuidgid node ./docker-entrypoint.sh

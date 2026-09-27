@@ -60,6 +60,7 @@
         "Sonarr/Sonarr",
         "Unpackerr/unpackerr",
         "avahi",
+        "ghcr.io/affromero/flight-finder",
         "ghcr.io/cleanuparr/cleanuparr",
         "ghcr.io/dictionarry-hub/profilarr",
         "ghcr.io/flaresolverr/flaresolverr",

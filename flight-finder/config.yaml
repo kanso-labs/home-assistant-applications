@@ -1,0 +1,21 @@
+arch:
+  - aarch64
+  - amd64
+backup: cold
+description:
+  Tracks flight, hotel and car rental prices over time, with price history and
+  alerts when they drop. It runs its own PostgreSQL, and reads prices with an AI
+  model you choose.
+image: 'ghcr.io/kanso-labs/home-assistant-application-flight-finder'
+init: false
+name: Flight Finder
+options:
+  access_password: ''
+ports:
+  3003/tcp: 3003
+schema:
+  access_password: password?
+slug: flight-finder
+url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/flight-finder'
+version: '0.1.0' # x-release-please-version
+webui: 'http://[HOST]:[PORT:3003]'
