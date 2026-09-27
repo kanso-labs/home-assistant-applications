@@ -5,10 +5,10 @@
 # monorepo build plus the Chromium that its scraper drives, and upstream already
 # ships both, for both architectures, on Alpine 3.24.
 #
-# Two things are added on top. s6-overlay and bashio arrive by hand, as they do
-# for Seerr. And PostgreSQL, which Flight Finder runs as a separate container
-# upstream, is installed here, as the Authentik application does, because a
-# Home Assistant application is one container. See DOCS.md.
+# Added on top are s6-overlay and bashio, by hand as they are for Seerr, and the
+# two services upstream runs as separate containers, because a Home Assistant
+# application is one container: PostgreSQL, as the Authentik application does,
+# and Valkey in place of Redis. See DOCS.md.
 ARG BUILD_FROM=ghcr.io/affromero/flight-finder:0.15.0
 FROM ${BUILD_FROM}
 
@@ -24,10 +24,14 @@ ARG BASHIO_VERSION=0.19.0
 # The version is pinned so that a new PostgreSQL produces a release rather than
 # arriving silently. registryUrl carries the Alpine branch of the image above,
 # so it needs updating when upstream moves to a newer Alpine. 17 rather than the
-# 16 upstream's compose file runs, because Alpine 3.24 keeps 16 in community and
-# 17 in main.
+# 16 upstream's compose file runs, because Alpine 3.24 keeps 16 in community,
+# whose support ends six months after a release, and 17 in main.
 # renovate: datasource=apk depName=postgresql17 registryUrl=https://dl-cdn.alpinelinux.org/alpine?branch=v3.24&components=main&arch=x86_64
 ARG POSTGRESQL_VERSION=17.11-r0
+# Valkey rather than Redis for the same reason: Alpine 3.24 keeps Valkey in main
+# and Redis in community. Flight Finder speaks to either.
+# renovate: datasource=apk depName=valkey registryUrl=https://dl-cdn.alpinelinux.org/alpine?branch=v3.24&components=main&arch=x86_64
+ARG VALKEY_VERSION=9.0.4-r0
 
 # Upstream runs as the node user. s6-overlay has to come up as pid 1.
 USER root
@@ -38,6 +42,8 @@ RUN \
     jq \
     "postgresql17=${POSTGRESQL_VERSION}" \
     "postgresql17-client=${POSTGRESQL_VERSION}" \
+    "valkey=${VALKEY_VERSION}" \
+    "valkey-cli=${VALKEY_VERSION}" \
     xz \
   \
   && if [ "${BUILD_ARCH}" = "aarch64" ]; then S6_ARCH="aarch64"; \

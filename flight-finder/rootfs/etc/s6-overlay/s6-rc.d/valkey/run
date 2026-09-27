@@ -1,0 +1,17 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Flight Finder
+# Runs the Valkey that holds Flight Finder's rate limits and cache
+# ==============================================================================
+bashio::log.info 'Starting Valkey...'
+
+# Everything Flight Finder keeps here expires on its own, including the count of
+# failed sign-ins, so nothing is saved to disk. It listens on the loopback
+# address alone, and no port for it is published in config.yaml.
+exec s6-setuidgid valkey valkey-server \
+  --bind 127.0.0.1 \
+  --port 6379 \
+  --dir /var/lib/valkey \
+  --save '' \
+  --appendonly no

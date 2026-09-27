@@ -5,9 +5,9 @@ and car rental prices over time. It searches on a schedule, reads the results
 with an AI model you choose, keeps the price history, and alerts you when a
 price drops.
 
-Upstream runs it as separate containers for the application, PostgreSQL and an
-optional Redis. This application runs the first two in one, and leaves Redis
-out: it is only a cache, and Flight Finder runs without it.
+Upstream runs it as separate containers for the application, PostgreSQL and
+Redis. This application runs all three in one, with Valkey, the open-source fork
+of Redis, in Redis's place.
 
 ## Installation
 
@@ -87,8 +87,8 @@ search uses more memory than the rest of the time.
 | ------ | ----------------------------- |
 | `3003` | The web interface and its API |
 
-PostgreSQL listens inside the application alone, and no port is published for
-it.
+PostgreSQL and Valkey listen inside the application alone, and no port is
+published for either.
 
 ## Storage
 
@@ -101,6 +101,9 @@ it.
 **Keep `/data/secrets`.** The stored API keys are encrypted with one of those
 secrets, and losing it makes them unreadable. It is part of every backup of this
 application.
+
+Valkey keeps nothing on disk. It holds Flight Finder's rate limits and cache,
+which expire on their own.
 
 ## Backups
 

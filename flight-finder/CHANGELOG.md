@@ -10,4 +10,4 @@ and this project adheres to
 
 ### Added
 
-- Initial release, running Flight Finder 0.15.0 with PostgreSQL 17.
+- Initial release, running Flight Finder 0.15.0 with PostgreSQL 17 and Valkey 9.

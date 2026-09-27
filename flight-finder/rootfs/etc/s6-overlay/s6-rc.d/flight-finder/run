@@ -30,6 +30,19 @@ fi
 
 export DATABASE_URL="postgresql://${database}@127.0.0.1:5432/${database}"
 
+# Flight Finder keeps its rate limits in Valkey. Whenever it cannot reach it,
+# the limit on failed sign-ins lets every attempt through and the search bar's
+# previews are all refused, so it does not start until Valkey answers.
+bashio::log.info 'Waiting for Valkey...'
+for _ in {1..30}; do
+  valkey-cli -h 127.0.0.1 -p 6379 ping > /dev/null 2>&1 && break
+  sleep 1
+done
+valkey-cli -h 127.0.0.1 -p 6379 ping > /dev/null 2>&1 \
+  || bashio::exit.nok 'Valkey did not become ready'
+
+export REDIS_URL='redis://127.0.0.1:6379'
+
 # Upstream's entrypoint generates both secrets afresh on every start unless
 # they are given. ADMIN_SESSION_SECRET is the one that matters: the API keys
 # saved in Flight Finder's settings are encrypted with it, and multi user mode
