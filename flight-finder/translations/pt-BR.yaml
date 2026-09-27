@@ -4,7 +4,8 @@ configuration:
     description: >-
       Pelo menos 16 caracteres. Coloca um login na frente de todas as páginas e
       da API, e só funciona quando o Flight Finder é acessado por HTTPS, como
-      por um proxy reverso com certificado. Deixe vazia para deixar o Flight
-      Finder aberto a quem conseguir acessá-lo.
+      por um proxy reverso com certificado. Deixe vazia para contar com o modo
+      multiusuário do próprio Flight Finder, ou para deixá-lo aberto a quem
+      conseguir acessá-lo.
 network:
   3003/tcp: A porta em que a interface web do Flight Finder é servida.

@@ -13,8 +13,8 @@ out: it is only a cache, and Flight Finder runs without it.
 
 1. Add this repository to your Home Assistant instance.
 2. Install the "Flight Finder" application.
-3. Decide whether to set an **Access password**. See Signing in below, which
-   explains why leaving it empty opens Flight Finder to your whole network.
+3. Decide how Flight Finder should keep people out. Out of the box it is open to
+   your whole network; see Signing in below.
 4. Start it, and open its web interface on port `3003`.
 5. Choose an AI provider in Flight Finder's admin settings. See AI providers
    below.
@@ -31,14 +31,24 @@ Everything else is set inside Flight Finder, in its admin settings.
 
 ## Signing in
 
-**Without an access password, Flight Finder trusts whoever reaches it.** In its
-self-hosted mode it has no sign-in of its own, not even for its admin pages, so
-anyone who can reach port `3003` can use it and change its settings, including
-the API keys it uses. The log says so on every start.
+**Out of the box, Flight Finder trusts whoever reaches it.** It starts with no
+sign-in of any kind, not even for its admin pages, so anyone who can reach port
+`3003` can use it and change its settings, including the API keys it uses. The
+log says so on every start until an access password is set.
 
-**Set an access password to put a sign-in in front of everything.** Every page
-and API then asks for it first, and a browser stays signed in for 12 hours. An
-admin can also hand out invite links, which a phone can open from a QR code.
+Two things change that, and they can be combined.
+
+**Flight Finder's multi user mode gives each person an account.** Turn it on in
+its settings, under Multi user mode. Everyone then signs in and keeps their own
+trackers, and only admins reach the admin pages. It works over plain `http://`.
+
+Multi user mode is meant for a household rather than as a lock. An account can
+have no password, in which case signing in is picking a face, and share links
+stay public either way.
+
+**The access password puts one sign-in in front of everything.** Every page and
+API then asks for it first, and a browser stays signed in for 12 hours. An admin
+can also hand out invite links, which a phone can open from a QR code.
 
 - **It needs at least 16 characters.** Flight Finder quietly ignores a shorter
   one and stays open, so this application refuses to start with one instead.
@@ -47,7 +57,7 @@ admin can also hand out invite links, which a phone can open from a QR code.
   sign-in page every time, so reach Flight Finder through a reverse proxy with a
   certificate, such as the Nginx Proxy Manager or Traefik application.
 
-Changing the password signs everyone out.
+Changing the access password signs everyone out.
 
 ## AI providers
 
@@ -85,7 +95,7 @@ it.
 | Path               | Holds                                                         |
 | ------------------ | ------------------------------------------------------------- |
 | `/data/postgresql` | The PostgreSQL database: searches, price history and settings |
-| `/data/secrets`    | The secrets that keep sessions and stored API keys valid      |
+| `/data/secrets`    | The secrets Flight Finder is started with                     |
 | `/data/app`        | Flight Finder's own analytics                                 |
 
 **Keep `/data/secrets`.** The stored API keys are encrypted with one of those

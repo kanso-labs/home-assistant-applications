@@ -4,7 +4,8 @@ configuration:
     description: >-
       At least 16 characters. Puts a sign-in in front of every page and API, and
       only works when Flight Finder is reached over HTTPS, such as through a
-      reverse proxy with a certificate. Leave it empty to leave Flight Finder
-      open to anyone who can reach it.
+      reverse proxy with a certificate. Leave it empty to rely on Flight
+      Finder's own multi user mode instead, or to leave it open to anyone who
+      can reach it.
 network:
   3003/tcp: The port Flight Finder's web interface is served on.

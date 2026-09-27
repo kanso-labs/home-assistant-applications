@@ -31,8 +31,11 @@ fi
 export DATABASE_URL="postgresql://${database}@127.0.0.1:5432/${database}"
 
 # Upstream's entrypoint generates both secrets afresh on every start unless
-# they are given, which signs everybody out on every restart. Generating them
-# once and keeping them in /data is what makes a session survive one.
+# they are given. ADMIN_SESSION_SECRET is the one that matters: the API keys
+# saved in Flight Finder's settings are encrypted with it, and multi user mode
+# signs its sessions with it, so a new one on every start would make the saved
+# keys unreadable and sign everybody out. Generating the secrets once and
+# keeping them in /data is what makes both survive a restart.
 mkdir -p "${secrets}"
 chmod 0700 "${secrets}"
 for secret in admin_session_secret cron_secret; do
@@ -45,9 +48,11 @@ ADMIN_SESSION_SECRET="$(<"${secrets}/admin_session_secret")"
 CRON_SECRET="$(<"${secrets}/cron_secret")"
 export ADMIN_SESSION_SECRET CRON_SECRET
 
-# Self-hosted, Flight Finder skips its admin sign-in entirely, so this password
-# guards nothing here. It is only set because upstream otherwise generates and
-# prints a new one on every start, which reads as though it mattered.
+# Self-hosted, Flight Finder never shows the sign-in page this password is for:
+# its settings are open to whoever reaches it, or to its own admin accounts once
+# multi user mode is on. Upstream otherwise generates a new one on every start
+# and prints it in the log, which reads as though it were needed, so one is kept
+# here instead and never printed.
 if [[ ! -s "${secrets}/admin_password" ]]; then
   head -c 12 /dev/urandom | od -An -tx1 | tr -d ' \n' > "${secrets}/admin_password"
   chmod 0600 "${secrets}/admin_password"
@@ -55,10 +60,11 @@ fi
 ADMIN_PASSWORD="$(<"${secrets}/admin_password")"
 export ADMIN_PASSWORD
 
-# Without an access password Flight Finder trusts whoever reaches it. With
-# one, it stands in front of every page and API. Upstream quietly leaves the
-# gate off for a password under 16 characters, so a short one stops the start
-# instead of leaving someone believing they are protected.
+# Without an access password Flight Finder trusts whoever reaches it, unless
+# its own multi user mode is on. With one, it stands in front of every page and
+# API. Upstream quietly leaves the gate off for a password under 16 characters,
+# so a short one stops the start instead of leaving someone believing they are
+# protected.
 if bashio::config.has_value 'access_password'; then
   FF_ACCESS_PASSWORD="$(bashio::config 'access_password')"
   if (( ${#FF_ACCESS_PASSWORD} < 16 )); then
@@ -67,7 +73,7 @@ if bashio::config.has_value 'access_password'; then
   export FF_ACCESS_PASSWORD
   bashio::log.info 'Every page and API needs the access password'
 else
-  bashio::log.warning 'No access password is set, so anyone who can reach Flight Finder can use it and change its settings'
+  bashio::log.warning 'No access password is set, so anyone who can reach Flight Finder can use it and change its settings, unless its multi user mode keeps them out'
 fi
 
 # The Claude Code and Codex CLIs are left out. Their logins can only be copied
