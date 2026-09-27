@@ -125,6 +125,15 @@
         }
       ]
     },
+    "flight-finder": {
+      "component": "flight-finder",
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
+    },
     "lingarr": {
       "component": "lingarr",
       "extra-files": [

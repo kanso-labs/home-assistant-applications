@@ -38,6 +38,7 @@ one's `DOCS.md` covers its options, what it maps, and how it is backed up.
 | [Cleanuparr](./cleanuparr)                   | Strikes stuck and unwanted downloads from the arr queues and asks for replacements.                                      | Port 11011         |
 | [Configarr](./configarr)                     | Syncs TRaSH Guides and Recyclarr templates into Sonarr, Radarr and Prowlarr.                                             | None               |
 | [FlareSolverr](./flaresolverr)               | Proxy that solves the challenges standing between the arr applications and their indexers.                               | Ingress, port 8191 |
+| [Flight Finder](./flight-finder)             | Tracks flight, hotel and car rental prices, with price history and alerts when they drop.                                | Port 3003          |
 | [Lingarr](./lingarr)                         | Translates the subtitles your library is missing, through LibreTranslate, DeepL or an AI service.                        | Port 9876          |
 | [Muxarr](./muxarr)                           | Strips unwanted audio and subtitle tracks from your media, remuxing rather than re-encoding.                             | Port 8183          |
 | [n8n](./n8n)                                 | Workflow and AI automation, built with the precision of code or the speed of drag and drop.                              | Ingress            |
