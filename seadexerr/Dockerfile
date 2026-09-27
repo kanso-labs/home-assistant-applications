@@ -10,10 +10,13 @@
 # binary is built against glibc, so it is copied onto the Debian-family base
 # rather than the Alpine one.
 ARG BUILD_FROM=ghcr.io/home-assistant/base-ubuntu:26.04
-# renovate: datasource=docker depName=ghcr.io/ryder-c/seadexerr
-ARG SEADEXERR_VERSION=3.0.0
+# The whole image, tag included, sits in the ARG and FROM takes it as it is,
+# which is how Renovate's own Dockerfile support reads BUILD_FROM too. A version
+# spliced into FROM instead is read twice, by that support and by the regex
+# manager, and the first of those looks for text the file never contains.
+ARG SEADEXERR_IMAGE=ghcr.io/ryder-c/seadexerr:v3.0.0
 
-FROM ghcr.io/ryder-c/seadexerr:v${SEADEXERR_VERSION} AS seadexerr
+FROM ${SEADEXERR_IMAGE} AS seadexerr
 
 FROM ${BUILD_FROM}
 
