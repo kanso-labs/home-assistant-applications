@@ -136,7 +136,7 @@ ships Avahi 0.9-rc4.
 
 ## Why this starts at 0.1.0
 
-Every other application in this repository starts at `1.0.0`. This one does not,
+Most applications in this repository start at `1.0.0`. This one does not,
 because it has only been built and booted with test records, and has not yet run
 on a Home Assistant host, where it shares mDNS with the host's own responder.
 
