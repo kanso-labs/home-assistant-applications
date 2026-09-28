@@ -242,15 +242,6 @@
         }
       ]
     },
-    "scrutiny": {
-      "component": "scrutiny",
-      "extra-files": [
-        {
-          "path": "config.yaml",
-          "type": "generic"
-        }
-      ]
-    },
     "seadexerr": {
       "component": "seadexerr",
       "extra-files": [
