@@ -1,0 +1,26 @@
+configuration:
+  log_level:
+    description: >-
+      How much Byparr writes to the log. Raise it to debug when a challenge is
+      failing and you need to see what the browser did.
+    name: Log level
+  proxy_server:
+    description: >-
+      A proxy for the browser to send every request through, as
+      protocol://host:port, such as http://proxy.local:3128 or
+      socks5://proxy.local:1080. Challenges are more likely to pass from an
+      address the site trusts. Leave it empty to connect directly.
+    name: Proxy server
+  proxy_username:
+    description: The user name for the proxy, if it asks for one.
+    name: Proxy user name
+  proxy_password:
+    description: The password for the proxy, if it asks for one.
+    name: Proxy password
+  browser_locale:
+    description: >-
+      The language the browser presents to websites, as a tag such as en-US or
+      pt-BR. Leave it empty to match the country the requests leave from.
+    name: Browser language
+network:
+  8191/tcp: The port Byparr answers requests on.

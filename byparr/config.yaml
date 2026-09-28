@@ -1,0 +1,30 @@
+arch:
+  - aarch64
+  - amd64
+# The GeoIP database in /data is only a cache of a public download, which is
+# fetched again when it is missing. Backing up 120 MB of it would buy nothing.
+backup_exclude:
+  - '*.mmdb'
+description:
+  Proxy server that gets past the anti-bot challenges standing between the arr
+  applications and their indexers. It answers the same requests as FlareSolverr,
+  with a hardened Firefox in place of Chrome.
+image: 'ghcr.io/kanso-labs/home-assistant-application-byparr'
+init: false
+name: Byparr
+options:
+  log_level: info
+ports:
+  8191/tcp: 8191
+# The Configuration tab lists the options in the order the schema declares
+# them, so they follow the order a person fills them in.
+schema:
+  log_level: list(error|warning|info|debug)
+  proxy_server: url?
+  proxy_username: str?
+  proxy_password: password?
+  browser_locale: match(^[A-Za-z]{2,3}(-[A-Za-z0-9]{1,8})*$)?
+slug: byparr
+url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/byparr'
+version: '1.0.0' # x-release-please-version
+webui: 'http://[HOST]:[PORT:8191]/docs'

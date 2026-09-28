@@ -98,6 +98,15 @@
         }
       ]
     },
+    "byparr": {
+      "component": "byparr",
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
+    },
     "cleanuparr": {
       "component": "cleanuparr",
       "extra-files": [
