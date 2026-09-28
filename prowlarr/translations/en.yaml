@@ -1,2 +1,9 @@
+configuration:
+  ipv4_only:
+    description: >-
+      Connect to indexers over IPv4 only. Turn it on when indexers behind
+      Cloudflare keep failing with "blocked by CloudFlare Protection", even
+      through FlareSolverr or Byparr.
+    name: IPv4 only
 network:
   9696/tcp: The port the Prowlarr web interface listens on.

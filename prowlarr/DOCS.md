@@ -8,9 +8,20 @@
 
 ## Configuration
 
-Prowlarr has no application options. Everything is configured from its own web
-interface, and the settings live in the application's configuration directory so
-they survive restarts and updates.
+Almost everything is configured from Prowlarr's own web interface, and the
+settings live in the application's configuration directory so they survive
+restarts and updates. The one application option is below.
+
+### `ipv4_only`
+
+Makes Prowlarr connect over IPv4 only. It is off by default, and Prowlarr then
+tries IPv6 first whenever your network has it.
+
+Turn it on when indexers behind Cloudflare keep failing with "blocked by
+CloudFlare Protection", even through FlareSolverr or Byparr. On a network with
+IPv6, Cloudflare has been seen to challenge Prowlarr's request again over IPv6,
+even with the cookies the solver had just earned. The same request over IPv4 got
+through.
 
 To connect it to the rest of the stack, add Radarr and Sonarr under Settings
 then Apps. Prowlarr reaches them over the internal network, so use their
