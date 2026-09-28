@@ -10,7 +10,7 @@ drive statistics.
 1. Add this repository to your Home Assistant instance.
 2. Install the "Scrutiny" application.
 3. Start it. It reads the disks it can reach straight away.
-4. Open the web interface on port `8084`.
+4. Open the web interface on port `8080`.
 
 ## Which disks it can see
 
@@ -63,10 +63,12 @@ either one.
 
 | Port   | Serves                               |
 | ------ | ------------------------------------ |
-| `8084` | The web interface and Scrutiny's API |
+| `8080` | The web interface and Scrutiny's API |
 
-Scrutiny listens on port `8080` inside the application. It is published as
-`8084` because this repository's qBittorrent already publishes `8080`.
+Two applications cannot publish the same port, and Home Assistant reports the
+conflict only when the second one starts. If `8080` is already taken, for
+example by this repository's qBittorrent, change Scrutiny's port under its
+**Network** settings.
 
 InfluxDB listens inside the application alone, and no port is published for it.
 

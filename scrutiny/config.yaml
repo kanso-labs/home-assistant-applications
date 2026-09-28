@@ -51,7 +51,7 @@ name: Scrutiny
 options:
   collector_schedule: '0 0 * * *'
 ports:
-  8080/tcp: 8084
+  8080/tcp: 8080
 # Reading S.M.A.R.T. data takes raw commands: SYS_RAWIO for SATA and USB
 # drives, SYS_ADMIN for NVMe.
 privileged:
