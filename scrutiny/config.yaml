@@ -1,0 +1,65 @@
+arch:
+  - aarch64
+  - amd64
+backup: cold
+description:
+  Watches the health of your disks through S.M.A.R.T. and keeps its history,
+  with failure thresholds drawn from real-world drive statistics.
+# Home Assistant grants the ones that exist and skips the rest. It never grants
+# the disk Home Assistant runs from, whatever this list says. See DOCS.md.
+devices:
+  - /dev/nvme0
+  - /dev/nvme1
+  - /dev/nvme2
+  - /dev/nvme3
+  - /dev/nvme4
+  - /dev/nvme5
+  - /dev/nvme6
+  - /dev/nvme7
+  - /dev/sda
+  - /dev/sdb
+  - /dev/sdc
+  - /dev/sdd
+  - /dev/sde
+  - /dev/sdf
+  - /dev/sdg
+  - /dev/sdh
+  - /dev/sdi
+  - /dev/sdj
+  - /dev/sdk
+  - /dev/sdl
+  - /dev/sdm
+  - /dev/sdn
+  - /dev/sdo
+  - /dev/sdp
+  - /dev/sdq
+  - /dev/sdr
+  - /dev/sds
+  - /dev/sdt
+  - /dev/sdu
+  - /dev/sdv
+  - /dev/sdw
+  - /dev/sdx
+  - /dev/sdy
+  - /dev/sdz
+image: 'ghcr.io/kanso-labs/home-assistant-application-scrutiny'
+init: false
+map:
+  - read_only: false
+    type: app_config
+name: Scrutiny
+options:
+  collector_schedule: '0 0 * * *'
+ports:
+  8080/tcp: 8084
+# Reading S.M.A.R.T. data takes raw commands: SYS_RAWIO for SATA and USB
+# drives, SYS_ADMIN for NVMe.
+privileged:
+  - SYS_ADMIN
+  - SYS_RAWIO
+schema:
+  collector_schedule: match(^(\S+\s+){4}\S+$)
+slug: scrutiny
+url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/scrutiny'
+version: '0.1.0' # x-release-please-version
+webui: 'http://[HOST]:[PORT:8080]'
