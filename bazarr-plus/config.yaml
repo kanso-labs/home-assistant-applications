@@ -17,11 +17,7 @@ map:
     type: share
 name: Bazarr+
 ports:
-  # Published on 6768 rather than 6767, because this repository also ships the
-  # Bazarr this is forked from and both listen on 6767 inside their container.
-  # Installing the two with the same host port is a conflict Supervisor reports
-  # only when the second one starts.
-  6767/tcp: 6768
+  6767/tcp: 6767
 slug: bazarr-plus
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/bazarr-plus'
 version: '1.0.1' # x-release-please-version

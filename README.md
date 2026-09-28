@@ -34,7 +34,7 @@ one's `DOCS.md` covers its options, what it maps, and how it is backed up.
 | [Authentik](./authentik)                     | Identity provider for single sign-on, fronting your applications with OAuth2, OIDC, SAML, LDAP and proxy auth.           | Port 9000          |
 | [Avahi Publisher](./avahi-publisher)         | Publishes extra .local names and Bonjour services on your network, using the official Avahi.                             | None               |
 | [Bazarr](./bazarr)                           | Subtitle manager for Radarr and Sonarr, keeping subtitles alongside the media.                                           | Port 6767          |
-| [Bazarr+](./bazarr-plus)                     | Bazarr fork adding a subtitle provider marketplace, bilingual subtitles and AI translation.                              | Port 6768          |
+| [Bazarr+](./bazarr-plus)                     | Bazarr fork adding a subtitle provider marketplace, bilingual subtitles and AI translation.                              | Port 6767          |
 | [Byparr](./byparr)                           | Proxy that gets past anti-bot challenges for the arr applications, answering the same requests as FlareSolverr.          | Port 8191          |
 | [Cleanuparr](./cleanuparr)                   | Strikes stuck and unwanted downloads from the arr queues and asks for replacements.                                      | Port 11011         |
 | [Configarr](./configarr)                     | Syncs TRaSH Guides and Recyclarr templates into Sonarr, Radarr and Prowlarr.                                             | None               |

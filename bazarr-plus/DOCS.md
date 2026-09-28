@@ -27,13 +27,13 @@ database schema has diverged from the one Bazarr writes.
 
 1. Add this repository to your Home Assistant instance.
 2. Install the "Bazarr+" application.
-3. Start it, then open the web interface on port **6768**.
+3. Start it, then open the web interface on port 6767.
 4. Work through the setup wizard: Sonarr and Radarr, then languages and
    providers.
 
 ### Turn on a login
 
-Bazarr+ starts with no authentication, and port 6768 is published on your
+Bazarr+ starts with no authentication, and port 6767 is published on your
 network. Until you add a login, anyone who can reach the port has the whole
 interface, including the provider passwords and the Sonarr and Radarr API keys
 it stores.
@@ -42,14 +42,13 @@ Set **Settings → General → Security → Authentication** to **Form** and cho
 username and password. Anything that talks to Bazarr+ through its API key keeps
 working.
 
-### Why 6768
+### If 6767 is taken
 
-Bazarr+ listens on 6767 inside its container, which is the port Bazarr uses too.
-Publishing both on the host's 6767 is a conflict Supervisor reports only when
-the second one starts, so this application is published on **6768** instead.
-
-Change it under the application's **Network** settings if 6768 is taken. Nothing
-inside the container moves — only the port the host answers on.
+Two applications cannot publish the same port, and Home Assistant reports the
+conflict only when the second one starts. Bazarr uses 6767 too, so if it is
+installed, or anything else already has the port, change the one Bazarr+ is
+published on under its **Network** settings. Nothing inside the container moves
+— only the port the host answers on.
 
 ## Configuration
 
