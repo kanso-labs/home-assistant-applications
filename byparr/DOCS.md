@@ -18,8 +18,8 @@ option below is for.
 4. Point Prowlarr at it, as described below.
 
 **Byparr uses port 8191, the same as FlareSolverr.** Only one of them can listen
-on it, so stop FlareSolverr before starting Byparr, or move one of them to
-another port in its Network settings.
+on it. Stop FlareSolverr before starting Byparr, or run both as described in
+Running it alongside FlareSolverr below.
 
 Each request starts a browser of its own, which takes up to about 600 MB of
 memory until the request finishes. At rest, Byparr uses about 100 MB.
@@ -57,6 +57,24 @@ Two things work differently from FlareSolverr:
 
 Radarr, Sonarr and Bazarr reach it the same way if they talk to indexers
 directly.
+
+## Running it alongside FlareSolverr
+
+Keeping both lets most indexers use one, while the ones it cannot get through
+use the other.
+
+1. Move Byparr to another host port, such as `8192`, in its **Network**
+   settings. FlareSolverr keeps `8191`.
+2. In Prowlarr, add a second **FlareSolverr** indexer proxy with the host
+   `http://192.168.1.10:8192`, and give it a tag of its own, such as `byparr`.
+3. Give each indexer the tag of the one proxy it should use. Indexers carrying
+   neither tag connect directly.
+
+**Tag each indexer for one proxy, never both.** Prowlarr sends an indexer's
+requests through a single FlareSolverr-type proxy: the first matching one in its
+list, which in practice is the one added first. It does not fall back to the
+other when that one fails, so an indexer carrying both tags only ever uses one
+of them.
 
 ## Configuration
 
