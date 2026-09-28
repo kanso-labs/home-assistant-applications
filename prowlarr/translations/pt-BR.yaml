@@ -1,2 +1,9 @@
+configuration:
+  ipv4_only:
+    description: >-
+      Conecta aos indexadores apenas por IPv4. Ative quando indexadores
+      protegidos pelo Cloudflare continuarem falhando com "blocked by CloudFlare
+      Protection", mesmo pelo FlareSolverr ou pelo Byparr.
+    name: Somente IPv4
 network:
   9696/tcp: A porta em que a interface web do Prowlarr escuta.

@@ -5,6 +5,17 @@
 # Runs Prowlarr
 # ==============================================================================
 
+# Prowlarr tries IPv6 before IPv4 whenever the host has IPv6. Behind Cloudflare
+# that has been seen to fail: the retry Prowlarr sends with the cookies
+# FlareSolverr or Byparr just earned is challenged again over IPv6, while the
+# same retry over IPv4 gets through. .NET stops using IPv6 for the whole
+# process when this variable is 1, which also turns Prowlarr's IPv6-first
+# connection logic off.
+if bashio::config.true 'ipv4_only'; then
+  export DOTNET_SYSTEM_NET_DISABLEIPV6=1
+  bashio::log.info 'Connecting over IPv4 only'
+fi
+
 bashio::log.info 'Starting Prowlarr...'
 
 exec /opt/bin/Prowlarr -nobrowser -data=/config
