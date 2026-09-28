@@ -1,0 +1,25 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Scrutiny
+# Runs Scrutiny's web interface and API
+# ==============================================================================
+
+# s6 starts this as soon as InfluxDB's service has started, which is not the
+# same as InfluxDB answering, and Scrutiny sets InfluxDB up on its first start.
+bashio::log.info 'Waiting for InfluxDB...'
+for _ in {1..120}; do
+  curl --silent --fail --output /dev/null http://127.0.0.1:8086/health && break
+  sleep 1
+done
+curl --silent --fail --output /dev/null http://127.0.0.1:8086/health \
+  || bashio::exit.nok 'InfluxDB did not become ready'
+
+# Scrutiny's own database, the disks it knows and their settings, lives in
+# /data beside InfluxDB, which Home Assistant keeps private and backs up.
+# /config holds only the optional scrutiny.yaml and collector.yaml.
+export SCRUTINY_WEB_DATABASE_LOCATION='/data/scrutiny.db'
+
+bashio::log.info 'Starting Scrutiny...'
+
+exec scrutiny start

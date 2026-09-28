@@ -1,0 +1,9 @@
+configuration:
+  collector_schedule:
+    description: >-
+      When to read the disks again, as a cron expression: minute, hour, day of
+      the month, month and day of the week. The default, 0 0 * * *, reads them
+      every day at midnight. They are also read each time Scrutiny starts.
+    name: Collection schedule
+network:
+  8080/tcp: The port Scrutiny's web interface is served on.

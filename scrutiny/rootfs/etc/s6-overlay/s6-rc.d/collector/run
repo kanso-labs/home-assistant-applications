@@ -1,0 +1,42 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Scrutiny
+# Collects S.M.A.R.T. data once at start, then on the configured schedule
+# ==============================================================================
+readonly collector='/opt/scrutiny/bin/scrutiny-collector-metrics'
+schedule="$(bashio::config 'collector_schedule')"
+readonly schedule
+
+bashio::log.info 'Waiting for Scrutiny...'
+for _ in {1..120}; do
+  curl --silent --fail --output /dev/null http://127.0.0.1:8080/api/health && break
+  sleep 1
+done
+curl --silent --fail --output /dev/null http://127.0.0.1:8080/api/health \
+  || bashio::exit.nok 'Scrutiny did not become ready'
+
+# Cron reads the time zone from /etc/localtime rather than from TZ, which is
+# how Home Assistant passes it in.
+if [[ -n "${TZ:-}" && -f "/usr/share/zoneinfo/${TZ}" ]]; then
+  ln -snf "/usr/share/zoneinfo/${TZ}" /etc/localtime
+  echo "${TZ}" > /etc/timezone
+fi
+
+# Cron starts its jobs with a bare PATH that leaves out /usr/sbin, where
+# smartctl lives, so the job sets its own. Its output goes to the container's
+# log beside everything else.
+cat > /etc/cron.d/scrutiny <<EOF
+MAILTO=""
+PATH=/opt/scrutiny/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+${schedule} root ${collector} run >/proc/1/fd/1 2>/proc/1/fd/2
+EOF
+chmod 0644 /etc/cron.d/scrutiny
+
+bashio::log.info 'Collecting S.M.A.R.T. data now...'
+"${collector}" run \
+  || bashio::log.warning 'The first collection failed. The next scheduled one will try again.'
+
+bashio::log.info "Collecting again on the schedule ${schedule}"
+
+exec cron -f -L 15
