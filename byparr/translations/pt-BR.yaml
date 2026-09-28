@@ -1,0 +1,28 @@
+configuration:
+  log_level:
+    description: >-
+      Quanto o Byparr escreve no log. Aumente para debug quando um desafio
+      estiver falhando e você precisar ver o que o navegador fez.
+    name: Nível de log
+  proxy_server:
+    description: >-
+      Um proxy pelo qual o navegador envia todas as requisições, no formato
+      protocolo://host:porta, como http://proxy.local:3128 ou
+      socks5://proxy.local:1080. Os desafios passam com mais facilidade a partir
+      de um endereço em que o site confia. Deixe vazio para conectar
+      diretamente.
+    name: Servidor proxy
+  proxy_username:
+    description: O nome de usuário do proxy, se ele pedir um.
+    name: Usuário do proxy
+  proxy_password:
+    description: A senha do proxy, se ele pedir uma.
+    name: Senha do proxy
+  browser_locale:
+    description: >-
+      O idioma que o navegador apresenta aos sites, como uma etiqueta do tipo
+      en-US ou pt-BR. Deixe vazio para seguir o país de onde as requisições
+      saem.
+    name: Idioma do navegador
+network:
+  8191/tcp: A porta em que o Byparr responde às requisições.

@@ -1,0 +1,45 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Byparr
+# Runs Byparr
+# ==============================================================================
+
+# Each of these is exported only when it has a value. bashio reads an option
+# that was never set as the word null, which Byparr would take for a proxy
+# address or a locale, and an unknown log level stops Byparr starting at all.
+if bashio::config.has_value 'log_level'; then
+  export LOG_LEVEL="$(bashio::config 'log_level')"
+fi
+
+if bashio::config.has_value 'proxy_server'; then
+  export PROXY_SERVER="$(bashio::config 'proxy_server')"
+
+  if bashio::config.has_value 'proxy_username'; then
+    export PROXY_USERNAME="$(bashio::config 'proxy_username')"
+  fi
+  if bashio::config.has_value 'proxy_password'; then
+    export PROXY_PASSWORD="$(bashio::config 'proxy_password')"
+  fi
+
+  # The address is left out of the log because it can carry credentials.
+  bashio::log.info 'Sending the browser through the configured proxy'
+fi
+
+if bashio::config.has_value 'browser_locale'; then
+  export BROWSER_LOCALE="$(bashio::config 'browser_locale')"
+fi
+
+# The image links the browser's GeoIP cache here, so the database it downloads
+# survives a restart. See the Dockerfile.
+mkdir -p /data/geoip
+chown ubuntu:ubuntu /data/geoip
+
+bashio::log.info 'Starting Byparr...'
+
+cd /app || bashio::exit.nok 'The application directory is missing'
+
+# The upstream image runs Byparr as uid 1000, which Ubuntu names ubuntu, and
+# keeps the browser and its home directory where that user can write. s6-overlay
+# has to be pid 1, so the service starts as root and drops back to it here.
+exec s6-setuidgid ubuntu /app/.venv/bin/python main.py
