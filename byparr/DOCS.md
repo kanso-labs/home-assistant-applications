@@ -17,9 +17,10 @@ option below is for.
 3. Start it. There is nothing to configure first.
 4. Point Prowlarr at it, as described below.
 
-**Byparr uses port 8191, the same as FlareSolverr.** Only one of them can listen
-on it. Stop FlareSolverr before starting Byparr, or run both as described in
-Running it alongside FlareSolverr below.
+**Byparr uses port 8191, the same as FlareSolverr.** Only one of them can
+publish it on the Home Assistant machine. A Prowlarr running on the same Home
+Assistant needs neither port published, so both can run at once, as Running it
+alongside FlareSolverr below describes.
 
 Each request starts a browser of its own, which takes up to about 600 MB of
 memory until the request finishes. At rest, Byparr uses about 100 MB.
@@ -28,11 +29,25 @@ memory until the request finishes. At rest, Byparr uses about 100 MB.
 
 In Prowlarr, go to **Settings → Indexers → Add Indexer Proxy → FlareSolverr**.
 Byparr answers FlareSolverr's requests, so that proxy type is the one to choose.
-Set the host to your Home Assistant machine's address:
+Set the host to the address Prowlarr can reach Byparr on:
 
-```
-http://192.168.1.10:8191
-```
+- **A Prowlarr on the same Home Assistant**, such as this repository's Prowlarr
+  application, reaches Byparr by its internal name, with no published port
+  needed:
+
+  ```
+  http://2dd33fbd-byparr:8191
+  ```
+
+  `2dd33fbd` is Home Assistant's name for this repository when it was added by
+  the address in the README. The name only resolves while Byparr is running.
+
+- **A Prowlarr anywhere else** uses your Home Assistant machine's address and
+  Byparr's published port:
+
+  ```
+  http://192.168.1.10:8191
+  ```
 
 **Replace the address Prowlarr suggests.** It defaults to
 `http://localhost:8191/`, which cannot work here. Every application runs in its
@@ -63,11 +78,15 @@ directly.
 Keeping both lets most indexers use one, while the ones it cannot get through
 use the other.
 
-1. Move Byparr to another host port, such as `8192`, in its **Network**
-   settings. FlareSolverr keeps `8191`.
-2. In Prowlarr, add a second **FlareSolverr** indexer proxy with the host
-   `http://192.168.1.10:8192`, and give it a tag of its own, such as `byparr`.
-3. Give each indexer the tag of the one proxy it should use. Indexers carrying
+1. In Prowlarr, add one **FlareSolverr** indexer proxy for each application, and
+   give each a tag of its own, such as `flaresolverr` and `byparr`.
+2. From a Prowlarr on the same Home Assistant, set their hosts to
+   `http://2dd33fbd-flaresolverr:8191` and `http://2dd33fbd-byparr:8191`.
+   Neither needs a published port, and the two cannot both publish 8191, so turn
+   the port off in Byparr's **Network** settings.
+3. From a Prowlarr anywhere else, move Byparr's published port to another one,
+   such as `8192`, and use `http://192.168.1.10:8192` for it.
+4. Give each indexer the tag of the one proxy it should use. Indexers carrying
    neither tag connect directly.
 
 **Tag each indexer for one proxy, never both.** Prowlarr sends an indexer's
@@ -150,6 +169,10 @@ curl http://192.168.1.10:8191/health
 That request starts the browser and loads `https://google.com`, so it takes a
 few seconds. If it answers and Prowlarr still cannot connect, the address in
 Prowlarr is wrong rather than Byparr being down.
+
+Both checks need Byparr's port published. With it turned off, Prowlarr checks
+the connection itself each time you save the proxy, and reports an address it
+cannot reach.
 
 ## Updates
 
