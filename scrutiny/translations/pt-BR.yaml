@@ -1,9 +1,0 @@
-configuration:
-  collector_schedule:
-    description: >-
-      Quando ler os discos de novo, como uma expressão cron: minuto, hora, dia
-      do mês, mês e dia da semana. O padrão, 0 0 * * *, lê todos os dias à
-      meia-noite. Eles também são lidos sempre que o Scrutiny inicia.
-    name: Agenda de coleta
-network:
-  8080/tcp: A porta em que a interface web do Scrutiny é servida.
