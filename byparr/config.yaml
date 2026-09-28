@@ -26,5 +26,5 @@ schema:
   browser_locale: match(^[A-Za-z]{2,3}(-[A-Za-z0-9]{1,8})*$)?
 slug: byparr
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/byparr'
-version: '1.0.0' # x-release-please-version
+version: '1.1.0' # x-release-please-version
 webui: 'http://[HOST]:[PORT:8191]/docs'
