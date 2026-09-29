@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2](https://github.com/kanso-labs/home-assistant-applications/compare/configarr-v1.1.1...configarr-v1.1.2) (2026-09-29)
+
+
+### Bug Fixes
+
+* update dependency raydak-labs/configarr to v1.33.0 ([#484](https://github.com/kanso-labs/home-assistant-applications/issues/484)) ([3a0a4d9](https://github.com/kanso-labs/home-assistant-applications/commit/3a0a4d9abf2393fbf256c624d6ebc674163049cb))
+
+
+### Upstream changes
+
+* **v1.33.0:** [**nix:** correct pnpmDeps hash for 1.32.0](https://github.com/raydak-labs/configarr/commit/153cd10bf046aef9cc1d574865966dc6c57f2bc2) ([3a0a4d9](https://github.com/kanso-labs/home-assistant-applications/commit/3a0a4d9abf2393fbf256c624d6ebc674163049cb))
+* **v1.33.0:** [**prowlarr:** drop deprecated app_profile alias (soft-breaking)](https://github.com/raydak-labs/configarr/commit/d044d31450ea4d93f2ae8b53aec1a0bf0149959a) ([3a0a4d9](https://github.com/kanso-labs/home-assistant-applications/commit/3a0a4d9abf2393fbf256c624d6ebc674163049cb))
+* **v1.33.0:** [count skipped download clients as failed changes](https://github.com/raydak-labs/configarr/commit/40eaae01703613b3721b26f5f24c82230ae73f71) ([3a0a4d9](https://github.com/kanso-labs/home-assistant-applications/commit/3a0a4d9abf2393fbf256c624d6ebc674163049cb))
+* **v1.33.0:** [delete unmanaged Prowlarr resources after their dependents](https://github.com/raydak-labs/configarr/commit/cb28f5e00fb504b314d25d6a7da60f2e44f0f148) ([3a0a4d9](https://github.com/kanso-labs/home-assistant-applications/commit/3a0a4d9abf2393fbf256c624d6ebc674163049cb))
+* **v1.33.0:** [enforce configuration validation](https://github.com/raydak-labs/configarr/issues/509) ([3a0a4d9](https://github.com/kanso-labs/home-assistant-applications/commit/3a0a4d9abf2393fbf256c624d6ebc674163049cb))
+* **v1.33.0:** [persist disabled *arr providers without connection tests](https://github.com/raydak-labs/configarr/commit/4131e71ee19abe099497ff0d0738337e8db0e0d6) ([3a0a4d9](https://github.com/kanso-labs/home-assistant-applications/commit/3a0a4d9abf2393fbf256c624d6ebc674163049cb))
+* **v1.33.0:** [support release profiles](https://github.com/raydak-labs/configarr/issues/542) ([3a0a4d9](https://github.com/kanso-labs/home-assistant-applications/commit/3a0a4d9abf2393fbf256c624d6ebc674163049cb))
+
 ## [1.1.1](https://github.com/kanso-labs/home-assistant-applications/compare/configarr-v1.1.0...configarr-v1.1.1) (2026-09-17)
 
 
