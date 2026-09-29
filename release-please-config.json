@@ -143,6 +143,15 @@
         }
       ]
     },
+    "immich-machine-learning": {
+      "component": "immich-machine-learning",
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
+    },
     "lingarr": {
       "component": "lingarr",
       "extra-files": [
