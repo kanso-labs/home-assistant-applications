@@ -47,15 +47,39 @@
       "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)$"
     },
     {
-      "description": "Annotated versions whose tags the shared ^v(?<version>.*)$ reads wrongly. Renovate writes back what extractVersion extracts, and the Immich images are written as the tag they name, v and all, so stripping the v would bump them to a tag that does not exist. These keep their tags whole.",
+      "description": "Annotated versions whose tags the shared ^v(?<version>.*)$ reads wrongly. Renovate writes back what extractVersion extracts, and the Immich images are written as the tag they name, v and all, so stripping the v would bump them to a tag that does not exist. VectorChord's release tags and Valkey's image tags carry no v at all, and a release the shared pattern cannot match is dropped rather than offered, so they would never have been updated. These keep their tags whole.",
       "extractVersion": "^(?<version>.+)$",
-      "matchDepNames": ["ghcr.io/immich-app/immich-machine-learning"]
+      "matchDepNames": [
+        "ghcr.io/immich-app/immich-machine-learning",
+        "ghcr.io/immich-app/immich-server",
+        "tensorchord/VectorChord",
+        "valkey/valkey"
+      ]
     },
     {
       "description": "Images pinned by the annotation above their ARG, which is what lets one version serve every stage built from it. The Dockerfile manager resolves that ARG inside FROM as well and would offer a second update for the same line, and for the OpenVINO stage one it cannot apply at all, since v3.2.4-openvino appears nowhere literally. The annotation is the one source.",
       "enabled": false,
-      "matchDepNames": ["ghcr.io/immich-app/immich-machine-learning"],
+      "matchDepNames": [
+        "ghcr.io/immich-app/immich-machine-learning",
+        "ghcr.io/immich-app/immich-server",
+        "valkey/valkey"
+      ],
       "matchManagers": ["dockerfile"]
+    },
+    {
+      "allowedVersions": "<2",
+      "description": "The upper bound of VECTORCHORD_VERSION_RANGE in Immich's server/src/constants.ts. Immich will not start against a VectorChord outside it, so raise this when Immich does.",
+      "matchDepNames": ["tensorchord/VectorChord"]
+    },
+    {
+      "allowedVersions": "/^0\\.8\\./",
+      "description": "The pgvector versions Immich documents VectorChord as known to work with, at least 0.7 and below 0.9. Raise this when Immich does.",
+      "matchDepNames": ["postgresql-17-pgvector"]
+    },
+    {
+      "allowedVersions": "<10",
+      "description": "The Valkey major Immich's own compose file runs. Raise this when upstream does.",
+      "matchDepNames": ["valkey/valkey"]
     },
     {
       "groupName": "Home Assistant Base Images",
@@ -77,6 +101,7 @@
         "ghcr.io/flaresolverr/flaresolverr",
         "ghcr.io/goauthentik/server",
         "ghcr.io/immich-app/immich-machine-learning",
+        "ghcr.io/immich-app/immich-server",
         "ghcr.io/kirovair/muxarr",
         "ghcr.io/lavx/bazarr",
         "ghcr.io/lingarr-translate/lingarr",
@@ -92,6 +117,14 @@
         "traefik/traefik"
       ],
       "semanticCommitType": "fix"
+    },
+    {
+      "description": "Immich expects its server and its machine learning to be the same version, so a new release moves both applications in one pull request. That pull request releases both, the one intended exception to one application per pull request.",
+      "groupName": "Immich",
+      "matchDepNames": [
+        "ghcr.io/immich-app/immich-machine-learning",
+        "ghcr.io/immich-app/immich-server"
+      ]
     }
   ]
 }
