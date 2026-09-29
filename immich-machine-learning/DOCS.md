@@ -59,8 +59,8 @@ aarch64 there is no OpenVINO image, and the models always run on the processor.
 The render devices under `/dev/dri` are offered to the container, the same ones
 the Plex Media Server application is given. Nothing breaks when they are absent.
 
-**To see which one is used**, set the log level to `debug`, restart, and run a
-job, such as Face Detection from Administration → Job Queues. The log then names
+**To see which one is used**, set the log level to `debug`, restart, and upload
+a photo. The first request after a restart loads the models, and the log names
 the device OpenVINO chose:
 
 ```text
