@@ -42,9 +42,13 @@ Immich's Machine Learning Settings can point it somewhere else.
 **No port is published.** Nothing outside Home Assistant can reach machine
 learning, and nothing needs to.
 
-**Immich keeps working while this is stopped.** Face detection and smart search
-wait in Immich's job queue and run once machine learning answers again. The rest
-of Immich, from uploads to browsing, never depends on it.
+**Immich keeps working while this is stopped**, from uploads to browsing. Its
+machine learning jobs are the exception. A face detection, smart search or text
+recognition job that runs while this is stopped fails once and is not retried,
+so photos uploaded in that time have no faces and are not found by smart search.
+
+Once this is running again, go to Administration → Job Queues and run
+**Missing** for Face Detection, Smart Search and OCR.
 
 ## The GPU
 
@@ -96,7 +100,9 @@ database.
    from both.
 2. **Reached by hostname.** Unlike the database, machine learning can afford to
    be another application's neighbour on Home Assistant's network: while it is
-   unreachable, its jobs wait and retry, and the rest of Immich keeps working.
+   unreachable the rest of Immich keeps working, and the machine learning jobs
+   that failed in the meantime can be run again with **Missing** from Job
+   Queues.
 3. **Both architectures.** amd64 builds from Immich's `-openvino` image, for
    Intel GPUs. aarch64 builds from the plain image, which runs on the processor
    and is what can be built and started natively on an arm64 machine.
