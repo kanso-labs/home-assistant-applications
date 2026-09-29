@@ -1,0 +1,17 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Immich
+# Runs the Valkey that holds Immich's job queue
+# ==============================================================================
+bashio::log.info 'Starting Valkey...'
+
+# Nothing is saved to disk, as upstream's compose file gives Valkey no volume
+# either. It listens on the loopback address alone, and no port for it is
+# published in config.yaml.
+exec s6-setuidgid valkey valkey-server \
+  --bind 127.0.0.1 \
+  --port 6379 \
+  --dir /var/lib/valkey \
+  --save '' \
+  --appendonly no
