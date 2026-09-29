@@ -42,10 +42,13 @@ Immich's Machine Learning Settings can point it somewhere else.
 **No port is published.** Nothing outside Home Assistant can reach machine
 learning, and nothing needs to.
 
-**Immich keeps working while this is stopped**, from uploads to browsing. Its
-machine learning jobs are the exception. A face detection, smart search or text
-recognition job that runs while this is stopped fails once and is not retried,
-so photos uploaded in that time have no faces and are not found by smart search.
+**Immich keeps working while this is stopped**, from uploads to browsing. Two
+things are the exception:
+
+- Searching by what is in a photo fails until this is running again.
+- A face detection, smart search or text recognition job that runs while this is
+  stopped fails once and is not retried, so photos uploaded in that time have no
+  faces and are not found by smart search.
 
 Once this is running again, go to Administration → Job Queues and run
 **Missing** for Face Detection, Smart Search and OCR.
