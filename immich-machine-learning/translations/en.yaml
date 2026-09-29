@@ -1,0 +1,7 @@
+configuration:
+  log_level:
+    description: >-
+      How much detail machine learning writes to its log. At debug it names the
+      device OpenVINO runs the models on, which is how to tell the GPU from the
+      processor.
+    name: Log level

@@ -1,0 +1,7 @@
+configuration:
+  log_level:
+    description: >-
+      Quanto detalhe o aprendizado de máquina escreve em seu log. Em debug ele
+      informa o dispositivo em que o OpenVINO executa os modelos, que é como
+      distinguir a GPU do processador.
+    name: Nível de log

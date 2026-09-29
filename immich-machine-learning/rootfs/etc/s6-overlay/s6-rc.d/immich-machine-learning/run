@@ -1,0 +1,22 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Immich Machine Learning
+# Runs Immich's machine learning
+# ==============================================================================
+
+# Immich's machine learning has no settings page of its own, so its log level is
+# an option here. At debug it names the device OpenVINO chose, which is the one
+# place the log shows whether the models run on the GPU or on the processor.
+IMMICH_LOG_LEVEL="$(bashio::config 'log_level')"
+export IMMICH_LOG_LEVEL
+
+# The image links /cache here, so the models it downloads survive a restart.
+# See the Dockerfile.
+mkdir -p /data/cache
+
+bashio::log.info 'Starting Immich machine learning...'
+
+cd /usr/src || bashio::exit.nok 'The machine learning directory is missing'
+
+exec python -m immich_ml

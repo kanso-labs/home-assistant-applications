@@ -1,0 +1,30 @@
+arch:
+  - aarch64
+  - amd64
+# The models download again on their own the first time they are needed, so
+# they are left out of backups. Supervisor tests each entry against a path from
+# its right-hand end and skips a matching folder whole, which takes /data/cache
+# and everything in it.
+backup_exclude:
+  - cache
+description:
+  Face recognition and smart search for the Immich application. It runs Immich's
+  machine learning on an Intel GPU through OpenVINO, and on the processor where
+  there is none.
+# The same render devices the Plex Media Server application is given. Supervisor
+# grants the ones that exist and skips the rest, so nothing breaks without them.
+devices:
+  - /dev/dri
+  - /dev/dri/card0
+  - /dev/dri/card1
+  - /dev/dri/renderD128
+image: 'ghcr.io/kanso-labs/home-assistant-application-immich-machine-learning'
+init: false
+name: Immich Machine Learning
+options:
+  log_level: log
+schema:
+  log_level: list(verbose|debug|log|warn|error)
+slug: immich-machine-learning
+url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/immich-machine-learning'
+version: '0.1.0' # x-release-please-version
