@@ -216,8 +216,8 @@ the database, not the library. Photos uploaded since that backup stay on disk as
 files Immich no longer knows about, and the phones upload them again.
 
 Immich also dumps its database every night, under Administration → Settings →
-Backup Settings, into `/media/immich/backups`. Those dumps travel with the
-library, so a NAS holds a copy of both.
+Database Dump Settings, into `/media/immich/backups`. Those dumps travel with
+the library, so a NAS holds a copy of both.
 
 ## Updates
 
