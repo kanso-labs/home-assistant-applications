@@ -6,9 +6,13 @@
 # ==============================================================================
 bashio::log.info 'Starting Valkey...'
 
-# Nothing is saved to disk, as upstream's compose file gives Valkey no volume
-# either. It listens on the loopback address alone, and no port for it is
-# published in config.yaml.
+# Nothing is saved to disk, so every stop drops the jobs still waiting, and
+# Missing under Job Queues in Immich runs them again. Upstream's Valkey saves a
+# snapshot inside its container as it stops, so its queue survives a restart;
+# see Decision 5 in DOCS.md.
+#
+# It listens on the loopback address alone, and no port for it is published in
+# config.yaml.
 exec s6-setuidgid valkey valkey-server \
   --bind 127.0.0.1 \
   --port 6379 \

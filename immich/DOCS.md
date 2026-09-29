@@ -155,8 +155,11 @@ the reasons.
    and loaded as the server starts.
 5. **Valkey is copied from its own image**, bound to the loopback address with
    persistence off. The Debian release Immich builds on ships Valkey 8, a major
-   behind the 9 upstream's compose file runs, and that compose file gives Valkey
-   no volume either.
+   behind the 9 upstream's compose file runs. Persistence stays off because a
+   dropped queue costs time and not photos: the photos are already in the
+   library and the database, and **Missing** queues the jobs each one still
+   needs. Upstream keeps its queue across a restart and this application does
+   not; see Storage.
 6. **Both architectures.** The server image is published for amd64 and arm64 as
    it is. Only machine learning differs by architecture; see its documentation.
 
@@ -192,10 +195,14 @@ Immich writes the library as root, as its own image runs. Home Assistant mounts
 network storage writable by root alone, so this is also what lets the library
 live on a NAS.
 
-**Valkey keeps nothing on disk.** It holds Immich's job queue in memory, as
-upstream's compose file does, so jobs still waiting when the application stops
-are dropped: during a large import, the thumbnails and faces not yet worked
-through. **Missing** under Administration → Job Queues runs them again.
+**Valkey keeps nothing on disk.** It holds Immich's job queue in memory, so
+every stop drops the jobs still waiting, including the stop for each update and
+each backup. During a large import those are the thumbnails and faces not yet
+worked through. **Missing** under Administration → Job Queues runs them again.
+
+Upstream keeps its queue across a restart, and this application does not. Its
+compose file gives Valkey no volume, but Valkey saves a snapshot inside its
+container as it stops and loads it again when it starts.
 
 ## Backups
 
