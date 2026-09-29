@@ -102,7 +102,11 @@ both.
      for the web, using the name Immich is reached at
 3. In Immich, under Administration → Settings → Authentication Settings → OAuth,
    set the issuer URL to `http://authentik.local/application/o/<slug>/`, with
-   the client ID and secret Authentik shows.
+   the client ID and secret Authentik shows. Turn on **Allow insecure requests**
+   as well, because Immich refuses an `http://` issuer without it. That is
+   acceptable here: the issuer is plain HTTP, so there is no TLS for the switch
+   to skip, and the server's own requests to it never leave this Home Assistant
+   host.
 4. Turn on Auto Register only once the provider's bindings limit it to your
    household. Until then anyone Authentik knows could create an account.
 
