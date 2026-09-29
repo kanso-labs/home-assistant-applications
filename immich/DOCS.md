@@ -16,8 +16,10 @@ processor cores at least and four recommended. That is for Immich alone, beside
 Home Assistant itself.
 
 Install the Immich Machine Learning application first, so the server finds it on
-its first start. Without it Immich still works, but faces and smart search wait
-until it answers.
+its first start. Immich works without it apart from its machine learning:
+searching by what is in a photo fails, and photos uploaded meanwhile get no face
+detection, smart search or text recognition until **Missing** is run for those
+jobs under Administration → Job Queues.
 
 **Decide where the library lives before the first start.** A photo library only
 grows, and moving one later is work. See Keeping the library on a NAS below.
@@ -136,11 +138,12 @@ the reasons.
    server.
 3. **Machine learning is reached by hostname**, at
    `http://2dd33fbd-immich-machine-learning:3003`. That exposure is acceptable
-   where the database's would not be: while machine learning is unreachable,
-   face detection and smart search wait in the queue and retry, and the rest of
-   Immich keeps working. `2dd33fbd` is Home Assistant's name for this repository
-   when it was added by the address in the README. Immich's Machine Learning
-   Settings can point elsewhere.
+   where the database's would not be: while machine learning is unreachable, the
+   rest of Immich keeps working. Immich runs every job once, so its machine
+   learning jobs fail meanwhile rather than wait, and **Missing** under
+   Administration → Job Queues runs them again. `2dd33fbd` is Home Assistant's
+   name for this repository when it was added by the address in the README.
+   Immich's Machine Learning Settings can point elsewhere.
 4. **PostgreSQL 17, not the 14 that upstream's compose file pins.** 14 reaches
    the end of its life in November 2026, and Immich accepts 14 and later. It
    comes from the PostgreSQL project's own repository, which Immich's image
@@ -188,7 +191,7 @@ live on a NAS.
 **Valkey keeps nothing on disk.** It holds Immich's job queue in memory, as
 upstream's compose file does, so jobs still waiting when the application stops
 are dropped: during a large import, the thumbnails and faces not yet worked
-through. Administration → Job Queues starts the missing ones again.
+through. **Missing** under Administration → Job Queues runs them again.
 
 ## Backups
 
