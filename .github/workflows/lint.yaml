@@ -23,9 +23,19 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v7.0.1
 
+      # Written out, because actions here are pinned to release tags and
+      # home-assistant/actions/helpers/find-addons has none: the one tag that
+      # repository has predates the helper.
       - name: Find applications
         id: addons
-        uses: home-assistant/actions/helpers/find-addons@master
+        run: |
+          applications="$(
+            find . -mindepth 2 -maxdepth 2 -name config.json -o -name config.yaml -o -name config.yml \
+              | cut -d / -f 2 \
+              | jq -ncR '[inputs] | unique'
+          )"
+          echo "Found applications: ${applications}"
+          echo "addons_list=${applications}" >> "$GITHUB_OUTPUT"
 
   lint:
     name: Lint ${{ matrix.path }}
