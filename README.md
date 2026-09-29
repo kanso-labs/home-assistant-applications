@@ -40,6 +40,7 @@ one's `DOCS.md` covers its options, what it maps, and how it is backed up.
 | [Configarr](./configarr)                             | Syncs TRaSH Guides and Recyclarr templates into Sonarr, Radarr and Prowlarr.                                             | None               |
 | [FlareSolverr](./flaresolverr)                       | Proxy that solves the challenges standing between the arr applications and their indexers.                               | Ingress, port 8191 |
 | [Flight Finder](./flight-finder)                     | Tracks flight, hotel and car rental prices, with price history and alerts when they drop.                                | Port 3003          |
+| [Immich](./immich)                                   | Backs up the photos and videos on your phones, grouping faces and finding photos by what is in them.                     | Port 2283          |
 | [Immich Machine Learning](./immich-machine-learning) | Face recognition and smart search for Immich, on an Intel GPU through OpenVINO.                                          | None               |
 | [Lingarr](./lingarr)                                 | Translates the subtitles your library is missing, through LibreTranslate, DeepL or an AI service.                        | Port 9876          |
 | [Muxarr](./muxarr)                                   | Strips unwanted audio and subtitle tracks from your media, remuxing rather than re-encoding.                             | Port 8183          |

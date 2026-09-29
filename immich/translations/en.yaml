@@ -1,0 +1,18 @@
+configuration:
+  hosts:
+    description: >-
+      Extra names for Immich to resolve, written to its hosts file when it
+      starts. This is how Immich reaches Authentik at the same .local name your
+      browser does; see the documentation.
+    fields:
+      address:
+        description: >-
+          The IPv4 or IPv6 address the name resolves to. 172.30.32.1 is this
+          Home Assistant host, as an application sees it.
+        name: Address
+      name:
+        description: The name to resolve, such as authentik.local.
+        name: Name
+    name: Hosts
+network:
+  2283/tcp: The port the Immich web interface, its API and the phone apps use.

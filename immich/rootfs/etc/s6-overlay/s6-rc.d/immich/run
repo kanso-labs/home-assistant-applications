@@ -1,0 +1,63 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Immich
+# Runs the Immich server
+# ==============================================================================
+readonly database='immich'
+readonly pg_bin='/usr/lib/postgresql/17/bin'
+readonly socket_dir='/run/postgresql'
+
+# Names Immich should resolve to an address of your choosing, such as the .local
+# name Authentik is reached at, which nothing inside Home Assistant resolves on
+# its own. See DOCS.md. Supervisor gives every new container a new hosts file,
+# so an entry is only already there when s6 restarts this service.
+options="$(bashio::app.config)"
+while IFS=$'\t' read -r name address; do
+  entry="$(printf '%s\t%s' "${address}" "${name}")"
+  if ! grep -q -x -F "${entry}" /etc/hosts; then
+    echo "${entry}" >> /etc/hosts
+  fi
+  bashio::log.info "Resolving ${name} to ${address}"
+done < <(jq -r '.hosts[]? | [.name, .address] | @tsv' <<< "${options}")
+
+# s6 starts this service as soon as PostgreSQL's service has started, which is
+# not the same as PostgreSQL being ready to answer. After an unclean stop it
+# first replays its log, which on a large library and slow storage takes far
+# longer than a normal start, so the wait is long and says where it is.
+bashio::log.info 'Waiting for PostgreSQL...'
+for ((waited = 1; waited <= 600; waited++)); do
+  "${pg_bin}/pg_isready" --host="${socket_dir}" --username='postgres' --quiet && break
+  if ((waited % 30 == 0)); then
+    bashio::log.info "Still waiting for PostgreSQL after ${waited} seconds..."
+  fi
+  sleep 1
+done
+"${pg_bin}/pg_isready" --host="${socket_dir}" --username='postgres' --quiet \
+  || bashio::exit.nok 'PostgreSQL did not become ready'
+
+# Immich creates its own extensions and tables, but not the database itself.
+if ! "${pg_bin}/psql" --host="${socket_dir}" --username='postgres' \
+    --no-align --tuples-only \
+    --command="SELECT 1 FROM pg_database WHERE datname = '${database}'" \
+    | grep -q 1; then
+  bashio::log.info 'Creating the Immich database...'
+  "${pg_bin}/createdb" --host="${socket_dir}" --username='postgres' "${database}" \
+    || bashio::exit.nok 'Could not create the Immich database'
+fi
+
+bashio::log.info 'Waiting for Valkey...'
+for _ in {1..30}; do
+  valkey-cli -h 127.0.0.1 -p 6379 ping > /dev/null 2>&1 && break
+  sleep 1
+done
+valkey-cli -h 127.0.0.1 -p 6379 ping > /dev/null 2>&1 \
+  || bashio::exit.nok 'Valkey did not become ready'
+
+bashio::log.info 'Starting Immich...'
+
+# Upstream's own start script, which the image puts in PATH, reads the secrets
+# it supports from files and starts the server from where it is installed.
+cd /usr/src/app || bashio::exit.nok 'Immich is missing from the image'
+
+exec start.sh
