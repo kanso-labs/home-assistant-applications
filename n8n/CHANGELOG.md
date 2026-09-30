@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.28](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.2.27...n8n-v1.2.28) (2026-09-30)
+
+
+### Bug Fixes
+
+* update dependency n8n to v2.41.4 ([#487](https://github.com/kanso-labs/home-assistant-applications/issues/487)) ([fe49a04](https://github.com/kanso-labs/home-assistant-applications/commit/fe49a04b260ee5371ff982f58965a6c9720dcd95))
+
+
+### Upstream changes
+
+* **v2.41.4:** [**API:** Return an execution when its stored trace context is incomplete](https://github.com/n8n-io/n8n/issues/39827) ([fe49a04](https://github.com/kanso-labs/home-assistant-applications/commit/fe49a04b260ee5371ff982f58965a6c9720dcd95))
+* **v2.41.4:** [**core:** Count a database ping as successful when its reply arrives during event-loop lag](https://github.com/n8n-io/n8n/issues/39757) ([fe49a04](https://github.com/kanso-labs/home-assistant-applications/commit/fe49a04b260ee5371ff982f58965a6c9720dcd95))
+* **v2.41.4:** [**core:** Store queue job results only for executions this process enqueued](https://github.com/n8n-io/n8n/issues/39725) ([fe49a04](https://github.com/kanso-labs/home-assistant-applications/commit/fe49a04b260ee5371ff982f58965a6c9720dcd95))
+* **v2.41.4:** [**editor:** Route assistant credit CTAs to top-up for UBB accounts](https://github.com/n8n-io/n8n/issues/39854) ([fe49a04](https://github.com/kanso-labs/home-assistant-applications/commit/fe49a04b260ee5371ff982f58965a6c9720dcd95))
+* **v2.41.4:** [**editor:** Show remaining credits on Assistant banner for Cloud UBB](https://github.com/n8n-io/n8n/issues/39912) ([fe49a04](https://github.com/kanso-labs/home-assistant-applications/commit/fe49a04b260ee5371ff982f58965a6c9720dcd95))
+* **v2.41.4:** [Add an n8n Assistant onboarding thread for new Cloud signups](https://github.com/n8n-io/n8n/issues/39771) ([fe49a04](https://github.com/kanso-labs/home-assistant-applications/commit/fe49a04b260ee5371ff982f58965a6c9720dcd95))
+
 ## [1.2.27](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.2.26...n8n-v1.2.27) (2026-09-29)
 
 
