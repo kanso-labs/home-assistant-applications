@@ -92,6 +92,12 @@ jobs:
         uses: home-assistant/builder/actions/build-image@2026.06.0
         with:
           arch: ${{ matrix.arch }}
+          # Immich starts from upstream's multi-gigabyte server image. Exporting
+          # those layers to the Actions cache after a publishing build, which has
+          # already recompressed them for the image, kills BuildKit on every
+          # run. They are pulled from upstream's registry either way, so the
+          # cache saves nothing, and the registry's inline cache still applies.
+          cache-gha: ${{ inputs.app != 'immich' }}
           cache-gha-scope: ${{ inputs.app }}
           container-registry-password: ${{ secrets.GITHUB_TOKEN }}
           context: './${{ inputs.app }}'

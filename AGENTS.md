@@ -725,6 +725,16 @@ builds are just slower than they look. `cache-gha-scope` is set to the
 application in `_build-application.yaml`, and removing it puts the eleven
 applications back to sharing two scopes.
 
+**Immich builds without the Actions cache, and has to.** It starts from
+upstream's multi-gigabyte server image. A publishing build recompresses every
+layer to zstd for the image, then `mode=max` exports the same layers again to
+the cache, and BuildKit dies partway through with
+`error reading from server: EOF` — on both architectures, every time, after the
+image has already been pushed. Pull request builds do not push, so they pass and
+hide it. Those layers come from upstream's registry either way, so the cache
+saved nothing; `cache-gha` is off for `immich` in `_build-application.yaml`, and
+the registry's inline cache still applies.
+
 **`UpdateMethod=docker` disables the application's own updater.** These images
 write it into `/opt/package_info` deliberately. The application will show that a
 newer version exists and refuse to install it, which is why the packaging is the
