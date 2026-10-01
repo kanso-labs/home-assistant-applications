@@ -6,14 +6,15 @@
 # ==============================================================================
 declare -a entrypoints
 declare -a options
+declare -a route_entrypoints
 
 # HTTP always, HTTPS only when SSL is on, and the port the Home Assistant
 # sidebar reaches the dashboard through.
-entrypoints=(web:80)
+route_entrypoints=(web:80)
 if bashio::config.true 'ssl'; then
-  entrypoints+=(websecure:443)
+  route_entrypoints+=(websecure:443)
 fi
-entrypoints+=(ingress:8099)
+entrypoints=("${route_entrypoints[@]}" ingress:8099)
 
 # A header named X_Auth_User or X.Auth.User reaches a Python, PHP or nginx
 # backend as X-Auth-User, so a client could pass off one of its own as a header
@@ -23,6 +24,26 @@ for entrypoint in "${entrypoints[@]}"; do
   name="${entrypoint%%:*}"
   options+=("--entryPoints.${name}.address=:${entrypoint##*:}")
   options+=("--entryPoints.${name}.http.aliasHeadersStrategy=delete")
+done
+
+# Traefik allows 60 seconds for a whole request, body included, so an upload
+# that takes longer is cut off partway, as a phone backing up a long video to
+# Immich was. The routes' entrypoints allow an hour, which gets a 4 GB video
+# through a link as slow as 9 Mbps; the ten minutes Immich's documentation
+# suggests would need over 50 Mbps. An hour rather than 0 still lets go of a
+# client that stops sending. Nothing else limits how long a client takes over
+# its headers, so one trickling them, as a slowloris attack does, is now held
+# for up to an hour. Each such connection costs Traefik about 19 KB, these
+# ports are reached from the LAN, and a one-minute limit only made such a
+# client reconnect sooner.
+#
+# Responses keep no time limit, which a write timeout would add to every long
+# download and video stream, and idle connections still close after three
+# minutes, which never interrupts a request. Nothing is uploaded through the
+# dashboard's entrypoint, so it keeps Traefik's default.
+for entrypoint in "${route_entrypoints[@]}"; do
+  name="${entrypoint%%:*}"
+  options+=("--entryPoints.${name}.transport.respondingTimeouts.readTimeout=1h")
 done
 
 # Everything routed comes from the files in the configuration folder: the one

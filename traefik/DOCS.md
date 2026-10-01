@@ -133,6 +133,30 @@ letters, digits and dashes, such as `X_Auth_User`. Python, PHP and nginx
 backends read that name as `X-Auth-User`, so a client could otherwise pass off a
 header of its own as one set by a forward-auth middleware.
 
+## Timeouts
+
+A request through port 80 or 443 has an hour to arrive in full, body included,
+and is cut off if it is still arriving after that. Traefik's own default is 60
+seconds, which cut off uploads such as an Immich phone backup of a long video.
+An hour gets a 4 GB video, about ten minutes of 4K at 60 frames a second,
+through a link as slow as 9 Mbps.
+
+The hour is also as long as a client may take over a request's headers, which is
+how a slowloris attack holds connections open. Each one costs Traefik about 19
+KB, and a shorter limit would only make such a client reconnect sooner.
+
+Responses have no time limit, so a long download or video stream is never cut
+off, and a connection left idle between requests closes after three minutes.
+Both are Traefik's defaults. Immich's reverse proxy documentation asks Traefik
+users to raise the request limit to ten minutes and the idle one with it. The
+hour already covers the first, and the second never affects an upload, so there
+is nothing to change.
+
+The dashboard keeps Traefik's 60 seconds, since nothing is uploaded to it. These
+limits are part of Traefik's static configuration, which this application sets
+on its command line, so neither the Configuration tab nor a file in the
+configuration folder can change them.
+
 ## Storage
 
 | Path      | Access     | Holds                                            |
