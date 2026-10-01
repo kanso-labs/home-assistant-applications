@@ -744,3 +744,29 @@ only route to an update, and why the release chain above matters.
 profile named `example` and referencing `/usr/bin/my_program`. Supervisor
 rewrites the profile name to the slug so it loads, but it describes nothing
 about n8n. Ship a real profile or ship none; do not copy that file.
+
+**Traefik's `readTimeout` bounds a whole upload, so the run script raises it.**
+Since Traefik 3 it defaults to 60 seconds, counted from a request's first byte
+to its last, body included, rather than between two reads as nginx's timeouts
+are. On 2026-09-30 an upload to Immich through Traefik was cut at 60.09 seconds
+with 62 KB of 100 KB sent, and Immich's phone backups of long videos failed the
+same way. The run script now sets an hour on `web` and `websecure`, and its
+comment carries the arithmetic. `ingress` keeps 60 seconds, since only the
+dashboard is behind it.
+
+Leave `writeTimeout` and `idleTimeout` at Traefik's defaults, whatever a guide
+says. Against Traefik 3.7.13, with each shrunk to seconds, a 5-second
+`writeTimeout` cut a 12-second download off at 5 seconds on HTTP/1.1 and HTTP/2
+alike, and over HTTP/1.1 it dropped the response to a 9-second upload the
+backend had received whole. It defaults to none, so setting it caps every
+download and video stream; Immich took it out of its own Traefik example for
+that reason. A 3-second `idleTimeout` let the same upload through, since it only
+closes a connection between requests. `readTimeout` itself never cut off a
+download.
+
+The hour's cost is slowloris. Traefik sets no separate header timeout, so a
+client trickling its headers is now held for an hour rather than a minute. Each
+costs Traefik about 19 KB, measured with 4,000 held at once, and an attacker
+could hold as many against a one-minute limit by reconnecting, so the length was
+never the protection. It stays an hour rather than 0, because with no limit a
+client that stops sending holds its connection for good.
