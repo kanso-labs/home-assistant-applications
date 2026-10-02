@@ -39,6 +39,13 @@ RUN mise install && \
   eval "$(mise activate)" && \
   npm install
 
+# n8n counts an unset NODE_ENV as development, which turns off its login rate
+# limits, echoes any Origin back with credentials, and puts stack traces in
+# error responses. n8n's own image sets it too. Set after the install and before
+# anything runs n8n, so docker exec sessions and n8n's CLI commands get it as
+# well.
+ENV NODE_ENV=production
+
 # Expose the ports
 EXPOSE 5678
 

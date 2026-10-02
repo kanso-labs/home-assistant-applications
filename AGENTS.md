@@ -749,6 +749,14 @@ without complaint while confining nothing real. apps-example still ships that
 file, so matching its shape is how the template gets back in. Ship a real
 profile or ship none; do not copy that file.
 
+**n8n runs in development mode unless `NODE_ENV` says otherwise.** It counts an
+unset `NODE_ENV` as development, and in development it skips its login rate
+limits, echoes any `Origin` back with credentials, puts stack traces in error
+responses and serves the editor uncached. Installing it from npm, as this
+repository does, sets nothing, so the Dockerfile sets `NODE_ENV=production` the
+way n8n's own image does. Anything else installed from npm rather than taken
+from its upstream image wants the same check.
+
 **Traefik's `readTimeout` bounds a whole upload, so the run script raises it.**
 Since Traefik 3 it defaults to 60 seconds, counted from a request's first byte
 to its last, body included, rather than between two reads as nginx's timeouts

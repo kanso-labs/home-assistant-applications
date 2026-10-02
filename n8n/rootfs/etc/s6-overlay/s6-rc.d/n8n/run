@@ -12,6 +12,13 @@ export N8N_HOST=0.0.0.0
 # Ensure data persistence
 export N8N_USER_FOLDER=/data
 
+# Supervisor appends to X-Forwarded-For on every ingress request, and n8n's rate
+# limiter logs a ValidationError for that header unless one proxy hop is
+# trusted. A client calling a published port directly could then forge the
+# address the per-IP limit counts, but the login limit that stops a password
+# guess is keyed on the email, not the address.
+export N8N_PROXY_HOPS=1
+
 # Setup integration with Home Assistant
 GENERIC_TIMEZONE=$(bashio::info.timezone)
 N8N_EDITOR_BASE_URL=$(bashio::addon.ingress_url)
