@@ -5,9 +5,10 @@
 # Runs n8n
 # ==============================================================================
 
-# Expose n8n locally
+# Ingress and the published port both reach n8n here. It listens on every
+# address by default, so nothing needs N8N_HOST, which only names the host in
+# the addresses n8n shows.
 export N8N_PORT=5678
-export N8N_HOST=0.0.0.0
 
 # Ensure data persistence
 export N8N_USER_FOLDER=/data
@@ -26,21 +27,30 @@ export N8N_RESTRICT_FILE_ACCESS_TO=/share
 
 # Setup integration with Home Assistant
 GENERIC_TIMEZONE=$(bashio::info.timezone)
-N8N_EDITOR_BASE_URL=$(bashio::addon.ingress_url)
 N8N_LOG_LEVEL=$(bashio::config 'log_level')
 N8N_PATH="$(bashio::addon.ingress_entry | sed 's|/*$|/|')"
 N8N_SECURE_COOKIE=$(bashio::config 'enable_ssl')
-export GENERIC_TIMEZONE N8N_EDITOR_BASE_URL N8N_LOG_LEVEL N8N_PATH
-export N8N_SECURE_COOKIE
+export GENERIC_TIMEZONE N8N_LOG_LEVEL N8N_PATH N8N_SECURE_COOKIE
 
-# n8n derives the URL it shows for production webhooks from N8N_HOST and
-# N8N_PORT, which are the bind address here — so without this it advertises
-# http://0.0.0.0:5678/, which nothing can reach. Set webhook_url to whatever
-# address actually routes to this application from outside.
+# n8n builds every address it hands out, OAuth callbacks included, from its
+# editor base URL, falling back to its webhook URL. An OAuth provider needs an
+# absolute address, and its redirect back cannot come through ingress, because
+# the Home Assistant frontend sets the ingress session cookie SameSite=Strict.
+# So with webhook_url set, it is the base for everything. Without it, the
+# ingress path at least resolves for links opened from the editor.
 if bashio::config.has_value 'webhook_url'; then
   N8N_WEBHOOK_URL=$(bashio::config 'webhook_url')
   export N8N_WEBHOOK_URL
+else
+  N8N_EDITOR_BASE_URL=$(bashio::addon.ingress_url)
+  export N8N_EDITOR_BASE_URL
 fi
+
+# Home Assistant shares the internal network with this application, so an
+# automation can call a webhook here with no port published, by the hostname
+# Supervisor registers for it.
+internal_host=$(bashio::addon.hostname)
+bashio::log.info "Home Assistant can call webhooks at http://${internal_host}:${N8N_PORT}/webhook/..."
 
 EXT_MODULES=""
 for package in $(bashio::config 'node_function_external_modules'); do
