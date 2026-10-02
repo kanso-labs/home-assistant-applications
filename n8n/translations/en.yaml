@@ -5,9 +5,20 @@ configuration:
       you reach Home Assistant over HTTPS; over plain HTTP, n8n will not let you
       sign in.
     name: HTTPS-only session cookie
+  env_vars:
+    description: >-
+      More of n8n's environment variables, each a name and a value, for the many
+      settings n8n reads that have no option here. The ones this application
+      sets itself cannot be changed this way.
+    name: Environment variables
   log_level:
     description: How much detail n8n writes to its log.
     name: Log level
+  max_old_space_size:
+    description: >-
+      The most memory n8n may use for its heap, in megabytes. Raise it when
+      large workflows run out of memory; leave it empty to let Node decide.
+    name: Maximum heap size (MB)
   node_function_external_modules:
     description: npm modules that Code nodes are allowed to import.
     name: External modules for Code nodes

@@ -5,6 +5,20 @@
 # Runs n8n
 # ==============================================================================
 
+# Anything from env_vars goes in first, so every variable set below wins when the
+# two disagree. NODE_ENV comes from the image and stays production. Names are
+# logged and values never are, because passwords and API keys end up here.
+for index in $(bashio::config 'env_vars|keys'); do
+  name=$(bashio::config "env_vars[${index}].name")
+  if [[ "${name}" == "NODE_ENV" ]]; then
+    bashio::log.warning 'Ignoring NODE_ENV from env_vars; n8n runs in production mode here'
+    continue
+  fi
+  value=$(bashio::config "env_vars[${index}].value")
+  export "${name}=${value}"
+  bashio::log.info "Setting ${name} from env_vars"
+done
+
 # Ingress and the published port both reach n8n here. It listens on every
 # address by default, so nothing needs N8N_HOST, which only names the host in
 # the addresses n8n shows.
@@ -57,6 +71,13 @@ for package in $(bashio::config 'node_function_external_modules'); do
     EXT_MODULES="${EXT_MODULES}${package},"
 done
 export NODE_FUNCTION_ALLOW_EXTERNAL=${EXT_MODULES%,}
+
+# This caps n8n's own heap. Code nodes run in a separate runner, which reads
+# N8N_RUNNERS_MAX_OLD_SPACE_SIZE instead, and env_vars can set that.
+if bashio::config.has_value 'max_old_space_size'; then
+  max_old_space_size=$(bashio::config 'max_old_space_size')
+  export NODE_OPTIONS="${NODE_OPTIONS:+${NODE_OPTIONS} }--max-old-space-size=${max_old_space_size}"
+fi
 
 bashio::log.info 'Starting n8n...'
 
