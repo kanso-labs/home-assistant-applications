@@ -1,12 +1,10 @@
 configuration:
   enable_ssl:
-    description: Habilitar SSL para a instância do n8n.
-    name: Habilitar SSL
-  enable_task_runners:
-    description: >
-      A funcionalidade de task runners consiste em três componentes: um task
-      runner, um task broker e um task requester.
-    name: Habilitar task runners
+    description: >-
+      Exige que o cookie de sessão do n8n trafegue por HTTPS. Ative somente se
+      você acessa o Home Assistant por HTTPS; em HTTP simples, o n8n não
+      permitirá o login.
+    name: Cookie de sessão somente por HTTPS
   log_level:
     description: Quanto detalhe o n8n registra no log.
     name: Nível de log

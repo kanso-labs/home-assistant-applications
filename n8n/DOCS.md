@@ -18,7 +18,6 @@ owner account the first time you open it.
 | Option                           | Default | Does                                                |
 | -------------------------------- | ------- | --------------------------------------------------- |
 | `enable_ssl`                     | `false` | Requires n8n's session cookie to travel over HTTPS  |
-| `enable_task_runners`            | `false` | Runs Code node tasks in a separate process          |
 | `log_level`                      | `info`  | How much n8n writes to its log                      |
 | `node_function_external_modules` | empty   | npm modules Code nodes are allowed to import        |
 | `webhook_url`                    | empty   | The external address n8n shows for webhook triggers |
