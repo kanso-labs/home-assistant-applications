@@ -46,6 +46,28 @@ if ! "${pg_bin}/psql" --host="${socket_dir}" --username='postgres' \
     || bashio::exit.nok 'Could not create the Immich database'
 fi
 
+# The role other applications read the database as. It is given the password
+# from the options and read access alone, or loses its login when no password
+# is set. The password reaches psql through its environment rather than its
+# command line, where every process in the container could read it.
+if bashio::config.has_value 'database_reader_password'; then
+  READER_PASSWORD="$(bashio::config 'database_reader_password')" \
+    "${pg_bin}/psql" --host="${socket_dir}" --username='postgres' \
+    --quiet --set=ON_ERROR_STOP=1 <<'SQL' || bashio::exit.nok 'Could not set up the reader role'
+SET client_min_messages = warning;
+\getenv password READER_PASSWORD
+SELECT 'CREATE ROLE reader' WHERE NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'reader')\gexec
+ALTER ROLE reader WITH LOGIN PASSWORD :'password';
+GRANT pg_read_all_data TO reader;
+SQL
+  bashio::log.info 'Other applications can read the database as reader'
+else
+  "${pg_bin}/psql" --host="${socket_dir}" --username='postgres' \
+    --quiet --set=ON_ERROR_STOP=1 <<'SQL' || bashio::exit.nok 'Could not lock the reader role'
+SELECT 'ALTER ROLE reader NOLOGIN' WHERE EXISTS (SELECT FROM pg_roles WHERE rolname = 'reader')\gexec
+SQL
+fi
+
 bashio::log.info 'Waiting for Valkey...'
 for _ in {1..30}; do
   valkey-cli -h 127.0.0.1 -p 6379 ping > /dev/null 2>&1 && break

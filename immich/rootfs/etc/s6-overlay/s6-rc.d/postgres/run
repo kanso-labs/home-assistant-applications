@@ -25,10 +25,9 @@ if [[ ! -s "${data_dir}/PG_VERSION" ]]; then
   chown postgres:postgres "${data_dir}"
   chmod 0700 "${data_dir}"
 
-  # Local connections are trusted because nothing outside this container can
-  # make one: the server is told below to listen on the loopback address alone,
-  # and no port for it is published in config.yaml. Checksums are on, as they
-  # are in the database upstream's compose file creates.
+  # Checksums are on, as they are in the database upstream's compose file
+  # creates. The access rules initdb writes here go unread: the server takes
+  # its rules from the image instead, as it is told below.
   s6-setuidgid postgres initdb \
     --pgdata="${data_dir}" \
     --encoding='UTF8' \
@@ -41,13 +40,25 @@ fi
 
 chown postgres:postgres "${data_dir}"
 
+# Other applications, such as Immich Power Tools, can read the database once a
+# read-only password is set. PostgreSQL then listens on Home Assistant's
+# internal network too, where its rules admit the reader role alone, by
+# password. Without one it listens on the loopback address alone. No port is
+# published either way. See DOCS.md.
+listen_addresses='127.0.0.1'
+if bashio::config.has_value 'database_reader_password'; then
+  listen_addresses='*'
+fi
+
 bashio::log.info 'Starting PostgreSQL...'
 
 # VectorChord has to be loaded as the server starts, and it is the one setting
-# Immich needs beyond PostgreSQL's defaults.
+# Immich needs beyond PostgreSQL's defaults. Who may connect, and how, is the
+# image's pg_hba.conf.
 exec s6-setuidgid postgres postgres \
   -D "${data_dir}" \
-  -c listen_addresses='127.0.0.1' \
+  -c listen_addresses="${listen_addresses}" \
   -c port=5432 \
   -c unix_socket_directories="${socket_dir}" \
+  -c hba_file='/etc/immich/pg_hba.conf' \
   -c shared_preload_libraries='vchord.so'

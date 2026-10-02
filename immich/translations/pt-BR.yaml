@@ -14,6 +14,13 @@ configuration:
         description: O nome a resolver, como authentik.local.
         name: Nome
     name: Hosts
+  database_reader_password:
+    description: >-
+      Permite que outras aplicações, como o Immich Power Tools, leiam o banco de
+      dados do Immich como o usuário reader, com esta senha. Elas podem ler tudo
+      e não podem alterar nada. Deixe vazio para manter o banco de dados privado
+      ao Immich.
+    name: Senha de leitura do banco de dados
 network:
   2283/tcp:
     A porta que a interface web do Immich, a sua API e os aplicativos de celular
