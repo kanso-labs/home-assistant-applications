@@ -18,7 +18,9 @@ owner account the first time you open it.
 | Option                           | Default | Does                                               |
 | -------------------------------- | ------- | -------------------------------------------------- |
 | `enable_ssl`                     | `false` | Requires n8n's session cookie to travel over HTTPS |
+| `env_vars`                       | empty   | More of n8n's environment variables, by name       |
 | `log_level`                      | `info`  | How much n8n writes to its log                     |
+| `max_old_space_size`             | unset   | The most memory n8n's heap may use, in MB          |
 | `node_function_external_modules` | empty   | npm modules Code nodes are allowed to import       |
 | `webhook_url`                    | empty   | The external address for webhooks and OAuth        |
 
@@ -33,6 +35,29 @@ n8n from outside" for the part that does.
 **`node_function_external_modules` lists module names, not install commands.**
 The modules must already be present in the image, so this allows what is there
 rather than fetching anything new.
+
+**`env_vars` reaches the settings that have no option here.** n8n reads most of
+its configuration from its environment — how long executions are kept, SMTP for
+invitations, metrics — and lists every variable in its
+[environment variables reference](https://docs.n8n.io/hosting/configuration/environment-variables/).
+Each entry is a name and a value:
+
+```yaml
+env_vars:
+  - name: EXECUTIONS_DATA_MAX_AGE
+    value: '72'
+  - name: N8N_METRICS
+    value: 'true'
+```
+
+The variables this application sets from its own options and from Home Assistant
+win over these, and `NODE_ENV` stays `production`. The log names each variable
+it takes from here, never its value.
+
+**`max_old_space_size` caps n8n's own heap.** Raise it when large workflows or
+executions run out of memory, and leave it unset to let Node choose from the
+memory available. Code nodes run in a separate process that reads
+`N8N_RUNNERS_MAX_OLD_SPACE_SIZE` instead, which `env_vars` can set.
 
 Two settings are taken from Home Assistant rather than asked for. n8n runs in
 your instance's timezone, so schedule triggers fire when you expect, and while
