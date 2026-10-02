@@ -163,6 +163,11 @@ keeps in its user folder. Because that folder is `/data`, the key is backed up
 alongside what it encrypts, so a restore into this application recovers them
 together.
 
+Three things in `/data` are left out, because a restore needs none of them. The
+editor n8n compiles for the ingress path is rebuilt on every start, and it is
+most of the folder on a new installation. The crash journal and the event log
+are only read back to recover from a crash.
+
 ## Updates
 
 n8n is installed from npm at build time, at a version pinned in this

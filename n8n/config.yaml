@@ -2,6 +2,10 @@ arch:
   - aarch64
   - amd64
 backup: cold
+backup_exclude:
+  - '.cache/**'
+  - '.n8n/crash.journal'
+  - '.n8n/n8nEventLog*.log'
 description:
   Flexible AI workflow automation for technical teams. Build with the precision
   of code or the speed of drag-n-drop. Host with on-prem control or in-the-cloud
