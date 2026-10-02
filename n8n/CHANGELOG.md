@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.2.31...n8n-v1.3.0) (2026-10-02)
+
+
+### Features
+
+* **n8n:** pass extra environment variables to n8n ([#522](https://github.com/kanso-labs/home-assistant-applications/issues/522)) ([0271380](https://github.com/kanso-labs/home-assistant-applications/commit/027138071c503a7fb247b1cf83a690d11bee890c))
+
+
+### Bug Fixes
+
+* **n8n:** give OAuth and webhooks full addresses ([#521](https://github.com/kanso-labs/home-assistant-applications/issues/521)) ([a2141a4](https://github.com/kanso-labs/home-assistant-applications/commit/a2141a44ac414a7e8608f8537a71f586b3fff02a))
+* **n8n:** let workflows read shared storage ([#520](https://github.com/kanso-labs/home-assistant-applications/issues/520)) ([36dfe13](https://github.com/kanso-labs/home-assistant-applications/commit/36dfe13a43406e334ac9bce9a083f63990a3a833))
+* **n8n:** report readiness and slim backups ([#523](https://github.com/kanso-labs/home-assistant-applications/issues/523)) ([2cbea3d](https://github.com/kanso-labs/home-assistant-applications/commit/2cbea3d07078c05400fcb42f25e39a023c6441a7))
+* **n8n:** run n8n in production mode ([#518](https://github.com/kanso-labs/home-assistant-applications/issues/518)) ([fafebd4](https://github.com/kanso-labs/home-assistant-applications/commit/fafebd46df53f7fd36f45acc9ab4c8b5e4d90770))
+* **n8n:** shrink the image ([#524](https://github.com/kanso-labs/home-assistant-applications/issues/524)) ([c2a7c96](https://github.com/kanso-labs/home-assistant-applications/commit/c2a7c9638f606b0419044737b24b0142f221205a))
+* **n8n:** stop offering options that do nothing ([#519](https://github.com/kanso-labs/home-assistant-applications/issues/519)) ([8adf647](https://github.com/kanso-labs/home-assistant-applications/commit/8adf647e670b560aec5657b95ee3c2cf5d8dd84c))
+
 ## [1.2.31](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.2.30...n8n-v1.2.31) (2026-10-02)
 
 
