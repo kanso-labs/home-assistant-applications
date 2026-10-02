@@ -14,5 +14,11 @@ configuration:
         description: The name to resolve, such as authentik.local.
         name: Name
     name: Hosts
+  database_reader_password:
+    description: >-
+      Lets other applications, such as Immich Power Tools, read Immich's
+      database as the user reader with this password. They can read everything
+      and change nothing. Leave it empty to keep the database private to Immich.
+    name: Read-only database password
 network:
   2283/tcp: The port the Immich web interface, its API and the phone apps use.

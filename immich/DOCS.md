@@ -47,12 +47,35 @@ mounted there until the folder is moved out of the way.
 
 ## Configuration
 
-| Option | What it sets                                                            |
-| ------ | ----------------------------------------------------------------------- |
-| Hosts  | Extra names for Immich to resolve, and the address each one resolves to |
+| Option                      | What it sets                                                            |
+| --------------------------- | ----------------------------------------------------------------------- |
+| Hosts                       | Extra names for Immich to resolve, and the address each one resolves to |
+| Read-only database password | Whether other applications can read the database; see below             |
 
 Everything else is set from Immich's own settings, under Administration →
 Settings.
+
+## Letting other applications read the database
+
+Immich keeps its database to itself. Some tools read it directly, such as
+[Immich Power Tools](../immich-power-tools), and need a way in.
+
+Setting **Read-only database password** gives them one. After a restart,
+PostgreSQL also listens on Home Assistant's internal network and lets in one
+user there:
+
+| Setting  | Value                |
+| -------- | -------------------- |
+| Host     | `2dd33fbd-immich`    |
+| Port     | `5432`               |
+| Database | `immich`             |
+| User     | `reader`             |
+| Password | The password you set |
+
+`reader` can read every table and change none, so a tool still makes its changes
+through Immich's API. The port is not published on the host, so only other
+applications can reach it. Clearing the password takes `reader`'s login away and
+closes the database again.
 
 ## Signing in through Authentik
 
@@ -178,8 +201,9 @@ Transcoding Settings → Hardware Acceleration, choose **Quick Sync**.
 | ------ | --------------------------------------------- |
 | `2283` | The web interface, the API and the phone apps |
 
-PostgreSQL and Valkey listen inside the application alone, and no port is
-published for either.
+Valkey listens inside the application alone. So does PostgreSQL, until a
+read-only database password lets other applications read it over Home
+Assistant's internal network. No port is published for either.
 
 ## Storage
 
@@ -245,6 +269,10 @@ Immich runs as root inside its container, as its own image does, while handling
 files people upload and links they share. Keep port `2283` on your own network.
 Reach it from outside through a reverse proxy or a VPN rather than by forwarding
 the port.
+
+The read-only database password opens everything in the database to whatever
+holds it: account emails, people, faces and where every photo was taken. Make it
+long and random, and give it only to applications that need it.
 
 ## Why this starts at 0.1.0
 
