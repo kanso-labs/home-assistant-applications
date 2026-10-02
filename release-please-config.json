@@ -161,6 +161,15 @@
         }
       ]
     },
+    "immich-power-tools": {
+      "component": "immich-power-tools",
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
+    },
     "lingarr": {
       "component": "lingarr",
       "extra-files": [
