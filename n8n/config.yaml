@@ -18,7 +18,6 @@ map:
 name: n8n
 options:
   enable_ssl: false
-  enable_task_runners: false
   log_level: info
   node_function_external_modules: []
   webhook_url: ''
@@ -27,7 +26,6 @@ ports:
   5678/tcp: null
 schema:
   enable_ssl: bool
-  enable_task_runners: bool
   log_level: list(debug|info|warn|error)
   node_function_external_modules: [str]
   webhook_url: str?
