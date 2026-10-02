@@ -14,9 +14,9 @@ configuration:
   webhook_url:
     description: >-
       The address that reaches this application from outside Home Assistant,
-      such as https://n8n.example.com. n8n shows it when you build a webhook
-      trigger. Leave it empty unless you have published the port and put
-      something in front of it.
-    name: External webhook address
+      such as https://n8n.example.com. n8n gives it out for webhook triggers,
+      and as the address OAuth providers send you back to. Leave it empty unless
+      you have published the port and put something in front of it.
+    name: External address
 network:
   5678/tcp: The port n8n listens on, for reaching it without ingress.

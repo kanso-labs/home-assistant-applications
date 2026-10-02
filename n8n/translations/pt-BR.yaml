@@ -14,9 +14,9 @@ configuration:
   webhook_url:
     description: >-
       O endereço que alcança esta aplicação de fora do Home Assistant, como
-      https://n8n.example.com. O n8n o exibe quando você monta um gatilho de
-      webhook. Deixe vazio a menos que você tenha publicado a porta e colocado
-      algo na frente dela.
-    name: Endereço externo de webhook
+      https://n8n.example.com. O n8n o usa nos gatilhos de webhook e como o
+      endereço para onde os provedores OAuth enviam você de volta. Deixe vazio a
+      menos que você tenha publicado a porta e colocado algo na frente dela.
+    name: Endereço externo
 network:
   5678/tcp: A porta em que o n8n escuta, para alcançá-lo sem o ingress.

@@ -15,28 +15,29 @@ owner account the first time you open it.
 
 ## Configuration
 
-| Option                           | Default | Does                                                |
-| -------------------------------- | ------- | --------------------------------------------------- |
-| `enable_ssl`                     | `false` | Requires n8n's session cookie to travel over HTTPS  |
-| `log_level`                      | `info`  | How much n8n writes to its log                      |
-| `node_function_external_modules` | empty   | npm modules Code nodes are allowed to import        |
-| `webhook_url`                    | empty   | The external address n8n shows for webhook triggers |
+| Option                           | Default | Does                                               |
+| -------------------------------- | ------- | -------------------------------------------------- |
+| `enable_ssl`                     | `false` | Requires n8n's session cookie to travel over HTTPS |
+| `log_level`                      | `info`  | How much n8n writes to its log                     |
+| `node_function_external_modules` | empty   | npm modules Code nodes are allowed to import       |
+| `webhook_url`                    | empty   | The external address for webhooks and OAuth        |
 
 **`enable_ssl` is about the cookie, not about certificates.** Turn it on only
 when you reach Home Assistant over HTTPS. With it on and an HTTP connection, the
 browser will not send the session cookie back and n8n will not let you sign in.
 
-**`webhook_url` does nothing on its own.** It changes the address n8n prints for
-webhook triggers, not what can reach n8n. See "Reaching n8n from outside" for
-the part that does.
+**`webhook_url` does nothing on its own.** It changes the address n8n gives out
+for webhook triggers and OAuth callbacks, not what can reach n8n. See "Reaching
+n8n from outside" for the part that does.
 
 **`node_function_external_modules` lists module names, not install commands.**
 The modules must already be present in the image, so this allows what is there
 rather than fetching anything new.
 
 Two settings are taken from Home Assistant rather than asked for. n8n runs in
-your instance's timezone, so schedule triggers fire when you expect, and its
-editor base URL is set to the ingress address so links it generates resolve.
+your instance's timezone, so schedule triggers fire when you expect, and while
+`webhook_url` is empty the links it generates point at the ingress address, so
+they open from the sidebar.
 
 ## Storage
 
@@ -59,17 +60,45 @@ folder in `/data` stays off limits to workflows either way.
 that reads a file from shared storage works; one that writes to it does not, by
 design.
 
+## Starting a workflow from Home Assistant
+
+Home Assistant itself can call a webhook with nothing published. It shares an
+internal network with this application and reaches it by the hostname Supervisor
+gives it, which the log names when n8n starts:
+
+```
+Home Assistant can call webhooks at http://a1b2c3d4-n8n:5678/webhook/...
+```
+
+Give a workflow a Webhook trigger, publish the workflow, and call it from a
+[`rest_command`](https://www.home-assistant.io/integrations/rest_command/):
+
+```yaml
+rest_command:
+  n8n_doorbell:
+    url: 'http://a1b2c3d4-n8n:5678/webhook/doorbell'
+    method: POST
+    content_type: 'application/json'
+    payload: '{"camera": "{{ camera }}"}'
+```
+
+Take the hostname from your own log, since its first part comes from the address
+you added this repository with, and the path from the trigger. The route is
+plain HTTP inside your Home Assistant host, and nothing outside that host can
+use it.
+
 ## Reaching n8n from outside
 
-Ingress is the only way in as installed, and it is authenticated — every request
-carries a Home Assistant session cookie that Supervisor checks before the
-request reaches n8n. That is what makes the sidebar work without a second login,
-and it is also why an external service cannot call in.
+From anywhere else, ingress is the only way in as installed, and it is
+authenticated — every request carries a Home Assistant session cookie that
+Supervisor checks before the request reaches n8n. That is what makes the sidebar
+work without a second login, and it is also why an external service cannot call
+in.
 
-**Webhook triggers therefore do not work out of the box.** Nothing outside your
-network can reach n8n, and n8n cannot tell that on its own: with no external
-address configured it builds webhook URLs from the address it binds to, and
-shows you `http://0.0.0.0:5678/…`, which resolves nowhere.
+**Webhook triggers therefore do not work from outside out of the box.** Nothing
+outside your Home Assistant host can reach n8n, and n8n cannot tell that on its
+own: with no external address configured it shows webhook URLs on `localhost`,
+which only reaches n8n from inside its own container.
 
 Home Assistant Cloud does not change this. Its remote URL is a tunnel to the
 same authenticated frontend, so an ingress path reached that way still answers
@@ -81,7 +110,14 @@ To accept webhooks you need two things.
    **Configuration → Network** and give it a host port. Nothing is published
    until you do.
 2. **Set the external address.** Put whatever URL routes to that port into
-   `webhook_url`, and n8n will show it instead of its bind address.
+   `webhook_url`, and n8n will show it instead of `localhost`.
+
+**OAuth credentials need the same two things.** After you sign in to a provider
+such as Google or Microsoft, it sends your browser back to n8n, and that
+redirect cannot come through ingress, because the browser does not send the
+ingress session along with it. With `webhook_url` set, n8n sends providers to
+`<webhook_url>rest/oauth2-credential/callback`, which is the address to register
+with them. Most of them insist that it is HTTPS.
 
 **The published port is not authenticated.** Anything that can reach it can
 reach n8n's editor, so put a reverse proxy or a tunnel in front of it rather
