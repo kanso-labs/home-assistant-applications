@@ -102,6 +102,7 @@
         "ghcr.io/goauthentik/server",
         "ghcr.io/immich-app/immich-machine-learning",
         "ghcr.io/immich-app/immich-server",
+        "ghcr.io/immich-power-tools/immich-power-tools",
         "ghcr.io/kirovair/muxarr",
         "ghcr.io/lavx/bazarr",
         "ghcr.io/lingarr-translate/lingarr",

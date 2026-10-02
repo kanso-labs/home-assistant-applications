@@ -1,0 +1,43 @@
+arch:
+  - aarch64
+  - amd64
+# Power Tools keeps its workflows, import jobs and settings in SQLite, which a
+# hot backup could copy mid-write.
+backup: cold
+description:
+  Bulk tools for organizing an Immich library. Merge the people Immich split,
+  fill in missing locations, find albums waiting to be made, and see analytics
+  across your photos.
+image: 'ghcr.io/kanso-labs/home-assistant-application-immich-power-tools'
+init: false
+name: Immich Power Tools
+# The defaults reach the Immich application in this repository, when the
+# repository was added by the address in the README. Its database password is
+# the one place they cannot have a default; see DOCS.md.
+options:
+  database_host: 2dd33fbd-immich
+  database_name: immich
+  database_port: 5432
+  database_user: reader
+  immich_url: 'http://2dd33fbd-immich:2283'
+ports:
+  3000/tcp: 3000
+# The Configuration tab lists the options in the order the schema declares
+# them, so they follow the order a person fills them in.
+schema:
+  immich_url: url
+  external_immich_url: url?
+  immich_api_key: password?
+  database_host: str
+  database_port: port
+  database_name: str
+  database_user: str
+  database_password: password
+  power_tools_url: url?
+  ai_base_url: url?
+  ai_model: str?
+  ai_api_key: password?
+slug: immich-power-tools
+url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/immich-power-tools'
+version: '0.1.0' # x-release-please-version
+webui: 'http://[HOST]:[PORT:3000]'

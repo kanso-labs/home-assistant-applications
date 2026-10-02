@@ -1,0 +1,66 @@
+configuration:
+  immich_url:
+    description: >-
+      Onde o Power Tools alcança o Immich. O padrão é a aplicação Immich deste
+      repositório, quando o repositório foi adicionado pelo endereço do seu
+      README.
+    name: URL do Immich
+  external_immich_url:
+    description: >-
+      O endereço em que o seu navegador abre o Immich, como
+      http://homeassistant.local:2283. Os links do Power Tools para o Immich o
+      usam. Deixe vazio para usar a URL do Immich, que um navegador não consegue
+      abrir quando é a padrão.
+    name: URL do Immich para o navegador
+  immich_api_key:
+    description: >-
+      Uma chave de API do Immich com todas as permissões. Com ela, o Power Tools
+      pula o login, e qualquer pessoa que o abrir age como o dono da chave.
+      Deixe vazio para entrar com uma conta do Immich.
+    name: Chave de API do Immich
+  database_host:
+    description: >-
+      Onde o banco de dados PostgreSQL do Immich responde. O Power Tools o lê
+      diretamente, e toda página precisa dele.
+    name: Host do banco de dados
+  database_port:
+    description: A porta em que o banco de dados PostgreSQL do Immich responde.
+    name: Porta do banco de dados
+  database_name:
+    description: O nome do banco de dados do Immich.
+    name: Nome do banco de dados
+  database_user:
+    description: >-
+      O usuário com que o Power Tools lê o banco de dados. A aplicação Immich
+      deste repositório deixa outras aplicações lerem o seu banco de dados como
+      reader.
+    name: Usuário do banco de dados
+  database_password:
+    description: >-
+      A senha desse usuário. Para a aplicação Immich deste repositório, é a
+      senha de leitura do banco de dados definida na configuração do próprio
+      Immich.
+    name: Senha do banco de dados
+  power_tools_url:
+    description: >-
+      O endereço em que as pessoas abrem o Power Tools, como
+      http://homeassistant.local:3000. Os links de compartilhamento são feitos a
+      partir dele, e nenhum pode ser feito até que ele seja definido.
+    name: URL do Power Tools
+  ai_base_url:
+    description: >-
+      A API compatível com a OpenAI com que o Find transforma uma busca em
+      filtros. Deixe vazio para usar a da própria OpenAI.
+    name: URL da API de IA
+  ai_model:
+    description: >-
+      O modelo que o Find usa, como gpt-4o-mini. O Find fica desligado até que
+      este campo e a chave da API de IA sejam definidos.
+    name: Modelo de IA
+  ai_api_key:
+    description: >-
+      A chave dessa API. Qualquer texto serve para uma que não precisa de chave,
+      como o Ollama.
+    name: Chave da API de IA
+network:
+  3000/tcp: A porta em que a interface web do Power Tools escuta.

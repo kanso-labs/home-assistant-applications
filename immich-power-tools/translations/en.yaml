@@ -1,0 +1,64 @@
+configuration:
+  immich_url:
+    description: >-
+      Where Power Tools reaches Immich. The default is the Immich application in
+      this repository, when the repository was added by the address in its
+      README.
+    name: Immich URL
+  external_immich_url:
+    description: >-
+      The address your browser opens Immich at, such as
+      http://homeassistant.local:2283. Links from Power Tools into Immich use
+      it. Leave it empty to use the Immich URL, which a browser cannot open when
+      it is the default.
+    name: Immich URL for your browser
+  immich_api_key:
+    description: >-
+      An Immich API key with every permission. With one set, Power Tools skips
+      its sign-in, and anyone who opens it works as the key's owner. Leave it
+      empty to sign in with an Immich account instead.
+    name: Immich API key
+  database_host:
+    description: >-
+      Where Immich's PostgreSQL database answers. Power Tools reads it directly,
+      and every page needs it.
+    name: Database host
+  database_port:
+    description: The port Immich's PostgreSQL database answers on.
+    name: Database port
+  database_name:
+    description: The name of Immich's database.
+    name: Database name
+  database_user:
+    description: >-
+      Who Power Tools reads the database as. The Immich application in this
+      repository lets other applications read its database as reader.
+    name: Database user
+  database_password:
+    description: >-
+      That user's password. For the Immich application in this repository, it is
+      the read-only database password set in Immich's own configuration.
+    name: Database password
+  power_tools_url:
+    description: >-
+      The address people open Power Tools at, such as
+      http://homeassistant.local:3000. Share links are made from it, and none
+      can be made until it is set.
+    name: Power Tools URL
+  ai_base_url:
+    description: >-
+      The OpenAI-compatible API Find turns a search into filters with. Leave it
+      empty for OpenAI's own.
+    name: AI API URL
+  ai_model:
+    description: >-
+      The model Find uses, such as gpt-4o-mini. Find stays off until this and
+      the AI API key are set.
+    name: AI model
+  ai_api_key:
+    description: >-
+      The key for that API. Any text will do for one that needs no key, such as
+      Ollama.
+    name: AI API key
+network:
+  3000/tcp: The port the Power Tools web interface listens on.

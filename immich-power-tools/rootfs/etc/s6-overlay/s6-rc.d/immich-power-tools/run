@@ -1,0 +1,64 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Immich Power Tools
+# Runs Immich Power Tools
+# ==============================================================================
+readonly secret_file='/data/share-link-secret'
+
+export IMMICH_URL="$(bashio::config 'immich_url')"
+export DB_HOST="$(bashio::config 'database_host')"
+export DB_PORT="$(bashio::config 'database_port')"
+export DB_DATABASE_NAME="$(bashio::config 'database_name')"
+export DB_USERNAME="$(bashio::config 'database_user')"
+export DB_PASSWORD="$(bashio::config 'database_password')"
+
+# Each of these is exported only when it has a value. bashio reads an option
+# that was never set as the word null, which Power Tools would take for an
+# address or a key.
+if bashio::config.has_value 'external_immich_url'; then
+  export EXTERNAL_IMMICH_URL="$(bashio::config 'external_immich_url')"
+fi
+
+if bashio::config.has_value 'immich_api_key'; then
+  export IMMICH_API_KEY="$(bashio::config 'immich_api_key')"
+  bashio::log.warning 'An Immich API key is set, so anyone who opens Power Tools acts as its owner without signing in'
+fi
+
+if bashio::config.has_value 'power_tools_url'; then
+  export POWER_TOOLS_ENDPOINT_URL="$(bashio::config 'power_tools_url')"
+fi
+
+if bashio::config.has_value 'ai_base_url'; then
+  export AI_BASE_URL="$(bashio::config 'ai_base_url')"
+fi
+if bashio::config.has_value 'ai_model'; then
+  export AI_MODEL="$(bashio::config 'ai_model')"
+fi
+if bashio::config.has_value 'ai_api_key'; then
+  export AI_API_KEY="$(bashio::config 'ai_api_key')"
+fi
+
+# Power Tools keeps its workflows, import jobs and settings in SQLite, which
+# upstream puts inside the image. Supervisor creates a new container on every
+# start, so here it lives in /data, which survives one and is backed up.
+export APP_DB_PATH='/data/app.db'
+
+# Share links are signed with this secret, and upstream makes none without one.
+# It is generated on the first start and kept, so a link outlives a restart.
+if [[ ! -s "${secret_file}" ]]; then
+  (umask 077 && head -c 48 /dev/urandom | base64 | tr -d '\n' > "${secret_file}")
+fi
+export JWT_SECRET="$(< "${secret_file}")"
+
+# The upstream image runs Power Tools as nextjs, which has to be able to write
+# the database and the journal files SQLite keeps beside it.
+chown nextjs /data
+
+bashio::log.info "Starting Immich Power Tools ${VERSION}..."
+
+cd /app || bashio::exit.nok 'The application directory is missing'
+
+# s6-overlay has to be pid 1, so the service starts as root and drops back to
+# the user upstream runs as here.
+exec s6-setuidgid nextjs node server.js
