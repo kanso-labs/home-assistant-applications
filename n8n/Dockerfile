@@ -46,6 +46,13 @@ RUN mise install && \
 # well.
 ENV NODE_ENV=production
 
+# Supervisor shows the application as starting until the first result arrives,
+# and with the watchdog on, restarts it when the check fails. Readiness answers
+# only once n8n's database is connected and migrated and n8n has finished
+# starting, which the first start after an update can take minutes to reach.
+HEALTHCHECK --interval=30s --timeout=10s --start-period=600s --retries=5 \
+  CMD curl -f -s -S -o /dev/null http://127.0.0.1:5678/healthz/readiness || exit 1
+
 # Expose the ports
 EXPOSE 5678
 
