@@ -19,6 +19,11 @@ export N8N_USER_FOLDER=/data
 # guess is keyed on the email, not the address.
 export N8N_PROXY_HOPS=1
 
+# n8n confines the Read/Write Files from Disk node to this list, and without it
+# to ~/.n8n-files, which is inside the container and gone on the next start.
+# /share is mapped for workflows to read from, so it is the list.
+export N8N_RESTRICT_FILE_ACCESS_TO=/share
+
 # Setup integration with Home Assistant
 GENERIC_TIMEZONE=$(bashio::info.timezone)
 N8N_EDITOR_BASE_URL=$(bashio::addon.ingress_url)

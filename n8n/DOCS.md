@@ -50,6 +50,11 @@ folder points, so unlike most applications here there is no configuration
 directory to browse with the File editor. Everything lives inside the
 application's own storage and is reached through the n8n interface.
 
+**Workflows can read files from `/share`, and from nowhere else.** n8n confines
+the Read/Write Files from Disk node to the directories this application names,
+and refuses every other path with "Access to the file is not allowed." Its own
+folder in `/data` stays off limits to workflows either way.
+
 `/share` is mapped read-only because n8n never needs to write there. A workflow
 that reads a file from shared storage works; one that writes to it does not, by
 design.
