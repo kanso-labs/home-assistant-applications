@@ -14,13 +14,9 @@ ARG MISE_VERSION=2026.10.0
 RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
     bash \
     curl \
-    g++ \
     git \
     graphicsmagick \
-    linux-libc-dev \
-    make \
     openssh-client \
-    python3 \
   && rm -rf /var/lib/apt/lists/*
 
 # Install mise
@@ -28,16 +24,31 @@ RUN curl -L -f --retry 8 --retry-all-errors --retry-max-time 180 https://mise.ru
   | MISE_VERSION="${MISE_VERSION}" sh
 ENV PATH="/root/.local/bin:$PATH"
 
-# Copy root filesystem
-COPY rootfs /
-
 # Configure n8n
 WORKDIR /usr/src/n8n
 
-# Install Node.js and n8n
-RUN mise install && \
-  eval "$(mise activate)" && \
-  npm install
+# Only the two pins that decide the install come first, so a change to the
+# service scripts reuses the installed layer instead of rebuilding it, and an
+# update that changes only those scripts downloads only them.
+COPY rootfs/usr/src/n8n/package.json rootfs/usr/src/n8n/.tool-versions ./
+
+# Install Node.js and n8n. Its native modules compile here, so the toolchain
+# comes and goes within this one layer, and npm's cache goes with it. Left
+# behind, the two made up most of the image.
+RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
+    g++ \
+    linux-libc-dev \
+    make \
+    python3 \
+  && mise install \
+  && eval "$(mise activate)" \
+  && npm install --no-audit --no-fund \
+  && npm cache clean --force \
+  && apt-get purge --assume-yes --auto-remove g++ linux-libc-dev make python3 \
+  && rm -rf /var/lib/apt/lists/* /root/.cache /root/.npm /tmp/*
+
+# Copy root filesystem
+COPY rootfs /
 
 # n8n counts an unset NODE_ENV as development, which turns off its login rate
 # limits, echoes any Origin back with credentials, and puts stack traces in

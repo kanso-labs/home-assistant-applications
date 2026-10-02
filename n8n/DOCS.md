@@ -209,6 +209,11 @@ install compiles native code — which is why the Dockerfile pulls in `g++`,
 `make`, `python3` and `linux-libc-dev` before it runs. Those builds are the
 reason a glibc base is the less troublesome choice here.
 
+The toolchain is removed again in the same step, with npm's cache, so the image
+carries neither. The cost is that a community node with native code cannot be
+installed from the editor, because there is nothing left to compile it with. npm
+itself stays, since n8n installs community nodes with it.
+
 Node itself is installed with mise, at a version pinned in `.tool-versions`
 beside the `package.json`. Those two pins together decide what an image
 resolves, which is why both are exact.
