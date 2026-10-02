@@ -740,10 +740,14 @@ write it into `/opt/package_info` deliberately. The application will show that a
 newer version exists and refuse to install it, which is why the packaging is the
 only route to an update, and why the release chain above matters.
 
-**`apparmor.txt` is not free.** n8n carries the apps-example template verbatim,
-profile named `example` and referencing `/usr/bin/my_program`. Supervisor
-rewrites the profile name to the slug so it loads, but it describes nothing
-about n8n. Ship a real profile or ship none; do not copy that file.
+**`apparmor.txt` is not free.** n8n shipped the apps-example template verbatim
+until its packaging was aligned with the other applications: a profile named
+`example`, whose one child profile confined `/usr/bin/my_program`, a binary n8n
+never had, and whose outer profile granted all file access through a bare
+`file,` rule. Supervisor rewrites the profile name to the slug, so it loaded
+without complaint while confining nothing real. apps-example still ships that
+file, so matching its shape is how the template gets back in. Ship a real
+profile or ship none; do not copy that file.
 
 **Traefik's `readTimeout` bounds a whole upload, so the run script raises it.**
 Since Traefik 3 it defaults to 60 seconds, counted from a request's first byte
