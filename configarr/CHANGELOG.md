@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.3](https://github.com/kanso-labs/home-assistant-applications/compare/configarr-v1.1.2...configarr-v1.1.3) (2026-10-04)
+
+
+### Bug Fixes
+
+* update dependency raydak-labs/configarr to v1.34.0 ([#530](https://github.com/kanso-labs/home-assistant-applications/issues/530)) ([fa56543](https://github.com/kanso-labs/home-assistant-applications/commit/fa56543ceca28961a90e408a61e222d4c462d7db))
+
+
+### Upstream changes
+
+* **v1.34.0:** [bind media feature syncs to per-*arr client contracts](https://github.com/raydak-labs/configarr/issues/555) ([fa56543](https://github.com/kanso-labs/home-assistant-applications/commit/fa56543ceca28961a90e408a61e222d4c462d7db))
+* **v1.34.0:** [drop unreachable helpers and superseded merge pass](https://github.com/raydak-labs/configarr/issues/556) ([fa56543](https://github.com/kanso-labs/home-assistant-applications/commit/fa56543ceca28961a90e408a61e222d4c462d7db))
+* **v1.34.0:** [dry run showed fake tag ids for not-yet-created tags](https://github.com/raydak-labs/configarr/commit/c0fd3544a74ac149721c4437da7fee13115a3d85) ([fa56543](https://github.com/kanso-labs/home-assistant-applications/commit/fa56543ceca28961a90e408a61e222d4c462d7db))
+* **v1.34.0:** [propagate download-client pipeline failures instead of exiting 0](https://github.com/raydak-labs/configarr/commit/db7f7642f243918f7dae82221bcf9d97f9b2b173) ([fa56543](https://github.com/kanso-labs/home-assistant-applications/commit/fa56543ceca28961a90e408a61e222d4c462d7db))
+* **v1.34.0:** [show *arr error body in API error messages](https://github.com/raydak-labs/configarr/issues/549) ([fa56543](https://github.com/kanso-labs/home-assistant-applications/commit/fa56543ceca28961a90e408a61e222d4c462d7db))
+* **v1.34.0:** [stop creating Lidarr/Readarr tags during dry runs](https://github.com/raydak-labs/configarr/commit/35dc12048a3c3548c893181493ad846b662e2c7f) ([fa56543](https://github.com/kanso-labs/home-assistant-applications/commit/fa56543ceca28961a90e408a61e222d4c462d7db))
+* **v1.34.0:** [stop dry runs from creating missing download client tags](https://github.com/raydak-labs/configarr/commit/cf0fef517df01d9916aefb69f17656f039a6092c) ([fa56543](https://github.com/kanso-labs/home-assistant-applications/commit/fa56543ceca28961a90e408a61e222d4c462d7db))
+* **v1.34.0:** [stop leaking download client secrets into logs and diff reports](https://github.com/raydak-labs/configarr/issues/550) ([fa56543](https://github.com/kanso-labs/home-assistant-applications/commit/fa56543ceca28961a90e408a61e222d4c462d7db))
+* **v1.34.0:** [unify tag handling and add tags/delete_unmanaged_tags config for all *arrs](https://github.com/raydak-labs/configarr/issues/548) ([fa56543](https://github.com/kanso-labs/home-assistant-applications/commit/fa56543ceca28961a90e408a61e222d4c462d7db))
+
 ## [1.1.2](https://github.com/kanso-labs/home-assistant-applications/compare/configarr-v1.1.1...configarr-v1.1.2) (2026-09-29)
 
 
