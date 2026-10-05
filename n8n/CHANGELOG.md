@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.3](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.3.2...n8n-v1.3.3) (2026-10-05)
+
+
+### Bug Fixes
+
+* update dependency n8n to v2.41.7 ([#535](https://github.com/kanso-labs/home-assistant-applications/issues/535)) ([ad75709](https://github.com/kanso-labs/home-assistant-applications/commit/ad757090369751226d7a74076ac86d84d8676c29))
+
+
+### Upstream changes
+
+* **v2.41.7:** [**API:** Let global members grant variable scopes to API keys](https://github.com/n8n-io/n8n/issues/40151) ([ad75709](https://github.com/kanso-labs/home-assistant-applications/commit/ad757090369751226d7a74076ac86d84d8676c29))
+* **v2.41.7:** [**editor:** Show Gateway credits promotions on community nodes](https://github.com/n8n-io/n8n/issues/40109) ([ad75709](https://github.com/kanso-labs/home-assistant-applications/commit/ad757090369751226d7a74076ac86d84d8676c29))
+
+
+### Dependencies
+
+* update dependency jdx/mise to v2026.10.3 ([#539](https://github.com/kanso-labs/home-assistant-applications/issues/539)) ([4ed2eab](https://github.com/kanso-labs/home-assistant-applications/commit/4ed2eab2febc7829b4d9b09288a0bbc6df0e3322))
+
 ## [1.3.2](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.3.1...n8n-v1.3.2) (2026-10-04)
 
 
