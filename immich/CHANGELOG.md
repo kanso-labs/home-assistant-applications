@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.1](https://github.com/kanso-labs/home-assistant-applications/compare/immich-v0.3.0...immich-v0.3.1) (2026-10-05)
+
+
+### Dependencies
+
+* update dependency postgresql-17-pgvector to v0.8.7-1.pgdg13+1 ([#540](https://github.com/kanso-labs/home-assistant-applications/issues/540)) ([211e90d](https://github.com/kanso-labs/home-assistant-applications/commit/211e90da60bccf6d377c08fc00d3a64d09420559))
+
 ## [0.3.0](https://github.com/kanso-labs/home-assistant-applications/compare/immich-v0.2.0...immich-v0.3.0) (2026-10-02)
 
 
