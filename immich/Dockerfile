@@ -41,7 +41,7 @@ ARG POSTGRESQL_VERSION=17.11-1.pgdg13+2
 # VectorChord keeps its vectors in pgvector's types, and its package does not
 # depend on pgvector, so it is installed and pinned here in its own right.
 # renovate: datasource=deb depName=postgresql-17-pgvector registryUrl=https://apt.postgresql.org/pub/repos/apt?suite=trixie-pgdg&components=main&binaryArch=amd64
-ARG PGVECTOR_VERSION=0.8.6-1.pgdg13+2
+ARG PGVECTOR_VERSION=0.8.7-1.pgdg13+1
 # renovate: datasource=github-releases depName=tensorchord/VectorChord
 ARG VECTORCHORD_VERSION=1.1.1
 
