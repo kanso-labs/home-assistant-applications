@@ -1,0 +1,48 @@
+arch:
+  - aarch64
+  - amd64
+# Grimmory keeps its library's records in MariaDB, inside this application, and
+# a hot backup could copy the database mid-write.
+backup: cold
+# Caches Grimmory rebuilds when it needs them: rendered PDF pages, audiobook
+# chapter lists, and the covers of files waiting in BookDrop.
+backup_exclude:
+  - grimmory/bookdrop_temp
+  - grimmory/cache
+  - grimmory/pdf_cache
+description:
+  A self-hosted library for your ebooks, comics and audiobooks. Grimmory reads
+  them in the browser, keeps shelves and reading progress, and syncs with Kobo
+  and KOReader devices.
+image: 'ghcr.io/kanso-labs/home-assistant-application-grimmory'
+init: false
+# Read/write, because Grimmory moves and renames the files it organizes, and the
+# BookDrop folder is emptied as its files are imported.
+map:
+  - read_only: false
+    type: media
+  - read_only: false
+    type: share
+name: Grimmory
+options:
+  bookdrop_folder: /share/grimmory/bookdrop
+  disable_oidc: false
+  hosts: []
+  network_storage: false
+  oidc_allow_private_providers: false
+ports:
+  6060/tcp: 6060
+# The options, and the fields of each host entry, are in the order the
+# Configuration tab shows them, which is why they are not alphabetical.
+schema:
+  bookdrop_folder: match(^/(media|share)/.+$)
+  network_storage: bool
+  oidc_allow_private_providers: bool
+  hosts:
+    - name: match(^[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]*[A-Za-z0-9])?)*$)
+      address: match(^([0-9]{1,3}(\.[0-9]{1,3}){3}|[0-9A-Fa-f:.]*:[0-9A-Fa-f:.]*)$)
+  disable_oidc: bool
+slug: grimmory
+url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/grimmory'
+version: '0.1.0' # x-release-please-version
+webui: 'http://[HOST]:[PORT:6060]'

@@ -1,0 +1,42 @@
+configuration:
+  bookdrop_folder:
+    description: >-
+      The folder Grimmory watches for new books, under /media or /share. Files
+      put there are queued for review, and moved into a library when you import
+      them.
+    name: BookDrop folder
+  network_storage:
+    description: >-
+      Turn this on when the library is on a NAS. Grimmory then leaves its files
+      where they are rather than moving and renaming them, which is not reliable
+      over SMB or NFS.
+    name: Library on network storage
+  oidc_allow_private_providers:
+    description: >-
+      Lets sign-in use an OpenID Connect provider at a private address, such as
+      Authentik inside Home Assistant. Grimmory refuses one otherwise.
+    name: Allow OIDC providers on your network
+  hosts:
+    description: >-
+      Extra names for Grimmory to resolve, written to its hosts file when it
+      starts. This is how Grimmory reaches Authentik at the same .local name
+      your browser does; see the documentation.
+    fields:
+      address:
+        description: >-
+          The IPv4 or IPv6 address the name resolves to. 172.30.32.1 is this
+          Home Assistant host, as an application sees it.
+        name: Address
+      name:
+        description: The name to resolve, such as authentik.local.
+        name: Name
+    name: Hosts
+  disable_oidc:
+    description: >-
+      Turns off sign-in through an OpenID Connect provider, so Grimmory's own
+      accounts work again. Use it when a provider has locked everyone out, and
+      clear it once it is fixed.
+    name: Disable OIDC
+network:
+  6060/tcp: >-
+    The port the Grimmory web interface, its API, OPDS and device sync use.

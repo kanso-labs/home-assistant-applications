@@ -143,6 +143,15 @@
         }
       ]
     },
+    "grimmory": {
+      "component": "grimmory",
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
+    },
     "immich": {
       "component": "immich",
       "extra-files": [

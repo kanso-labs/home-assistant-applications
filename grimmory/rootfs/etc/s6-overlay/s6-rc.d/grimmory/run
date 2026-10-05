@@ -1,0 +1,83 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Grimmory
+# Runs Grimmory
+# ==============================================================================
+readonly database='grimmory'
+readonly socket='/run/mysqld/mysqld.sock'
+
+# Names Grimmory should resolve to an address of your choosing, such as the
+# .local name Authentik is reached at, which nothing inside Home Assistant
+# resolves on its own. See DOCS.md. Supervisor gives every new container a new
+# hosts file, so an entry is only already there when s6 restarts this service.
+options="$(bashio::app.config)"
+while IFS=$'\t' read -r name address; do
+  entry="$(printf '%s\t%s' "${address}" "${name}")"
+  if ! grep -q -x -F "${entry}" /etc/hosts; then
+    echo "${entry}" >> /etc/hosts
+  fi
+  bashio::log.info "Resolving ${name} to ${address}"
+done < <(jq -r '.hosts[]? | [.name, .address] | @tsv' <<< "${options}")
+
+# s6 starts this service as soon as MariaDB's has started, which is not the same
+# as MariaDB answering. After an unclean stop it first recovers its log, which
+# takes longer than a normal start, so the wait is long and says where it is.
+bashio::log.info 'Waiting for MariaDB...'
+for ((waited = 1; waited <= 300; waited++)); do
+  mariadb-admin --socket="${socket}" --silent ping > /dev/null 2>&1 && break
+  if ((waited % 30 == 0)); then
+    bashio::log.info "Still waiting for MariaDB after ${waited} seconds..."
+  fi
+  sleep 1
+done
+mariadb-admin --socket="${socket}" --silent ping > /dev/null 2>&1 \
+  || bashio::exit.nok 'MariaDB did not become ready'
+
+# Grimmory creates its own tables, but not the user it signs in as. That user
+# has no password: it connects from inside this container alone, over the
+# loopback address MariaDB listens on.
+mariadb --socket="${socket}" --user=root <<SQL || bashio::exit.nok 'Could not set up the Grimmory database'
+CREATE DATABASE IF NOT EXISTS ${database};
+CREATE USER IF NOT EXISTS '${database}'@'127.0.0.1';
+GRANT ALL PRIVILEGES ON ${database}.* TO '${database}'@'127.0.0.1';
+SQL
+
+export DATABASE_HOST='127.0.0.1'
+export DATABASE_PORT='3306'
+export DATABASE_NAME="${database}"
+export DATABASE_USERNAME="${database}"
+export DATABASE_PASSWORD=''
+
+# Covers, caches and Grimmory's own settings files. Upstream keeps them in
+# /app/data, inside the image; Supervisor creates a new container on every
+# start, so here they live in /data, which survives one and is backed up.
+export APP_PATH_CONFIG='/data/grimmory'
+mkdir -p "${APP_PATH_CONFIG}"
+
+APP_BOOKDROP_FOLDER="$(bashio::config 'bookdrop_folder')"
+export APP_BOOKDROP_FOLDER
+mkdir -p "${APP_BOOKDROP_FOLDER}"
+
+if bashio::config.true 'network_storage'; then
+  export DISK_TYPE='NETWORK'
+  bashio::log.info 'The library is on network storage, so Grimmory will not move or rename its files'
+fi
+
+if bashio::config.true 'oidc_allow_private_providers'; then
+  export OIDC_ALLOW_UNSAFE_HOSTS='true'
+fi
+
+if bashio::config.true 'disable_oidc'; then
+  export FORCE_DISABLE_OIDC='true'
+  bashio::log.warning 'OIDC sign-in is turned off until the option to disable it is cleared'
+fi
+
+bashio::log.info "Starting Grimmory ${APP_VERSION}..."
+
+cd /app || bashio::exit.nok 'Grimmory is missing from the image'
+
+# Upstream's own command. Its image starts it through an entrypoint that drops
+# to an unprivileged user; here it runs as root, because Home Assistant mounts
+# network storage writable by root alone. See DOCS.md.
+exec java --enable-native-access=ALL-UNNAMED --enable-preview -jar /app/app.jar
