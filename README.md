@@ -40,6 +40,7 @@ one's `DOCS.md` covers its options, what it maps, and how it is backed up.
 | [Configarr](./configarr)                             | Syncs TRaSH Guides and Recyclarr templates into Sonarr, Radarr and Prowlarr.                                             | None               |
 | [FlareSolverr](./flaresolverr)                       | Proxy that solves the challenges standing between the arr applications and their indexers.                               | Ingress, port 8191 |
 | [Flight Finder](./flight-finder)                     | Tracks flight, hotel and car rental prices, with price history and alerts when they drop.                                | Port 3003          |
+| [Grimmory](./grimmory)                               | Library for your ebooks, comics and audiobooks, with a browser reader and Kobo and KOReader sync.                        | Port 6060          |
 | [Immich](./immich)                                   | Backs up the photos and videos on your phones, grouping faces and finding photos by what is in them.                     | Port 2283          |
 | [Immich Machine Learning](./immich-machine-learning) | Face recognition and smart search for Immich, on an Intel GPU through OpenVINO.                                          | None               |
 | [Immich Power Tools](./immich-power-tools)           | Bulk tools for Immich: merging people, filling in missing locations and finding albums to make.                          | Port 3000          |

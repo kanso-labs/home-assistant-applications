@@ -1,0 +1,43 @@
+configuration:
+  bookdrop_folder:
+    description: >-
+      A pasta que o Grimmory observa em busca de livros novos, dentro de /media
+      ou /share. Os arquivos colocados ali ficam na fila para revisão, e são
+      movidos para uma biblioteca quando você os importa.
+    name: Pasta do BookDrop
+  network_storage:
+    description: >-
+      Ligue quando a biblioteca estiver em um NAS. O Grimmory então deixa os
+      arquivos onde estão em vez de movê-los e renomeá-los, o que não é
+      confiável por SMB ou NFS.
+    name: Biblioteca em armazenamento de rede
+  oidc_allow_private_providers:
+    description: >-
+      Permite entrar por um provedor OpenID Connect em um endereço privado, como
+      o Authentik dentro do Home Assistant. Do contrário, o Grimmory o recusa.
+    name: Permitir provedores OIDC na sua rede
+  hosts:
+    description: >-
+      Nomes extras para o Grimmory resolver, escritos no seu arquivo de hosts
+      quando ele inicia. É assim que o Grimmory alcança o Authentik pelo mesmo
+      nome .local que o seu navegador usa; veja a documentação.
+    fields:
+      address:
+        description: >-
+          O endereço IPv4 ou IPv6 para o qual o nome resolve. 172.30.32.1 é este
+          host do Home Assistant, visto de dentro de uma aplicação.
+        name: Endereço
+      name:
+        description: O nome a resolver, como authentik.local.
+        name: Nome
+    name: Hosts
+  disable_oidc:
+    description: >-
+      Desliga o login por um provedor OpenID Connect, para que as contas do
+      próprio Grimmory voltem a funcionar. Use quando um provedor tiver
+      bloqueado todo mundo, e desligue de novo quando estiver resolvido.
+    name: Desativar OIDC
+network:
+  6060/tcp: >-
+    A porta que a interface web do Grimmory, a sua API, o OPDS e a sincronização
+    de dispositivos usam.

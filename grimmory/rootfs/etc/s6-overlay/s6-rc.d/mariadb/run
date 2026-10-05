@@ -1,0 +1,43 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Grimmory
+# Runs the MariaDB that Grimmory keeps its library's records in
+# ==============================================================================
+readonly data_dir='/data/mariadb'
+readonly socket_dir='/run/mysqld'
+
+mkdir -p "${socket_dir}"
+chown mysql:mysql "${socket_dir}"
+
+# /data is where Home Assistant keeps an application's private state and is
+# included in backups, which is what makes this the database's home.
+if [[ ! -d "${data_dir}/mysql" ]]; then
+  bashio::log.info 'Creating the MariaDB database...'
+
+  mkdir -p "${data_dir}"
+  chown mysql:mysql "${data_dir}"
+  chmod 0700 "${data_dir}"
+
+  # root signs in over the socket alone, as the operating system's root, which
+  # is how the Grimmory service creates its database and user.
+  mariadb-install-db \
+    --user=mysql \
+    --datadir="${data_dir}" \
+    --auth-root-authentication-method=socket \
+    --skip-test-db \
+    > /dev/null || bashio::exit.nok 'Could not create the MariaDB database'
+fi
+
+bashio::log.info 'Starting MariaDB...'
+
+# Alpine's configuration turns networking off, and Grimmory connects over TCP.
+# MariaDB listens on the loopback address alone, where nothing outside this
+# container can reach it, and no port for it is published in config.yaml.
+exec s6-setuidgid mysql mariadbd \
+  --datadir="${data_dir}" \
+  --socket="${socket_dir}/mysqld.sock" \
+  --skip-networking=0 \
+  --bind-address=127.0.0.1 \
+  --port=3306 \
+  --skip-name-resolve
