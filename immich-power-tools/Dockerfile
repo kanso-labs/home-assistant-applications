@@ -7,7 +7,7 @@
 # The cost is that s6-overlay and bashio arrive here by hand rather than from
 # the base image. Both are installed below, and the service layout under
 # rootfs/ is unchanged from every other application.
-ARG BUILD_FROM=ghcr.io/immich-power-tools/immich-power-tools:0.24.0
+ARG BUILD_FROM=ghcr.io/immich-power-tools/immich-power-tools:v0.25.0
 FROM ${BUILD_FROM}
 
 # Set shell
