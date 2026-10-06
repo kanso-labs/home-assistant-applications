@@ -12,7 +12,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ARG BUILD_ARCH=amd64
 ARG BUILD_VERSION=dev
 # renovate: datasource=github-releases depName=traefik/traefik
-ARG TRAEFIK_VERSION=3.7.13
+ARG TRAEFIK_VERSION=3.7.14
 
 RUN \
   if [ "${BUILD_ARCH}" = "aarch64" ]; then ARCH="arm64"; \
