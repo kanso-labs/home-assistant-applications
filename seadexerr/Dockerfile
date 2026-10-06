@@ -14,7 +14,7 @@ ARG BUILD_FROM=ghcr.io/home-assistant/base-ubuntu:26.04
 # which is how Renovate's own Dockerfile support reads BUILD_FROM too. A version
 # spliced into FROM instead is read twice, by that support and by the regex
 # manager, and the first of those looks for text the file never contains.
-ARG SEADEXERR_IMAGE=ghcr.io/ryder-c/seadexerr:v3.0.0
+ARG SEADEXERR_IMAGE=ghcr.io/ryder-c/seadexerr:v3.1.0
 
 FROM ${SEADEXERR_IMAGE} AS seadexerr
 
