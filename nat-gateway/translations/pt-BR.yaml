@@ -1,0 +1,12 @@
+configuration:
+  interface:
+    description: >-
+      A porta Ethernet em que o dispositivo está conectado, como enp2s0.
+      Configurações → Sistema → Rede lista as portas deste host. Dê a ela um
+      endereço IPv4 estático lá primeiro.
+    name: Interface
+  uplink:
+    description: >-
+      A interface cuja conexão é compartilhada. Deixe vazio para usar aquela
+      pela qual este host alcança a internet.
+    name: Uplink

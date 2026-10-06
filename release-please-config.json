@@ -206,6 +206,15 @@
         }
       ]
     },
+    "nat-gateway": {
+      "component": "nat-gateway",
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
+    },
     "nginx-proxy-manager": {
       "component": "nginx-proxy-manager",
       "extra-files": [
