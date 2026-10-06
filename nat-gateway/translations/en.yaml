@@ -1,0 +1,12 @@
+configuration:
+  interface:
+    description: >-
+      The Ethernet port the device is plugged into, such as enp2s0. Settings →
+      System → Network lists this host's ports. Give it a static IPv4 address
+      there first.
+    name: Interface
+  uplink:
+    description: >-
+      The interface whose connection is shared. Leave it empty to use the one
+      this host reaches the internet through.
+    name: Uplink

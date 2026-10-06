@@ -47,6 +47,7 @@ one's `DOCS.md` covers its options, what it maps, and how it is backed up.
 | [Lingarr](./lingarr)                                 | Translates the subtitles your library is missing, through LibreTranslate, DeepL or an AI service.                        | Port 9876          |
 | [Muxarr](./muxarr)                                   | Strips unwanted audio and subtitle tracks from your media, remuxing rather than re-encoding.                             | Port 8183          |
 | [n8n](./n8n)                                         | Workflow and AI automation, built with the precision of code or the speed of drag and drop.                              | Ingress            |
+| [NAT Gateway](./nat-gateway)                         | Shares this host's network connection with a device plugged straight into a spare Ethernet port, such as a NAS.          | None               |
 | [Nginx Proxy Manager](./nginx-proxy-manager)         | Reverse proxy with a web interface and free Let's Encrypt certificates for the services behind it.                       | Port 81            |
 | [Notifiarr](./notifiarr)                             | Unified client for Notifiarr.com, reporting on the stack and letting Discord drive it.                                   | Port 5454          |
 | [NZBGet](./nzbget)                                   | Usenet downloader, fetching from your news servers into shared storage.                                                  | Port 6789          |

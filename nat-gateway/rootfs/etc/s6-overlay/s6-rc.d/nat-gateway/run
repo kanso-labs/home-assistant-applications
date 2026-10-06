@@ -1,0 +1,107 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: NAT Gateway
+# Keeps the rules in place for as long as the application runs
+# ==============================================================================
+# shellcheck source-path=SCRIPTDIR/../../../.. source=usr/lib/nat-gateway/rules.sh
+source /usr/lib/nat-gateway/rules.sh
+
+# How often the interfaces and the rules are checked again, in seconds.
+readonly interval=30
+
+device="$(bashio::config 'interface')"
+if ! bashio::var.has_value "${device}"; then
+  bashio::exit.nok 'Set the interface option to the Ethernet port the device is plugged into.'
+fi
+if [[ ! -e "/sys/class/net/${device}" ]]; then
+  bashio::exit.nok "This host has no network interface called ${device}. Settings → System → Network lists the ones it has."
+fi
+
+configured_uplink=''
+if bashio::config.has_value 'uplink'; then
+  configured_uplink="$(bashio::config 'uplink')"
+fi
+
+# Docker turns forwarding on for its own networks, so on Home Assistant it is
+# always on. A host where it is off would drop every forwarded packet whatever
+# the rules say, and changing it is the host's decision, not this
+# application's.
+if [[ "$(< /proc/sys/net/ipv4/ip_forward)" != '1' ]]; then
+  bashio::exit.nok 'This host does not forward IPv4 packets, so there is nothing for the rules to act on.'
+fi
+
+chain="$(select_forward_chain)"
+bashio::log.info "Writing rules with ${iptables}, forwarding through ${chain}"
+
+# The uplink is the configured interface, or else the one carrying the host's
+# default route. A default route through the device's own port is skipped, as
+# sharing a connection with itself means nothing.
+find_uplink() {
+  if [[ -n "${configured_uplink}" ]]; then
+    echo "${configured_uplink}"
+    return
+  fi
+  ip -4 route show default \
+    | awk -v device="${device}" '
+        { for (i = 1; i < NF; i++) if ($i == "dev" && $(i + 1) != device) { print $(i + 1); exit } }'
+}
+
+# The subnet is read from the address Home Assistant gave the port, so it is
+# never configured twice and never disagrees with the port itself.
+find_subnet() {
+  local cidr network prefix
+  cidr="$(ip -4 -o address show dev "${device}" 2> /dev/null \
+    | awk '{ for (i = 1; i < NF; i++) if ($i == "inet") { print $(i + 1); exit } }')"
+  [[ -n "${cidr}" ]] || return 0
+  network="$(ipcalc -n "${cidr}" | awk -F= '$1 == "NETWORK" { print $2 }')"
+  prefix="$(ipcalc -p "${cidr}" | awk -F= '$1 == "PREFIX" { print $2 }')"
+  [[ -n "${network}" && -n "${prefix}" ]] && echo "${network}/${prefix}"
+}
+
+# Says something only when it differs from the last thing said, so a port left
+# without an address does not repeat itself every thirty seconds.
+last_message=''
+report() {
+  local level="${1}" message="${2}"
+  [[ "${message}" == "${last_message}" ]] && return
+  last_message="${message}"
+  "bashio::log.${level}" "${message}"
+}
+
+applied=''
+while true; do
+  uplink="$(find_uplink)"
+  subnet="$(find_subnet)"
+  wanted=''
+
+  if [[ -z "${subnet}" ]]; then
+    report warning "${device} has no IPv4 address. Give it a static one in Settings → System → Network; nothing is shared until it has one."
+  elif [[ -z "${uplink}" ]]; then
+    report warning "There is no uplink to share: this host has no default route except through ${device}."
+  elif [[ ! -e "/sys/class/net/${uplink}" ]]; then
+    report warning "This host has no network interface called ${uplink}, so nothing is shared."
+  else
+    wanted="${device} ${uplink} ${subnet}"
+  fi
+
+  if [[ "${wanted}" != "${applied}" ]]; then
+    remove_rules
+    if [[ -n "${wanted}" ]]; then
+      add_rules "${chain}" "${device}" "${uplink}" "${subnet}"
+      report info "Sharing ${uplink} with ${subnet} on ${device}"
+    fi
+    applied="${wanted}"
+  elif [[ -n "${applied}" ]] \
+    && ! rules_present "${chain}" "${device}" "${uplink}" "${subnet}"; then
+    # Something else rewrote the firewall, a restarted Docker for one.
+    bashio::log.warning 'The rules had gone missing, so they are being written again'
+    remove_rules
+    add_rules "${chain}" "${device}" "${uplink}" "${subnet}"
+  fi
+
+  # Waiting on a background sleep lets the stop signal through at once, rather
+  # than after the sleep ends.
+  sleep "${interval}" &
+  wait "$!"
+done

@@ -1,0 +1,25 @@
+arch:
+  - aarch64
+  - amd64
+description:
+  Shares this host's network connection with a device plugged straight into a
+  spare Ethernet port, such as a NAS. The device reaches the internet through
+  Home Assistant, and nothing else on the network can reach the device.
+# The rules belong to the host's own firewall and routing, so the application
+# has to sit in the host's network namespace to change them.
+host_network: true
+image: 'ghcr.io/kanso-labs/home-assistant-application-nat-gateway'
+init: false
+name: NAT Gateway
+options:
+  interface: ''
+privileged:
+  - NET_ADMIN
+# The options are in the order the Configuration tab shows them, which is why
+# they are not alphabetical.
+schema:
+  interface: match(^[A-Za-z0-9_.:-]*$)
+  uplink: match(^[A-Za-z0-9_.:-]+$)?
+slug: nat-gateway
+url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/nat-gateway'
+version: '0.1.0' # x-release-please-version
