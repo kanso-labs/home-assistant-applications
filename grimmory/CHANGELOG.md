@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0](https://github.com/kanso-labs/home-assistant-applications/compare/grimmory-v0.2.0...grimmory-v1.0.0) (2026-10-08)
+
+
+### Features
+
+* **grimmory:** release 1.0.0 ([f088f00](https://github.com/kanso-labs/home-assistant-applications/commit/f088f008ae61b882974518b564558ff24643122d))
+
 ## [0.2.0](https://github.com/kanso-labs/home-assistant-applications/compare/grimmory-v0.1.0...grimmory-v0.2.0) (2026-10-05)
 
 

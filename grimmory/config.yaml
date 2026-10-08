@@ -44,5 +44,5 @@ schema:
   disable_oidc: bool
 slug: grimmory
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/grimmory'
-version: '0.2.0' # x-release-please-version
+version: '1.0.0' # x-release-please-version
 webui: 'http://[HOST]:[PORT:6060]'
