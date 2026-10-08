@@ -120,17 +120,6 @@ iptables comes from Alpine's package, and its version is pinned so that a new
 one arrives as a release of this application rather than silently. Alpine
 currently ships iptables 1.8.13.
 
-## Why this starts at 0.1.0
-
-Most applications in this repository start at `1.0.0`. This one does not,
-because it has only been built and booted against a test interface in Docker
-Desktop, where it wrote its rules, put back one that was deleted, and removed
-them all on stop. It has not yet carried a device's traffic on a Home Assistant
-host.
-
-It moves to `1.0.0` once it has shared a connection on a real instance without
-surprises.
-
 ## Support
 
 Open an issue on the
