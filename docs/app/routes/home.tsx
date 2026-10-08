@@ -99,7 +99,7 @@ export default function Home() {
         contentMaxInlineSize={MEASURE}
         headline="A media stack your Home Assistant can install."
         scrolled={scrolled}
-        size="large"
+        size="lg"
         subtitle="Home Assistant applications, built for aarch64 and amd64"
         trailing={
           <IconButton
