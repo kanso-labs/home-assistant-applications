@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.4](https://github.com/kanso-labs/home-assistant-applications/compare/configarr-v1.1.3...configarr-v1.1.4) (2026-10-08)
+
+
+### Bug Fixes
+
+* update dependency raydak-labs/configarr to v1.34.1 ([#563](https://github.com/kanso-labs/home-assistant-applications/issues/563)) ([789ed5e](https://github.com/kanso-labs/home-assistant-applications/commit/789ed5e85f556ff1e6595d591db2bb65e180ef52))
+
+
+### Upstream changes
+
+* **v1.34.1:** [build pinned Nix releases from the tagged revision](https://github.com/raydak-labs/configarr/issues/560) ([789ed5e](https://github.com/kanso-labs/home-assistant-applications/commit/789ed5e85f556ff1e6595d591db2bb65e180ef52))
+* **v1.34.1:** [match Prowlarr fields ignoring case and underscores](https://github.com/raydak-labs/configarr/issues/562) ([789ed5e](https://github.com/kanso-labs/home-assistant-applications/commit/789ed5e85f556ff1e6595d591db2bb65e180ef52))
+
 ## [1.1.3](https://github.com/kanso-labs/home-assistant-applications/compare/configarr-v1.1.2...configarr-v1.1.3) (2026-10-04)
 
 
