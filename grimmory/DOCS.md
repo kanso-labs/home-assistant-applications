@@ -139,16 +139,6 @@ and Grimmory has to write to the library. Keep port `6060` on your own network.
 Reach it from outside through a reverse proxy or a VPN rather than by forwarding
 the port.
 
-## Why this starts at 0.1.0
-
-Most applications in this repository start at `1.0.0`. This one does not,
-because it has only been run against a stand-in for Home Assistant, with a
-handful of test books. It scanned a library and imported from BookDrop there,
-but has not yet held a real library on a real instance, synced a device, or
-signed anyone in through Authentik.
-
-It moves to `1.0.0` once it has done those without surprises.
-
 ## Support
 
 Open an issue on the
