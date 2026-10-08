@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0](https://github.com/kanso-labs/home-assistant-applications/compare/nat-gateway-v0.2.0...nat-gateway-v1.0.0) (2026-10-08)
+
+
+### Features
+
+* **nat-gateway:** release 1.0.0 ([da1903e](https://github.com/kanso-labs/home-assistant-applications/commit/da1903e245893b44884850e8d4bd5759f2916b75))
+
 ## [0.2.0](https://github.com/kanso-labs/home-assistant-applications/compare/nat-gateway-v0.1.0...nat-gateway-v0.2.0) (2026-10-07)
 
 
