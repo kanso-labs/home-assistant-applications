@@ -121,15 +121,6 @@ Updates arrive by updating this application. Power Tools reads Immich's tables
 directly, so a release can need a newer Immich, or stop working with an older
 one. Read its release notes before updating either.
 
-## Why this starts at 0.1.0
-
-Most applications in this repository start at `1.0.0`. This one does not,
-because it has only been run against the Immich application here on a stand-in
-for Home Assistant, with a test library. It has not yet worked on a real library
-on a real instance.
-
-It moves to `1.0.0` once it has done that without surprises.
-
 ## Support
 
 Open an issue on the
