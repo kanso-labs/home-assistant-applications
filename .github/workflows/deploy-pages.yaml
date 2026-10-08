@@ -33,7 +33,7 @@ jobs:
       # The version docs/.tool-versions pins, so a local build and this one
       # resolve the same Node and npm.
       - name: Set up Node
-        uses: actions/setup-node@v7.0.0
+        uses: actions/setup-node@v7.1.0
         with:
           cache: npm
           cache-dependency-path: docs/package-lock.json
