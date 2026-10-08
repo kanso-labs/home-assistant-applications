@@ -15,7 +15,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ARG BUILD_ARCH=amd64
 ARG BUILD_VERSION=dev
 # renovate: datasource=github-releases depName=raydak-labs/configarr
-ARG CONFIGARR_VERSION=1.34.0
+ARG CONFIGARR_VERSION=1.34.1
 
 # The released executable reports its version as the literal `${VERSION}`,
 # because the substitution upstream does when it builds its own image does not
