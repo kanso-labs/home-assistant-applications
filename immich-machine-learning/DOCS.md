@@ -117,15 +117,6 @@ application and the Immich application in the same update, because Immich
 expects the server and its machine learning to be the same version. Update both
 together.
 
-## Why this starts at 0.1.0
-
-Most applications in this repository start at `1.0.0`. This one does not,
-because it has only been built and run against a stand-in for Home Assistant, on
-aarch64, where there is no OpenVINO. It has not yet run its models on the Intel
-GPU it is for.
-
-It moves to `1.0.0` once it has done that without surprises.
-
 ## Support
 
 Open an issue on the
