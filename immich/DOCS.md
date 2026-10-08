@@ -274,15 +274,6 @@ The read-only database password opens everything in the database to whatever
 holds it: account emails, people, faces and where every photo was taken. Make it
 long and random, and give it only to applications that need it.
 
-## Why this starts at 0.1.0
-
-Most applications in this repository start at `1.0.0`. This one does not,
-because it has only been built and run against a stand-in for Home Assistant. It
-has not yet held a real library, transcoded on a real GPU, or signed anyone in
-through Authentik.
-
-It moves to `1.0.0` once it has done those without surprises.
-
 ## Support
 
 Open an issue on the
