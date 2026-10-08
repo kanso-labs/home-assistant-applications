@@ -87,7 +87,7 @@
       "matchPackageNames": ["ghcr.io/home-assistant/**"]
     },
     {
-      "description": "Bumping the application a container runs is what users see, so it has to reach them. release-please only cuts a release for fix and feat, and it attributes a commit to an application by the files that commit touches.",
+      "description": "The application versions users actually see, typed fix so that they release under Bug Fixes rather than Dependencies. That is the patch: the two rules below retype a minor as feat and a major as feat!, so each release takes the step upstream took. They find these applications by the fix this rule gives them, so this list is the only one to keep, and it has to stay above them.",
       "matchDepNames": [
         "NginxProxyManager/nginx-proxy-manager",
         "Notifiarr/notifiarr",
@@ -120,6 +120,18 @@
         "traefik/traefik"
       ],
       "semanticCommitType": "fix"
+    },
+    {
+      "description": "An application's minor release is a minor release of ours. Matching on the type the rule above gave rather than restating its list works because Renovate checks each rule against the config every earlier rule has already applied.",
+      "matchJsonata": ["semanticCommitType = 'fix'"],
+      "matchUpdateTypes": ["minor"],
+      "semanticCommitType": "feat"
+    },
+    {
+      "description": "An application's major release is a major release of ours. The ! is what makes release-please read a breaking change, and it reaches the pull request title intact. Majors do not automerge, so each one waits for a person.",
+      "matchJsonata": ["semanticCommitType = 'fix'"],
+      "matchUpdateTypes": ["major"],
+      "semanticCommitType": "feat!"
     },
     {
       "description": "Immich expects its server and its machine learning to be the same version, so a new release moves both applications in one pull request. That pull request releases both, the one intended exception to one application per pull request.",

@@ -48,10 +48,32 @@ jobs:
       # No checkout: the action reads the pull request over the API and writes
       # nothing to the workspace.
       #
-      # The action only rewrites pull requests whose title is a `fix`, which is
-      # the type `.github/renovate.json` gives the curated list of application
-      # versions. That is the filter — and it is one this repository already
-      # maintains for the release itself, rather than a second copy of the list
-      # that would go stale the day an application is added.
-      - name: Carry the upstream release notes
+      # The action only rewrites pull requests whose title carries the type it
+      # is given, and `.github/renovate.json` types the curated list of
+      # application versions by the step upstream took: `fix` for a patch,
+      # `feat` for a minor, `feat!` for a major. That is the filter — and it is
+      # one this repository already maintains for the release itself, rather
+      # than a second copy of the list that would go stale the day an
+      # application is added.
+      #
+      # The action takes one type, so it runs once for each. A title matches at
+      # most one of them, and the other two leave the pull request alone.
+      #
+      # `feat!` works because the action compares the title's prefix up to the
+      # colon, so a breaking marker is matched as part of the type. Were it ever
+      # changed to parse the type out instead, `feat!` would match nothing and
+      # majors would quietly lose their notes; check that when the pin moves.
+      - name: Carry the upstream release notes of a patch
         uses: kanso-labs/actions/upstream-changelog@v4.2.0
+        with:
+          title-type: fix
+
+      - name: Carry the upstream release notes of a minor
+        uses: kanso-labs/actions/upstream-changelog@v4.2.0
+        with:
+          title-type: feat
+
+      - name: Carry the upstream release notes of a major
+        uses: kanso-labs/actions/upstream-changelog@v4.2.0
+        with:
+          title-type: feat!

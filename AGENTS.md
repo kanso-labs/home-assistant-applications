@@ -326,10 +326,11 @@ flowchart TD
 Each application is its own release-please package. A commit is attributed to
 one by the files it touches, so a change under `radarr/` releases Radarr alone.
 
-**Which commit types release.** `feat` takes a minor; `fix` and `deps` take a
-patch; everything else releases nothing. `release-please-config.json` spells the
-list out in `changelog-sections`, so removing `feat` or `fix` from it would
-silently stop those releases too — for the reason the paragraph below gives.
+**Which commit types release.** A breaking change, marked `!` as in `feat!`,
+takes a major; `feat` takes a minor; `fix` and `deps` take a patch; everything
+else releases nothing. `release-please-config.json` spells the list out in
+`changelog-sections`, so removing `feat` or `fix` from it would silently stop
+those releases too — for the reason the paragraph below gives.
 
 **Renovate commits are typed `deps:`, and that is what makes them release.**
 release-please computes a patch bump for any commit that is not a `feat` or a
@@ -358,19 +359,46 @@ A bump outside every application directory still releases nothing, because there
 is no root package for it to be attributed to. That is what keeps a Prettier or
 `actions/checkout` bump from versioning thirteen applications.
 
-**Both `semanticCommitType` settings are `packageRules`, and neither can be a
+**Every `semanticCommitType` setting is a `packageRule`, and none can be a
 top-level key.** `config:recommended` extends
 `:semanticPrefixFixDepsChoreOthers`, which sets the type through `packageRules`
 of its own, and `packageRules` beat top-level config. The catch-all `deps` rule
-is therefore first, so the curated rule below still overrides it for the
-applications it names.
+is therefore first, so the curated rules below still override it for the
+applications they name.
 
-**The curated `semanticCommitType: "fix"` rule in `.github/renovate.json` stays,
-and is not now redundant.** A `packageRule` overrides the global type for the
-packages it matches, so the application versions users actually see keep landing
-under **Bug Fixes** exactly as before, rather than moving to **Dependencies**.
-Deleting the rule would not stop them releasing — it would re-file them, which
-is the part worth keeping.
+**An application's version takes the same step upstream's did.** A patch of
+Sonarr is a patch of the Sonarr application, a minor is a minor, and a major is
+a major. Three rules in `.github/renovate.json` do it, in this order:
+
+1. The curated rule lists the application versions and types them `fix`.
+2. A rule retypes a `fix` whose update is a minor as `feat`.
+3. A rule retypes a `fix` whose update is a major as `feat!`.
+
+The second and third find the applications by the type the first gave them,
+through `matchJsonata`, rather than restating its list. That works because
+Renovate checks each rule against the config every earlier rule has already
+applied — so the curated rule has to stay above them, and its list is the only
+one to keep.
+
+The changelog files each release by its type. A patch lands under **Bug Fixes**
+and a minor under **Features**; a major lands under **Features** too, and is
+listed again under **⚠ BREAKING CHANGES**. None of them moves to
+**Dependencies**. Deleting the curated rule would not stop them releasing — it
+would re-file them and shrink every bump to a patch.
+
+What decides minor from major is Renovate's versioning for the dependency, not
+upstream's own description of the release. For most of these the two agree — a
+Sonarr build number or an Alpine package revision moves only the patch — with
+two exceptions worth knowing: nzbget has no patch, so each of its releases is at
+least a minor, and authentik's version is a date, so its first release of a new
+year is a major.
+
+Majors never automerge — the shared preset automerges minors and patches only —
+so a major waits for a person to read upstream's notes before it ships.
+
+An application below 1.0.0 goes to 1.0.0 the first time upstream takes a major,
+because release-please's default treats a breaking change the same at any
+version.
 
 **There is one release pull request, not one per application.** Each application
 still gets its own version, tag and changelog inside it; what is shared is the
@@ -423,10 +451,17 @@ body that nothing here would ever read.
   pinned by tag. Its README holds the mechanism and the traps.
 
 **It runs for the applications, not for every upgrade**, and the filter is the
-commit type rather than a list. The curated `packageRule` in
-`.github/renovate.json` types the application versions `fix` and everything else
-`deps`; the action only rewrites a `fix`. Adding an application to that rule is
-therefore all it takes — there is no second roster here to keep in step.
+commit type rather than a list. The curated `packageRules` in
+`.github/renovate.json` type the application versions `fix`, `feat` or `feat!`
+and everything else `deps`. The action rewrites only the one type it is given,
+so the workflow runs it three times, once per type. Adding an application to the
+curated rule is therefore all it takes — there is no second roster here to keep
+in step.
+
+`feat!` is not a type, and passing it works only because the action compares the
+title's prefix up to the colon. An action that parsed the type out instead would
+read `feat` and match nothing, and majors would quietly lose their notes. Check
+that when the pin moves.
 
 **A bump with no upstream notes is left alone**, and that is the ordinary case
 for some of these. Renovate has to be able to find the source repository to
@@ -541,6 +576,7 @@ Conventional Commit. Its type decides whether users see the change:
 
 | Type of the pull request title | Effect                                               |
 | ------------------------------ | ---------------------------------------------------- |
+| any type marked `!`            | releases the application, major bump                 |
 | `feat`                         | releases the application, minor bump                 |
 | `fix`                          | releases the application, patch bump                 |
 | anything else                  | no release, so nothing reaches an installed instance |
@@ -654,6 +690,16 @@ request touching two applications writes a line into both changelogs and
 releases both, at whatever bump its single title implies — there is no way to
 say `feat` for one and `fix` for the other. Keeping a pull request to one
 application is what keeps changelogs clean.
+
+**A grouped major keeps its `!` only because majors get a branch of their own.**
+Renovate settles a grouped pull request's type by taking the highest of `chore`,
+`ci`, `build`, `fix` and `feat` among its updates
+(`semanticCommitTypeByPriority` in `lib/workers/repository/updates/generate.ts`,
+Renovate 44). `feat!` is not on that list, so it survives only when nothing else
+in the branch carries a type that is. `separateMajorMinor`, on by default, keeps
+majors apart, which is why Immich's major still reads `feat!`. Turning it off,
+or grouping an application with something else, can quietly shrink a major to a
+minor or a patch.
 
 **The linter can be months behind Supervisor, and the wait is invisible.**
 Supervisor deprecated `addon_config` for `app_config` in 2026.07; the linter
