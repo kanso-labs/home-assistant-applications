@@ -134,15 +134,6 @@ Avahi comes from Alpine's package, and its version is pinned so that a new one
 arrives as a release of this application rather than silently. Alpine currently
 ships Avahi 0.9-rc4.
 
-## Why this starts at 0.1.0
-
-Most applications in this repository start at `1.0.0`. This one does not,
-because it has only been built and booted with test records, and has not yet run
-on a Home Assistant host, where it shares mDNS with the host's own responder.
-
-It moves to `1.0.0` once it has published aliases and services on a real
-instance without surprises.
-
 ## Support
 
 Open an issue on the
