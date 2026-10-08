@@ -17,7 +17,7 @@
 # the rules for the Immich images in .github/renovate.json.
 ARG BUILD_ARCH=amd64
 # renovate: datasource=docker depName=ghcr.io/immich-app/immich-machine-learning
-ARG IMMICH_VERSION=v3.2.4
+ARG IMMICH_VERSION=v3.3.0
 
 FROM ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION}-openvino AS base-amd64
 FROM ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION} AS base-aarch64
