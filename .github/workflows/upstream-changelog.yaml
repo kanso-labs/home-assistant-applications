@@ -64,16 +64,16 @@ jobs:
       # changed to parse the type out instead, `feat!` would match nothing and
       # majors would quietly lose their notes; check that when the pin moves.
       - name: Carry the upstream release notes of a patch
-        uses: kanso-labs/actions/upstream-changelog@v4.2.1
+        uses: kanso-labs/actions/upstream-changelog@v4.2.2
         with:
           title-type: fix
 
       - name: Carry the upstream release notes of a minor
-        uses: kanso-labs/actions/upstream-changelog@v4.2.1
+        uses: kanso-labs/actions/upstream-changelog@v4.2.2
         with:
           title-type: feat
 
       - name: Carry the upstream release notes of a major
-        uses: kanso-labs/actions/upstream-changelog@v4.2.1
+        uses: kanso-labs/actions/upstream-changelog@v4.2.2
         with:
           title-type: feat!
