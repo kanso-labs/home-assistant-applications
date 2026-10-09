@@ -1,0 +1,33 @@
+arch:
+  - aarch64
+  - amd64
+# The job history is SQLite, which a hot backup could copy mid-write.
+backup: cold
+description:
+  Translates subtitles through AI models on OpenRouter, for Bazarr+. It splits
+  each file into batches, retries what fails, and reports progress and cost as
+  it goes.
+image: 'ghcr.io/kanso-labs/home-assistant-application-ai-subtitle-translator'
+init: false
+# The encryption key Bazarr+ needs a copy of is kept here, where it can be read
+# from outside Home Assistant's interface. See DOCS.md.
+map:
+  - read_only: false
+    type: app_config
+name: AI Subtitle Translator
+options:
+  log_level: info
+  ui_enabled: false
+ports:
+  8765/tcp: 8765
+# The Configuration tab lists the options in the order the schema declares
+# them, so they follow the order a person fills them in.
+schema:
+  openrouter_api_key: password?
+  default_model: str?
+  ui_enabled: bool
+  log_level: list(debug|info|warning|error)
+slug: ai-subtitle-translator
+url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/ai-subtitle-translator'
+version: '0.1.0' # x-release-please-version
+webui: 'http://[HOST]:[PORT:8765]/docs'

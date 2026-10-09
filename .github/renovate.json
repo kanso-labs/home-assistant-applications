@@ -106,6 +106,7 @@
         "ghcr.io/immich-app/immich-server",
         "ghcr.io/immich-power-tools/immich-power-tools",
         "ghcr.io/kirovair/muxarr",
+        "ghcr.io/lavx/ai-subtitle-translator",
         "ghcr.io/lavx/bazarr",
         "ghcr.io/lingarr-translate/lingarr",
         "ghcr.io/ryder-c/seadexerr",

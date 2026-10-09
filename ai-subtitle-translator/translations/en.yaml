@@ -1,0 +1,24 @@
+configuration:
+  openrouter_api_key:
+    description: >-
+      A default OpenRouter key, for anything that calls the API without sending
+      its own. Bazarr+ sends its own, so it does not need this. The web
+      interface never uses it.
+    name: OpenRouter API key
+  default_model:
+    description: >-
+      The OpenRouter model used when a request names none, such as
+      google/gemini-3.1-flash-lite:floor. Bazarr+ always names one.
+    name: Default model
+  ui_enabled:
+    description: >-
+      Serves upstream's subtitle studio at /ui/, for translating .srt files by
+      hand. Each person enters their own OpenRouter key there.
+    name: Web interface
+  log_level:
+    description: >-
+      How much the translator writes to the log. Raise it to debug to see every
+      request it sends.
+    name: Log level
+network:
+  8765/tcp: The port the translator's API and web interface use.

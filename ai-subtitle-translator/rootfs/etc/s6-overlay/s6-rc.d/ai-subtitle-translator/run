@@ -1,0 +1,54 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: AI Subtitle Translator
+# Runs AI Subtitle Translator
+# ==============================================================================
+readonly key_file='/config/encryption.key'
+
+# The job history, which upstream keeps in /app/data inside the image.
+# Supervisor creates a new container on every start, so here it lives in /data,
+# which survives one and is backed up.
+export DB_PATH='/data/jobs.db'
+
+# The translator generates this key on its first start, and Bazarr+ needs a
+# copy of it. /config is this application's own configuration folder, which can
+# be read from outside Home Assistant's interface, where /data cannot.
+export ENCRYPTION_KEY_FILE="${key_file}"
+
+# Upstream reads the level in upper case, and bashio hands it over in lower.
+LOG_LEVEL="$(bashio::config 'log_level')"
+export LOG_LEVEL="${LOG_LEVEL^^}"
+
+if bashio::config.true 'ui_enabled'; then
+  export UI_ENABLED='true'
+fi
+
+# Each of these is exported only when it has a value. bashio reads an option
+# that was never set as the word null, which the translator would take for a
+# key or a model.
+if bashio::config.has_value 'openrouter_api_key'; then
+  OPENROUTER_API_KEY="$(bashio::config 'openrouter_api_key')"
+  export OPENROUTER_API_KEY
+fi
+
+if bashio::config.has_value 'default_model'; then
+  OPENROUTER_DEFAULT_MODEL="$(bashio::config 'default_model')"
+  export OPENROUTER_DEFAULT_MODEL
+fi
+
+# The upstream image runs the translator as appuser, which has to be able to
+# write the database and the key.
+chown appuser:appuser /data /config
+if [[ -f "${key_file}" ]]; then
+  chown appuser:appuser "${key_file}"
+fi
+
+bashio::log.info "Bazarr+ needs the encryption key in addon_configs/$(bashio::app.slug)/encryption.key; see the documentation"
+bashio::log.info 'Starting AI Subtitle Translator...'
+
+cd /app || bashio::exit.nok 'The application directory is missing'
+
+# s6-overlay has to be pid 1, so the service starts as root and drops back to
+# the user upstream runs as here. The command is upstream's own.
+exec s6-setuidgid appuser uvicorn subtitle_translator.main:app --host 0.0.0.0 --port 8765

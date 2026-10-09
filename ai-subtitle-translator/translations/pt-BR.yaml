@@ -1,0 +1,25 @@
+configuration:
+  openrouter_api_key:
+    description: >-
+      Uma chave padrão do OpenRouter, para o que chamar a API sem enviar a sua
+      própria. O Bazarr+ envia a dele, então não precisa desta. A interface web
+      nunca a usa.
+    name: Chave de API do OpenRouter
+  default_model:
+    description: >-
+      O modelo do OpenRouter usado quando uma requisição não nomeia nenhum, como
+      google/gemini-3.1-flash-lite:floor. O Bazarr+ sempre nomeia um.
+    name: Modelo padrão
+  ui_enabled:
+    description: >-
+      Serve o estúdio de legendas do projeto original em /ui/, para traduzir
+      arquivos .srt à mão. Cada pessoa informa ali a sua própria chave do
+      OpenRouter.
+    name: Interface web
+  log_level:
+    description: >-
+      Quanto o tradutor escreve no log. Aumente para debug para ver cada
+      requisição que ele envia.
+    name: Nível de log
+network:
+  8765/tcp: A porta que a API e a interface web do tradutor usam.
