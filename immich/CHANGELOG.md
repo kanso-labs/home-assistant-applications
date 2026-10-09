@@ -6,6 +6,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1](https://github.com/kanso-labs/home-assistant-applications/compare/immich-v1.0.0...immich-v1.0.1) (2026-10-09)
+
+
+### Bug Fixes
+
+* update immich to v3.3.1 ([#580](https://github.com/kanso-labs/home-assistant-applications/issues/580)) ([f447254](https://github.com/kanso-labs/home-assistant-applications/commit/f447254f7f22916f1a4cf0ffdad51f5e1c75113f))
+
+
+### Upstream changes
+
+* **v3.3.1:** [chore(web): update translations by weblate](https://github.com/immich-app/immich/pull/32029) ([f447254](https://github.com/kanso-labs/home-assistant-applications/commit/f447254f7f22916f1a4cf0ffdad51f5e1c75113f))
+* **v3.3.1:** [docs: Add MACHINE_LEARNING_MODEL_REVISION variable to docs by JPar99](https://github.com/immich-app/immich/pull/32221) ([f447254](https://github.com/kanso-labs/home-assistant-applications/commit/f447254f7f22916f1a4cf0ffdad51f5e1c75113f))
+* **v3.3.1:** [docs: document persistent QNAP database storage by yuhuan417](https://github.com/immich-app/immich/pull/32222) ([f447254](https://github.com/kanso-labs/home-assistant-applications/commit/f447254f7f22916f1a4cf0ffdad51f5e1c75113f))
+* **v3.3.1:** [feat: shared person indicator by danieldietzler](https://github.com/immich-app/immich/pull/32223) ([f447254](https://github.com/kanso-labs/home-assistant-applications/commit/f447254f7f22916f1a4cf0ffdad51f5e1c75113f))
+* **v3.3.1:** [fix: clarify people sharing does not share assets by jrasm91](https://github.com/immich-app/immich/pull/32231) ([f447254](https://github.com/kanso-labs/home-assistant-applications/commit/f447254f7f22916f1a4cf0ffdad51f5e1c75113f))
+* **v3.3.1:** [fix: include partner shared assets for people even without showInTimeline by danieldietzler](https://github.com/immich-app/immich/pull/32219) ([f447254](https://github.com/kanso-labs/home-assistant-applications/commit/f447254f7f22916f1a4cf0ffdad51f5e1c75113f))
+* **v3.3.1:** [fix: include unamed people in otherPeople by jrasm91](https://github.com/immich-app/immich/pull/32237) ([f447254](https://github.com/kanso-labs/home-assistant-applications/commit/f447254f7f22916f1a4cf0ffdad51f5e1c75113f))
+* **v3.3.1:** [fix: run workflow steps in their configured order by infocus13](https://github.com/immich-app/immich/pull/32240) ([f447254](https://github.com/kanso-labs/home-assistant-applications/commit/f447254f7f22916f1a4cf0ffdad51f5e1c75113f))
+* **v3.3.1:** [fix: show date on memories page by alextran1502](https://github.com/immich-app/immich/pull/32206) ([f447254](https://github.com/kanso-labs/home-assistant-applications/commit/f447254f7f22916f1a4cf0ffdad51f5e1c75113f))
+* **v3.3.1:** [fix(mobile): keep memories full screen while swiping by santoshakil](https://github.com/immich-app/immich/pull/32171) ([f447254](https://github.com/kanso-labs/home-assistant-applications/commit/f447254f7f22916f1a4cf0ffdad51f5e1c75113f))
+* **v3.3.1:** [fix(mobile): prevent rapid toggling and rerendering of cells by agg23](https://github.com/immich-app/immich/pull/32200) ([f447254](https://github.com/kanso-labs/home-assistant-applications/commit/f447254f7f22916f1a4cf0ffdad51f5e1c75113f))
+* **v3.3.1:** [fix(server): read ISO values above 65535 by bo0tzz](https://github.com/immich-app/immich/pull/32182) ([f447254](https://github.com/kanso-labs/home-assistant-applications/commit/f447254f7f22916f1a4cf0ffdad51f5e1c75113f))
+
 ## [1.0.0](https://github.com/kanso-labs/home-assistant-applications/compare/immich-v0.3.2...immich-v1.0.0) (2026-10-08)
 
 

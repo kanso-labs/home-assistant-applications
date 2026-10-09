@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.7](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.3.6...n8n-v1.3.7) (2026-10-09)
+
+
+### Bug Fixes
+
+* update dependency n8n to v2.42.6 ([#582](https://github.com/kanso-labs/home-assistant-applications/issues/582)) ([4e81467](https://github.com/kanso-labs/home-assistant-applications/commit/4e81467d442d4a0e41028083bdb5826604e41820))
+
+
+### Upstream changes
+
+* **v2.42.6:** [**core:** Block create/update of workflows with deprecated nodes](https://github.com/n8n-io/n8n/issues/40707) ([4e81467](https://github.com/kanso-labs/home-assistant-applications/commit/4e81467d442d4a0e41028083bdb5826604e41820))
+* **v2.42.6:** [**Google Gemini Node:** Show Nano Banana 2.1 and 2 Lite in the image model list](https://github.com/n8n-io/n8n/issues/40656) ([4e81467](https://github.com/kanso-labs/home-assistant-applications/commit/4e81467d442d4a0e41028083bdb5826604e41820))
+
+
+### Dependencies
+
+* update dependency jdx/mise to v2026.10.5 ([#579](https://github.com/kanso-labs/home-assistant-applications/issues/579)) ([e17d196](https://github.com/kanso-labs/home-assistant-applications/commit/e17d1964873c2187cb9565a3574c037420e0d8ee))
+
 ## [1.3.6](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.3.5...n8n-v1.3.6) (2026-10-08)
 
 
