@@ -11,7 +11,7 @@
 # Finder pins its PostgreSQL and Valkey, and the annotations are what Renovate
 # reads. See the rules for these images in .github/renovate.json.
 # renovate: datasource=docker depName=ghcr.io/immich-app/immich-server
-ARG IMMICH_VERSION=v3.3.0
+ARG IMMICH_VERSION=v3.3.1
 # renovate: datasource=docker depName=valkey/valkey
 ARG VALKEY_VERSION=9.1.2
 
