@@ -11,7 +11,7 @@
 # rootfs/ is unchanged from every other application. The image underneath is
 # mcr.microsoft.com/dotnet/aspnet, which is Ubuntu, so the packages come from
 # apt as they do for Cleanuparr.
-ARG BUILD_FROM=ghcr.io/lingarr-translate/lingarr:1.3.0
+ARG BUILD_FROM=ghcr.io/lingarr-translate/lingarr:1.4.0
 FROM ${BUILD_FROM}
 
 # Set shell
