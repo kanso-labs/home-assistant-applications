@@ -1,0 +1,10 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Wallos
+# Runs nginx, which serves Wallos on port 80 and passes its pages to PHP-FPM
+# ==============================================================================
+bashio::log.info 'Starting nginx...'
+
+# The configuration is upstream's own, as the image ships it.
+exec nginx -g 'daemon off;'

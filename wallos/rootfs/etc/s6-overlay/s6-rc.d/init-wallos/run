@@ -1,0 +1,62 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Wallos
+# Keeps Wallos's state in /data, hands the options to the services, and creates
+# or migrates the database
+# ==============================================================================
+readonly app_dir='/var/www/html'
+readonly env_dir='/run/s6/container_environment'
+
+# Wallos keeps its database and the logos people upload inside its web root,
+# which is part of the image, so an update would replace both. /data survives
+# updates and is backed up, so each is a link into it. The image's own db
+# directory holds only an empty database that nothing reads.
+mkdir -p /data/db /data/logos/avatars
+rm -r -f "${app_dir}/db" "${app_dir}/images/uploads/logos"
+ln -s /data/db "${app_dir}/db"
+ln -s /data/logos "${app_dir}/images/uploads/logos"
+chown -R www-data:www-data /data/db /data/logos
+
+# Each option becomes the environment variable Wallos reads, and only when it
+# has a value. Wallos treats a variable that is set at all, even to nothing, as
+# owning its field: it overrides what the admin page saved, and the field is
+# locked there. Written here rather than exported, they reach every service
+# started after this one, PHP-FPM for the pages and cron for the notifications.
+declare -A variables=(
+  [oidc_enabled]='OIDC_ENABLED'
+  [oidc_provider_name]='OIDC_PROVIDER_NAME'
+  [oidc_client_id]='OIDC_CLIENT_ID'
+  [oidc_client_secret]='OIDC_CLIENT_SECRET'
+  [oidc_issuer]='OIDC_ISSUER'
+  [oidc_auth_url]='OIDC_AUTH_URL'
+  [oidc_token_url]='OIDC_TOKEN_URL'
+  [oidc_userinfo_url]='OIDC_USERINFO_URL'
+  [oidc_redirect_url]='OIDC_REDIRECT_URL'
+  [oidc_scopes]='OIDC_SCOPES'
+  [oidc_auto_create_user]='OIDC_AUTO_CREATE_USER'
+  [oidc_require_email_verified]='OIDC_REQUIRE_EMAIL_VERIFIED'
+  [oidc_disable_password_login]='OIDC_DISABLE_PASSWORD_LOGIN'
+  [ssrf_allowlist]='SSRF_ALLOWLIST'
+)
+
+for option in "${!variables[@]}"; do
+  if bashio::config.has_value "${option}"; then
+    printf '%s' "$(bashio::config "${option}")" > "${env_dir}/${variables[${option}]}"
+  fi
+done
+
+if bashio::config.true 'oidc_enabled'; then
+  bashio::log.info 'Sign-in through OIDC is turned on by the configuration'
+fi
+
+cd "${app_dir}" || bashio::exit.nok 'The application directory is missing'
+
+# Upstream's startup.sh runs both of these on every start, the first to create
+# a database that does not exist yet and the second to bring one up to the
+# version in the image. They run as the user PHP-FPM serves pages as, so the
+# files they create are ones it can write.
+s6-setuidgid www-data php endpoints/cronjobs/createdatabase.php \
+  || bashio::exit.nok 'Could not create the database'
+s6-setuidgid www-data php endpoints/db/migrate.php \
+  || bashio::exit.nok 'Could not migrate the database'

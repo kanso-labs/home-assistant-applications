@@ -1,0 +1,28 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Wallos
+# Runs cron, which moves payment dates on, updates exchange rates and sends
+# every notification
+# ==============================================================================
+cd /var/www/html || bashio::exit.nok 'The application directory is missing'
+
+# Upstream's startup.sh runs these three at every start as well as on their
+# schedule, so a Wallos that was stopped when one was due still catches up. Like
+# the scheduled jobs, they run as root. A failure is left in the log rather than
+# stopping cron, since the next scheduled run tries again.
+bashio::log.info 'Bringing payment dates and exchange rates up to date...'
+for job in updatenextpayment updateexchange checkforupdates; do
+  # The jobs end without a newline, which awk adds, as it does on the schedule.
+  php "endpoints/cronjobs/${job}.php" 2>&1 | awk 1 \
+    || bashio::log.warning "The ${job} job failed. Cron runs it again on schedule."
+done
+
+# The schedule is upstream's, and what each job prints comes here, to the log.
+# Home Assistant passes its time zone in TZ, which cron schedules by and the
+# jobs inherit, so a notification due at 9:00 goes out at 9:00 where you are.
+#
+# Log level 9 keeps cron's own line for the start of every job out of the log,
+# since two of them run every two minutes. Its errors are printed at any level.
+bashio::log.info "Starting cron in the ${TZ:-UTC} time zone..."
+exec busybox crond -f -d 9
