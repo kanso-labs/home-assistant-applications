@@ -19,8 +19,11 @@ owner account the first time you open it.
 | -------------------------------- | ------- | -------------------------------------------------- |
 | `enable_ssl`                     | `false` | Requires n8n's session cookie to travel over HTTPS |
 | `env_vars`                       | empty   | More of n8n's environment variables, by name       |
+| `home_assistant_credential`      | `true`  | Keeps a Home Assistant credential in n8n           |
 | `log_level`                      | `info`  | How much n8n writes to its log                     |
+| `mariadb_credential`             | `true`  | Keeps a MariaDB credential in n8n                  |
 | `max_old_space_size`             | unset   | The most memory n8n's heap may use, in MB          |
+| `mqtt_credential`                | `true`  | Keeps an MQTT credential in n8n                    |
 | `node_function_external_modules` | empty   | npm modules Code nodes are allowed to import       |
 | `webhook_url`                    | empty   | The external address for webhooks and OAuth        |
 
@@ -111,6 +114,42 @@ Take the hostname from your own log, since its first part comes from the address
 you added this repository with, and the path from the trigger. The route is
 plain HTTP inside your Home Assistant host, and nothing outside that host can
 use it.
+
+## Ready-made credentials
+
+n8n starts with credentials already made for what runs beside it on this Home
+Assistant, so its nodes work without a token to create or a password to copy:
+
+| Credential               | Made when                            | Option                      |
+| ------------------------ | ------------------------------------ | --------------------------- |
+| Home Assistant           | always                               | `home_assistant_credential` |
+| MQTT (Home Assistant)    | the Mosquitto broker is installed    | `mqtt_credential`           |
+| MariaDB (Home Assistant) | the MariaDB application is installed | `mariadb_credential`        |
+
+Pick one in a node's credential list as you would any other. They are put into
+n8n before it starts, and updated there when something about them changes, such
+as the broker's password. An unchanged set is not imported again.
+
+**The Home Assistant credential carries no token of its own.** It points at
+`127.0.0.1:48123`, where this application forwards Home Assistant's API through
+Supervisor and adds its own token, which Supervisor issues afresh on every
+start. The token is never written into n8n or into `/data`.
+
+That makes the credential an administrator's, like a long-lived token made by
+one. **Anyone who can edit a workflow here can control Home Assistant**, with
+this credential or with an HTTP Request node pointed at the same address. The
+reach exists whether or not the credential is used, since it comes from this
+application being allowed to call Home Assistant's API at all.
+
+The MariaDB credential opens the `mysql` schema, which its login can always see.
+Name the schema in the query, as in `SELECT * FROM homeassistant.states`.
+
+**Turning an option off leaves its credential in n8n.** Turned off, the Home
+Assistant credential stops working, since nothing answers at its address any
+more, and the other two stop being updated. Delete the credential in n8n if you
+no longer want it. A credential you delete in n8n while its option is on comes
+back when something about it next changes; to have it back sooner, delete
+`/data/.home-assistant-credentials.sha256` and restart.
 
 ## Reaching n8n from outside
 

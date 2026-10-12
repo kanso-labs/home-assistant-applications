@@ -11,6 +11,12 @@ description:
   of code or the speed of drag-n-drop. Host with on-prem control or in-the-cloud
   convenience. n8n gives you more freedom to implement multi-step AI agents and
   integrate apps than any other tool.
+# What makes the Home Assistant credential work without a token: Supervisor
+# hands this application a token for the Core API, which the proxy in nginx adds
+# to every request. The grant holds whether or not the credential is used, and
+# it reaches as far as an administrator's token, which is what anyone using the
+# Home Assistant node without it already pastes in. Decided in #506.
+homeassistant_api: true
 image: 'ghcr.io/kanso-labs/home-assistant-application-n8n'
 ingress: true
 ingress_port: 5678
@@ -23,7 +29,10 @@ name: n8n
 options:
   enable_ssl: false
   env_vars: []
+  home_assistant_credential: true
   log_level: info
+  mariadb_credential: true
+  mqtt_credential: true
   node_function_external_modules: []
   webhook_url: ''
 panel_icon: 'mdi:diversify'
@@ -37,10 +46,18 @@ schema:
   log_level: list(debug|info|warn|error)
   node_function_external_modules: [str]
   webhook_url: str?
+  home_assistant_credential: bool
+  mqtt_credential: bool
+  mariadb_credential: bool
   max_old_space_size: int?
   env_vars:
     - name: match(^[A-Z][A-Z0-9_]*$)
       value: str
+# Wanted rather than needed: n8n starts without a broker or a database, and
+# only the credentials for them wait until one is installed.
+services:
+  - 'mqtt:want'
+  - 'mysql:want'
 slug: n8n
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/n8n'
 version: '1.3.9' # x-release-please-version

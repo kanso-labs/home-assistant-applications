@@ -10,12 +10,15 @@ ARG BUILD_VERSION=dev
 # renovate: datasource=github-releases depName=jdx/mise
 ARG MISE_VERSION=2026.10.8
 
-# Install requirements for application
+# Install requirements for application. nginx is the stand-in for Home
+# Assistant's API that the ready-made credential points at; the configuration
+# its package ships is replaced by the one in rootfs/, which serves nothing else.
 RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
     bash \
     curl \
     git \
     graphicsmagick \
+    nginx \
     openssh-client \
   && rm -rf /var/lib/apt/lists/*
 
