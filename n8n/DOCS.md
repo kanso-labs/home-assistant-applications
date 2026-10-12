@@ -175,7 +175,19 @@ application's `package.json`. Updates arrive as pull requests against the
 repository and reach you as an application update once released.
 
 n8n's own update prompts do not apply. Nothing inside the container can replace
-the installed version, so updating this application is the only route.
+the installed version, so updating this application is the only route, and the
+prompts are turned off.
+
+## Telemetry
+
+n8n sends usage telemetry by default. Here it is off, along with the
+personalization survey that depends on it and n8n's hiring banner.
+
+The cost is small. Features n8n is trying out through PostHog stay at their
+defaults until they ship to everyone. To send the telemetry anyway, set
+`N8N_DIAGNOSTICS_ENABLED` to `true` in `env_vars`. The same works for
+`N8N_VERSION_NOTIFICATIONS_ENABLED`, `N8N_PERSONALIZATION_ENABLED` and
+`N8N_HIRING_BANNER_ENABLED`.
 
 ## Support
 
