@@ -33,5 +33,5 @@ schema:
   ssrf_allowlist: str?
 slug: wallos
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/wallos'
-version: '0.1.0' # x-release-please-version
+version: '0.2.0' # x-release-please-version
 webui: 'http://[HOST]:[PORT:80]'

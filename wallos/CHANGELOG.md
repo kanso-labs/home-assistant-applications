@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0](https://github.com/kanso-labs/home-assistant-applications/compare/wallos-v0.1.0...wallos-v0.2.0) (2026-10-12)
+
+
+### Features
+
+* **wallos:** add Wallos as an application ([#609](https://github.com/kanso-labs/home-assistant-applications/issues/609)) ([0f2ff7c](https://github.com/kanso-labs/home-assistant-applications/commit/0f2ff7c195e26eba40cb0d17e3c3cb1dbdd843f5))
+
 ## [0.1.0]
 
 ### Added
