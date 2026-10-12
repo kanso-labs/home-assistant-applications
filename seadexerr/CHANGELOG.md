@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0](https://github.com/kanso-labs/home-assistant-applications/compare/seadexerr-v1.0.1...seadexerr-v1.1.0) (2026-10-12)
+
+
+### Features
+
+* update ghcr.io/ryder-c/seadexerr docker tag to v3.2.0 ([#606](https://github.com/kanso-labs/home-assistant-applications/issues/606)) ([d637da1](https://github.com/kanso-labs/home-assistant-applications/commit/d637da18031a6eb6fb6565779dcaa84b2917c926))
+
+
+### Upstream changes
+
+* **v3.2.0:** [Classify releases by mappings instead of AniList format by Ryder-C](https://github.com/Ryder-C/seadexerr/pull/66) ([d637da1](https://github.com/kanso-labs/home-assistant-applications/commit/d637da18031a6eb6fb6565779dcaa84b2917c926))
+* **v3.2.0:** [Stream mappings download to disk to prevent memory spike by Ryder-C](https://github.com/Ryder-C/seadexerr/pull/67) ([d637da1](https://github.com/kanso-labs/home-assistant-applications/commit/d637da18031a6eb6fb6565779dcaa84b2917c926))
+* **v3.2.0:** [Tag releases with a rare indexer flag combination for custom format scoring by Ryder-C](https://github.com/Ryder-C/seadexerr/pull/68) ([d637da1](https://github.com/kanso-labs/home-assistant-applications/commit/d637da18031a6eb6fb6565779dcaa84b2917c926))
+
 ## [1.0.1](https://github.com/kanso-labs/home-assistant-applications/compare/seadexerr-v1.0.0...seadexerr-v1.0.1) (2026-10-06)
 
 

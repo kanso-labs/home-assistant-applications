@@ -6,6 +6,30 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.3.9...n8n-v1.4.0) (2026-10-12)
+
+
+### Features
+
+* **n8n:** ready-made Home Assistant, MQTT and MariaDB credentials ([#612](https://github.com/kanso-labs/home-assistant-applications/issues/612)) ([a01ec57](https://github.com/kanso-labs/home-assistant-applications/commit/a01ec573cfc3397a7d2f1a784be4a4930dbe767b))
+
+
+### Bug Fixes
+
+* **n8n:** turn off n8n's telemetry and update prompts ([#611](https://github.com/kanso-labs/home-assistant-applications/issues/611)) ([3190b72](https://github.com/kanso-labs/home-assistant-applications/commit/3190b729c94df1067c2e4d3bdb11e627f3c07582))
+* update dependency n8n to v2.42.7 ([#607](https://github.com/kanso-labs/home-assistant-applications/issues/607)) ([f02fc4d](https://github.com/kanso-labs/home-assistant-applications/commit/f02fc4d6d56cadd5edb3a4a5fcd8e75fef48f585))
+
+
+### Upstream changes
+
+* **v2.42.7:** [**core:** Keep concurrent credential tests from sharing one node type registry](https://github.com/n8n-io/n8n/issues/40783) ([f02fc4d](https://github.com/kanso-labs/home-assistant-applications/commit/f02fc4d6d56cadd5edb3a4a5fcd8e75fef48f585))
+* **v2.42.7:** [**core:** Resume tool calls for deferred tools that a skill loaded](https://github.com/n8n-io/n8n/issues/40747) ([f02fc4d](https://github.com/kanso-labs/home-assistant-applications/commit/f02fc4d6d56cadd5edb3a4a5fcd8e75fef48f585))
+
+
+### Dependencies
+
+* update dependency jdx/mise to v2026.10.8 ([#602](https://github.com/kanso-labs/home-assistant-applications/issues/602)) ([92c7850](https://github.com/kanso-labs/home-assistant-applications/commit/92c7850eb8fde77822a7681567f40c7538bad16f))
+
 ## [1.3.9](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.3.8...n8n-v1.3.9) (2026-10-11)
 
 
