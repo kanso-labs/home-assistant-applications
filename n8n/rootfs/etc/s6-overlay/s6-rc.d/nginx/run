@@ -1,0 +1,24 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: n8n
+# Runs nginx, the stand-in for Home Assistant's API that the ready-made
+# credential points at
+# ==============================================================================
+readonly servers_dir='/etc/nginx/servers'
+
+mkdir -p "${servers_dir}"
+rm -f "${servers_dir}"/*.conf
+
+# The token is written into the container's own filesystem, which Supervisor
+# recreates on every start, and never into /data. With the credential turned
+# off, nginx runs with nothing to serve, and the credential left in n8n stops
+# working.
+if bashio::config.true 'home_assistant_credential'; then
+  bashio::var.json port '^48123' \
+    | tempio \
+      -template /etc/nginx/templates/homeassistant.gtpl \
+      -out "${servers_dir}/homeassistant.conf"
+fi
+
+exec nginx

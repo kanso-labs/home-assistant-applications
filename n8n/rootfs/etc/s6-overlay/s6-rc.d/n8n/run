@@ -89,8 +89,16 @@ if bashio::config.has_value 'max_old_space_size'; then
   export NODE_OPTIONS="${NODE_OPTIONS:+${NODE_OPTIONS} }--max-old-space-size=${max_old_space_size}"
 fi
 
-bashio::log.info 'Starting n8n...'
-
 cd /usr/src/n8n || bashio::exit.nok 'Could not enter the n8n install directory'
 export PATH="/root/.local/share/mise/shims:${PATH}"
+
+# Run here rather than as a service of its own, so the import sees exactly the
+# environment n8n is about to start with, env_vars included: a database or an
+# encryption key set there applies to both. A failed import leaves n8n
+# starting without the credentials, and the next start tries again.
+import-home-assistant-credentials \
+  || bashio::log.warning 'Could not put the Home Assistant credentials into n8n'
+
+bashio::log.info 'Starting n8n...'
+
 exec ./node_modules/.bin/n8n start

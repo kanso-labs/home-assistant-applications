@@ -11,15 +11,32 @@ configuration:
       muitas configurações que o n8n lê e que não têm opção aqui. As que esta
       aplicação define por conta própria não podem ser alteradas assim.
     name: Variáveis de ambiente
+  home_assistant_credential:
+    description: >-
+      Mantém no n8n uma credencial do Home Assistant que dispensa token de
+      acesso. Desligue e a credencial continua no n8n, mas para de funcionar.
+    name: Credencial do Home Assistant
   log_level:
     description: Quanto detalhe o n8n registra no log.
     name: Nível de log
+  mariadb_credential:
+    description: >-
+      Mantém no n8n uma credencial MariaDB para a aplicação MariaDB, quando ela
+      estiver instalada. Desligue e a credencial continua no n8n, sem ser
+      atualizada.
+    name: Credencial MariaDB
   max_old_space_size:
     description: >-
       A memória máxima que o n8n pode usar para o heap, em megabytes. Aumente
       quando workflows grandes ficarem sem memória; deixe vazio para o Node
       decidir.
     name: Tamanho máximo do heap (MB)
+  mqtt_credential:
+    description: >-
+      Mantém no n8n uma credencial MQTT para o broker Mosquitto, quando ele
+      estiver instalado. Desligue e a credencial continua no n8n, sem ser
+      atualizada.
+    name: Credencial MQTT
   node_function_external_modules:
     description: Módulos npm que os nós Code podem importar.
     name: Módulos externos para nós Code
