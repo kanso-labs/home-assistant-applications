@@ -49,6 +49,14 @@ export N8N_VERSION_NOTIFICATIONS_ENABLED="${N8N_VERSION_NOTIFICATIONS_ENABLED:-f
 export N8N_PERSONALIZATION_ENABLED="${N8N_PERSONALIZATION_ENABLED:-false}"
 export N8N_HIRING_BANNER_ENABLED="${N8N_HIRING_BANNER_ENABLED:-false}"
 
+# n8n 3.0 stops loading community packages it has not verified, and workflows
+# built on one of their nodes then fail. Renovate brings that release in as a
+# patch of this application, so the current default is pinned here. The three
+# limits n8n 3.0 tightens beside it, on the Code node's run time and on what the
+# Compression node unpacks, are left to tighten with it, and n8n keeps warning
+# about them at start. env_vars can set any of the four.
+export N8N_UNVERIFIED_PACKAGES_ENABLED="${N8N_UNVERIFIED_PACKAGES_ENABLED:-true}"
+
 # Setup integration with Home Assistant
 GENERIC_TIMEZONE=$(bashio::info.timezone)
 N8N_LOG_LEVEL=$(bashio::config 'log_level')

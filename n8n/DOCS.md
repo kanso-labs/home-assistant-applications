@@ -217,6 +217,28 @@ n8n's own update prompts do not apply. Nothing inside the container can replace
 the installed version, so updating this application is the only route, and the
 prompts are turned off.
 
+## n8n 3.0
+
+n8n 3.0 changes four defaults, and an update of this application can bring it in
+like any other n8n release.
+
+One of them is kept as it is today. n8n 3.0 stops loading community packages it
+has not verified, which would break every workflow built on one of their nodes
+at once, so `N8N_UNVERIFIED_PACKAGES_ENABLED` stays `true`. Set it to `false` in
+`env_vars` to load only the packages n8n has verified.
+
+The other three are limits, and they tighten when n8n tightens them:
+
+| Variable                                           | Before 3.0 | From 3.0 |
+| -------------------------------------------------- | ---------- | -------- |
+| `N8N_RUNNERS_TASK_TIMEOUT`                         | 300 s      | 60 s     |
+| `N8N_COMPRESSION_NODE_MAX_DECOMPRESSED_SIZE_BYTES` | 2 GiB      | 256 MiB  |
+| `N8N_COMPRESSION_NODE_MAX_ZIP_ENTRIES`             | 5000       | 1000     |
+
+A Code node that runs longer, or an archive that unpacks larger, then fails at
+that node. n8n warns about each of the three on every start until it is set. To
+keep a limit where it is, set the variable in `env_vars`.
+
 ## Telemetry
 
 n8n sends usage telemetry by default. Here it is off, along with the
