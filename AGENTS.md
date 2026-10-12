@@ -89,6 +89,18 @@ than resolution: `.tool-versions` is what makes CI and a laptop build the site
 on the same Node, and the workflow reads that same file through
 `actions/setup-node`.
 
+**Two actions run from `@master`, against the pinning rule, because there is no
+release to pin.** `home-assistant/actions/helpers/find-addons` finds the
+applications in `lint.yaml` and `build.yaml`, and `helpers/info` reads each
+one's metadata in `_build-application.yaml`. The repository's only tag, `1.0.0`,
+dates from 2020 and predates `helpers/` entirely, and a commit SHA is not a
+release tag either. Upstream has been asked to tag releases in
+[home-assistant/actions#144](https://github.com/home-assistant/actions/issues/144).
+Until it does, whatever lands on its `master` runs here on the next job, and
+Renovate has nothing to propose.
+[#482](https://github.com/kanso-labs/home-assistant-applications/issues/482)
+tracks pinning all three once a tag exists, and removing this paragraph.
+
 **Prettier formats the YAML, JSON and Markdown here**, and the site's TypeScript
 and CSS along with them; CI checks it. There is no root `package.json`, so there
 is no root `format` script — run `npx prettier --write .` before pushing.

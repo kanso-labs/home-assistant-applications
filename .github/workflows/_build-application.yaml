@@ -30,6 +30,8 @@ jobs:
 
       - name: Read application metadata
         id: info
+        # Unpinned, as there is no release tag to pin. See AGENTS.md and
+        # https://github.com/kanso-labs/home-assistant-applications/issues/482
         uses: home-assistant/actions/helpers/info@master
         with:
           path: './${{ inputs.app }}'
