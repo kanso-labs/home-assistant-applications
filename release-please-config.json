@@ -331,6 +331,15 @@
           "type": "generic"
         }
       ]
+    },
+    "wallos": {
+      "component": "wallos",
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
     }
   },
   "release-type": "simple",

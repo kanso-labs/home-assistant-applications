@@ -1,0 +1,69 @@
+configuration:
+  oidc_enabled:
+    description: >-
+      Turns sign-in through an OpenID Connect provider, such as Authentik, on or
+      off. Leave it unset to manage it from Wallos's admin page.
+    name: Sign in through OIDC
+  oidc_provider_name:
+    description: The name shown on the login button, such as Authentik.
+    name: Provider name
+  oidc_client_id:
+    description: The client ID the provider gave Wallos.
+    name: Client ID
+  oidc_client_secret:
+    description: The client secret the provider gave Wallos.
+    name: Client secret
+  oidc_issuer:
+    description: >-
+      The provider's issuer URL, from which Wallos discovers the three addresses
+      below. Leave it empty for a provider on this Home Assistant, and set the
+      three addresses instead.
+    name: Issuer URL
+  oidc_auth_url:
+    description: >-
+      Where your browser is sent to sign in, such as
+      http://authentik.local/application/o/authorize/.
+    name: Authorization URL
+  oidc_token_url:
+    description: >-
+      Where Wallos exchanges the sign-in for a token. For Authentik on this Home
+      Assistant, http://2dd33fbd-authentik:9000/application/o/token/.
+    name: Token URL
+  oidc_userinfo_url:
+    description: >-
+      Where Wallos reads who signed in. For Authentik on this Home Assistant,
+      http://2dd33fbd-authentik:9000/application/o/userinfo/.
+    name: User info URL
+  oidc_redirect_url:
+    description: >-
+      Where the provider sends your browser back: the address you open Wallos
+      at, followed by /index.php.
+    name: Redirect URL
+  oidc_scopes:
+    description: >-
+      The scopes to ask the provider for, separated by spaces. Wallos asks for
+      openid email profile when this is empty.
+    name: Scopes
+  oidc_auto_create_user:
+    description: >-
+      Creates a Wallos account for someone signing in through the provider for
+      the first time.
+    name: Create accounts on first sign-in
+  oidc_require_email_verified:
+    description: >-
+      Links a sign-in to an existing account only when the provider says the
+      email address is verified. Wallos does this unless it is turned off.
+    name: Require a verified email
+  oidc_disable_password_login:
+    description: >-
+      Hides the password form, so that everyone signs in through the provider.
+      Turn it on only once signing in through the provider works.
+    name: Disable password sign-in
+  ssrf_allowlist:
+    description: >-
+      Addresses on your own network Wallos may contact, separated by commas,
+      such as 2dd33fbd-authentik:9000,homeassistant:8123. Replaces the list on
+      Wallos's admin page.
+    name: Allowed network addresses
+network:
+  80/tcp: The port Wallos's web interface answers on.

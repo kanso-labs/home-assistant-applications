@@ -96,6 +96,7 @@
         "Sonarr/Sonarr",
         "Unpackerr/unpackerr",
         "avahi",
+        "bellamy/wallos",
         "ghcr.io/affromero/flight-finder",
         "ghcr.io/cleanuparr/cleanuparr",
         "ghcr.io/dictionarry-hub/profilarr",

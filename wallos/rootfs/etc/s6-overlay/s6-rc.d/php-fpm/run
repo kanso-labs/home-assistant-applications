@@ -1,0 +1,12 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Wallos
+# Runs PHP-FPM, which serves Wallos's pages
+# ==============================================================================
+bashio::log.info 'Starting PHP-FPM...'
+
+# The image's pool configuration keeps the environment, which is how the
+# options written by init-wallos reach Wallos, and runs its workers as
+# www-data.
+exec php-fpm --nodaemonize
