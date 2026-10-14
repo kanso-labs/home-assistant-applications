@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.1](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.5.0...n8n-v1.5.1) (2026-10-14)
+
+
+### Bug Fixes
+
+* update dependency n8n to v2.43.5 ([#631](https://github.com/kanso-labs/home-assistant-applications/issues/631)) ([fa531f2](https://github.com/kanso-labs/home-assistant-applications/commit/fa531f21a956c1f9e390cc746ad37c08f1748b88))
+
+
+### Upstream changes
+
+* **v2.43.5:** [**core:** Validate the size argument of the chunk expression extension](https://github.com/n8n-io/n8n/issues/40911) ([fa531f2](https://github.com/kanso-labs/home-assistant-applications/commit/fa531f21a956c1f9e390cc746ad37c08f1748b88))
+* **v2.43.5:** [Show Gemini models by name and list prioritized models first in model pickers](https://github.com/n8n-io/n8n/issues/41016) ([fa531f2](https://github.com/kanso-labs/home-assistant-applications/commit/fa531f21a956c1f9e390cc746ad37c08f1748b88))
+
+
+### Dependencies
+
+* update dependency jdx/mise to v2026.10.10 ([#630](https://github.com/kanso-labs/home-assistant-applications/issues/630)) ([a06f021](https://github.com/kanso-labs/home-assistant-applications/commit/a06f02135cb8cf5dbfe99b5662c0750363fc00e7))
+
 ## [1.5.0](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.4.1...n8n-v1.5.0) (2026-10-13)
 
 
