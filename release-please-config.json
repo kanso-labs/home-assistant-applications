@@ -314,6 +314,15 @@
         }
       ]
     },
+    "tdarr": {
+      "component": "tdarr",
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
+    },
     "traefik": {
       "component": "traefik",
       "extra-files": [

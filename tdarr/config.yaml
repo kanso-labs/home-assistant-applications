@@ -1,0 +1,42 @@
+arch:
+  - aarch64
+  - amd64
+# Tdarr keeps its library records and flows in a database under the configuration
+# directory, and a hot backup could copy it mid-write.
+backup: cold
+# What Tdarr rebuilds or regenerates on its own: the working copies of files it is
+# processing, and its logs.
+backup_exclude:
+  - cache
+  - logs
+description:
+  Automates work on your media library through flows of FFmpeg, HandBrake and
+  MKVToolNix steps, from remuxing and track cleanup to transcoding and health
+  checks. Built on your Home Assistant rather than downloaded, because Tdarr's
+  licence does not allow it to be redistributed.
+init: false
+map:
+  - read_only: false
+    type: app_config
+  # Write access, because Tdarr replaces the files it processes in place, and
+  # writes beside them whatever a flow extracts.
+  - read_only: false
+    type: media
+  - read_only: false
+    type: share
+name: Tdarr
+options:
+  auth: true
+  umask: '022'
+ports:
+  8265/tcp: 8265
+  8266/tcp: null
+# The options are in the order the Configuration tab shows them, which is why
+# they are not alphabetical.
+schema:
+  auth: bool
+  umask: match(^[0-7]{3,4}$)
+slug: tdarr
+url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/tdarr'
+version: '0.1.0' # x-release-please-version
+webui: 'http://[HOST]:[PORT:8265]'
