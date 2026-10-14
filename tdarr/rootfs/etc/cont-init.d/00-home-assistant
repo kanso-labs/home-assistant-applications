@@ -1,0 +1,71 @@
+#!/usr/bin/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Tdarr
+# Puts Tdarr's state in the configuration directory and applies the options
+#
+# Runs before the image's own cont-init scripts, which read the environment this
+# one writes: 01-setup-perms takes PUID and PGID from it.
+# ==============================================================================
+
+# Values written here reach every later script and service started through
+# with-contenv, the way variables set on the container would.
+set_env() {
+  printf '%s' "${2}" > "/run/s6/container_environment/${1}"
+}
+
+# Tdarr keeps its settings, its database and its logs under /app, beside the
+# program. Each is moved to /config, where Supervisor mounts the application's
+# configuration directory, so it survives an update and is in the backup.
+for directory in configs server logs; do
+  mkdir -p "/config/${directory}"
+  if [[ ! -L "/app/${directory}" ]]; then
+    rm -f -r "/app/${directory}"
+    ln -s "/config/${directory}" "/app/${directory}"
+  fi
+done
+
+# The working copies of files being processed. A library's transcode cache can
+# point here, at /temp, which is on the Home Assistant disk rather than on the
+# network share the library itself may be on.
+mkdir -p /config/cache
+if [[ ! -L /temp ]]; then
+  rm -f -r /temp
+  ln -s /config/cache /temp
+fi
+
+# Tdarr 3 requires an API key for anything that talks to the server, its own
+# internal node included. One is generated on first start and kept, and handed
+# to both sides: the server accepts it as its seeded key and the node sends it.
+if ! bashio::fs.file_exists /config/api-key; then
+  printf 'tapi_%s' "$(od -A n -t x1 -N 24 /dev/urandom | tr -d ' \n')" > /config/api-key
+fi
+api_key="$(</config/api-key)"
+set_env seededApiKey "${api_key}"
+set_env apiKey "${api_key}"
+
+# Whether the web interface asks for Tdarr's own sign-in. The node is unaffected
+# either way, since it authenticates with the key above.
+if bashio::config.true 'auth'; then
+  set_env auth true
+else
+  set_env auth false
+fi
+
+# Run the server and its node in this container, the node reaching the server
+# over loopback.
+set_env internalNode true
+set_env nodeName Internal
+set_env serverIP 0.0.0.0
+set_env serverURL 'http://127.0.0.1:8266'
+
+# Tdarr runs as root, as every application here does. Its files on a network
+# share then belong to whoever the share maps root to, the same as for Radarr,
+# Sonarr and Muxarr, rather than to a uid that exists only in this container.
+set_env PUID 0
+set_env PGID 0
+
+# Tdarr rewrites files in the library, so the permissions they land with are the
+# user's business. 022 leaves them writable by their owner alone; 002 is what a
+# library shared with a group needs.
+set_env UMASK "$(bashio::config 'umask')"

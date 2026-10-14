@@ -1,0 +1,17 @@
+configuration:
+  auth:
+    description: >-
+      Se a interface web pede o login do próprio Tdarr. Desligue apenas quando
+      um proxy reverso com autenticação estiver na frente do Tdarr e a porta
+      8265 estiver fechada.
+    name: Login
+  umask:
+    description: >-
+      As permissões que o Tdarr dá aos arquivos que processa. 022 os deixa
+      graváveis apenas pelo dono, que é o padrão; 002 os torna graváveis pelo
+      grupo, que é o necessário para uma biblioteca compartilhada com outras
+      aplicações ou usuários.
+    name: Máscara de permissão de arquivos
+network:
+  8265/tcp: A porta em que a interface web e a API do Tdarr escutam.
+  8266/tcp: A porta em que nós externos do Tdarr se conectam ao servidor.

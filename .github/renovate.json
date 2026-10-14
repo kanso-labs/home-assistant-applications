@@ -51,6 +51,7 @@
       "extractVersion": "^(?<version>.+)$",
       "matchDepNames": [
         "certbot",
+        "ghcr.io/haveagitgat/tdarr",
         "ghcr.io/immich-app/immich-machine-learning",
         "ghcr.io/immich-app/immich-server",
         "tensorchord/VectorChord",

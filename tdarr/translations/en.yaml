@@ -1,0 +1,17 @@
+configuration:
+  auth:
+    description: >-
+      Whether the web interface asks for Tdarr's own login. Turn it off only
+      when an authenticating reverse proxy stands in front of Tdarr and port
+      8265 is closed.
+    name: Sign-in
+  umask:
+    description: >-
+      The permissions Tdarr gives the files it processes. 022 leaves them
+      writable by their owner alone, which is the default; 002 makes them
+      group-writable, which is what a library shared with other applications or
+      users needs.
+    name: File permission mask
+network:
+  8265/tcp: The port the Tdarr web interface and API listen on.
+  8266/tcp: The port external Tdarr nodes connect to the server on.
