@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2](https://github.com/kanso-labs/home-assistant-applications/compare/immich-machine-learning-v1.0.1...immich-machine-learning-v1.0.2) (2026-10-14)
+
+
+### Bug Fixes
+
+* update immich to v3.3.3 ([#642](https://github.com/kanso-labs/home-assistant-applications/issues/642)) ([b4b4a2b](https://github.com/kanso-labs/home-assistant-applications/commit/b4b4a2b515af0c5f70fab343a69571b2d59e589e))
+
+
+### Upstream changes
+
+* **v3.3.3:** [fix(mobile): show the memories date in every app language by santoshakil](https://github.com/immich-app/immich/pull/32259) ([b4b4a2b](https://github.com/kanso-labs/home-assistant-applications/commit/b4b4a2b515af0c5f70fab343a69571b2d59e589e))
+* **v3.3.3:** [perf(server): improve people query performance by zackpollard](https://github.com/immich-app/immich/pull/32405) ([b4b4a2b](https://github.com/kanso-labs/home-assistant-applications/commit/b4b4a2b515af0c5f70fab343a69571b2d59e589e))
+
 ## [1.0.1](https://github.com/kanso-labs/home-assistant-applications/compare/immich-machine-learning-v1.0.0...immich-machine-learning-v1.0.1) (2026-10-09)
 
 
