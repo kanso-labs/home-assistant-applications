@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0](https://github.com/kanso-labs/home-assistant-applications/compare/flight-finder-v1.0.0...flight-finder-v1.1.0) (2026-10-15)
+
+
+### Features
+
+* update ghcr.io/affromero/flight-finder docker tag to v0.16.0 ([#652](https://github.com/kanso-labs/home-assistant-applications/issues/652)) ([174fc2c](https://github.com/kanso-labs/home-assistant-applications/commit/174fc2c2f127959783e58084e0ec0354073323dc))
+
 ## [1.0.0](https://github.com/kanso-labs/home-assistant-applications/compare/flight-finder-v0.2.0...flight-finder-v1.0.0) (2026-10-08)
 
 

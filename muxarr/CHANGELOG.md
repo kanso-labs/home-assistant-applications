@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2](https://github.com/kanso-labs/home-assistant-applications/compare/muxarr-v1.0.1...muxarr-v1.0.2) (2026-10-15)
+
+
+### Bug Fixes
+
+* update ghcr.io/kirovair/muxarr docker tag to v0.9.12 ([#647](https://github.com/kanso-labs/home-assistant-applications/issues/647)) ([4813710](https://github.com/kanso-labs/home-assistant-applications/commit/48137106ac1831f9152d8144c8259735c7275a60))
+
+
+### Upstream changes
+
+* **v0.9.12:** [mkvmerge and mkvpropedit come from the MKVToolNix repo now: v102 instead of Ubuntu's v82 from 2024, pinned so both architectures get the same one](https://github.com/KirovAir/muxarr/issues/82) ([4813710](https://github.com/kanso-labs/home-assistant-applications/commit/48137106ac1831f9152d8144c8259735c7275a60))
+* **v0.9.12:** [When Sonarr or Radarr refuse the webhook, the message now says why, in their words. Usually it is a Muxarr URL they cannot reach](https://github.com/KirovAir/muxarr/issues/81) ([4813710](https://github.com/kanso-labs/home-assistant-applications/commit/48137106ac1831f9152d8144c8259735c7275a60))
+
 ## [1.0.1](https://github.com/kanso-labs/home-assistant-applications/compare/muxarr-v1.0.0...muxarr-v1.0.1) (2026-10-14)
 
 

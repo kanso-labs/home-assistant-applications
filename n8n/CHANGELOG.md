@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.3](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.5.2...n8n-v1.5.3) (2026-10-15)
+
+
+### Bug Fixes
+
+* update dependency n8n to v2.43.6 ([#649](https://github.com/kanso-labs/home-assistant-applications/issues/649)) ([20a9944](https://github.com/kanso-labs/home-assistant-applications/commit/20a9944b54f31bf1edbf9bf6de1f427db85c929b))
+
+
+### Upstream changes
+
+* **v2.43.6:** [**core:** Create an XML parser for each webhook request body](https://github.com/n8n-io/n8n/issues/41113) ([20a9944](https://github.com/kanso-labs/home-assistant-applications/commit/20a9944b54f31bf1edbf9bf6de1f427db85c929b))
+
+
+### Dependencies
+
+* update dependency jdx/mise to v2026.10.11 ([#650](https://github.com/kanso-labs/home-assistant-applications/issues/650)) ([32e024f](https://github.com/kanso-labs/home-assistant-applications/commit/32e024f7e4b294e11fbb46d87b6d0aa486e64aa7))
+
 ## [1.5.2](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.5.1...n8n-v1.5.2) (2026-10-14)
 
 
