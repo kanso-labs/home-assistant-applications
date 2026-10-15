@@ -12,7 +12,7 @@
 #
 # The whole image, tag included, sits in the ARG and FROM takes it as it is,
 # which is how Renovate's own Dockerfile support reads BUILD_FROM.
-ARG BUILD_FROM=ghcr.io/haveagitgat/tdarr:3.00.00
+ARG BUILD_FROM=ghcr.io/haveagitgat/tdarr:3.01.00
 FROM ${BUILD_FROM}
 
 # Set shell
