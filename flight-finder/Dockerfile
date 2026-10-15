@@ -9,7 +9,7 @@
 # two services upstream runs as separate containers, because a Home Assistant
 # application is one container: PostgreSQL, as the Authentik application does,
 # and Valkey in place of Redis. See DOCS.md.
-ARG BUILD_FROM=ghcr.io/affromero/flight-finder:0.15.0
+ARG BUILD_FROM=ghcr.io/affromero/flight-finder:0.16.0
 FROM ${BUILD_FROM}
 
 # Set shell
