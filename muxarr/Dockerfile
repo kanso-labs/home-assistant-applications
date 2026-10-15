@@ -9,7 +9,7 @@
 # is not a shortcut. Every Muxarr release is marked as a prerelease — there has
 # never been a stable one — so the github-releases datasource skips them all and
 # would silently never offer an update. See renovate.json.
-ARG BUILD_FROM=ghcr.io/kirovair/muxarr:0.9.11
+ARG BUILD_FROM=ghcr.io/kirovair/muxarr:0.9.12
 FROM ${BUILD_FROM}
 
 # s6-overlay has to come up as pid 1, and the base image drops to uid 888.
