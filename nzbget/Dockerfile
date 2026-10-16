@@ -30,6 +30,20 @@ RUN \
       --arch "${NZBGET_ARCH}" \
       --destdir /opt/nzbget \
   \
+  `# The page loads its scripts and styles as combined.js?a.js+b.js, which` \
+  `# ingress cannot carry: Home Assistant and Supervisor both re-encode the` \
+  `# query on the way through, it arrives as ?a.js+b.js=, and NZBGet answers` \
+  `# 404 to any URL holding "=". This swaps in the page's one-file-per-tag` \
+  `# list, with the same four edits NZBGet makes itself in a debug build, and` \
+  `# fails the build if the markers it relies on are ever gone.` \
+  && grep -q -F '<!-- %if-not-debug% -->' /opt/nzbget/webui/index.html \
+  && sed -i \
+      -e 's|<!-- %if-debug%||' \
+      -e 's|<!-- %if-not-debug% -->|<!--|' \
+      -e 's|<!-- %end% -->|-->|' \
+      -e 's|%end% -->||' \
+      /opt/nzbget/webui/index.html \
+  \
   && rm -f -r \
     /tmp/*
 

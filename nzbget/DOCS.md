@@ -4,7 +4,7 @@
 
 1. Add this repository to your Home Assistant instance.
 2. Install the "NZBGet" application.
-3. Start it, then open the web interface on port 6789.
+3. Start it, then open it from the sidebar, or on port 6789.
 
 ## First login
 
@@ -17,8 +17,9 @@ Web interface username: nzbget
 Web interface password: <password>
 ```
 
-Read it from the log and sign in. You can change it under Settings, then
-Security. No credentials are stored in this application's configuration.
+Read it from the log and sign in on NZBGet's own form, which opens in front of
+the page. You can change the password under Settings, then Security. No
+credentials are stored in this application's configuration.
 
 ## Configuration
 
@@ -29,7 +30,7 @@ they survive restarts and updates.
 Add your news servers under Settings, then News-Servers. Until you do, the log
 reports that no servers are configured, which is expected on a fresh install.
 
-Three defaults are changed on first start, because NZBGet's own would be wrong
+Four defaults are changed on first start, because NZBGet's own would be wrong
 here:
 
 | Setting           | Seeded value    | Why                                                                                   |
@@ -37,9 +38,55 @@ here:
 | `MainDir`         | `/share/nzbget` | NZBGet downloads into its install directory, which is replaced on every update        |
 | `ControlPassword` | generated       | The shipped password is identical on every NZBGet in the world                        |
 | `WriteLog`        | `none`          | Home Assistant already captures the log, and NZBGet's own file is appended to forever |
+| `FormAuth`        | `yes`           | NZBGet's sign-in form fits inside Home Assistant better than the browser's dialog     |
 
-All three are written only when no configuration exists, so anything you change
+All four are written only when no configuration exists, so anything you change
 afterwards is left alone.
+
+## Ingress
+
+NZBGet is served through Home Assistant's ingress, so it opens inside Home
+Assistant and comes along wherever Home Assistant does, Home Assistant Cloud
+included. Turn on **Show in sidebar** on the application's page to keep it a
+click away. Ingress is authenticated by Home Assistant, which lets only
+administrators in.
+
+The published port keeps working alongside it, for the browser at home and for
+everything that calls NZBGet's API: Sonarr, Radarr, Prowlarr and Home
+Assistant's own NZBGet integration need no change.
+
+NZBGet writes every address in its pages relative to the page, so ingress
+reaches it on 6789 directly, with no proxy of this application's in between and
+no URL base to set. Three things follow:
+
+- **The page loads its scripts and styles one file at a time.** NZBGet normally
+  fetches them in a single request that lists the files in its query,
+  `combined.js?a.js+b.js`. Home Assistant re-encodes that query on its way
+  through ingress into one NZBGet refuses, so the image switches the page to the
+  list NZBGet uses in its own debug builds. The files are the same, each fetched
+  on its own, and the port serves the same page.
+- **NZBGet still asks for its own password inside ingress.** Home Assistant's
+  sign-in tells NZBGet nothing. A new install shows NZBGet's form, as in First
+  login. An installation from before ingress keeps the browser's own password
+  dialog, because seeded settings are never rewritten; set **FormAuth** to `yes`
+  under Settings, then Security, to have the form instead.
+- **Only the way NZBGet asks changes with FormAuth, not what it accepts.** The
+  password is checked the same way either way. Sonarr, Radarr, Prowlarr and the
+  integration send theirs with every request, unasked, so they do not notice.
+  NZBGet's System Health then warns that form credentials may be sent in
+  plaintext while SecureControl is off. That is as true of the browser's dialog,
+  which it does not flag, and through ingress both travel over Home Assistant's
+  own connection, HTTPS whenever Home Assistant is.
+
+To skip NZBGet's sign-in inside ingress, since Home Assistant has already asked
+for one, add Supervisor's address to **AuthorizedIP** under Settings, then
+Security, making it `127.0.0.1,172.30.32.2`. Supervisor sends every ingress
+request from that address, while the published port's callers come from
+elsewhere and still need the password. It is a choice to trust Home Assistant's
+sign-in in place of NZBGet's, so it is left to you.
+
+Phone apps such as nzb360 and LunaSea cannot use ingress, because it needs a
+Home Assistant session in a browser. They still work on the published port.
 
 ## Storage
 
