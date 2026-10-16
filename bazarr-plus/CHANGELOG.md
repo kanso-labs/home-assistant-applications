@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1](https://github.com/kanso-labs/home-assistant-applications/compare/bazarr-plus-v1.1.0...bazarr-plus-v1.1.1) (2026-10-16)
+
+
+### Bug Fixes
+
+* **bazarr-plus:** keep the ingress path out of the home address ([#687](https://github.com/kanso-labs/home-assistant-applications/issues/687)) ([d7c78fa](https://github.com/kanso-labs/home-assistant-applications/commit/d7c78fa22f335c127db15538085310567a766a9f))
+
 ## [1.1.0](https://github.com/kanso-labs/home-assistant-applications/compare/bazarr-plus-v1.0.3...bazarr-plus-v1.1.0) (2026-10-16)
 
 
