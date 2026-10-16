@@ -2,8 +2,9 @@
 # shellcheck shell=bash
 # ==============================================================================
 # Kanso Labs Home Assistant Application: Prowlarr
-# Runs nginx, which answers on 9696 for Prowlarr and puts the ingress path back
-# onto requests that arrive without it
+# Runs nginx, which answers on 9696 for Prowlarr, puts the ingress path back
+# onto requests that arrive without it, and takes it out of what goes back to
+# the published port
 # ==============================================================================
 readonly servers_dir='/etc/nginx/servers'
 
@@ -27,10 +28,11 @@ fi
 
 jq -n \
   --arg ingress_entry "${ingress_entry}" \
+  --arg ingress_entry_encoded "${ingress_entry//\//%2F}" \
   --argjson ipv6 "${ipv6}" \
   --argjson port 9696 \
   --argjson upstream "${Prowlarr__Server__Port}" \
-  '{ingress_entry: $ingress_entry, ipv6: $ipv6, port: $port, upstream: $upstream}' \
+  '{ingress_entry: $ingress_entry, ingress_entry_encoded: $ingress_entry_encoded, ipv6: $ipv6, port: $port, upstream: $upstream}' \
   | tempio \
     -template /etc/nginx/templates/prowlarr.gtpl \
     -out "${servers_dir}/prowlarr.conf"
