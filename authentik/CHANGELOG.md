@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1](https://github.com/kanso-labs/home-assistant-applications/compare/authentik-v1.0.0...authentik-v1.0.1) (2026-10-16)
+
+
+### Bug Fixes
+
+* update ghcr.io/goauthentik/server docker tag to v2026.8.4 ([#646](https://github.com/kanso-labs/home-assistant-applications/issues/646)) ([a7443f1](https://github.com/kanso-labs/home-assistant-applications/commit/a7443f17bbd14dd1101b3066dec6ad29260d0c1e))
+
 ## [1.0.0](https://github.com/kanso-labs/home-assistant-applications/compare/authentik-v0.2.1...authentik-v1.0.0) (2026-09-22)
 
 
