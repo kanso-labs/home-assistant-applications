@@ -10,6 +10,56 @@
 # in front of them, since exporting a variable would not outlive this script.
 readonly environment='/var/run/s6/container_environment'
 
+# shellcheck source=/dev/null
+[ -f /etc/default/plexmediaserver ] && . /etc/default/plexmediaserver
+support="${PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR:-/config/Library/Application Support}"
+readonly preferences="${support}/Plex Media Server/Preferences.xml"
+
+# Plex's start-up script writes allowed_networks and advertise_addresses into
+# Preferences.xml, which outlives the container, and does nothing at all when
+# one is empty. Emptying an option would leave its last value in force for
+# good, so what each one applies is recorded here, to be taken back later.
+readonly applied='/data/applied'
+
+function record() {
+  local option="${1}"
+  local value="${2}"
+
+  mkdir -p "${applied}"
+  printf '%s' "${value}" > "${applied}/${option}"
+}
+
+# Takes back what an option applied on an earlier start, now that it is empty.
+# Plex's own settings write the same attribute, so it is removed only while it
+# still holds exactly what the option put there. A value typed into Plex since
+# then is left alone.
+function revoke() {
+  local option="${1}"
+  local attribute="${2}"
+  local value
+  local current
+
+  if ! bashio::fs.file_exists "${applied}/${option}"; then
+    return 0
+  fi
+
+  value="$(<"${applied}/${option}")"
+  current=''
+  if bashio::fs.file_exists "${preferences}"; then
+    current="$(xmlstarlet sel -T -t -m '/Preferences' -v "@${attribute}" -n "${preferences}")"
+  fi
+
+  if [[ "${current}" == "${value}" ]]; then
+    xmlstarlet ed --inplace --delete "/Preferences/@${attribute}" "${preferences}"
+    bashio::log.info "${option} is empty, so ${value} has been taken out of Plex."
+  elif bashio::var.has_value "${current}"; then
+    bashio::log.notice "${option} is empty, but Plex holds ${current} rather"
+    bashio::log.notice "than the ${value} it set, so that has been left alone."
+  fi
+
+  rm -f "${applied}/${option}"
+}
+
 if bashio::config.has_value 'claim_code'; then
   bashio::log.info 'Claiming this server with the code from the options...'
   printf '%s' "$(bashio::config 'claim_code')" > "${environment}/PLEX_CLAIM"
@@ -32,6 +82,9 @@ if bashio::config.has_value 'allowed_networks'; then
 
   bashio::log.info "Networks allowed without signing in: ${networks}"
   printf '%s' "${networks}" > "${environment}/ALLOWED_NETWORKS"
+  record 'allowed_networks' "${networks}"
+else
+  revoke 'allowed_networks' 'allowedNetworks'
 fi
 
 # Plex publishes the addresses it finds on itself to plex.tv, and an app picks
@@ -49,4 +102,7 @@ if bashio::config.has_value 'advertise_addresses'; then
 
   bashio::log.info "Addresses advertised to apps: ${addresses}"
   printf '%s' "${addresses}" > "${environment}/ADVERTISE_IP"
+  record 'advertise_addresses' "${addresses}"
+else
+  revoke 'advertise_addresses' 'customConnections'
 fi

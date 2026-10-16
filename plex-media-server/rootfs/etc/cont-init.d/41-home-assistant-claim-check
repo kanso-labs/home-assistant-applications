@@ -40,6 +40,13 @@ fi
 if bashio::var.has_value "${token}"; then
   bashio::log.info 'This server is claimed. Sign in with the Plex account it'
   bashio::log.info 'was claimed with to reach it.'
+
+  # Claiming closes nothing an allowed network opened, and one left over from
+  # before the claim is easy to forget, so it is reported here too.
+  if bashio::var.has_value "${allowed}"; then
+    bashio::log.notice "It is also open to ${allowed} without signing in."
+  fi
+
   exit 0
 fi
 

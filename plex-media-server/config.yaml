@@ -2,23 +2,24 @@ arch:
   - aarch64
   - amd64
 backup: cold
+# Nothing excluded here is needed to restore a working server. Codecs, Drivers
+# and Updates are what Plex fetches for itself; Media and Metadata hold artwork
+# and preview thumbnails, which a restore does not bring back on its own, and
+# DOCS.md says what to do after one.
 backup_exclude:
   - '**/Plex Media Server/Cache/**'
+  - '**/Plex Media Server/Codecs/**'
   - '**/Plex Media Server/Crash Reports/**'
   - '**/Plex Media Server/Diagnostics/**'
+  - '**/Plex Media Server/Drivers/**'
   - '**/Plex Media Server/Logs/**'
   - '**/Plex Media Server/Media/**'
   - '**/Plex Media Server/Metadata/**'
   - '**/Plex Media Server/Plug-in Support/Caches/**'
+  - '**/Plex Media Server/Updates/**'
 description:
   Recorded media, live TV, online news, and podcasts ready to stream. Plex Media
   Server organises what you already have and serves it to the Plex apps.
-devices:
-  - /dev/dri
-  - /dev/dri/card0
-  - /dev/dri/card1
-  - /dev/dri/renderD128
-hassio_api: true
 image: 'ghcr.io/kanso-labs/home-assistant-application-plex-media-server'
 init: false
 map:
@@ -51,4 +52,8 @@ schema:
 slug: plex-media-server
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/plex-media-server'
 version: '1.4.3' # x-release-please-version
+# Hardware transcoding. This grants every GPU under /dev/dri, whatever its
+# number, where a devices list granted only the nodes it named: renderD128
+# alone, so a GPU that came up as renderD129 was never used.
+video: true
 webui: 'http://[HOST]:[PORT:32400]/web'
