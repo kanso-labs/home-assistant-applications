@@ -9,8 +9,13 @@ description:
   totalled in one currency. Wallos sends a notification before each payment, by
   email, push or webhook.
 image: 'ghcr.io/kanso-labs/home-assistant-application-wallos'
+# Wallos builds every address relative to the page, so ingress reaches
+# upstream's own nginx on port 80 with no URL base and nothing in front of it.
+ingress: true
+ingress_port: 80
 init: false
 name: Wallos
+panel_icon: 'mdi:credit-card-clock-outline'
 ports:
   80/tcp: 8282
 # The Configuration tab lists the options in the order the schema declares
@@ -34,4 +39,3 @@ schema:
 slug: wallos
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/wallos'
 version: '0.2.0' # x-release-please-version
-webui: 'http://[HOST]:[PORT:80]'
