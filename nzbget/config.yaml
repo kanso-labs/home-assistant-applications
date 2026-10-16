@@ -6,6 +6,9 @@ description:
   Usenet downloader with a web interface. NZBGet fetches from your news servers
   into shared storage, where the rest of the stack can pick it up.
 image: 'ghcr.io/kanso-labs/home-assistant-application-nzbget'
+# NZBGet answers on 6789 for ingress and the published port alike, see DOCS.md.
+ingress: true
+ingress_port: 6789
 init: false
 map:
   - read_only: false
@@ -15,9 +18,9 @@ map:
   - read_only: false
     type: share
 name: NZBGet
+panel_icon: 'mdi:download-network'
 ports:
   6789/tcp: 6789
 slug: nzbget
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/nzbget'
 version: '1.2.2' # x-release-please-version
-webui: 'http://[HOST]:[PORT:6789]'

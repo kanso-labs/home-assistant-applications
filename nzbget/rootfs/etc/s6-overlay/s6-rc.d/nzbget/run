@@ -24,6 +24,11 @@ if ! bashio::fs.file_exists "${config_file}"; then
   # Supervisor already captures stdout, and NZBGet's own log file is appended
   # to forever. Seeded rather than forced, so it can be turned back on.
   sed -i "s|^WriteLog=.*|WriteLog=none|" "${config_file}"
+  # NZBGet asks for its password through the browser's own dialog unless told
+  # to draw a sign-in form in the page, which reads better inside Home
+  # Assistant's ingress frame. Only the challenge changes: the password check is
+  # the same, and Sonarr and the rest send theirs without being asked.
+  sed -i "s|^FormAuth=.*|FormAuth=yes|" "${config_file}"
 
   bashio::log.notice "Web interface username: nzbget"
   bashio::log.notice "Web interface password: ${password}"
