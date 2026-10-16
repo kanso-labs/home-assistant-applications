@@ -27,7 +27,7 @@ database schema has diverged from the one Bazarr writes.
 
 1. Add this repository to your Home Assistant instance.
 2. Install the "Bazarr+" application.
-3. Start it, then open the web interface on port 6767.
+3. Start it, then open it from the sidebar, or on port 6767.
 4. Work through the setup wizard: Sonarr and Radarr, then languages and
    providers.
 
@@ -77,6 +77,40 @@ To translate automatically, set **Translate From** on a language in a language
 profile — Portuguese (Brazil) from English, say. When that language is missing
 and a subtitle in the source language exists, Bazarr+'s search for missing
 subtitles translates it rather than looking for it on the providers.
+
+## Ingress
+
+Bazarr+ is served through Home Assistant's ingress, so it opens inside Home
+Assistant and comes along wherever Home Assistant does, Home Assistant Cloud
+included. Turn on **Show in sidebar** on the application's page to keep it a
+click away. Ingress is authenticated by Home Assistant, which lets only
+administrators in.
+
+The published port keeps working alongside it, for the browser at home and for
+everything that calls Bazarr+'s API, which needs no change.
+
+Both reach Bazarr+ through nginx. Ingress puts Bazarr+ under a path of
+Supervisor's choosing, `/api/hassio_ingress/<token>`, and Bazarr+ writes one URL
+base into every page it serves, so the application makes that path the URL base
+and moves Bazarr+ itself to port 16767. nginx answers on 6767 and puts the path
+back onto whatever arrives without it.
+
+Four things follow from that:
+
+- **Ingress starts working on the second start.** Bazarr+ keeps its URL base in
+  `config.yaml`, which a first start has not written yet, and the application
+  leaves a new install's file for Bazarr+ to create. Until then Bazarr+ serves
+  at the root, ingress included.
+- **Bazarr+'s addresses carry the ingress path**, on the published port too. A
+  page opened without it, from an old bookmark say, is redirected to the same
+  page under it. The token is kept for as long as the application is installed,
+  and a new one comes with a reinstall.
+- **Base URL and Port under Settings → General are set by the application.** The
+  base is written back into `config.yaml` on every start, and the port Bazarr+
+  listens on is passed to it on the command line, which wins over the one saved.
+- **Port 16767 answers on the internal network too**, because Bazarr+'s own
+  frontend server always listens on every address. It is not published, and it
+  serves the same Bazarr+ as 6767.
 
 ## Storage
 

@@ -16,5 +16,6 @@ cd /app/bazarr || bashio::exit.nok 'The application directory is missing'
 # The same command the image's own entrypoint ends on, minus the privilege
 # drop. --no-update is upstream's switch for a container-managed install: the
 # interface will report a newer version and refuse to install it, which is what
-# makes this packaging the only route to one.
-exec python docker/supervisor.py --no-update --config /config
+# makes this packaging the only route to one. --port moves Bazarr+ off 6767,
+# where nginx answers in its place; it wins over general.port in config.yaml.
+exec python docker/supervisor.py --no-update --config /config --port 16767
