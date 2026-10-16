@@ -54,7 +54,7 @@ one's `DOCS.md` covers its options, what it maps, and how it is backed up.
 | [Plex Media Server](./plex-media-server)             | Serves recorded media, live TV, online news and podcasts to the Plex apps.                                               | Port 32400         |
 | [Profilarr](./profilarr)                             | Builds quality profiles and custom formats, tracks them against curated databases, and syncs them to every arr instance. | Port 6868          |
 | [Prowlarr](./prowlarr)                               | Indexer manager, pushing one set of definitions out to the whole arr stack.                                              | Ingress, port 9696 |
-| [qBittorrent](./qbittorrent)                         | BitTorrent client, downloading into shared storage for the rest of the stack.                                            | Port 8080          |
+| [qBittorrent](./qbittorrent)                         | BitTorrent client, downloading into shared storage for the rest of the stack.                                            | Ingress, port 8080 |
 | [Radarr](./radarr)                                   | Movie collection manager that grabs, sorts and renames what your indexers turn up.                                       | Ingress, port 7878 |
 | [Seadexerr](./seadexerr)                             | Prowlarr indexer offering the SeaDex release of each anime, built on your Home Assistant.                                | None               |
 | [Seerr](./seerr)                                     | Request and discovery front end for Jellyfin, Plex and Emby, feeding Radarr and Sonarr.                                  | Port 5055          |

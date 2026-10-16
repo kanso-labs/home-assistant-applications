@@ -15,9 +15,12 @@ ARG BUILD_VERSION=dev
 # renovate: datasource=apk depName=qbittorrent-nox registryUrl=https://dl-cdn.alpinelinux.org/alpine?branch=v3.24&components=community&arch=x86_64
 ARG QBITTORRENT_VERSION=5.2.1-r0
 
-# Install requirements for application
+# Install requirements for application. nginx is what ingress reaches; the
+# configuration its package ships is replaced by the one in rootfs/, which
+# serves nothing else.
 RUN \
   apk add --no-cache \
+    nginx \
     "qbittorrent-nox=${QBITTORRENT_VERSION}"
 
 # Copy root filesystem
