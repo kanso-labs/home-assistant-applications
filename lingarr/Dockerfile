@@ -27,12 +27,15 @@ ARG BASHIO_VERSION=0.19.0
 RUN \
   `# The ASP.NET runtime image is the slim Debian one, which carries neither` \
   `# curl nor ca-certificates. bashio needs curl and jq at run time, so those` \
-  `# two stay installed rather than being purged with the rest.` \
+  `# two stay installed rather than being purged with the rest. nginx is what` \
+  `# ingress reaches, on a port of its own; the configuration its package` \
+  `# ships is replaced by the one in rootfs/, which serves nothing else.` \
   apt-get update \
   && apt-get install --assume-yes --no-install-recommends \
     ca-certificates \
     curl \
     jq \
+    nginx \
     xz-utils \
   && rm -f -r /var/lib/apt/lists/* \
   \
