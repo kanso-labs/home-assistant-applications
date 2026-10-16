@@ -4,7 +4,7 @@
 
 1. Add this repository to your Home Assistant instance.
 2. Install the "qBittorrent" application.
-3. Start it, then open the web interface on port 8080.
+3. Start it, then open it from the sidebar, or on port 8080.
 
 ## First login
 
@@ -40,6 +40,42 @@ here:
 Both are only written when no configuration exists, so anything you change
 afterwards is left alone.
 
+## Ingress
+
+qBittorrent is served through Home Assistant's ingress, so it opens inside Home
+Assistant and comes along wherever Home Assistant does, Home Assistant Cloud
+included. Turn on **Show in sidebar** on the application's page to keep it a
+click away. Ingress is authenticated by Home Assistant, which lets only
+administrators in.
+
+The published port keeps working alongside it, for the browser at home and for
+everything that calls qBittorrent's API: Radarr, Sonarr and the rest reach
+qBittorrent directly, as before, and need no change.
+
+qBittorrent names every address in its pages relatively, so it needs no URL base
+under ingress. Ingress still reaches it through nginx, on a port of its own that
+only Supervisor may call, which makes two adjustments on the way and changes
+none of your settings. qBittorrent turns away a request that names a port other
+than its own, and ingress names Home Assistant's, so nginx gives it
+qBittorrent's own address. And qBittorrent's page expects to be the whole
+window, so nginx tells it that it is, inside Home Assistant's frame too.
+qBittorrent's own protections, against requests from other sites and against
+being framed by them, stay on.
+
+Three things follow from that:
+
+- **qBittorrent sees ingress as coming from the loopback address.** It still
+  asks for its own password there. Turning on **Bypass authentication for
+  clients on localhost** under Tools → Options → WebUI skips that for ingress
+  alone, since Home Assistant has already asked for one, and the published port
+  keeps asking.
+- **Failed sign-ins through ingress all count against that one address.** Too
+  many wrong passwords there bans ingress as a whole for the ban duration set
+  under Tools → Options → WebUI, while the published port keeps working.
+  Restarting the application lifts the ban.
+- **Phone apps cannot use ingress**, because it needs a Home Assistant session
+  in a browser. They still work on the published port.
+
 ## Storage
 
 | Path      | Access     | Holds                                    |
@@ -60,7 +96,7 @@ a second copy.
 | ---------- | ----------------------------------------------------------- |
 | `6881/tcp` | Peer connections. Forward this on your router to seed well. |
 | `6881/udp` | Peer connections and DHT.                                   |
-| `8080/tcp` | Web interface.                                              |
+| `8080/tcp` | Web interface and API, which Radarr and Sonarr call.        |
 
 ## Backups
 

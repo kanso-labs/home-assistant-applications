@@ -6,6 +6,9 @@ description:
   BitTorrent client with a web interface. qBittorrent downloads torrents into
   shared storage, where the rest of the stack can pick them up.
 image: 'ghcr.io/kanso-labs/home-assistant-application-qbittorrent'
+# nginx answers ingress on 8099, the default ingress_port, and hands it to
+# qBittorrent, see DOCS.md.
+ingress: true
 init: false
 map:
   - read_only: false
@@ -15,6 +18,7 @@ map:
   - read_only: false
     type: share
 name: qBittorrent
+panel_icon: 'mdi:progress-download'
 ports:
   6881/tcp: 6881
   6881/udp: 6881
@@ -22,4 +26,3 @@ ports:
 slug: qbittorrent
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/qbittorrent'
 version: '1.2.1' # x-release-please-version
-webui: 'http://[HOST]:[PORT:8080]'
