@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.2](https://github.com/kanso-labs/home-assistant-applications/compare/prowlarr-v1.3.1...prowlarr-v1.3.2) (2026-10-16)
+
+
+### Bug Fixes
+
+* **prowlarr:** keep the ingress path out of the home address ([#680](https://github.com/kanso-labs/home-assistant-applications/issues/680)) ([bdf4fd5](https://github.com/kanso-labs/home-assistant-applications/commit/bdf4fd58fca30a8ffedd464644a31a2344c43b77))
+
 ## [1.3.1](https://github.com/kanso-labs/home-assistant-applications/compare/prowlarr-v1.3.0...prowlarr-v1.3.1) (2026-10-16)
 
 
