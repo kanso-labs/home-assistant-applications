@@ -58,7 +58,7 @@ one's `DOCS.md` covers its options, what it maps, and how it is backed up.
 | [Radarr](./radarr)                                   | Movie collection manager that grabs, sorts and renames what your indexers turn up.                                       | Port 7878          |
 | [Seadexerr](./seadexerr)                             | Prowlarr indexer offering the SeaDex release of each anime, built on your Home Assistant.                                | None               |
 | [Seerr](./seerr)                                     | Request and discovery front end for Jellyfin, Plex and Emby, feeding Radarr and Sonarr.                                  | Port 5055          |
-| [Sonarr](./sonarr)                                   | Smart PVR that follows the shows you watch and grabs new episodes as they appear.                                        | Port 8989          |
+| [Sonarr](./sonarr)                                   | Smart PVR that follows the shows you watch and grabs new episodes as they appear.                                        | Ingress, port 8989 |
 | [Tdarr](./tdarr)                                     | Runs your library through flows of FFmpeg, HandBrake and MKVToolNix steps, built on your Home Assistant.                 | Port 8265          |
 | [Traefik](./traefik)                                 | Reverse proxy that sends each request to the application its host name belongs to, routed from the Configuration tab.    | Ingress            |
 | [Unpackerr](./unpackerr)                             | Extracts completed downloads in place, then cleans up once the arr applications import.                                  | None               |

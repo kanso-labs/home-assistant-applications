@@ -5,6 +5,18 @@
 # Runs Sonarr
 # ==============================================================================
 
+# Ingress serves Sonarr under a path Supervisor chooses, and Sonarr writes one
+# URL base into every page it serves. So the ingress path is that base, and
+# nginx answers on 8989 in Sonarr's place, adding the path to whatever arrives
+# without it. The Dockerfile keeps Sonarr itself on the loopback address. These
+# variables win over config.xml without rewriting it, so whatever URL base is
+# saved there comes back if the application ever runs without them.
+ingress_entry="$(bashio::addon.ingress_entry)"
+if ! bashio::var.has_value "${ingress_entry}" || [[ "${ingress_entry}" == 'null' ]]; then
+  ingress_entry=''
+fi
+export Sonarr__Server__UrlBase="${ingress_entry%/}"
+
 bashio::log.info 'Starting Sonarr...'
 
 exec /opt/bin/Sonarr -nobrowser -data=/config
