@@ -7,6 +7,9 @@ description:
   library is missing and translates them with LibreTranslate, DeepL or an AI
   service of your choosing.
 image: 'ghcr.io/kanso-labs/home-assistant-application-lingarr'
+# Lingarr answers on 9876 for ingress and the published port alike, see DOCS.md.
+ingress: true
+ingress_port: 9876
 init: false
 map:
   - read_only: false
@@ -22,6 +25,7 @@ name: Lingarr
 options:
   job_timeout_minutes: 30
   max_concurrent_jobs: 1
+panel_icon: 'mdi:translate'
 ports:
   9876/tcp: 9876
 schema:
@@ -30,4 +34,3 @@ schema:
 slug: lingarr
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/lingarr'
 version: '1.2.0' # x-release-please-version
-webui: 'http://[HOST]:[PORT:9876]'
