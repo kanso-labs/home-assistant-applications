@@ -16,6 +16,18 @@ if bashio::config.true 'ipv4_only'; then
   bashio::log.info 'Connecting over IPv4 only'
 fi
 
+# Ingress serves Prowlarr under a path Supervisor chooses, and Prowlarr writes one
+# URL base into every page it serves. So the ingress path is that base, and
+# nginx answers on 9696 in Prowlarr's place, adding the path to whatever arrives
+# without it. The Dockerfile keeps Prowlarr itself on the loopback address. These
+# variables win over config.xml without rewriting it, so whatever URL base is
+# saved there comes back if the application ever runs without them.
+ingress_entry="$(bashio::addon.ingress_entry)"
+if ! bashio::var.has_value "${ingress_entry}" || [[ "${ingress_entry}" == 'null' ]]; then
+  ingress_entry=''
+fi
+export Prowlarr__Server__UrlBase="${ingress_entry%/}"
+
 bashio::log.info 'Starting Prowlarr...'
 
 exec /opt/bin/Prowlarr -nobrowser -data=/config

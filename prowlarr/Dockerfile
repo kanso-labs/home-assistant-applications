@@ -12,10 +12,19 @@ ARG PROWLARR_VERSION=2.6.5.5623
 
 ENV XDG_CONFIG_HOME="/config/xdg"
 
-# Install requirements for application
+# Prowlarr listens on the loopback address alone, and nginx answers on 9696 in its
+# place, so that ingress and the published port both reach it. Environment
+# variables win over the address and port saved in config.xml.
+ENV Prowlarr__Server__BindAddress="127.0.0.1"
+ENV Prowlarr__Server__Port="19696"
+
+# Install requirements for application. nginx is what ingress and the published
+# port reach; the configuration its package ships is replaced by the one in
+# rootfs/, which serves nothing else.
 RUN \
   apk add --no-cache \
     icu-libs \
+    nginx \
     sqlite-libs \
     xmlstarlet \
   \

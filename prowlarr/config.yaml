@@ -7,11 +7,15 @@ description:
   definitions in one place and pushes them out to Radarr, Sonarr and the rest,
   so each one does not have to be configured by hand.
 image: 'ghcr.io/kanso-labs/home-assistant-application-prowlarr'
+# nginx answers on 9696 for ingress and the published port alike, see DOCS.md.
+ingress: true
+ingress_port: 9696
 init: false
 map:
   - read_only: false
     type: app_config
 name: Prowlarr
+panel_icon: 'mdi:magnify'
 options:
   ipv4_only: false
 ports:
@@ -21,4 +25,3 @@ schema:
 slug: prowlarr
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/prowlarr'
 version: '1.2.0' # x-release-please-version
-webui: 'http://[HOST]:[PORT:9696]'
