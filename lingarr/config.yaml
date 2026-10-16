@@ -7,9 +7,9 @@ description:
   library is missing and translates them with LibreTranslate, DeepL or an AI
   service of your choosing.
 image: 'ghcr.io/kanso-labs/home-assistant-application-lingarr'
-# Lingarr answers on 9876 for ingress and the published port alike, see DOCS.md.
+# nginx answers ingress on a port of its own, see DOCS.md.
 ingress: true
-ingress_port: 9876
+ingress_port: 9877
 init: false
 map:
   - read_only: false

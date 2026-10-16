@@ -73,27 +73,28 @@ included. Turn on **Show in sidebar** on the application's page to keep it a
 click away. Ingress is authenticated by Home Assistant, which lets only
 administrators in.
 
-The published port keeps working alongside it, for the browser at home and for
-everything that calls Lingarr's API. Radarr's and Sonarr's webhooks need no
-change.
+The published port is unchanged and keeps working alongside it, for the browser
+at home and for everything that calls Lingarr's API. Radarr's and Sonarr's
+webhooks need no change.
 
 Ingress puts Lingarr under a path of Supervisor's choosing,
 `/api/hassio_ingress/<token>`, and Lingarr builds every address in its pages
-from one base path, so the application makes that path the base. Lingarr serves
-requests with the path and without it alike, so nothing sits in front of it.
+from one base it writes into the page. nginx answers ingress on port 9877,
+inside the application only, and writes that path into the page as the base.
+Lingarr itself still serves at the root on 9876, so the published port shows
+Lingarr's own addresses, with no path, as it did before ingress.
 
 Three things follow from that:
 
-- **Lingarr's addresses carry the ingress path**, on the published port too. A
-  page opened without it, from an old bookmark say, opens as it did and then
-  moves to the same page under it. The token is kept for as long as the
-  application is installed, and a new one comes with a reinstall.
-- **The webhook addresses under Settings → Integrations are not the ones to
-  use.** Lingarr builds them from the address in the browser, so through ingress
-  they name Home Assistant, which Radarr and Sonarr cannot sign in to, and on
-  the published port they carry the ingress path, which a reinstall changes.
-  Give Radarr `http://<slug>:9876/api/webhook/radarr` and Sonarr
-  `http://<slug>:9876/api/webhook/sonarr` instead.
+- **A page bookmarked under the ingress path on the published port no longer
+  opens.** Lingarr answers it with a 404, as it would have before ingress; take
+  `/api/hassio_ingress/<token>` out of the address and it opens as before.
+- **Through ingress, the webhook addresses under Settings → Integrations are not
+  the ones to use.** Lingarr builds them from the address in the browser, so
+  there they name Home Assistant, which Radarr and Sonarr cannot sign in to. On
+  the published port they name Lingarr again. For Radarr and Sonarr installed
+  from this repository, give Radarr `http://<slug>:9876/api/webhook/radarr` and
+  Sonarr `http://<slug>:9876/api/webhook/sonarr`.
 - **Lingarr's own sign-in still applies under ingress**, if you turned it on
   when you set Lingarr up, because Lingarr has no way to trust the one Home
   Assistant has already asked for.
