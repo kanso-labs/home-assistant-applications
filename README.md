@@ -49,7 +49,7 @@ one's `DOCS.md` covers its options, what it maps, and how it is backed up.
 | [n8n](./n8n)                                         | Workflow and AI automation, built with the precision of code or the speed of drag and drop.                              | Ingress            |
 | [NAT Gateway](./nat-gateway)                         | Shares this host's network connection with a device plugged straight into a spare Ethernet port, such as a NAS.          | None               |
 | [Nginx Proxy Manager](./nginx-proxy-manager)         | Reverse proxy with a web interface and free Let's Encrypt certificates for the services behind it.                       | Port 81            |
-| [Notifiarr](./notifiarr)                             | Unified client for Notifiarr.com, reporting on the stack and letting Discord drive it.                                   | Port 5454          |
+| [Notifiarr](./notifiarr)                             | Unified client for Notifiarr.com, reporting on the stack and letting Discord drive it.                                   | Ingress, port 5454 |
 | [NZBGet](./nzbget)                                   | Usenet downloader, fetching from your news servers into shared storage.                                                  | Port 6789          |
 | [Plex Media Server](./plex-media-server)             | Serves recorded media, live TV, online news and podcasts to the Plex apps.                                               | Port 32400         |
 | [Profilarr](./profilarr)                             | Builds quality profiles and custom formats, tracks them against curated databases, and syncs them to every arr instance. | Port 6868          |
