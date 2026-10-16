@@ -2,8 +2,9 @@
 # shellcheck shell=bash
 # ==============================================================================
 # Kanso Labs Home Assistant Application: Notifiarr
-# Runs nginx, which answers on 5454 for Notifiarr and puts the ingress path back
-# onto requests that arrive without it
+# Runs nginx, which answers on 5454 for Notifiarr, puts the ingress path back
+# onto requests that arrive without it, and takes it out of what goes back to
+# the published port
 # ==============================================================================
 readonly servers_dir='/etc/nginx/servers'
 
