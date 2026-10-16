@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0](https://github.com/kanso-labs/home-assistant-applications/compare/sonarr-v1.1.3...sonarr-v1.2.0) (2026-10-16)
+
+
+### Features
+
+* **sonarr:** open Sonarr through ingress ([#657](https://github.com/kanso-labs/home-assistant-applications/issues/657)) ([5c27184](https://github.com/kanso-labs/home-assistant-applications/commit/5c27184c40854b3e22bfb6111223d5376ca648eb))
+
 ## [1.1.3](https://github.com/kanso-labs/home-assistant-applications/compare/sonarr-v1.1.2...sonarr-v1.1.3) (2026-09-23)
 
 

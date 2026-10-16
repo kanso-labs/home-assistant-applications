@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.4](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.5.3...n8n-v1.5.4) (2026-10-16)
+
+
+### Bug Fixes
+
+* update dependency n8n to v2.43.7 ([#656](https://github.com/kanso-labs/home-assistant-applications/issues/656)) ([bd07136](https://github.com/kanso-labs/home-assistant-applications/commit/bd071364ea5715dc834835dec37e718fd12ae062))
+
+
+### Upstream changes
+
+* **v2.43.7:** [**core:** Suspend in-flight production executions at worker shutdown](https://github.com/n8n-io/n8n/issues/40944) ([bd07136](https://github.com/kanso-labs/home-assistant-applications/commit/bd071364ea5715dc834835dec37e718fd12ae062))
+
 ## [1.5.3](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.5.2...n8n-v1.5.3) (2026-10-15)
 
 

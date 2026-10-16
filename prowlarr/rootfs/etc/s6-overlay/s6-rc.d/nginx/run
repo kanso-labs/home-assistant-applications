@@ -12,7 +12,7 @@ rm -f "${servers_dir}"/*.conf
 
 # Supervisor reports the path as /api/hassio_ingress/<token>, and reports null
 # when ingress is unavailable. Prowlarr's own run script reads the same value.
-ingress_entry="$(bashio::app.ingress_entry)"
+ingress_entry="$(bashio::addon.ingress_entry)"
 if ! bashio::var.has_value "${ingress_entry}" || [[ "${ingress_entry}" == 'null' ]]; then
   ingress_entry=''
 fi

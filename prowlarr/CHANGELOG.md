@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0](https://github.com/kanso-labs/home-assistant-applications/compare/prowlarr-v1.2.0...prowlarr-v1.3.0) (2026-10-16)
+
+
+### Features
+
+* **prowlarr:** open Prowlarr through ingress ([#659](https://github.com/kanso-labs/home-assistant-applications/issues/659)) ([bf0748d](https://github.com/kanso-labs/home-assistant-applications/commit/bf0748d59a8313b57aa3677f40e5b231252475c7))
+
 ## [1.2.0](https://github.com/kanso-labs/home-assistant-applications/compare/prowlarr-v1.1.3...prowlarr-v1.2.0) (2026-09-28)
 
 

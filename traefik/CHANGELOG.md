@@ -6,6 +6,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.3](https://github.com/kanso-labs/home-assistant-applications/compare/traefik-v1.0.2...traefik-v1.0.3) (2026-10-16)
+
+
+### Bug Fixes
+
+* update dependency traefik/traefik to v3.7.15 ([#654](https://github.com/kanso-labs/home-assistant-applications/issues/654)) ([10b2b0d](https://github.com/kanso-labs/home-assistant-applications/commit/10b2b0d29d57febe095b12c125c5a5a3e793397a))
+
+
+### Upstream changes
+
+* **v3.7.15:** [**fastproxy** Add a non-regression test for CR/LF in FastProxy request headers ( mturac)](https://github.com/traefik/traefik/pull/13642) ([10b2b0d](https://github.com/kanso-labs/home-assistant-applications/commit/10b2b0d29d57febe095b12c125c5a5a3e793397a))
+* **v3.7.15:** [**fastproxy** Fix concurrent buffer reads on upgraded connections ( juliens)](https://github.com/traefik/traefik/pull/14023) ([10b2b0d](https://github.com/kanso-labs/home-assistant-applications/commit/10b2b0d29d57febe095b12c125c5a5a3e793397a))
+* **v3.7.15:** [**k8s** Document the safeNaming impact on cross-provider references ( lazerg)](https://github.com/traefik/traefik/pull/13768) ([10b2b0d](https://github.com/kanso-labs/home-assistant-applications/commit/10b2b0d29d57febe095b12c125c5a5a3e793397a))
+* **v3.7.15:** [**k8s/crd** Allow observability metadata on child routers ( bunnysayzz)](https://github.com/traefik/traefik/pull/14018) ([10b2b0d](https://github.com/kanso-labs/home-assistant-applications/commit/10b2b0d29d57febe095b12c125c5a5a3e793397a))
+* **v3.7.15:** [**k8s/crd** Fix broken Kubernetes CRD definitions links in CRD reference pages ( SatvikMishra08)](https://github.com/traefik/traefik/pull/14047) ([10b2b0d](https://github.com/kanso-labs/home-assistant-applications/commit/10b2b0d29d57febe095b12c125c5a5a3e793397a))
+* **v3.7.15:** [**k8s/gatewayapi** Bump sigs.k8s.io/gateway-api to v1.6.3 ( rtribotte)](https://github.com/traefik/traefik/pull/14017) ([10b2b0d](https://github.com/kanso-labs/home-assistant-applications/commit/10b2b0d29d57febe095b12c125c5a5a3e793397a))
+* **v3.7.15:** [**k8s/gatewayapi** Default HTTPRoute backend scheme to HTTP when no appProtocol ( Tyagiquamar)](https://github.com/traefik/traefik/pull/13935) ([10b2b0d](https://github.com/kanso-labs/home-assistant-applications/commit/10b2b0d29d57febe095b12c125c5a5a3e793397a))
+* **v3.7.15:** [**k8s/gatewayapi** Fix broken links in the Gateway API routing page ( Neffi42)](https://github.com/traefik/traefik/pull/14072) ([10b2b0d](https://github.com/kanso-labs/home-assistant-applications/commit/10b2b0d29d57febe095b12c125c5a5a3e793397a))
+* **v3.7.15:** [**k8s/ingress-nginx** Apply auth-tls client authentication to the whole host ( juliens)](https://github.com/traefik/traefik/pull/14057) ([10b2b0d](https://github.com/kanso-labs/home-assistant-applications/commit/10b2b0d29d57febe095b12c125c5a5a3e793397a))
+* **v3.7.15:** [**k8s/ingress-nginx** Fix cross-namespace check on shared auth-tls-secret TLS options ( juliens)](https://github.com/traefik/traefik/pull/14066) ([10b2b0d](https://github.com/kanso-labs/home-assistant-applications/commit/10b2b0d29d57febe095b12c125c5a5a3e793397a))
+* **v3.7.15:** [**security** Fix typo in the Request Path page ( SethFalco)](https://github.com/traefik/traefik/pull/14036) ([10b2b0d](https://github.com/kanso-labs/home-assistant-applications/commit/10b2b0d29d57febe095b12c125c5a5a3e793397a))
+* **v3.7.15:** [**server** Reject CONNECT method before reaching the muxer ( juliens)](https://github.com/traefik/traefik/pull/14050) ([10b2b0d](https://github.com/kanso-labs/home-assistant-applications/commit/10b2b0d29d57febe095b12c125c5a5a3e793397a))
+* **v3.7.15:** [**server** Reject CONNECT requests regardless of HTTP version ( juliens)](https://github.com/traefik/traefik/pull/14031) ([10b2b0d](https://github.com/kanso-labs/home-assistant-applications/commit/10b2b0d29d57febe095b12c125c5a5a3e793397a))
+* **v3.7.15:** [Add the documentation style guide to the Contributing section ( rachana5)](https://github.com/traefik/traefik/pull/14061) ([10b2b0d](https://github.com/kanso-labs/home-assistant-applications/commit/10b2b0d29d57febe095b12c125c5a5a3e793397a))
+* **v3.7.15:** [Bump golang.org/x/net to v0.60.0 ( kevinpollet)](https://github.com/traefik/traefik/pull/14048) ([10b2b0d](https://github.com/kanso-labs/home-assistant-applications/commit/10b2b0d29d57febe095b12c125c5a5a3e793397a))
+* **v3.7.15:** [Fix broken anchor links to Restrict the Scope of Service Discovery ( SatvikMishra08)](https://github.com/traefik/traefik/pull/14056) ([10b2b0d](https://github.com/kanso-labs/home-assistant-applications/commit/10b2b0d29d57febe095b12c125c5a5a3e793397a))
+* **v3.7.15:** [Remove redundant period in README ( mxmrnn)](https://github.com/traefik/traefik/pull/14068) ([10b2b0d](https://github.com/kanso-labs/home-assistant-applications/commit/10b2b0d29d57febe095b12c125c5a5a3e793397a))
+
 ## [1.0.2](https://github.com/kanso-labs/home-assistant-applications/compare/traefik-v1.0.1...traefik-v1.0.2) (2026-10-06)
 
 

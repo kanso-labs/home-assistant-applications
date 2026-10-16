@@ -11,7 +11,7 @@
 # without it. The Dockerfile keeps Radarr itself on the loopback address. These
 # variables win over config.xml without rewriting it, so whatever URL base is
 # saved there comes back if the application ever runs without them.
-ingress_entry="$(bashio::app.ingress_entry)"
+ingress_entry="$(bashio::addon.ingress_entry)"
 if ! bashio::var.has_value "${ingress_entry}" || [[ "${ingress_entry}" == 'null' ]]; then
   ingress_entry=''
 fi

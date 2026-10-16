@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0](https://github.com/kanso-labs/home-assistant-applications/compare/radarr-v1.1.3...radarr-v1.2.0) (2026-10-16)
+
+
+### Features
+
+* **radarr:** open Radarr through ingress ([#658](https://github.com/kanso-labs/home-assistant-applications/issues/658)) ([8274163](https://github.com/kanso-labs/home-assistant-applications/commit/82741637d12c3dc22c1d75bfea8bff812cd5c28b))
+
 ## [1.1.3](https://github.com/kanso-labs/home-assistant-applications/compare/radarr-v1.1.2...radarr-v1.1.3) (2026-09-23)
 
 
