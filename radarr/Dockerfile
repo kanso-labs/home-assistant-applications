@@ -12,10 +12,19 @@ ARG RADARR_VERSION=6.4.4.10685
 
 ENV XDG_CONFIG_HOME="/config/xdg"
 
-# Install requirements for application
+# Radarr listens on the loopback address alone, and nginx answers on 7878 in its
+# place, so that ingress and the published port both reach it. Environment
+# variables win over the address and port saved in config.xml.
+ENV Radarr__Server__BindAddress="127.0.0.1"
+ENV Radarr__Server__Port="17878"
+
+# Install requirements for application. nginx is what ingress and the published
+# port reach; the configuration its package ships is replaced by the one in
+# rootfs/, which serves nothing else.
 RUN \
   apk add --no-cache \
     icu-libs \
+    nginx \
     sqlite-libs \
     xmlstarlet \
   \

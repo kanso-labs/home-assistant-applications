@@ -1,0 +1,38 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Radarr
+# Runs nginx, which answers on 7878 for Radarr and puts the ingress path back
+# onto requests that arrive without it
+# ==============================================================================
+readonly servers_dir='/etc/nginx/servers'
+
+mkdir -p "${servers_dir}"
+rm -f "${servers_dir}"/*.conf
+
+# Supervisor reports the path as /api/hassio_ingress/<token>, and reports null
+# when ingress is unavailable. Radarr's own run script reads the same value.
+ingress_entry="$(bashio::addon.ingress_entry)"
+if ! bashio::var.has_value "${ingress_entry}" || [[ "${ingress_entry}" == 'null' ]]; then
+  ingress_entry=''
+fi
+ingress_entry="${ingress_entry%/}"
+
+# Supervisor gives the hassio network IPv6 addresses on some installs and not
+# others, and nginx will not start on an address family the container lacks.
+ipv6=false
+if [[ -s /proc/net/if_inet6 ]]; then
+  ipv6=true
+fi
+
+jq -n \
+  --arg ingress_entry "${ingress_entry}" \
+  --argjson ipv6 "${ipv6}" \
+  --argjson port 7878 \
+  --argjson upstream "${Radarr__Server__Port}" \
+  '{ingress_entry: $ingress_entry, ipv6: $ipv6, port: $port, upstream: $upstream}' \
+  | tempio \
+    -template /etc/nginx/templates/radarr.gtpl \
+    -out "${servers_dir}/radarr.conf"
+
+exec nginx
