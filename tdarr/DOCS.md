@@ -24,7 +24,7 @@ Tdarr means accepting
 
 1. Add this repository to your Home Assistant instance.
 2. Install the "Tdarr" application. Home Assistant builds it first.
-3. Start it, then open the web interface on port 8265.
+3. Start it, then open it from the sidebar, or on port 8265.
 4. Add a library: the folder to watch, under `/media` or `/share`, and the
    transcode cache, `/temp`.
 5. Build a flow, attach it to the library, and test it on a few files before
@@ -32,6 +32,38 @@ Tdarr means accepting
 
 **Test a flow on copies first.** Tdarr replaces the files it processes, and a
 flow that removes the wrong tracks removes them from every file it reaches.
+
+## Ingress
+
+Tdarr is served through Home Assistant's ingress, so it opens inside Home
+Assistant and comes along wherever Home Assistant does, Home Assistant Cloud
+included. Turn on **Show in sidebar** on the application's page to keep it a
+click away. Ingress is authenticated by Home Assistant, which lets only
+administrators in.
+
+Ingress reaches Tdarr on port 8265 inside Home Assistant, so it works whether
+that port is open on the host or closed. Where it is open, it keeps working
+alongside ingress, for the browser at home, a reverse proxy in front of Tdarr,
+and anything that calls Tdarr's API.
+
+Nothing stands between ingress and Tdarr. Tdarr's page takes the address it was
+opened at as its base, and builds its scripts, its API calls and its live
+updates on that, so it works under the path ingress puts it at as it does at the
+root of the port. Its pages are told apart by what follows the `#` in the
+address, which never reaches the server.
+
+Two things are worth knowing:
+
+- **Tdarr's own sign-in comes on top of Home Assistant's** while it is on.
+  Ingress shows Tdarr's sign-in page the first time, and the browser keeps the
+  session after that, separately for each address Home Assistant is opened at.
+  Ingress alone is reason enough to turn it off, provided port 8265 is closed;
+  see Configuration.
+- **Two of Tdarr's buttons leave ingress**, because Tdarr wrote their addresses
+  from the root of the host rather than from the page: the process memory figure
+  on the home page, and **View Flow** under a library's transcode options. Home
+  Assistant answers those instead of Tdarr. Go to the same page through Tdarr's
+  menu instead.
 
 ## Configuration
 
@@ -41,8 +73,9 @@ flow that removes the wrong tracks removes them from every file it reaches.
 | File permission mask | The permissions processed files land with. 022 by default; 002 for a group |
 
 Turn the sign-in off only when something else stands in front of Tdarr, such as
-an authenticating reverse proxy, and close port 8265 when you do. With the
-sign-in off and the port open, anyone who can reach it can rewrite your library.
+ingress or an authenticating reverse proxy, and close port 8265 when you do.
+With the sign-in off and the port open, anyone who can reach it can rewrite your
+library.
 
 The internal node authenticates with an API key the application generates on
 first start and keeps in its configuration directory, so it keeps working
