@@ -27,18 +27,18 @@ change.
 Both reach Radarr through nginx. Ingress puts Radarr under a path of
 Supervisor's choosing, `/api/hassio_ingress/<token>`, and Radarr writes one URL
 base into every page it serves, so the application makes that path the URL base
-and keeps Radarr itself on the loopback address. nginx answers on 7878 and puts
-the path back onto whatever arrives without it.
+and keeps Radarr itself on the loopback address. nginx answers on 7878, puts the
+path back onto whatever arrives without it, and takes it out again of whatever
+goes back to the published port.
 
 Three things follow from that:
 
-- **Radarr's addresses carry the ingress path**, on the published port too. A
-  page opened without it, from an old bookmark say, is redirected to the same
-  page under it. The token is kept for as long as the application is installed,
-  and a new one comes with a reinstall.
+- **The published port shows Radarr's addresses without the ingress path**, as
+  it did before ingress. A page opened there under the path, from a bookmark
+  made while it showed, is sent to the same page without it.
 - **URL Base, Port and Bind Address under Settings → General are set by the
-  application** and changing them there has no effect. The values saved in
-  `config.xml` are left as they were.
+  application** and changing them there has no effect. URL Base shows empty on
+  the published port and the ingress path through ingress.
 - **Radarr sees the address nginx was called from**, the same one it saw before
   nginx was in front of it, so "Disabled for Local Addresses" decides as it did.
   Supervisor's own address is local, which is why ingress opens without Radarr's
