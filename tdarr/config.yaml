@@ -14,6 +14,14 @@ description:
   MKVToolNix steps, from remuxing and track cleanup to transcoding and health
   checks. Built on your Home Assistant rather than downloaded, because Tdarr's
   licence does not allow it to be redistributed.
+# Tdarr builds every address from the one its page was loaded at, so ingress
+# reaches it on its own port with nothing in between, see DOCS.md.
+ingress: true
+ingress_port: 8265
+# Supervisor reads a request whole before passing it on, and refuses one over
+# 16 MiB, unless it streams them. Uploading media into a library from Tdarr's
+# Libraries page sends files far larger than that.
+ingress_stream: true
 init: false
 map:
   - read_only: false
@@ -28,6 +36,7 @@ name: Tdarr
 options:
   auth: true
   umask: '022'
+panel_icon: 'mdi:movie-cog'
 ports:
   8265/tcp: 8265
   8266/tcp: null
@@ -39,4 +48,3 @@ schema:
 slug: tdarr
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/tdarr'
 version: '0.2.1' # x-release-please-version
-webui: 'http://[HOST]:[PORT:8265]'
