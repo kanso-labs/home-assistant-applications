@@ -25,7 +25,7 @@ on:
   # push. This is that lever.
   #
   # It matters more here than elsewhere: one release pull request carries every
-  # application, so a stuck one holds up all thirteen rather than one package.
+  # application, so a stuck one holds up all of them rather than one package.
   workflow_dispatch:
 
 # Every release merge pushes main, and every push starts a run. Five auto-merges
