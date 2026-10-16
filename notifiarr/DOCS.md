@@ -54,21 +54,23 @@ Both reach Notifiarr through nginx. Ingress puts Notifiarr under a path of
 Supervisor's choosing, `/api/hassio_ingress/<token>`, and Notifiarr's web
 interface builds every address from one URL base, so the application makes that
 path the URL base and keeps Notifiarr itself on the loopback address. nginx
-answers on 5454 and puts the path back onto whatever arrives without it.
+answers on 5454, puts the path back onto whatever arrives without it, and takes
+it out again of whatever goes back to the published port.
 
 Four things follow from that:
 
-- **The web interface's addresses carry the ingress path**, on the published
-  port too. A page opened without it, from an old bookmark say, is redirected to
-  the same page under it. The token is kept for as long as the application is
-  installed, and a new one comes with a reinstall.
+- **The published port shows the web interface's addresses without the ingress
+  path**, as it did before ingress. A page opened there under the path, from a
+  bookmark made while it showed, is sent to the same page without it.
 - **Bind Address and URL Base under Configuration → Network are set by the
   application**, and changing them there has no effect. Saving the configuration
   writes the application's values into `notifiarr.conf`, as it does every other
-  setting, and the application sets them again on every start.
+  setting, and the application sets them again on every start. URL Base shows
+  `/` on the published port and the ingress path through ingress.
 - **The webhook address on the Plex page is built from the page it is shown
-  on**, so under ingress it names Home Assistant, which Plex cannot use. Point
-  Plex at `http://<host>:5454/plex?token=<token>` instead, as before.
+  on**, so under ingress it names Home Assistant, which Plex cannot use. Take it
+  from the page on the published port instead, or point Plex at
+  `http://<host>:5454/plex?token=<token>`, as before.
 - **Notifiarr sees every request as coming from nginx**, at 127.0.0.1, so its
   HTTP log shows that address rather than the client's, and the networks under
   Upstreams no longer match a proxy in front of the port. Do not add the
