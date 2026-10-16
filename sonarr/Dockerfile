@@ -12,10 +12,19 @@ ARG SONARR_VERSION=4.0.20.3014
 
 ENV XDG_CONFIG_HOME="/config/xdg"
 
-# Install requirements for application
+# Sonarr listens on the loopback address alone, and nginx answers on 8989 in its
+# place, so that ingress and the published port both reach it. Environment
+# variables win over the address and port saved in config.xml.
+ENV Sonarr__Server__BindAddress="127.0.0.1"
+ENV Sonarr__Server__Port="18989"
+
+# Install requirements for application. nginx is what ingress and the published
+# port reach; the configuration its package ships is replaced by the one in
+# rootfs/, which serves nothing else.
 RUN \
   apk add --no-cache \
     icu-libs \
+    nginx \
     sqlite-libs \
     xmlstarlet \
   \
