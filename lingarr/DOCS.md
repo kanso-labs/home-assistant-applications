@@ -4,7 +4,7 @@
 
 1. Add this repository to your Home Assistant instance.
 2. Install the "Lingarr" application.
-3. Start it, then open the web interface on port 9876.
+3. Start it, then open it from the sidebar, or on port 9876.
 
 ## Configuration
 
@@ -64,6 +64,39 @@ Each is configured in the web interface and most need an API key you supply.
 
 Schedules and every timestamp in the web interface follow the Home Assistant
 system time zone, which Supervisor passes to the application.
+
+## Ingress
+
+Lingarr is served through Home Assistant's ingress, so it opens inside Home
+Assistant and comes along wherever Home Assistant does, Home Assistant Cloud
+included. Turn on **Show in sidebar** on the application's page to keep it a
+click away. Ingress is authenticated by Home Assistant, which lets only
+administrators in.
+
+The published port keeps working alongside it, for the browser at home and for
+everything that calls Lingarr's API. Radarr's and Sonarr's webhooks need no
+change.
+
+Ingress puts Lingarr under a path of Supervisor's choosing,
+`/api/hassio_ingress/<token>`, and Lingarr builds every address in its pages
+from one base path, so the application makes that path the base. Lingarr serves
+requests with the path and without it alike, so nothing sits in front of it.
+
+Three things follow from that:
+
+- **Lingarr's addresses carry the ingress path**, on the published port too. A
+  page opened without it, from an old bookmark say, opens as it did and then
+  moves to the same page under it. The token is kept for as long as the
+  application is installed, and a new one comes with a reinstall.
+- **The webhook addresses under Settings → Integrations are not the ones to
+  use.** Lingarr builds them from the address in the browser, so through ingress
+  they name Home Assistant, which Radarr and Sonarr cannot sign in to, and on
+  the published port they carry the ingress path, which a reinstall changes.
+  Give Radarr `http://<slug>:9876/api/webhook/radarr` and Sonarr
+  `http://<slug>:9876/api/webhook/sonarr` instead.
+- **Lingarr's own sign-in still applies under ingress**, if you turned it on
+  when you set Lingarr up, because Lingarr has no way to trust the one Home
+  Assistant has already asked for.
 
 ## Storage
 

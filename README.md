@@ -44,7 +44,7 @@ one's `DOCS.md` covers its options, what it maps, and how it is backed up.
 | [Immich](./immich)                                   | Backs up the photos and videos on your phones, grouping faces and finding photos by what is in them.                     | Port 2283          |
 | [Immich Machine Learning](./immich-machine-learning) | Face recognition and smart search for Immich, on an Intel GPU through OpenVINO.                                          | None               |
 | [Immich Power Tools](./immich-power-tools)           | Bulk tools for Immich: merging people, filling in missing locations and finding albums to make.                          | Port 3000          |
-| [Lingarr](./lingarr)                                 | Translates the subtitles your library is missing, through LibreTranslate, DeepL or an AI service.                        | Port 9876          |
+| [Lingarr](./lingarr)                                 | Translates the subtitles your library is missing, through LibreTranslate, DeepL or an AI service.                        | Ingress, port 9876 |
 | [Muxarr](./muxarr)                                   | Strips unwanted audio and subtitle tracks from your media, remuxing rather than re-encoding.                             | Port 8183          |
 | [n8n](./n8n)                                         | Workflow and AI automation, built with the precision of code or the speed of drag and drop.                              | Ingress            |
 | [NAT Gateway](./nat-gateway)                         | Shares this host's network connection with a device plugged straight into a spare Ethernet port, such as a NAS.          | None               |

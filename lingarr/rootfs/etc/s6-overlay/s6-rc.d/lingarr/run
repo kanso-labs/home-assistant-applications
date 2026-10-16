@@ -10,6 +10,20 @@
 # is what overrides it; config.yaml is what publishes the result.
 export ASPNETCORE_URLS='http://+:9876'
 
+# Ingress serves Lingarr under a path Supervisor chooses, and Lingarr names one
+# base in a <base> tag on its page, which its scripts build every address from:
+# the API, the router and the live updates. So the ingress path is that base.
+# Lingarr strips the base from requests that carry it and serves those that do
+# not as they are, so this needs nothing in front of it: ingress requests arrive
+# with the path already stripped, a browser on the published port asks for the
+# prefixed addresses the page names, and Radarr's and Sonarr's webhooks call the
+# API without the path, as they always have.
+ingress_entry="$(bashio::app.ingress_entry)"
+if ! bashio::var.has_value "${ingress_entry}" || [[ "${ingress_entry}" == 'null' ]]; then
+  ingress_entry=''
+fi
+export BASE_PATH="${ingress_entry%/}"
+
 # Lingarr expects MySQL and a second container by default. SQLite needs
 # neither, and is what every other database-backed application here uses.
 export DB_CONNECTION='sqlite'
