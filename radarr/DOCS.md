@@ -4,13 +4,48 @@
 
 1. Add this repository to your Home Assistant instance.
 2. Install the "Radarr" application.
-3. Start it, then open the web interface on port 7878.
+3. Start it, then open it from the sidebar, or on port 7878.
 
 ## Configuration
 
 Radarr has no application options. Everything is configured from its own web
 interface, and the settings live in the application's configuration directory so
 they survive restarts and updates.
+
+## Ingress
+
+Radarr is served through Home Assistant's ingress, so it opens inside Home
+Assistant and comes along wherever Home Assistant does, Home Assistant Cloud
+included. Turn on **Show in sidebar** on the application's page to keep it a
+click away. Ingress is authenticated by Home Assistant, which lets only
+administrators in.
+
+The published port keeps working alongside it, for the browser at home and for
+everything that calls Radarr's API: Prowlarr, Bazarr, Seerr and the rest need no
+change.
+
+Both reach Radarr through nginx. Ingress puts Radarr under a path of
+Supervisor's choosing, `/api/hassio_ingress/<token>`, and Radarr writes one URL
+base into every page it serves, so the application makes that path the URL base
+and keeps Radarr itself on the loopback address. nginx answers on 7878 and puts
+the path back onto whatever arrives without it.
+
+Three things follow from that:
+
+- **Radarr's addresses carry the ingress path**, on the published port too. A
+  page opened without it, from an old bookmark say, is redirected to the same
+  page under it. The token is kept for as long as the application is installed,
+  and a new one comes with a reinstall.
+- **URL Base, Port and Bind Address under Settings → General are set by the
+  application** and changing them there has no effect. The values saved in
+  `config.xml` are left as they were.
+- **Radarr sees the address nginx was called from**, the same one it saw before
+  nginx was in front of it, so "Disabled for Local Addresses" decides as it did.
+  Supervisor's own address is local, which is why ingress opens without Radarr's
+  sign-in when that setting is on; Home Assistant has already asked for one.
+
+Phone apps such as nzb360 and LunaSea cannot use ingress, because it needs a
+Home Assistant session in a browser. They still work on the published port.
 
 ## Storage
 
