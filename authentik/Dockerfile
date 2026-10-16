@@ -31,12 +31,14 @@ RUN \
   `# The base image purges curl on its way out, and bashio needs it at run` \
   `# time as well as for the downloads below. postgresql is the whole reason` \
   `# this application can stand on its own; on Debian trixie it is 17.` \
+  `# openssl is not named: the image ships Authentik's own FIPS build and` \
+  `# holds it, so naming it asks apt to swap in Debian's newer one and apt` \
+  `# refuses. The run script's openssl rand uses the held one.` \
   apt-get update \
   && apt-get install --assume-yes --no-install-recommends \
     ca-certificates \
     curl \
     jq \
-    openssl \
     postgresql \
     xz-utils \
   \
