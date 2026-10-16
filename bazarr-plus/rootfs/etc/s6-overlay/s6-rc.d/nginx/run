@@ -2,8 +2,9 @@
 # shellcheck shell=bash
 # ==============================================================================
 # Kanso Labs Home Assistant Application: Bazarr+
-# Runs nginx, which answers on 6767 for Bazarr+ and puts its URL base back onto
-# requests that arrive without it
+# Runs nginx, which answers on 6767 for Bazarr+, puts its URL base back onto
+# requests that arrive without it, and takes it out of what goes back to the
+# published port
 # ==============================================================================
 readonly config_file='/config/config/config.yaml'
 readonly servers_dir='/etc/nginx/servers'
@@ -36,17 +37,50 @@ fi
 
 # The image carries no tempio, unlike Home Assistant's base images, so the
 # server is written here. With no base, everything goes to Bazarr+ as it came.
+maps=''
 if [[ -n "${base_url}" ]]; then
+  # The base each caller sees: the ingress path through ingress, and none on
+  # the published port. A redirect to the bare base needs a path of its own,
+  # since an empty one would leave the browser where it was.
+  maps="
+map \$from_ingress \$public_base {
+    1 ${base_url};
+    0 '';
+}
+
+map \$from_ingress \$public_root {
+    1 ${base_url};
+    0 /;
+}
+
+map \$request_uri \$request_uri_without_base {
+    default \$request_uri;
+    \"~^${base_url}(?<rest>/.*)\$\" \$rest;
+    \"~^${base_url}(?<rest>\\?.*)?\$\" /\$rest;
+}
+"
+  # Bazarr+ writes its base into the page's <base> and the settings it injects
+  # there, the API's answers, and its redirects, and names it nowhere else: the
+  # scripts read it from the page, and its session cookie is set for the root.
+  # So replacing that one string is all it takes. Through ingress the
+  # replacement is the path itself, which changes nothing.
   locations="
+    proxy_set_header Accept-Encoding \$upstream_accept_encoding;
+    sub_filter '${base_url}' '\$public_base';
+    sub_filter_once off;
+    sub_filter_types application/javascript application/json application/manifest+json text/css text/javascript;
+    proxy_redirect ~^(https?://[^/]+)?${base_url}(/.*)\$ \$1\$public_base\$2;
+    proxy_redirect ~^(https?://[^/]+)?${base_url}\$ \$1\$public_root;
+
     location ^~ ${base_url} {
+        if (\$redirect_out_of_base) {
+            return 307 \$request_uri_without_base;
+        }
+
         proxy_pass http://127.0.0.1:16767;
     }
 
     location / {
-        if (\$redirect_to_base) {
-            return 307 ${base_url}\$request_uri;
-        }
-
         proxy_pass http://127.0.0.1:16767${base_url}\$request_uri;
     }"
 else
@@ -57,6 +91,7 @@ else
 fi
 
 cat > "${servers_dir}/bazarr-plus.conf" <<EOF
+${maps}
 server {
     listen 6767 default_server;
     ${listen_ipv6}

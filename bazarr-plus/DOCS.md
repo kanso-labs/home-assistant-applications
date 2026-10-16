@@ -92,8 +92,9 @@ everything that calls Bazarr+'s API, which needs no change.
 Both reach Bazarr+ through nginx. Ingress puts Bazarr+ under a path of
 Supervisor's choosing, `/api/hassio_ingress/<token>`, and Bazarr+ writes one URL
 base into every page it serves, so the application makes that path the URL base
-and moves Bazarr+ itself to port 16767. nginx answers on 6767 and puts the path
-back onto whatever arrives without it.
+and moves Bazarr+ itself to port 16767. nginx answers on 6767, puts the path
+back onto whatever arrives without it, and takes it back out of everything it
+returns to the published port.
 
 Four things follow from that:
 
@@ -101,13 +102,16 @@ Four things follow from that:
   `config.yaml`, which a first start has not written yet, and the application
   leaves a new install's file for Bazarr+ to create. Until then Bazarr+ serves
   at the root, ingress included.
-- **Bazarr+'s addresses carry the ingress path**, on the published port too. A
-  page opened without it, from an old bookmark say, is redirected to the same
-  page under it. The token is kept for as long as the application is installed,
-  and a new one comes with a reinstall.
+- **The published port shows Bazarr+'s own addresses**, with no path, as it did
+  before ingress, and its API and webhooks answer at the root. A page opened
+  there under the path, from a bookmark made since ingress arrived, is sent to
+  the same page without it.
 - **Base URL and Port under Settings → General are set by the application.** The
   base is written back into `config.yaml` on every start, and the port Bazarr+
   listens on is passed to it on the command line, which wins over the one saved.
+  On the published port the base shows as `/`. Leave it alone: one saved there
+  is written over at the application's next start, but a restart from inside
+  Bazarr+ would put it into effect first and break both routes.
 - **Port 16767 answers on the internal network too**, because Bazarr+'s own
   frontend server always listens on every address. It is not published, and it
   serves the same Bazarr+ as 6767.
