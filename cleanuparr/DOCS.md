@@ -4,8 +4,9 @@
 
 1. Add this repository to your Home Assistant instance.
 2. Install the "Cleanuparr" application.
-3. Start it, then open the web interface on port 11011.
-4. Connect your download clients and arr applications from the web interface.
+3. Start it, then select **Open Web UI**, or open port 11011.
+4. Create Cleanuparr's account, then connect your download clients and arr
+   applications from the web interface.
 
 There is nothing to configure before the first start. Cleanuparr asks for
 everything it needs from its own interface.
@@ -15,6 +16,46 @@ everything it needs from its own interface.
 This application has no options. Cleanuparr is configured entirely from its web
 interface, and those settings live in the application's configuration directory
 so they survive restarts and updates.
+
+## Ingress
+
+Cleanuparr is served through Home Assistant's ingress, so it opens inside Home
+Assistant and comes along wherever Home Assistant does, Home Assistant Cloud
+included. Turn on **Show in sidebar** on the application's page to keep it a
+click away. Ingress is authenticated by Home Assistant, which lets only
+administrators in.
+
+The published port is unchanged and keeps working alongside it, for the browser
+at home and for everything that calls Cleanuparr: health checks on `/health` and
+dashboards reading `/api/v2/stats` need no change. Cleanuparr calls the arr
+applications and download clients rather than the other way round, so nothing
+there needs changing either.
+
+Ingress puts Cleanuparr under a path of Supervisor's choosing,
+`/api/hassio_ingress/<token>`, and Cleanuparr builds every address in its
+interface from one URL base it writes into the page. nginx answers ingress on
+port 11012, inside the application only, and writes that path into the page as
+the base. Cleanuparr itself still serves at the root on 11011, which is why the
+published port sees no difference.
+
+Three things follow from that:
+
+- **Cleanuparr's own sign-in still applies inside ingress**, after Home
+  Assistant's. Its username and password work there. Signing in with Plex or
+  OpenID Connect leaves for another site and comes back to an address outside
+  ingress, so use those on the published port.
+- **"Disable Authentication for Local Addresses" lets ingress in without
+  Cleanuparr's sign-in**, because ingress reaches Cleanuparr from inside the
+  application. That setting already lets in every local address on the published
+  port, so turning it on is a choice about your network, not only about ingress.
+  With "Trust Forwarded Headers" on as well, Cleanuparr judges an ingress visit
+  by the browser's address instead.
+- **Cleanuparr's own `BASE_PATH` is not used.** Setting it would move every
+  address on the published port under the ingress token, and answer 404 outside
+  it.
+
+Phone apps and other tools cannot use ingress, because it needs a Home Assistant
+session in a browser. They still work on the published port.
 
 ## Storage
 

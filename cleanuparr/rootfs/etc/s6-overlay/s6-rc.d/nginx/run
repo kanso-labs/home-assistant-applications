@@ -1,0 +1,10 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Cleanuparr
+# Runs nginx, which serves Cleanuparr to ingress on 11012
+# ==============================================================================
+
+bashio::log.info 'Starting nginx...'
+
+exec nginx

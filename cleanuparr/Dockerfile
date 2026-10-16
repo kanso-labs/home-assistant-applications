@@ -24,9 +24,13 @@ ARG S6_OVERLAY_VERSION=3.2.3.2
 ARG BASHIO_VERSION=0.19.0
 
 RUN \
+  `# nginx is what ingress reaches, on a port of its own; the configuration` \
+  `# its package ships is replaced by the one in rootfs/, which serves` \
+  `# nothing else.` \
   apt-get update \
   && apt-get install --assume-yes --no-install-recommends \
     jq \
+    nginx \
     xz-utils \
   && rm -f -r /var/lib/apt/lists/* \
   \
