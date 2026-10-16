@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0](https://github.com/kanso-labs/home-assistant-applications/compare/tdarr-v0.2.1...tdarr-v0.3.0) (2026-10-16)
+
+
+### Features
+
+* **tdarr:** open Tdarr through ingress ([#672](https://github.com/kanso-labs/home-assistant-applications/issues/672)) ([b79a82a](https://github.com/kanso-labs/home-assistant-applications/commit/b79a82a3326447235ec6189fb03132dbddbbf008))
+
 ## [0.2.1](https://github.com/kanso-labs/home-assistant-applications/compare/tdarr-v0.2.0...tdarr-v0.2.1) (2026-10-15)
 
 

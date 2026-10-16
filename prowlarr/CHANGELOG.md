@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.1](https://github.com/kanso-labs/home-assistant-applications/compare/prowlarr-v1.3.0...prowlarr-v1.3.1) (2026-10-16)
+
+
+### Bug Fixes
+
+* **prowlarr:** read the ingress path with bashio::app ([#665](https://github.com/kanso-labs/home-assistant-applications/issues/665)) ([5b96f64](https://github.com/kanso-labs/home-assistant-applications/commit/5b96f6451bcf713b4db0107dee865092b9547817))
+
 ## [1.3.0](https://github.com/kanso-labs/home-assistant-applications/compare/prowlarr-v1.2.0...prowlarr-v1.3.0) (2026-10-16)
 
 
