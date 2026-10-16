@@ -65,6 +65,16 @@ COPY rootfs /
 # other application; this one has to set it itself.
 ENTRYPOINT ["/init"]
 
+# Upstream's image has no health check, so Supervisor's watchdog could see
+# Seerr exit but never hang. /api/v1/status would be the obvious endpoint, but
+# it asks GitHub for the latest release whenever the version check is on, the
+# default, with no timeout, so a slow GitHub could get Seerr restarted.
+# /api/v1/status/appdata answers without signing in and from the container
+# alone. A watchdog URL in config.yaml would do the same, but the application
+# linter rejects that key in favour of this.
+HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=5 \
+  CMD curl -f -s -S -o /dev/null http://127.0.0.1:5055/api/v1/status/appdata || exit 1
+
 # Expose the ports
 EXPOSE 5055
 

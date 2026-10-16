@@ -58,7 +58,9 @@ is MIT licensed.
 Seerr itself is [a separate project](https://github.com/seerr-team/seerr) and is
 licensed under the MIT licence. It was previously known as Jellyseerr.
 
-The icon and logo come from that packaging.
+The icon comes from that packaging. The logo is Seerr's own wordmark, with its
+lettering recoloured from white to the blue of its own gradient so that it reads
+on a light background too.
 
 ## A note on the base image
 
