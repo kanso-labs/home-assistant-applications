@@ -7,6 +7,9 @@ description:
   fork of Bazarr that adds a plugin catalogue of subtitle providers, bilingual
   subtitles, and translation through OpenRouter or embedded tracks.
 image: 'ghcr.io/kanso-labs/home-assistant-application-bazarr-plus'
+# nginx answers on 6767 for ingress and the published port alike, see DOCS.md.
+ingress: true
+ingress_port: 6767
 init: false
 map:
   - read_only: false
@@ -16,9 +19,9 @@ map:
   - read_only: false
     type: share
 name: Bazarr+
+panel_icon: 'mdi:subtitles'
 ports:
   6767/tcp: 6767
 slug: bazarr-plus
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/bazarr-plus'
 version: '1.0.3' # x-release-please-version
-webui: 'http://[HOST]:[PORT:6767]'

@@ -23,12 +23,15 @@ ARG BASHIO_VERSION=0.19.0
 
 RUN \
   `# The slim base carries neither curl nor jq, and bashio needs both at run` \
-  `# time as well as for the downloads below.` \
+  `# time as well as for the downloads below. nginx is what ingress and the` \
+  `# published port reach; the configuration its package ships is replaced` \
+  `# by the one in rootfs/.` \
   apt-get update \
   && apt-get install --assume-yes --no-install-recommends \
     ca-certificates \
     curl \
     jq \
+    nginx \
     xz-utils \
   && rm -f -r /var/lib/apt/lists/* \
   \

@@ -1,0 +1,50 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Bazarr+
+# Makes the ingress path Bazarr+'s URL base
+# ==============================================================================
+readonly config_file='/config/config/config.yaml'
+
+# Ingress serves Bazarr+ under a path Supervisor chooses, and Bazarr+ writes one
+# URL base into every page it serves. So the ingress path is that base, and nginx
+# answers on 6767 in Bazarr+'s place, adding the path to whatever arrives without
+# it. Bazarr+ reads the base from config.yaml alone: its frontend server opens
+# the file itself, before the backend's settings exist, so the value has to be
+# written there.
+ingress_entry="$(bashio::app.ingress_entry)"
+if ! bashio::var.has_value "${ingress_entry}" || [[ "${ingress_entry}" == 'null' ]]; then
+  bashio::log.warning 'Supervisor reported no ingress path; leaving the URL base as it is'
+  exit 0
+fi
+
+# A first start has no config.yaml yet, and Bazarr+ treats a file with anything
+# in it as an upgrade rather than a new install. So the base waits for the
+# second start, and nginx, which reads it from the same file, adds no path until
+# then.
+if [[ ! -s "${config_file}" ]]; then
+  bashio::log.info 'No configuration yet; ingress follows on the next start'
+  exit 0
+fi
+
+python - "${config_file}" "${ingress_entry%/}" <<'EOF' \
+  || bashio::exit.nok 'Could not write the URL base into config.yaml'
+import os
+import sys
+
+import yaml
+
+path, base_url = sys.argv[1], sys.argv[2]
+with open(path) as f:
+    config = yaml.safe_load(f) or {}
+
+general = config.setdefault('general', {})
+if general.get('base_url') == base_url:
+    sys.exit(0)
+
+general['base_url'] = base_url
+with open(path + '.tmp', 'w') as f:
+    yaml.safe_dump(config, f, allow_unicode=True, default_flow_style=False, sort_keys=False)
+os.replace(path + '.tmp', path)
+print(f'URL base set to {base_url}')
+EOF
