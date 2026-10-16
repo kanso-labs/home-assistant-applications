@@ -41,6 +41,18 @@ else
     'until one is added in the application options.'
 fi
 
+# Ingress serves Notifiarr under a path Supervisor chooses, and Notifiarr's web
+# interface builds every address from one URL base. So the ingress path is that
+# base, and nginx answers on 5454 in Notifiarr's place, adding the path to
+# whatever arrives without it. The Dockerfile keeps Notifiarr itself on the
+# loopback address. The variable wins over notifiarr.conf on every start,
+# including after Notifiarr has saved it there with the rest of its settings.
+ingress_entry="$(bashio::app.ingress_entry)"
+if ! bashio::var.has_value "${ingress_entry}" || [[ "${ingress_entry}" == 'null' ]]; then
+  ingress_entry=''
+fi
+export DN_URLBASE="${ingress_entry%/}"
+
 bashio::log.info 'Starting Notifiarr...'
 
 exec /opt/notifiarr/notifiarr \

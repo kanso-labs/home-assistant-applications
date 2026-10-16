@@ -10,11 +10,20 @@ ARG BUILD_VERSION=dev
 # renovate: datasource=github-releases depName=Notifiarr/notifiarr
 ARG NOTIFIARR_VERSION=0.9.7
 
-# Install requirements for application.
-# The published binary is statically linked Go, so it runs against musl
-# unchanged and needs no runtime dependencies.
+# Notifiarr listens on the loopback address alone, and nginx answers on 5454 in
+# its place, so that ingress and the published port both reach it. Environment
+# variables win over the address saved in notifiarr.conf.
+ENV DN_BIND_ADDR="127.0.0.1:15454"
+
+# Install requirements for application. nginx is what ingress and the published
+# port reach; the configuration its package ships is replaced by the one in
+# rootfs/, which serves nothing else. The published binary is statically linked
+# Go, so it runs against musl unchanged and needs nothing else.
 RUN \
-  if [ "${BUILD_ARCH}" = "aarch64" ]; then NOTIFIARR_ARCH="arm64"; \
+  apk add --no-cache \
+    nginx \
+  \
+  && if [ "${BUILD_ARCH}" = "aarch64" ]; then NOTIFIARR_ARCH="arm64"; \
   elif [ "${BUILD_ARCH}" = "amd64" ]; then NOTIFIARR_ARCH="amd64"; \
   else echo "Unsupported architecture: ${BUILD_ARCH}" && exit 1; fi \
   \

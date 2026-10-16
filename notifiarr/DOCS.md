@@ -5,7 +5,7 @@
 1. Add this repository to your Home Assistant instance.
 2. Install the "Notifiarr" application.
 3. Put your Notifiarr.com API key in the application options.
-4. Start it, then open the web interface on port 5454.
+4. Start it, then open the web interface from the sidebar, or on port 5454.
 
 Without an API key Notifiarr still starts and serves its web interface, but it
 cannot reach Notifiarr.com. The log says so on every start until one is set.
@@ -36,6 +36,48 @@ Web interface password: <password>
 
 Read it from the log and sign in. Changing it in the web interface stores it
 encrypted, which is worth doing.
+
+## Ingress
+
+Notifiarr is served through Home Assistant's ingress, so its web interface opens
+inside Home Assistant and comes along wherever Home Assistant does, Home
+Assistant Cloud included. Turn on **Show in sidebar** on the application's page
+to keep it a click away. Ingress is authenticated by Home Assistant, which lets
+only administrators in, and Notifiarr then asks for its own sign-in as well.
+
+The published port keeps working alongside it, for the browser at home and for
+everything that calls Notifiarr directly: scripts using its API under `/api`,
+Plex's webhook and Prometheus need no change. Notifiarr.com reaches the client
+through its own tunnel rather than the port, and is not affected either.
+
+Both reach Notifiarr through nginx. Ingress puts Notifiarr under a path of
+Supervisor's choosing, `/api/hassio_ingress/<token>`, and Notifiarr's web
+interface builds every address from one URL base, so the application makes that
+path the URL base and keeps Notifiarr itself on the loopback address. nginx
+answers on 5454 and puts the path back onto whatever arrives without it.
+
+Four things follow from that:
+
+- **The web interface's addresses carry the ingress path**, on the published
+  port too. A page opened without it, from an old bookmark say, is redirected to
+  the same page under it. The token is kept for as long as the application is
+  installed, and a new one comes with a reinstall.
+- **Bind Address and URL Base under Configuration → Network are set by the
+  application**, and changing them there has no effect. Saving the configuration
+  writes the application's values into `notifiarr.conf`, as it does every other
+  setting, and the application sets them again on every start.
+- **The webhook address on the Plex page is built from the page it is shown
+  on**, so under ingress it names Home Assistant, which Plex cannot use. Point
+  Plex at `http://<host>:5454/plex?token=<token>` instead, as before.
+- **Notifiarr sees every request as coming from nginx**, at 127.0.0.1, so its
+  HTTP log shows that address rather than the client's, and the networks under
+  Upstreams no longer match a proxy in front of the port. Do not add the
+  loopback address there: everything arrives from it, so Notifiarr would take
+  any client's word for who is signed in, and with authentication set to none
+  would let anyone in.
+
+Notifiarr's own HTTPS settings would put it out of nginx's reach, so leave the
+certificate and key files under Configuration empty.
 
 ## Storage
 
