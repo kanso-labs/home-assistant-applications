@@ -24,4 +24,4 @@ ports:
   6767/tcp: 6767
 slug: bazarr-plus
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/bazarr-plus'
-version: '1.0.3' # x-release-please-version
+version: '1.1.0' # x-release-please-version

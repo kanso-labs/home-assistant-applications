@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0](https://github.com/kanso-labs/home-assistant-applications/compare/nzbget-v1.2.2...nzbget-v1.3.0) (2026-10-16)
+
+
+### Features
+
+* **nzbget:** open NZBGet through ingress ([#668](https://github.com/kanso-labs/home-assistant-applications/issues/668)) ([32a2b5a](https://github.com/kanso-labs/home-assistant-applications/commit/32a2b5a4b41ed5323b21b6ca157ac9c2f668f255))
+
 ## [1.2.2](https://github.com/kanso-labs/home-assistant-applications/compare/nzbget-v1.2.1...nzbget-v1.2.2) (2026-08-28)
 
 

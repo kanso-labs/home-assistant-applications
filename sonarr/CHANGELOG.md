@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1](https://github.com/kanso-labs/home-assistant-applications/compare/sonarr-v1.2.0...sonarr-v1.2.1) (2026-10-16)
+
+
+### Bug Fixes
+
+* **sonarr:** read the ingress path with bashio::app ([#663](https://github.com/kanso-labs/home-assistant-applications/issues/663)) ([933e9d5](https://github.com/kanso-labs/home-assistant-applications/commit/933e9d5a58396c0fb9c4c39883c1770486fe692e))
+
 ## [1.2.0](https://github.com/kanso-labs/home-assistant-applications/compare/sonarr-v1.1.3...sonarr-v1.2.0) (2026-10-16)
 
 

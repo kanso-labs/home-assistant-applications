@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0](https://github.com/kanso-labs/home-assistant-applications/compare/lingarr-v1.2.0...lingarr-v1.3.0) (2026-10-16)
+
+
+### Features
+
+* **lingarr:** open Lingarr through ingress ([#671](https://github.com/kanso-labs/home-assistant-applications/issues/671)) ([c9c3f9a](https://github.com/kanso-labs/home-assistant-applications/commit/c9c3f9a981e460b269008e7f9191f056839daf78))
+
 ## [1.2.0](https://github.com/kanso-labs/home-assistant-applications/compare/lingarr-v1.1.0...lingarr-v1.2.0) (2026-10-09)
 
 
