@@ -15,7 +15,7 @@ in through an identity provider has not yet been proven end to end.
 1. Add this repository to your Home Assistant instance.
 2. Install the "Wallos" application.
 3. Start it. There is nothing to configure first.
-4. Open the web interface, on port `8282`, and register.
+4. Open it from the sidebar, or on port `8282`, and register.
 
 **The first account you register is the administrator.** Register it before
 anyone else can reach the port. Registration then closes, and stays closed until
@@ -102,7 +102,7 @@ So give Wallos each address separately, and leave `oidc_issuer` empty:
 | `oidc_auth_url`     | `http://authentik.local/application/o/authorize/`             |
 | `oidc_token_url`    | `http://2dd33fbd-authentik:9000/application/o/token/`         |
 | `oidc_userinfo_url` | `http://2dd33fbd-authentik:9000/application/o/userinfo/`      |
-| `oidc_redirect_url` | the address you open Wallos at, followed by `/index.php`      |
+| `oidc_redirect_url` | Wallos's address on its port, followed by `/index.php`        |
 | `ssrf_allowlist`    | `2dd33fbd-authentik:9000`, since Authentik is on your network |
 
 `2dd33fbd` is Home Assistant's name for this repository when it was added by the
@@ -159,6 +159,38 @@ Wallos converts prices with rates from [Fixer](https://fixer.io/), whose free
 plan is enough. Add the API key under **Settings → Fixer API Key**. Without one,
 every currency keeps a rate of 1, and the log says the update was skipped.
 
+## Ingress
+
+Wallos is served through Home Assistant's ingress, so it opens inside Home
+Assistant and comes along wherever Home Assistant does, Home Assistant Cloud
+included. Turn on **Show in sidebar** on the application's page to keep it a
+click away. Ingress is authenticated by Home Assistant, which lets only
+administrators in.
+
+The published port keeps working alongside it, for the browser at home and for
+everything that calls Wallos's API, a calendar app reading its feed included.
+
+Wallos builds every address relative to the page it is on, so nothing stands
+between ingress and Wallos. The path Supervisor puts it under,
+`/api/hassio_ingress/<token>`, stays in the browser's address, and Wallos serves
+the same pages there as on the port.
+
+Three things follow from that:
+
+- **Wallos asks for its own sign-in in the sidebar too.** It has no way to trust
+  the one Home Assistant already asked for.
+- **Addresses meant for anything but your browser are the port's.** The calendar
+  feed under **Calendar → Export** is built from the address of the page, so
+  copied in the sidebar it points into ingress, which a calendar app cannot open
+  without a Home Assistant session. Copy it from Wallos on the port instead. The
+  same goes for the **Server URL** under **Admin**, which verification and
+  password reset emails link to.
+- **Sign in through an identity provider on the port.** The provider sends the
+  browser back to the one address in `oidc_redirect_url`, not to the sidebar, so
+  a sign-in started inside Home Assistant ends outside it, and over Home
+  Assistant Cloud cannot come back at all. Keep the password form, with
+  `oidc_disable_password_login` off, to sign in from the sidebar.
+
 ## Storage
 
 | Path          | Holds                                         |
@@ -204,9 +236,9 @@ For questions about Wallos itself rather than this packaging, see
 This packaging starts from
 [Riza-Aslan/Wallos-HA](https://github.com/Riza-Aslan/Wallos-HA), under the MIT
 licence, which was read for where Wallos keeps its state. It runs upstream's own
-image instead, adds cron, and publishes a port where that packaging uses
-ingress, so that Wallos sits behind a reverse proxy like the other applications
-here.
+image instead, adds cron, and publishes a port beside ingress, which that
+packaging uses alone, so that Wallos also sits behind a reverse proxy like the
+other applications here.
 
 Wallos is developed by [ellite](https://github.com/ellite) and is licensed under
 the GNU General Public License v3.0. The icon and logo are Wallos's own, from
