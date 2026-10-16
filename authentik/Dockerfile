@@ -11,7 +11,7 @@
 # application is one container, so PostgreSQL is installed here and the server
 # and worker collapse into the single `allinone` mode upstream's entrypoint
 # already supports. See DOCS.md.
-ARG BUILD_FROM=ghcr.io/goauthentik/server:2026.8.3
+ARG BUILD_FROM=ghcr.io/goauthentik/server:2026.8.4
 FROM ${BUILD_FROM}
 
 # s6-overlay has to come up as pid 1, and the base image ends on USER 1000.
@@ -31,12 +31,14 @@ RUN \
   `# The base image purges curl on its way out, and bashio needs it at run` \
   `# time as well as for the downloads below. postgresql is the whole reason` \
   `# this application can stand on its own; on Debian trixie it is 17.` \
+  `# openssl is not named: the image ships Authentik's own FIPS build and` \
+  `# holds it, so naming it asks apt to swap in Debian's newer one and apt` \
+  `# refuses. The run script's openssl rand uses the held one.` \
   apt-get update \
   && apt-get install --assume-yes --no-install-recommends \
     ca-certificates \
     curl \
     jq \
-    openssl \
     postgresql \
     xz-utils \
   \
