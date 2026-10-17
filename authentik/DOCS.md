@@ -12,7 +12,8 @@ Raspberry Pi with 2GB total, already running Home Assistant, is not enough.
 1. Add this repository to your Home Assistant instance.
 2. Install the "Authentik" application.
 3. Set `bootstrap_password`, and optionally `bootstrap_email`, before the first
-   start. See below if you would rather not.
+   start. The email field shows once **Show unused optional configuration
+   options** is on. See below if you would rather not.
 4. Start it. The first boot runs every database migration and imports the
    default flows, which takes a few minutes; later ones are much quicker.
 5. Open the web interface on port 9000 and log in as `akadmin`.
