@@ -28,6 +28,19 @@ if ! bashio::var.has_value "${ingress_entry}" || [[ "${ingress_entry}" == 'null'
 fi
 export Prowlarr__Server__UrlBase="${ingress_entry%/}"
 
+# A URL base saved before ingress, /prowlarr say, is one nothing answers under
+# any more: whatever still calls Prowlarr there gets its web page or a 404 in
+# place of an answer. An ingress path is passed over: Prowlarr writes the base
+# to config.xml only when it is changed under Settings, never the one these
+# variables give it, so one is there only if it was typed in, and nothing
+# outside Home Assistant calls it.
+saved_url_base="$(xmlstarlet sel -t -v '/Config/UrlBase' /config/config.xml 2>/dev/null || true)"
+saved_url_base="${saved_url_base#/}"
+saved_url_base="${saved_url_base%/}"
+if [[ -n "${saved_url_base}" && "${saved_url_base}" != api/hassio_ingress/* ]]; then
+  bashio::log.warning "The URL Base /${saved_url_base} saved in config.xml is ignored. Prowlarr answers at the root of port 9696, so anything calling http://<host>:9696/${saved_url_base} has to call http://<host>:9696 instead. Saving Settings → General on the published port clears it."
+fi
+
 bashio::log.info 'Starting Prowlarr...'
 
 exec /opt/bin/Prowlarr -nobrowser -data=/config

@@ -54,13 +54,15 @@ qBittorrent directly, as before, and need no change.
 
 qBittorrent names every address in its pages relatively, so it needs no URL base
 under ingress. Ingress still reaches it through nginx, on a port of its own that
-only Supervisor may call, which makes two adjustments on the way and changes
+only Supervisor may call, which makes three adjustments on the way and changes
 none of your settings. qBittorrent turns away a request that names a port other
 than its own, and ingress names Home Assistant's, so nginx gives it
-qBittorrent's own address. And qBittorrent's page expects to be the whole
-window, so nginx tells it that it is, inside Home Assistant's frame too.
-qBittorrent's own protections, against requests from other sites and against
-being framed by them, stay on.
+qBittorrent's own address. A request from the page you are on in Home Assistant
+then names that address as where it came from too, while one from any other site
+keeps its own, so qBittorrent still turns it away. And qBittorrent's page
+expects to be the whole window, so nginx tells it that it is, inside Home
+Assistant's frame too. qBittorrent's own protections, against requests from
+other sites and against being framed by them, stay on.
 
 Three things follow from that:
 
