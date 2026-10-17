@@ -65,8 +65,10 @@ RUN \
 COPY rootfs /
 
 # s6-overlay is pid 1 here, in place of the image's own entrypoint. That
-# entrypoint exists to create a user and drop privileges to it, which every
-# application here leaves to Supervisor instead.
+# entrypoint creates a user from PUID and PGID, hands /config to it and drops
+# privileges to it. Cleanuparr runs as root instead, because the orphaned files
+# cleanup moves and deletes files under /media and /share, which Supervisor
+# mounts owned by root.
 ENTRYPOINT ["/init"]
 
 # Upstream's image has no health check, so Supervisor's watchdog could see

@@ -2,6 +2,8 @@ arch:
   - aarch64
   - amd64
 backup: cold
+backup_exclude:
+  - '*_cleanuparr/logs'
 description:
   Removes stuck and unwanted downloads from the arr applications and their
   download clients. Cleanuparr watches the queues, strikes what is not
