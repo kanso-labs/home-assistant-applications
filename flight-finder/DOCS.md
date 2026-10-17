@@ -34,6 +34,12 @@ terminal. Reload it instead.
 
 Everything else is set inside Flight Finder, in its admin settings.
 
+Turn on **Watchdog** on the application's Info tab to have Home Assistant
+restart Flight Finder when it stops answering, not only when it exits. The image
+asks Flight Finder's `/api/health` every 30 seconds, which also fails while
+PostgreSQL or Valkey cannot be reached, and five failures in a row count as a
+hang. It is off by default.
+
 ## Signing in
 
 **Nobody gets in without the shared password.** Flight Finder has one password
@@ -129,11 +135,11 @@ published for either.
 
 ## Storage
 
-| Path               | Holds                                                                         |
-| ------------------ | ----------------------------------------------------------------------------- |
-| `/data/postgresql` | The PostgreSQL database: searches, price history, settings and profiles       |
-| `/data/secrets`    | The secrets Flight Finder is started with, and the shared password's checksum |
-| `/data/app`        | Flight Finder's own analytics                                                 |
+| Path               | Access     | Holds                                                                         |
+| ------------------ | ---------- | ----------------------------------------------------------------------------- |
+| `/data/postgresql` | read/write | The PostgreSQL database: searches, price history, settings and profiles       |
+| `/data/secrets`    | read/write | The secrets Flight Finder is started with, and the shared password's checksum |
+| `/data/app`        | read/write | Flight Finder's own analytics                                                 |
 
 **Keep `/data/secrets`.** The stored API keys are encrypted with one of those
 secrets, and losing it makes them unreadable. It is part of every backup of this
@@ -158,6 +164,13 @@ than its default of 10 seconds, so the database is shut down cleanly.
 
 Updates arrive by updating this application. Flight Finder's version is pinned,
 so a new one arrives as a release of this application rather than silently.
+
+PostgreSQL stays on 17, and takes the updates within 17 that come with each
+release of this application. A database can only be opened by the major version
+that created it. If an update ever starts on a database from another major
+version, it stops rather than starting PostgreSQL, and its log says so.
+Restoring the backup taken before that update brings back the release that
+matches the database.
 
 ## Support
 

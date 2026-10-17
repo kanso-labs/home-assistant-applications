@@ -10,10 +10,15 @@ readonly secrets='/data/secrets'
 
 # s6 starts this service as soon as PostgreSQL's service has started, which is
 # not the same as PostgreSQL being ready to answer, and the role and the
-# database have to exist before Flight Finder can reach them.
+# database have to exist before Flight Finder can reach them. After an unclean
+# stop PostgreSQL first replays its log, which on slow storage takes far longer
+# than a normal start, so the wait is long and says where it is.
 bashio::log.info 'Waiting for PostgreSQL...'
-for _ in {1..60}; do
+for ((waited = 1; waited <= 600; waited++)); do
   pg_isready --host="${socket_dir}" --username='postgres' --quiet && break
+  if ((waited % 30 == 0)); then
+    bashio::log.info "Still waiting for PostgreSQL after ${waited} seconds..."
+  fi
   sleep 1
 done
 pg_isready --host="${socket_dir}" --username='postgres' --quiet \
