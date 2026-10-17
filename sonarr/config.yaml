@@ -15,6 +15,9 @@ image: 'ghcr.io/kanso-labs/home-assistant-application-sonarr'
 # nginx answers on 8989 for ingress and the published port alike, see DOCS.md.
 ingress: true
 ingress_port: 8989
+# Supervisor reads a request through ingress whole and refuses one over 16 MiB,
+# unless it is streamed. A backup restored from the System page can be larger.
+ingress_stream: true
 init: false
 map:
   - read_only: false
