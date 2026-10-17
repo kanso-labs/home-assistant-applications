@@ -54,9 +54,13 @@ for you and are not offered as options: the update check and the startup
 analytics are both switched off, because the packaging is the only route to a
 new version here, exactly as it is for the arr applications.
 
-Email is not exposed either. Authentik reads its mail settings from the
-environment rather than its interface, so recovery emails need a change here
-before they work; open an issue if you want that.
+Email is not an option either, and recovery emails work without one. An Email
+stage can carry its own mail server: in Authentik's interface, turn off **Use
+global connection settings** on the stage and enter the server there.
+Authentik's global mail settings are what come from the environment, which this
+application leaves unset. Notification emails always use those, as does any
+stage that keeps **Use global connection settings** on; open an issue if you
+want them.
 
 ## Three containers, one application
 
@@ -73,8 +77,7 @@ A Home Assistant application is one container, and this is how that is squared:
 supports, and it is what makes the rest of this reasonable.
 
 Redis is absent because Authentik no longer needs it. The task queue moved to
-PostgreSQL in the 2026 releases, and upstream's own compose file dropped the
-service.
+PostgreSQL in 2025.10, and upstream's own compose file dropped the service.
 
 The embedded outpost is included and works. Separate LDAP, RADIUS and RAC
 outposts are their own images upstream and are not part of this application; you
@@ -108,6 +111,10 @@ database is stopped with it, which is what makes the copy consistent — a hot
 backup of a running PostgreSQL is a backup that may not restore. Single sign-on
 is unavailable while a backup runs, and so is anything behind it.
 
+On this and every other stop, Home Assistant waits up to two minutes for
+Authentik and its database rather than its usual ten seconds, so that PostgreSQL
+has time to shut down cleanly.
+
 ## Updates
 
 Authentik's own update check is switched off, so it will not advertise a version
@@ -116,6 +123,13 @@ it cannot install. Updates arrive by updating this application.
 Read Authentik's release notes before taking a major one. Its releases sometimes
 carry migrations that cannot be rolled back, and restoring the Home Assistant
 backup you took first is the only way down.
+
+PostgreSQL stays on 17, and takes the updates within 17 that come with each
+release of this application. A database can only be opened by the major version
+that created it. If an update ever starts on a database from another major
+version, it stops rather than starting PostgreSQL, and its log says so.
+Restoring the backup taken before that update brings back the release that
+matches the database.
 
 ## The first start is slow, and says so in the log
 
@@ -153,8 +167,9 @@ For questions about Authentik itself rather than this packaging, see
 Home Assistant first, under the Apache 2.0 licence, and found the trap this
 packaging also had to work around: Authentik's entrypoint chowns all of `/data`
 to its own user when it runs as root, which takes the PostgreSQL cluster with
-it. This application avoids it by never running Authentik as root rather than by
-replacing the health check.
+it. This application avoids it in both places the image runs `ak` as root: it
+drops to Authentik's own user before starting Authentik, and it replaces the
+image's health check, which ran `ak healthcheck`.
 
 Authentik itself is developed by
 [Authentik Security Inc.](https://github.com/goauthentik/authentik) and is MIT

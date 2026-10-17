@@ -29,8 +29,12 @@ ARG BASHIO_VERSION=0.19.0
 
 RUN \
   `# The base image purges curl on its way out, and bashio needs it at run` \
-  `# time as well as for the downloads below. postgresql is the whole reason` \
-  `# this application can stand on its own; on Debian trixie it is 17.` \
+  `# time as well as for the downloads below. PostgreSQL is the whole reason` \
+  `# this application can stand on its own, and its major version is named` \
+  `# rather than left to Debian's postgresql, which follows the release. A` \
+  `# base image on the next Debian would otherwise bring a server that cannot` \
+  `# open the cluster every install already has; named, it fails this build` \
+  `# at the package instead. The postgres service says what moving takes.` \
   `# openssl is not named: the image ships Authentik's own FIPS build and` \
   `# holds it, so naming it asks apt to swap in Debian's newer one and apt` \
   `# refuses. The run script's openssl rand uses the held one.` \
@@ -39,7 +43,7 @@ RUN \
     ca-certificates \
     curl \
     jq \
-    postgresql \
+    postgresql-17 \
     xz-utils \
   \
   `# Debian creates a cluster at install time through its own wrapper, under` \
