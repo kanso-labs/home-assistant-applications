@@ -75,18 +75,22 @@ first, then every copy.
 - **`.tool-versions` pins a fully-specified version on every line**,
   `nodejs <major>.<minor>.<patch>`, never `nodejs 24` or `nodejs lts`.
 
-Two directories here carry a `package.json` and a `.tool-versions`:
-`n8n/rootfs/usr/src/n8n/` and `docs/`. Neither rule is cosmetic in
-`n8n/rootfs/usr/src/n8n/`, because that directory has no lockfile. The
-Dockerfile runs `mise install` and then `npm install` at build time, so the pin
-in `package.json` is the only thing deciding which version an image resolves,
-and `.tool-versions` is the only thing deciding which Node and npm resolve it. A
-caret would let an image built today and the same image rebuilt next month ship
-different n8n versions off an unchanged commit.
+Two directories here carry a `package.json`, a `package-lock.json` and a
+`.tool-versions`: `n8n/rootfs/usr/src/n8n/` and `docs/`. In both, the three
+files together decide what gets installed, so the pins are about
+reproducibility.
 
-`docs/` does have a lockfile, so the pins there are about reproducibility rather
-than resolution: `.tool-versions` is what makes CI and a laptop build the site
-on the same Node, and the workflow reads that same file through
+In `n8n/rootfs/usr/src/n8n/` that is what an image ships. The Dockerfile runs
+`mise install` and then `npm ci` at build time, so `.tool-versions` decides
+which Node and npm do the install, and the lockfile decides every package they
+install. `package.json` pins n8n alone, while n8n names much of what it depends
+on by range, so without the lockfile an image built today and the same image
+rebuilt next month could ship different code off an unchanged commit. `npm ci`
+fails outright when the lockfile and `package.json` disagree, and Renovate
+refreshes the lockfile with every n8n bump, so the two move together.
+
+In `docs/` they are what makes CI and a laptop build the site on the same Node
+and the same packages, and the workflow reads that same `.tool-versions` through
 `actions/setup-node`.
 
 **Two actions run from `@master`, against the pinning rule, because there is no
@@ -97,7 +101,10 @@ dates from 2020 and predates `helpers/` entirely, and a commit SHA is not a
 release tag either. Upstream has been asked to tag releases in
 [home-assistant/actions#144](https://github.com/home-assistant/actions/issues/144).
 Until it does, whatever lands on its `master` runs here on the next job, and
-Renovate has nothing to propose.
+Renovate has nothing to propose. What it can reach is kept small: every job that
+runs one holds `contents: read` and nothing else. `_build-application.yaml` has
+to say so on its Prepare job, which would otherwise inherit the package and OIDC
+scopes the build is given, and its checkout there leaves no token behind.
 [#482](https://github.com/kanso-labs/home-assistant-applications/issues/482)
 tracks pinning all three once a tag exists, and removing this paragraph.
 
@@ -135,8 +142,11 @@ and is not ours to choose.
 **An application whose software may not be redistributed names no `image`.**
 Each Home Assistant then builds it from the Dockerfile itself, and
 `_build-application.yaml` builds it on every change without ever publishing it.
-Seadexerr is the one, because it carries no licence; its Dockerfile takes the
-binary from the image its author publishes, at build time on the user's machine.
+Tdarr and Seadexerr are the two. Tdarr is free for personal use under a licence
+that forbids redistributing it, and Seadexerr carries no licence at all, so
+nobody has been given the right to pass it on. Tdarr's Dockerfile starts from
+the image Tdarr publishes, and Seadexerr's takes the binary from the image its
+author publishes, both at build time on the user's machine.
 
 ## Adding an application
 
@@ -204,11 +214,35 @@ version: '1.0.0' # x-release-please-version
 - **`version`** starts at `1.0.0` and is never edited by hand afterwards. The
   annotation is load-bearing; see Releases.
 
+An application that runs its own database, as Authentik, Flight Finder, Grimmory
+and Immich do, also sets `timeout: 120`. Supervisor's default gives the whole
+container 10 seconds to stop, which can kill the database before it has written
+its shutdown checkpoint, during a cold backup as much as an update. A database
+killed partway loses nothing, but its next start replays the log first. Traps
+has the rest of what an embedded database needs.
+
+Leave `watchdog` out. Supervisor still accepts the key, but the linter fails any
+`config.yaml` that sets it, so a health check is a `HEALTHCHECK` in the
+Dockerfile instead; see step 4.
+
 Map the least you can. Grant write access only where the application actually
 writes, and omit a mapping entirely when it is never touched. Radarr and Sonarr
 need `/media` and `/share` because organising files is their job. Prowlarr
 manages indexer definitions and gets neither, even though its upstream packaging
 maps both.
+
+Publish the least, too. A port only other applications use is declared as
+`null`, which leaves it closed until someone opens it under Network, as Byparr's
+and FlareSolverr's are. Applications on the same Home Assistant reach it either
+way, at `http://2dd33fbd-<slug>:<port>`: `2dd33fbd` is the hash Supervisor takes
+of this repository's URL, the same on every install, and the bare slug resolves
+to nothing. Such a port gets no `webui`, because Supervisor builds that link
+from the published port.
+
+Ask for `hassio_api` only when the application calls a Supervisor endpoint
+beyond its own options and info, which every application can read without it,
+and say in a comment which one. Nginx Proxy Manager reads `/dns/info` for its
+resolver, and Flight Finder reads this machine's addresses from `/network/info`.
 
 ### 4. `Dockerfile`
 
@@ -229,11 +263,51 @@ ARG <APP>_VERSION=1.2.3
   labels live in the Dockerfile.
 - **`BUILD_ARCH` and `BUILD_VERSION` are injected** by the build action, along
   with the `io.hass.*` labels. Do not duplicate those labels.
-- The `# renovate:` annotation is load-bearing; see Releases.
+- The `# renovate:` annotation is load-bearing, on the line directly above its
+  `ARG`, and `Verify release wiring` fails without it; see Releases.
 
 `ghcr.io/home-assistant/base` is Alpine and supplies s6-overlay, bashio, curl,
-and jq. `base-ubuntu` is the Debian-family equivalent. Both are multi-arch, so
+and jq. `base-python` is the same with Python on it, and `base-ubuntu` and
+`base-debian` are the Debian-family equivalents. All of them are multi-arch, so
 one tag covers every architecture.
+
+Name the base by its release, as `base:3.24`, `base-ubuntu:26.04` and
+`base-debian:trixie` are, so every build takes Home Assistant's latest rebuild
+of it. `base-debian`'s dated tags, such as `trixie-2026.08.0`, are not versions
+Renovate's docker versioning can read, so a pin to one never moved; `trixie` is
+not one either, so moving Nginx Proxy Manager to Debian's next release is done
+by hand, along with the suite its Nginx annotation names. `base-python`'s tags
+name a Python release and an Alpine one, as in `3.14-alpine3.24`, and
+`.github/renovate.json` gives it a versioning that follows both.
+
+**Pin a package only through an annotated `ARG`**, so that Renovate moves it and
+each new version cuts a release: the application itself where a distribution
+packages it, as Alpine does Avahi, iptables and qBittorrent, and a server it
+leans on, as Nginx Proxy Manager pins Nginx and Node.js and Immich pins
+PostgreSQL. Leave the distribution's other packages to the base tag, which
+already fixes the release they come from.
+
+- **Debian's own archive keeps only the current version of each package**, so an
+  exact pin to it stops resolving at the next point release and fails every
+  build until someone edits it. Pin a Debian package only from a third-party
+  repository, with `# renovate: datasource=deb depName=… registryUrl=…`, as
+  Nginx Proxy Manager does from nginx.org and NodeSource, which keep every
+  version, and Immich from apt.postgresql.org.
+- **An Alpine pin's annotation names its index branch**, as in `branch=v3.24`,
+  and that branch moves by hand when the base takes a new Alpine release, since
+  the build fails until it does. Avahi Publisher, NAT Gateway and qBittorrent
+  carry such pins, so their base-image bumps come in a group of their own,
+  `Home Assistant Base Images with Alpine package pins`, and the failure holds
+  back only them. An application added on a Home Assistant base with a pin like
+  theirs joins that group in `.github/renovate.json`.
+
+**A health check is a `HEALTHCHECK`.** With an application's Watchdog toggle on,
+Supervisor restarts it when Docker reports it unhealthy, which is the only way
+it notices a hang rather than an exit. Probe the application's own health or
+status endpoint with `curl -f` on `127.0.0.1` and the port it listens on, which
+works whatever the host maps that port to, and give `--start-period` room for a
+first start's migrations. Authentik's Dockerfile explains why a `HEALTHCHECK`
+inherited from upstream is replaced rather than set to `NONE`.
 
 ### 5. `rootfs/`
 
@@ -257,6 +331,11 @@ and stay empty.
   interface on, or `Ingress`, or `None`.
 - Add the package to `release-please-config.json` and
   `.release-please-manifest.json`, both alphabetically.
+- Add the `depName` of the application's own version to the curated `fix` rule
+  in `.github/renovate.json`, alphabetically. Without it an upstream release is
+  typed `deps` like any other bump: it ships as a patch under **Dependencies**
+  whatever step upstream took, without upstream's notes, and a 0.x minor
+  automerges. Tdarr was added without one. Nothing checks this list.
 - The website needs nothing. It is generated from every `config.yaml` and
   `icon.png` at deploy time, so the directory existing is enough — see The
   website.
@@ -274,7 +353,9 @@ gh api repos/frenck/action-app-linter/contents/src/config.schema.json \
 ```
 
 Then check your `config.yaml`'s map types and top-level keys against it. This
-exists because the linter rejects values Supervisor documents as current.
+exists because the linter rejects values Supervisor documents as current. The
+schema is not the whole linter, though: it accepts `watchdog`, which the linter
+fails; see Traps.
 
 **Build and boot it.** A green build proves nothing about whether the thing
 starts:
@@ -288,6 +369,15 @@ Run it with `/config` and `/data` mounted, then check the logs for the version
 and a listening port, and probe the port for a response. Build for the
 architecture you are actually on — see Traps.
 
+bashio reads the options from Supervisor at `http://supervisor`, so outside Home
+Assistant the container needs a stand-in there: a small HTTP server on the
+host's port 80 answering `GET /addons/self/options/config` and
+`/addons/self/info` with `{"result": "ok", "data": {…}}`, reached with
+`--add-host supervisor:host-gateway` and any `SUPERVISOR_TOKEN`. Recreate the
+container to test a change of options, as Supervisor does on every start. bashio
+caches what it reads under `/tmp/.bashio`, which survives `docker restart`, so a
+restarted container goes on with the options it first started with.
+
 **Run `npx prettier --check .`** from the repository root. Prettier formats
 YAML, JSON and Markdown here, plus the site's TypeScript and CSS, and
 `Check formatting` runs the same check at the version `lint.yaml` pins in
@@ -298,14 +388,16 @@ Changelogs are exempt, in `.prettierignore`. release-please writes them in a
 style of its own and reads them back to place the next entry, so formatting one
 lasts until the next release and risks confusing the tool that owns it.
 
-**Verify the release wiring**, which catches a registration you forgot in step 6
-and an annotation you dropped:
+**Verify the release wiring**, which catches a registration you forgot in step
+6, either annotation dropped or misshapen, and a `version` that no longer
+matches the manifest:
 
 ```shell
 ./.github/scripts/verify-release-wiring.sh
 ```
 
-CI runs this too, as `Verify release wiring`.
+CI runs this too, as `Verify release wiring`. It does not read the curated rule
+in `.github/renovate.json`.
 
 ## Releases
 
@@ -335,6 +427,24 @@ flowchart TD
     H --> I([Home Assistant offers the update])
 ```
 
+**A version is published once.** Build publishes an application only while
+`<image>:<version>` does not exist yet. Once it does, a push to main still
+builds the application, as a check, but pushes nothing and leaves `latest` where
+it is, so an unreleased change never reaches a fresh install, a reinstall or a
+restore under a version already released. Every push used to publish, and that
+is how the bump to Cleanuparr 2.10.11 reached installs as the application's
+1.3.0 before release-please had cut anything. The multi-arch tag is written only
+once every architecture's image is pushed, so a release whose build failed
+partway publishes in full on its next push. A broken release is repaired by
+releasing a new version, never by pushing over it.
+
+Build builds an application for any change in its directory, deletions included,
+except the files no image carries: `CHANGELOG.md`, `DOCS.md`, `README.md`,
+`icon.png`, `logo.png` and `translations/`. Naming what to skip rather than what
+to build is what covers Nginx Proxy Manager's `patches/`, which reach its image
+through a `COPY` outside `rootfs/` and used to build nothing when they alone
+changed.
+
 Each application is its own release-please package. A commit is attributed to
 one by the files it touches, so a change under `radarr/` releases Radarr alone.
 
@@ -353,13 +463,17 @@ section is skipped as "No user facing commits found". Renovate's default,
 release of its own: it shipped only when a feature happened to land beside it,
 and a run of nothing but upgrades published nothing at all.
 
-`.github/renovate.json` therefore sets `semanticCommits: enabled` and
+The organization's shared preset therefore sets `semanticCommits: enabled` and
 `semanticCommitScope: null` at the top level, and `semanticCommitType: deps` in
-a `packageRule` rather than beside them. `release-please-config.json` spells out
-`changelog-sections` with `deps` visible under a `Dependencies` heading. The two
-move together: that list replaces release-please's defaults wholesale, so a type
-missing from it is invisible rather than merely unstyled, and `deps` with no
-matching section would put the upgrades back where they started.
+a catch-all `packageRule` rather than beside them. That is
+`local>kanso-labs/.github:renovate-config`, which `.github/renovate.json`
+extends after `config:recommended` so that it wins, and none of the three is
+restated here: a copy would only drift from what every other `kanso-labs`
+repository gets. `release-please-config.json` spells out `changelog-sections`
+with `deps` visible under a `Dependencies` heading. The two move together: that
+list replaces release-please's defaults wholesale, so a type missing from it is
+invisible rather than merely unstyled, and `deps` with no matching section would
+put the upgrades back where they started.
 
 **This widened what releases, and that is the intended effect.** A bump inside
 an application directory that is not one of the curated `depNames` below — a
@@ -369,13 +483,14 @@ happened to land next. It now reads `deps` and cuts a patch of its own.
 
 A bump outside every application directory still releases nothing, because there
 is no root package for it to be attributed to. That is what keeps a Prettier or
-`actions/checkout` bump from versioning thirteen applications.
+`actions/checkout` bump from versioning every application.
 
 **Every `semanticCommitType` setting is a `packageRule`, and none can be a
 top-level key.** `config:recommended` extends
 `:semanticPrefixFixDepsChoreOthers`, which sets the type through `packageRules`
 of its own, and `packageRules` beat top-level config. The catch-all `deps` rule
-is therefore first, so the curated rules below still override it for the
+is therefore the preset's first, and every rule in `.github/renovate.json` comes
+after the preset's, so the curated rules below still override it for the
 applications they name.
 
 **An application's version takes the same step upstream's did.** A patch of
@@ -408,6 +523,14 @@ year is a major.
 Majors never automerge — the shared preset automerges minors and patches only —
 so a major waits for a person to read upstream's notes before it ships.
 
+Neither does a minor of an upstream still below 1.0, which is where a project on
+0.x makes its breaking changes. Flight Finder 0.16.0 replaced its sign-in and
+was merged and released with nobody having read its notes, so a rule in
+`.github/renovate.json` now holds such minors back, matching
+`matchCurrentVersion: /^v?0\./`. It finds the applications by the `feat` the
+minor rule gave them, so it stays below that rule, and their patches still
+automerge.
+
 An application below 1.0.0 goes to 1.0.0 the first time upstream takes a major,
 because release-please's default treats a breaking change the same at any
 version.
@@ -429,12 +552,35 @@ Traps.
 - `# renovate: datasource=… depName=…` above the `ARG` in the Dockerfile tells
   Renovate what to watch.
 
-Neither produces an error when missing. The application simply stops receiving
-updates, and nobody notices until someone checks.
+Neither produces an error of its own when missing. The application simply stops
+receiving updates, and nobody notices until someone checks.
 
-`.github/scripts/verify-release-wiring.sh` is that check for the first one, and
-for the registrations in step 6. It runs in CI as `Verify release wiring`.
-Nothing yet guards the Renovate annotation.
+`.github/scripts/verify-release-wiring.sh` is that check, and runs in CI as
+`Verify release wiring`. It fails when `config.yaml` lacks the first annotation,
+and when an `ARG <NAME>_VERSION=` pin other than `BUILD_VERSION` is not directly
+below the second in one of the two shapes the Dockerfile managers read:
+`datasource=… depName=…`, with an optional `registryUrl=…` after them. A
+`custom.` datasource has to be one `.github/renovate.json` defines under
+`customDatasources`, since Renovate skips a dependency whose datasource it
+cannot find. The script also checks the release-please registrations in step 6,
+and that `config.yaml`'s `version` equals the manifest's: release-please
+computes the next release from the manifest alone and writes it over
+`config.yaml`, so a difference means one of them was edited by hand.
+
+A version written anywhere but such an `ARG` is outside what the script sees,
+and outside what Renovate sees too, unless a manager reads it natively, as the
+Dockerfile manager reads `BUILD_FROM`. Nginx Proxy Manager pinned Nginx inline
+in its install line, and stayed on 1.31.6 past the five CVE fixes in 1.31.7.
+
+**UnRAR's version is not the number in its tarball's name.** RARLAB publishes no
+feed and no repository, so `.github/renovate.json` defines a `rarlab` datasource
+that reads its download page, `rar_add.htm`, and takes Bazarr's `UNRAR_VERSION`
+out of the source tarball's name. Those are numbered by build within a series
+rather than by version: `unrarsrc-7.2.7` is UnRAR 7.23, and `unrarsrc-7.3.1` is
+7.30 beta 1. The page links only the newest, betas included, and `RARVER_BETA`
+in the tarball's `unrar/version.hpp` is the only way to tell one from a release.
+Renovate cannot tell either, so a beta arrives as an ordinary bump, and
+automerges as one.
 
 ### Upstream release notes in the changelog
 
@@ -669,6 +815,20 @@ nothing either way about a group declared in a called workflow, so keeping it
 here is the difference between a guard that is known to work and one that might
 quietly be doing nothing until the race above happens again.
 
+**A concurrency group holds one waiting run, not a queue.** GitHub lets one run
+in a group go ahead, keeps one pending behind it, and cancels that pending run
+when a newer one arrives, whatever `cancel-in-progress` says. A group that is
+too wide therefore drops work rather than delaying it. Build runs one build of
+an application on a ref at a time, so a push landing just after a release finds
+the tag that release published instead of racing it to the registry. Its group
+is `build-<ref>-<app>`, so a push can only displace a waiting build of the same
+application, which always has a newer one behind it; one group for the whole
+workflow would let a third push drop the second push's builds outright. Deploy
+Pages groups by ref, `pages-<ref>`, so a pull request's run can never take the
+place of a deployment from main waiting its turn. release-please's single group
+can afford to drop a waiting run: each run reads main as it then stands, so only
+the newest one matters.
+
 **The Pages configuration outlived the files it served.** Removing the Spotify
 to Plex application took `docs/spotify-to-plex/` with it, and that was the only
 thing Pages served. The configuration was never turned off, so it went on
@@ -726,11 +886,18 @@ Both spellings still work, because Supervisor keeps the legacy map types as
 aliases, so nothing breaks on the day it deprecates one. What you get instead is
 a line per application in the Supervisor log, which is easy to never look at.
 
+It runs the other way too. The linter, at the v2.21.1 `lint.yaml` pins, fails
+any `config.yaml` that sets `watchdog`, calling it obsolete and asking for a
+Docker `HEALTHCHECK` instead (`src/lint.py`), although Supervisor's
+`validate.py` and the linter's own schema both accept the key. A check against
+the schema alone therefore passes it. The `HEALTHCHECK` is the route
+Supervisor's watchdog also acts on, and step 4 says how to write one.
+
 **The icon and logo sizes are a target, not a checked one.** The linter does not
 look at either file, and nothing else does either, so an application ships
-whatever it was given. Only Radarr matches both sizes above today. Seven
-applications ship a `logo.png` byte-identical to their `icon.png`, and nine ship
-a square one, which the store then renders in a slot shaped like a banner.
+whatever it was given. All but three now match both sizes above. Prowlarr,
+qBittorrent and Sonarr ship a `logo.png` byte-identical to their square
+`icon.png`, which the store then renders in a slot shaped like a banner.
 
 Match the sizes when you add an application, and expect no build to tell you if
 you do not.
@@ -775,13 +942,22 @@ amd64 on a native runner.
 **A green build is not a working application.** Radarr, Sonarr and Prowlarr all
 built cleanly while failing to start. Boot the container and probe the port.
 
+**bashio turns on `errexit`, so a failing `wait` ends a service script.** Every
+script that starts `#!/command/with-contenv bashio` runs under `errexit`,
+`errtrace`, `nounset` and `pipefail`, which bashio sets itself. A `wait` that
+returns non-zero, because a child failed or because a trapped signal interrupted
+it, therefore ends the script on the spot, and whatever was meant to follow
+never runs: Avahi Publisher's warning that every alias had stopped publishing
+was never logged for that reason. Write `wait … || true` when code follows it,
+and give a `TERM` trap that should end the service quietly an `exit` of its own.
+
 **The build cache is scoped per application on purpose.** `build-image` scopes
 its GitHub Actions cache to the architecture alone unless told otherwise, so a
 repository building more than one image has every application writing `mode=max`
 into the same two scopes and evicting whatever built last. Nothing fails, the
 builds are just slower than they look. `cache-gha-scope` is set to the
-application in `_build-application.yaml`, and removing it puts the eleven
-applications back to sharing two scopes.
+application in `_build-application.yaml`, and removing it puts every application
+back to sharing two scopes.
 
 **Immich builds without the Actions cache, and has to.** It starts from
 upstream's multi-gigabyte server image. A publishing build recompresses every
@@ -792,6 +968,26 @@ image has already been pushed. Pull request builds do not push, so they pass and
 hide it. Those layers come from upstream's registry either way, so the cache
 saved nothing; `cache-gha` is off for `immich` in `_build-application.yaml`, and
 the registry's inline cache still applies.
+
+**An embedded database can lose its owner across an update.** Authentik,
+Grimmory and Immich create the database's system user when the image is built,
+with whichever uid is free then, so an update that creates another system user
+first can give it a different one. The files in `/data` keep the old owner, and
+the server then cannot read them. Each one's database service hands back to that
+user whatever in its data directory it does not own, before starting the server.
+A uid is deliberately not pinned in the image: any uid but the one an install
+already has fails the same way. The stop timeout these applications need is
+under step 3.
+
+A PostgreSQL cluster opens only under the major version that created it, so
+moving Authentik's to a new major takes a migration shipped in the same release,
+with both majors installed for `pg_upgrade`. Its `postgres/run` refuses a
+cluster whose `PG_VERSION` differs from `pg_major`, and says what to do, and its
+Dockerfile installs `postgresql-17` by name, so a base on the next Debian fails
+the build at that package rather than bringing a server that cannot open the
+cluster. Immich's PostgreSQL settings are `-c` flags in its `postgres/run`,
+which outrank anything set with `ALTER SYSTEM`, so that is where a change to
+them goes.
 
 **`UpdateMethod=docker` disables the application's own updater.** These images
 write it into `/opt/package_info` deliberately. The application will show that a
@@ -814,6 +1010,26 @@ responses and serves the editor uncached. Installing it from npm, as this
 repository does, sets nothing, so the Dockerfile sets `NODE_ENV=production` the
 way n8n's own image does. Anything else installed from npm rather than taken
 from its upstream image wants the same check.
+
+**n8n's native modules build through install scripts npm now asks about.** npm
+11.19.1, which the Node pin brings, warns during `npm ci` that the install
+scripts of packages such as `isolated-vm` and `sqlite3` are not covered by an
+`allowScripts` list in `package.json`. They run all the same, because
+`strict-allow-scripts` defaults to false; set, it fails the install instead.
+When a Node bump brings a newer npm, check the build log for that warning, and
+whether the new npm has made the setting strict.
+
+**Flight Finder's first start leans on two of upstream's function names.**
+Upstream creates the first Admin profile and the shared password with
+`flight-finder access setup`, and replaces the password with `access reset`, and
+both read what they need from an interactive terminal alone. This application
+runs both unattended by loading a Node `registerHooks` resolve hook, which
+points the commands' import of `thesidedoor-core/access` at a shim overriding
+`readLocalSetupInput` and `readLocalResetInput`. An upstream release that
+renames either function, or bundles `thesidedoor-core` into its command line so
+that there is no import left to redirect, breaks first-start setup while the
+build stays green. Check that the import and both functions survive every Flight
+Finder bump, since its patches automerge.
 
 **Traefik's `readTimeout` bounds a whole upload, so the run script raises it.**
 Since Traefik 3 it defaults to 60 seconds, counted from a request's first byte

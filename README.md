@@ -69,7 +69,10 @@ one's `DOCS.md` covers its options, what it maps, and how it is backed up.
 - **Two architectures, one image name.** Each application publishes a
   multi-architecture image to
   `ghcr.io/kanso-labs/home-assistant-application-<slug>`, covering `aarch64` and
-  `amd64`.
+  `amd64`. A version is published once and never pushed over, so it is the same
+  image on every install. Tdarr and Seadexerr publish none, because neither may
+  be passed on: your Home Assistant builds each from its Dockerfile when you
+  install or update it, from the image its author publishes.
 
 - **As little mapped as possible.** An application is given write access only
   where it actually writes. Radarr and Sonarr get `/media` and `/share`, because
@@ -82,10 +85,11 @@ one's `DOCS.md` covers its options, what it maps, and how it is backed up.
   restore.
 
 - **Updates that arrive.** Renovate watches each upstream project's releases,
-  release-please cuts a version, and Home Assistant offers the update. The arr
-  applications' own updaters are switched off deliberately — they would announce
-  a new version and then refuse to install it — so this packaging is the one
-  route in.
+  release-please cuts a version, and Home Assistant offers the update. A major
+  release, or a minor one of a project still below 1.0, waits for a person to
+  read upstream's notes before it ships. The arr applications' own updaters are
+  switched off deliberately — they would announce a new version and then refuse
+  to install it — so this packaging is the one route in.
 
 ## Contributing
 
@@ -99,16 +103,20 @@ repository: the directory layout, what belongs in `config.yaml`, how releases
 reach an installed instance, and the traps that have already caught someone. It
 is written for people and coding agents alike.
 
-Participation is governed by the [code of conduct](./CODE_OF_CONDUCT.md).
+Participation is governed by the organization's
+[code of conduct](https://github.com/kanso-labs/.github/blob/main/CODE_OF_CONDUCT.md).
 
 ## License
 
 This packaging is MIT licensed. See [LICENSE.md](./LICENSE.md).
 
 The applications it packages are not covered by that and keep their own terms —
-mostly GPLv3 or MIT, with Plex Media Server proprietary and used under Plex's.
-Each application's `DOCS.md` records its licence and credits the packaging it
-was ported from, most often from
+mostly a GNU licence or MIT, with some worth knowing before you install. n8n is
+fair-code, under its Sustainable Use License. Plex Media Server is proprietary
+and used under Plex's terms. Tdarr is free for personal use under a licence that
+forbids redistributing it, and Seadexerr carries no licence at all, which is why
+neither has an image here. Each application's `DOCS.md` records its licence and
+credits the packaging it was ported from, most often from
 [hassio-addons](https://github.com/hassio-addons).
 
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
