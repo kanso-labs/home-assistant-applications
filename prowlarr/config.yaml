@@ -3,9 +3,12 @@ arch:
   - amd64
 backup: cold
 # The log files are left out, to keep the time Prowlarr is stopped for a backup
-# short.
+# short. So are logs.db and its -shm and -wal files, which Prowlarr creates
+# again when they are missing. Their entry starts from the folder /config is
+# kept in, so that its trailing wildcard matches nothing further down.
 backup_exclude:
   - logs
+  - '*_prowlarr/logs.db*'
 description:
   Indexer manager and proxy for the arr stack. Prowlarr keeps your indexer
   definitions in one place and pushes them out to Radarr, Sonarr and the rest,
