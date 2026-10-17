@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.1](https://github.com/kanso-labs/home-assistant-applications/compare/qbittorrent-v1.3.0...qbittorrent-v1.3.1) (2026-10-17)
+
+
+### Bug Fixes
+
+* **qbittorrent:** keep ingress working on qbittorrent 5.2.2 and later ([#692](https://github.com/kanso-labs/home-assistant-applications/issues/692)) ([80b1785](https://github.com/kanso-labs/home-assistant-applications/commit/80b1785edccb4f681b124dbf167dc54d16d3be69))
+
 ## [1.3.0](https://github.com/kanso-labs/home-assistant-applications/compare/qbittorrent-v1.2.1...qbittorrent-v1.3.0) (2026-10-16)
 
 

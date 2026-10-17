@@ -9,6 +9,18 @@ map $http_upgrade $connection_upgrade {
     default upgrade;
     '' close;
 }
+
+# Supervisor's ingress hop is the one caller whose address replaces whatever it
+# forwards, see X-Forwarded-For below.
+geo $from_supervisor {
+    default 0;
+    172.30.32.2 1;
+}
+
+map $from_supervisor $forwarded_for {
+    1 $remote_addr;
+    0 $proxy_add_x_forwarded_for;
+}
 {{ if .ingress_entry }}
 # Supervisor marks every ingress request with X-Ingress-Path. Anything without
 # it came in on the published port.
@@ -36,8 +48,8 @@ map $from_ingress $public_base_encoded {
 }
 
 # nginx cannot rewrite a compressed response, so the published port asks Sonarr
-# for an uncompressed one. Ingress gets what the browser asked for, since
-# nothing in it is rewritten.
+# for an uncompressed one, and nginx compresses it after the rewrite. Ingress
+# gets what the browser asked for, since nothing in it is rewritten.
 map $from_ingress $upstream_accept_encoding {
     1 $http_accept_encoding;
     0 '';
@@ -70,11 +82,16 @@ server {
     proxy_set_header Host $http_host;
     proxy_set_header Upgrade $http_upgrade;
     proxy_set_header Connection $connection_upgrade;
-    # Sonarr believes forwarded headers from the loopback address, so each one
-    # says what nginx saw rather than passing on what the client claimed. Sonarr
-    # sees the same client address it saw before nginx was in front of it, which
-    # is what its "disabled for local addresses" sign-in decides on.
-    proxy_set_header X-Forwarded-For $remote_addr;
+    # Sonarr believes forwarded headers from the loopback address alone, so it
+    # takes the last address in X-Forwarded-For, the one nginx adds, and leaves
+    # any before it on the request. Its "disabled for local addresses" sign-in
+    # skips only a request with nothing left there. Adding to the chain keeps
+    # that as it was before nginx: a browser calling this port is judged by its
+    # own address, and anything through Traefik or another proxy keeps the
+    # address that proxy forwarded and has to sign in. Supervisor's ingress hop
+    # has its chain replaced instead, since Home Assistant has already signed
+    # the user in, so ingress is judged by Supervisor's local address.
+    proxy_set_header X-Forwarded-For $forwarded_for;
     proxy_set_header X-Forwarded-Host $http_host;
     proxy_set_header X-Forwarded-Proto $scheme;
     # Live updates hold a WebSocket open for as long as the page is.
@@ -93,6 +110,13 @@ server {
     sub_filter '{{ .ingress_entry }}' '$public_base';
     sub_filter_once off;
     sub_filter_types application/javascript application/json application/manifest+json application/xml text/css text/javascript text/xml;
+    # nginx compresses what it rewrote, after rewriting it, in Sonarr's place.
+    # Ingress answers arrive compressed already when the browser asked for it,
+    # and nginx leaves a compressed answer alone.
+    gzip on;
+    gzip_proxied any;
+    gzip_types application/javascript application/json application/manifest+json application/xml text/css text/javascript text/plain text/xml;
+    gzip_vary on;
     # The sign-in page is sent the page to return to, under the base and
     # encoded, so a redirect to it names the base twice. Only one redirect rule
     # applies to each response, so that case comes first.
