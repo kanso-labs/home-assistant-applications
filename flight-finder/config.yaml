@@ -6,16 +6,31 @@ description:
   Tracks flight, hotel and car rental prices over time, with price history and
   alerts when they drop. It runs its own PostgreSQL, and reads prices with an AI
   model you choose.
+# Supervisor's default role, which reads information and nothing else. Flight
+# Finder signs people in only at addresses it was told about, and this is how
+# it is told this machine's IPv4 addresses. See DOCS.md.
+hassio_api: true
 image: 'ghcr.io/kanso-labs/home-assistant-application-flight-finder'
 init: false
 name: Flight Finder
 options:
   access_password: ''
+  addresses: []
+  admin_profile: Admin
 ports:
   3003/tcp: 3003
+# The Configuration tab lists the options in the order the schema declares
+# them, so they follow the order a person fills them in.
 schema:
+  admin_profile: str(1,100)
   access_password: password?
+  addresses:
+    - url
 slug: flight-finder
+# Stopping takes Flight Finder down first and PostgreSQL after it, and
+# Supervisor's default of 10 seconds for both can kill PostgreSQL before it has
+# written its shutdown checkpoint, during a cold backup as much as an update.
+timeout: 120
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/flight-finder'
 version: '1.1.0' # x-release-please-version
 webui: 'http://[HOST]:[PORT:3003]'

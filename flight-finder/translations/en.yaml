@@ -1,11 +1,22 @@
 configuration:
   access_password:
-    name: Access password
     description: >-
-      At least 16 characters. Puts a sign-in in front of every page and API, and
-      only works when Flight Finder is reached over HTTPS, such as through a
-      reverse proxy with a certificate. Leave it empty to rely on Flight
-      Finder's own multi user mode instead, or to leave it open to anyone who
-      can reach it.
+      The password everyone enters to open Flight Finder, at least 12
+      characters. The first start creates the Admin profile with it. A new one
+      replaces the old on the next start and signs everyone out, while a change
+      made inside Flight Finder is kept until this option changes.
+    name: Shared password
+  addresses:
+    description: >-
+      Addresses that reach Flight Finder besides this machine's own, which it
+      knows already, such as https://flights.example.com through a reverse
+      proxy. Give the scheme, host and port alone. The first https one becomes
+      its main address, which alerts link to and passkeys work at.
+    name: Other addresses
+  admin_profile:
+    description: >-
+      The name of the Admin profile the first start creates. It is read only
+      then, so changing it afterwards does nothing.
+    name: Admin profile
 network:
   3003/tcp: The port Flight Finder's web interface is served on.

@@ -1,0 +1,83 @@
+#!/usr/bin/env bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Flight Finder
+# Creates the first Admin profile, and applies the shared password from options
+#
+# Started in the background by the Flight Finder service, with the environment
+# Flight Finder runs in, so the commands below reach the same database.
+# ==============================================================================
+readonly cli='/app/packages/cli/dist/index.js'
+readonly lib='/usr/lib/flight-finder'
+readonly health='http://127.0.0.1:3003/api/health'
+# A scrypt hash of the password last applied, never the password itself.
+readonly applied='/data/secrets/shared_password'
+
+# Upstream's command line, run as Flight Finder's own user. Nothing reads its
+# input from a terminal here, so its input is closed.
+run_as_node() {
+  s6-setuidgid node node "$@" < /dev/null
+}
+
+# Upstream's entrypoint prepares the database on every start, before the server
+# starts, and the commands below need it prepared. A first start also creates
+# the cluster and the schema, which on slow storage takes minutes.
+for _ in {1..600}; do
+  curl -fs -o /dev/null "${health}" && break
+  sleep 1
+done
+if ! curl -fs -o /dev/null "${health}"; then
+  bashio::log.warning 'Flight Finder did not answer, so its sign-in was left as it was'
+  exit 0
+fi
+
+if ! listing="$(run_as_node "${cli}" access list)" \
+  || ! has_owner="$(jq '[.principals[] | select(.role == "owner")] | length > 0' <<< "${listing}")"; then
+  bashio::log.error 'Could not read who can sign in to Flight Finder'
+  exit 1
+fi
+
+if ! bashio::config.has_value 'access_password'; then
+  # Forgetting the password applied last is what lets the same one be set
+  # again later, to undo a change made inside Flight Finder.
+  rm -f "${applied}"
+  if ! bashio::var.true "${has_owner}"; then
+    bashio::log.warning 'Nobody can sign in to Flight Finder until it has an Admin profile. Set a shared password in the Configuration tab and restart to create one.'
+  fi
+  exit 0
+fi
+
+password="$(bashio::config 'access_password')"
+
+# Applied only when it differs from the one applied last, so that a password
+# changed inside Flight Finder since then is kept until this option changes.
+if bashio::var.true "${has_owner}" && [[ -s "${applied}" ]] \
+  && FLIGHT_FINDER_ACCESS_PASSWORD="${password}" \
+    node "${lib}/password-fingerprint.mjs" check "${applied}"; then
+  exit 0
+fi
+
+if bashio::var.true "${has_owner}"; then
+  # Upstream's reset, which signs everyone out and removes the passkeys saved
+  # for the shared password, as changing it inside Flight Finder does.
+  bashio::log.info "Replacing Flight Finder's shared password with the one in the Configuration tab..."
+  if ! FLIGHT_FINDER_ACCESS_PASSWORD="${password}" \
+    run_as_node --import "${lib}/unattended-access.mjs" "${cli}" access reset > /dev/null; then
+    bashio::log.error "Could not replace Flight Finder's shared password"
+    exit 1
+  fi
+  bashio::log.info 'The shared password was replaced, and everyone was signed out'
+else
+  profile="$(bashio::config 'admin_profile')"
+  bashio::log.info "Creating the Admin profile ${profile}..."
+  if ! FLIGHT_FINDER_ACCESS_NAME="${profile}" \
+    FLIGHT_FINDER_ACCESS_PASSWORD="${password}" \
+    run_as_node --import "${lib}/unattended-access.mjs" "${cli}" access setup > /dev/null; then
+    bashio::log.error 'Could not create the first Admin profile'
+    exit 1
+  fi
+  bashio::log.info 'The Admin profile was created, and Flight Finder now accepts the shared password'
+fi
+
+FLIGHT_FINDER_ACCESS_PASSWORD="${password}" \
+  node "${lib}/password-fingerprint.mjs" write "${applied}"
