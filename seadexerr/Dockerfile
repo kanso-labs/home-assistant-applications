@@ -31,6 +31,15 @@ COPY --from=seadexerr /usr/local/bin/seadexerr /usr/local/bin/seadexerr
 # Copy root filesystem
 COPY rootfs /
 
+# Supervisor shows the application as starting until the first result arrives,
+# and with the watchdog on, restarts it when the check fails. /health answers
+# without contacting Sonarr, Radarr or SeaDex, so an outage elsewhere cannot
+# get Seadexerr restarted. Every start asks GitHub for the anime mappings, about
+# 9 MB, before Seadexerr opens its port, and downloads them again whenever they
+# have changed, so the start period leaves room for a slow download.
+HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=5 \
+  CMD curl -f -s -S -o /dev/null http://127.0.0.1:2071/health || exit 1
+
 LABEL \
     org.opencontainers.image.title="Home Assistant Application: Seadexerr" \
     org.opencontainers.image.description="Prowlarr indexer that offers the SeaDex release of each anime, for Sonarr and Radarr to prefer." \
