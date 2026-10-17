@@ -38,9 +38,13 @@ Three things follow from that:
   made while it showed, is sent to the same page without it.
 - **URL Base, Port and Bind Address under Settings → General are set by the
   application** and changing them there has no effect. URL Base shows empty on
-  the published port and the ingress path through ingress.
-- **Radarr sees the address nginx was called from**, the same one it saw before
-  nginx was in front of it, so "Disabled for Local Addresses" decides as it did.
+  the published port and the ingress path through ingress. A URL Base saved
+  before ingress, such as `/radarr`, is ignored, and the log says so at start:
+  whatever called `http://<host>:7878/radarr` has to call `http://<host>:7878`.
+  Saving Settings → General on the published port clears it.
+- **"Disabled for Local Addresses" decides as it did before ingress.** A browser
+  calling the published port is judged by its own address, and anything reaching
+  it through Traefik, Nginx Proxy Manager or a tunnel has to sign in.
   Supervisor's own address is local, which is why ingress opens without Radarr's
   sign-in when that setting is on; Home Assistant has already asked for one.
 
@@ -65,6 +69,11 @@ Backups are taken cold, so Home Assistant stops Radarr for the duration. Radarr
 keeps its state in SQLite, and copying a database that is being written to can
 produce a backup that will not restore. The application is briefly unavailable
 while a backup runs.
+
+Posters and fan art, in `MediaCover`, and the log files are left out of backups,
+since they can take gigabytes and keep Radarr stopped for longer. After a
+restore Radarr downloads the artwork again as it refreshes each movie, or for
+every movie at once with **Update All** on the Movies page.
 
 ## Updates
 
