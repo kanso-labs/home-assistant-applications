@@ -46,6 +46,16 @@ for entrypoint in "${route_entrypoints[@]}"; do
   options+=("--entryPoints.${name}.transport.respondingTimeouts.readTimeout=1h")
 done
 
+# The image's health check asks Traefik's ping, on an entrypoint of its own that
+# listens on the container's loopback alone, so nothing outside the container
+# reaches it and the dashboard's entrypoint still answers only the Supervisor.
+# Every router the init script writes names its entrypoints, so no route is
+# served there. Traefik warns on every start about an entrypoint that forwards
+# aliasing headers, so this one drops them as the others do.
+options+=(--ping=true --ping.entryPoint=ping)
+options+=(--entryPoints.ping.address=127.0.0.1:8082)
+options+=(--entryPoints.ping.http.aliasHeadersStrategy=delete)
+
 # Everything routed comes from the files in the configuration folder: the one
 # the init script writes from the Configuration tab, and any added by hand.
 # Changes to them apply without a restart.
