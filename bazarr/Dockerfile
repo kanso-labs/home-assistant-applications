@@ -2,8 +2,11 @@
 # Bazarr warns above Python 3.13 — "Python version greater than 3.13.x is
 # unsupported [...] you're on your own" — but check_python_version() only exits
 # below 3.10, and upstream CI runs its backend suite on 3.14. The warning is not
-# a ceiling, so Renovate follows this image wherever it goes.
-ARG BUILD_FROM=ghcr.io/home-assistant/base-python:3.14-alpine3.22
+# a ceiling, so Renovate follows this image wherever it goes. The tag names a
+# Python release and an Alpine one, and docker versioning alone never crosses
+# the Alpine part, so .github/renovate.json reads the two as one version: a new
+# Python arrives as a minor update, a new Alpine as a patch.
+ARG BUILD_FROM=ghcr.io/home-assistant/base-python:3.14-alpine3.24
 FROM ${BUILD_FROM}
 
 # Set shell
@@ -13,7 +16,14 @@ ARG BUILD_ARCH=amd64
 ARG BUILD_VERSION=dev
 # renovate: datasource=github-releases depName=morpheus65535/bazarr
 ARG BAZARR_VERSION=1.6.2
-ARG UNRAR_VERSION=6.2.12
+# Bazarr runs UnRAR on archives downloaded from subtitle providers, which is
+# untrusted input, so it is kept current. RARLAB publishes no feed or
+# repository; the rarlab datasource in .github/renovate.json reads its download
+# page. Its source tarballs are numbered by build rather than by version, so
+# unrarsrc-7.2.7 is UnRAR 7.23, and the page links a beta as readily as a
+# release: RARVER_BETA in the tarball's version.hpp says which a bump is.
+# renovate: datasource=custom.rarlab depName=unrar
+ARG UNRAR_VERSION=7.2.7
 
 # Install requirements for application
 RUN \
