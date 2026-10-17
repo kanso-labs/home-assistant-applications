@@ -17,6 +17,7 @@ map:
     type: media
 name: Immich
 options:
+  database_reader_password: ''
   hosts: []
 ports:
   2283/tcp: 2283
