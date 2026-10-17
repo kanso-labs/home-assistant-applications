@@ -69,6 +69,11 @@ report() {
   "bashio::log.${level}" "${message}"
 }
 
+# A run killed before its finish script could clean up leaves its rules in the
+# host's firewall. The loop below removes them only once there is something to
+# share, so a port still waiting for an address would keep them meanwhile.
+remove_rules
+
 applied=''
 while true; do
   uplink="$(find_uplink)"
