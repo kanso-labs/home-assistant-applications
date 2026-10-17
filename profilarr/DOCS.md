@@ -21,10 +21,19 @@ not have a second password than a media stack.
 
 ### Option: `external_url`
 
-The address that reaches this application from outside Home Assistant, such as
-`https://profilarr.example.com`. Profilarr uses it only to build OIDC redirects
-and to decide whether its session cookie may be marked secure, so leave it empty
-unless you have put something in front of the port.
+The public address of this application when a reverse proxy is in front of it,
+such as `https://profilarr.example.com`. Leave it empty if you open Profilarr on
+port 6868.
+
+Profilarr refuses a form sent from a page at an address other than the one the
+request arrived at, and that includes the login. Behind a proxy that serves
+`https://`, or that changes the host name, the two differ, and signing in fails
+with `403 Cross-site POST form submissions are forbidden` until this is set.
+Profilarr also marks its session cookie secure when the address starts with
+`https://`.
+
+Once it is set, Profilarr takes every request as arriving at that address, so
+sign in there. A login sent from port 6868 is refused the same way.
 
 ### Options: `parser_host` and `parser_port`
 
@@ -36,8 +45,13 @@ Add your Radarr and Sonarr instances under **Settings → Arr**, then link a
 database — [Dictionarry](https://github.com/Dictionarry-Hub/database),
 [TRaSH Guides](https://github.com/Dictionarry-Hub/trash-pcd), or your own — and
 sync. Profilarr reaches the arr applications over the internal network, so use
-their application hostnames rather than `localhost`: `http://<slug>:7878` for
-Radarr and `http://<slug>:8989` for Sonarr.
+their hostnames inside Home Assistant rather than `localhost`:
+`http://2dd33fbd-radarr:7878` for Radarr and `http://2dd33fbd-sonarr:8989` for
+Sonarr.
+
+`2dd33fbd` is Home Assistant's name for this repository when it was added by the
+address in the README. A Radarr or Sonarr installed any other way has another
+prefix, shown as **Hostname** on its Info page.
 
 Schedules and log timestamps follow the Home Assistant system time zone, which
 Supervisor passes to the application.
@@ -82,6 +96,13 @@ briefly unavailable while a backup runs.
 
 Profilarr also takes backups of its own, into `/config/backups`, which a Home
 Assistant backup then includes.
+
+## Updates
+
+Version bumps arrive as pull requests against the repository and reach you as an
+application update once released. Profilarr lists its newer releases under
+**Settings → About**, but it ships no updater of its own: the version is built
+into the image, so updating this application is the only route to one.
 
 ## Support
 

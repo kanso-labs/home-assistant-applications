@@ -17,18 +17,25 @@ mkdir -p \
 
 # Profilarr's own login. It is on by default, which is the right answer for a
 # port published on your network; turning it off is for a network where you
-# would rather not have a second password than a media stack.
-if bashio::config.true 'enable_authentication'; then
-  export AUTH='on'
-else
+# would rather not have a second password than a media stack. Only an explicit
+# false turns it off: bashio reads an option it could not fetch from Supervisor
+# as empty, and an empty value has to keep the login on rather than drop it.
+if bashio::config.false 'enable_authentication'; then
   export AUTH='off'
   bashio::log.warning \
     'Authentication is disabled — anyone who can reach port 6868 can use Profilarr.'
+else
+  export AUTH='on'
 fi
 
-# Only used to build OIDC redirects and to decide whether a cookie may be
-# marked secure, so it matters when something is in front of this application
-# and not otherwise. Left unset, Profilarr uses the address it is bound to.
+# The public address, for when a reverse proxy is in front of this
+# application. Profilarr refuses any form, its login included, sent from a page
+# at an address other than the one the request arrived at, and behind a proxy
+# that serves https://, or that rewrites the host, the two differ. Set, it
+# stands in for the address of every request, which is also why the published
+# port then refuses the login. Profilarr marks its session cookie secure when
+# this starts with https://. Left unset, each request keeps the address it
+# arrived at.
 if bashio::config.has_value 'external_url'; then
   ORIGIN=$(bashio::config 'external_url')
   export ORIGIN
