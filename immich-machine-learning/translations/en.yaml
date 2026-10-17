@@ -5,3 +5,8 @@ configuration:
       device OpenVINO runs the models on, which is how to tell the GPU from the
       processor.
     name: Log level
+network:
+  3003/tcp: >-
+    Only for an Immich server elsewhere on your network. The Immich application
+    on this Home Assistant reaches machine learning at
+    http://2dd33fbd-immich-machine-learning:3003 with no port opened.

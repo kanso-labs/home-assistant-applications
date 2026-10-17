@@ -26,6 +26,12 @@ There is nothing to connect by hand. See How Immich reaches it below.
 Everything else, such as which models to use, is set from Immich's own settings,
 under Administration → Settings → Machine Learning Settings.
 
+Turn on **Watchdog** on the application's Info tab to have Home Assistant
+restart machine learning when it stops answering, not only when it exits.
+Immich's image asks for machine learning's `/ping` every 30 seconds, waits two
+seconds for each answer, and counts three failures in a row as a hang. It is off
+by default.
+
 ## How Immich reaches it
 
 The Immich application looks for machine learning at its hostname inside Home
@@ -39,8 +45,14 @@ http://2dd33fbd-immich-machine-learning:3003
 address in the README. The name only resolves while this application is running.
 Immich's Machine Learning Settings can point it somewhere else.
 
-**No port is published.** Nothing outside Home Assistant can reach machine
-learning, and nothing needs to.
+**The port is closed by default.** The Immich application reaches machine
+learning by the name above and needs no port. Open it only for an Immich server
+elsewhere on your network: in this application's **Configuration** tab, under
+**Network**, set the port to `3003`, then point that server's Machine Learning
+Settings at your Home Assistant machine's address, such as
+`http://192.168.1.10:3003`. Keep that server on the same Immich version as this
+application, since Immich warns that a mismatch between the two can cause bugs.
+Machine learning has no login, so open the port only on a network you trust.
 
 **Immich keeps working while this is stopped**, from uploads to browsing. Two
 things are the exception:
@@ -80,15 +92,20 @@ Set the log level back to `log` afterwards. At `debug` the log grows quickly.
 
 ## Storage
 
-| Path          | Holds                                                    |
-| ------------- | -------------------------------------------------------- |
-| `/data/cache` | The models, downloaded the first time each one is needed |
+| Path          | Access     | Holds                                                    |
+| ------------- | ---------- | -------------------------------------------------------- |
+| `/data/cache` | read/write | The models, downloaded the first time each one is needed |
 
 The first face detection or smart search after installing waits while its model
 downloads, which can be several hundred megabytes. After that the models are
 kept, across restarts and updates.
 
-They are **left out of backups**, because they download again on their own.
+## Backups
+
+Backups are taken hot, since machine learning keeps no database. The models in
+`/data/cache` are left out, because they download again the first time each one
+is needed. A restore is therefore small, and the first face detection or smart
+search after one waits while its model downloads.
 
 ## Decisions
 
@@ -136,4 +153,4 @@ documentation.
 
 Immich is developed by the [Immich](https://github.com/immich-app/immich)
 project and is licensed under the GNU Affero General Public License v3.0. The
-icon and logo are Immich's own, from its repository.
+icon is Immich's own, from its repository, and the logo is built from it.

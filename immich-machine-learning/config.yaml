@@ -16,6 +16,11 @@ init: false
 name: Immich Machine Learning
 options:
   log_level: log
+# Closed by default. The Immich application on the same Home Assistant reaches
+# machine learning by its internal name, so the port is only for an Immich
+# server elsewhere on the network, see DOCS.md.
+ports:
+  3003/tcp: null
 schema:
   log_level: list(verbose|debug|log|warn|error)
 slug: immich-machine-learning
