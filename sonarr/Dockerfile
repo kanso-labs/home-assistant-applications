@@ -18,6 +18,11 @@ ENV XDG_CONFIG_HOME="/config/xdg"
 ENV Sonarr__Server__BindAddress="127.0.0.1"
 ENV Sonarr__Server__Port="18989"
 
+# With analytics off, Sonarr sends the Sonarr team's Sentry no crash reports,
+# apart from an error early in a start, before it has read its settings. Like
+# the two above, this variable wins over the setting saved in config.xml.
+ENV Sonarr__Log__AnalyticsEnabled="False"
+
 # Install requirements for application. nginx is what ingress and the published
 # port reach; the configuration its package ships is replaced by the one in
 # rootfs/, which serves nothing else.

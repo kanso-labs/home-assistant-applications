@@ -4,9 +4,13 @@ arch:
 backup: cold
 # The artwork, which Sonarr downloads again as it refreshes each series, and the
 # log files are left out, to keep the time Sonarr is stopped for a backup short.
+# So are logs.db and its -shm and -wal files, which Sonarr creates again when
+# they are missing. Their entry starts from the folder /config is kept in, so
+# that its trailing wildcard matches nothing further down.
 backup_exclude:
   - MediaCover
   - logs
+  - '*_sonarr/logs.db*'
 description:
   Smart PVR for Usenet and BitTorrent users. Sonarr monitors multiple RSS feeds
   for new episodes of the shows you follow, grabs them through your download
