@@ -23,4 +23,7 @@ configuration:
       pt-BR. Leave it empty to match the country the requests leave from.
     name: Browser language
 network:
-  8191/tcp: The port Byparr answers requests on.
+  8191/tcp: >-
+    Only for a Prowlarr outside Home Assistant. One inside it reaches Byparr at
+    http://2dd33fbd-byparr:8191 with no port opened. Anyone who can reach this
+    port can have Byparr fetch pages from inside Home Assistant's network.

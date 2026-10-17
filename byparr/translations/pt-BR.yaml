@@ -25,4 +25,8 @@ configuration:
       saem.
     name: Idioma do navegador
 network:
-  8191/tcp: A porta em que o Byparr responde às requisições.
+  8191/tcp: >-
+    Só para um Prowlarr fora do Home Assistant. Um Prowlarr dentro dele acessa o
+    Byparr em http://2dd33fbd-byparr:8191 sem abrir porta nenhuma. Quem consegue
+    acessar esta porta pode fazer o Byparr buscar páginas de dentro da rede do
+    Home Assistant.
