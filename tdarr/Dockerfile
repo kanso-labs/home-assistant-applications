@@ -40,6 +40,9 @@ RUN \
 # Copy root filesystem
 COPY rootfs /
 
+# Stop the container if a cont-init script fails, as Home Assistant's bases do.
+ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
+
 # Tdarr's image has no health check of its own. With one, Supervisor shows the
 # application as starting until the first result arrives, and with the watchdog
 # on, restarts it when the check fails, so a server that has stopped answering

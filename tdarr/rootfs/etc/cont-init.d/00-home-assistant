@@ -45,11 +45,15 @@ set_env seededApiKey "${api_key}"
 set_env apiKey "${api_key}"
 
 # Whether the web interface asks for Tdarr's own sign-in. The node is unaffected
-# either way, since it authenticates with the key above.
-if bashio::config.true 'auth'; then
-  set_env auth true
-else
+# either way, since it authenticates with the key above. Only an explicit false
+# turns it off: bashio reads an option it could not fetch from Supervisor as
+# empty, and an empty value has to keep the sign-in on rather than drop it.
+if bashio::config.false 'auth'; then
   set_env auth false
+  bashio::log.warning \
+    'Sign-in is off. Keep port 8265 closed, or anyone who can reach it can use Tdarr.'
+else
+  set_env auth true
 fi
 
 # Run the server and its node in this container, the node reaching the server
@@ -59,13 +63,18 @@ set_env nodeName Internal
 set_env serverIP 0.0.0.0
 set_env serverURL 'http://127.0.0.1:8266'
 
-# Tdarr runs as root, as every application here does. Its files on a network
-# share then belong to whoever the share maps root to, the same as for Radarr,
-# Sonarr and Muxarr, rather than to a uid that exists only in this container.
+# Tdarr runs as root, where its own image would drop to uid 1000. With PUID and
+# PGID at 0, the user its service scripts switch to is root. Its files on a
+# network share then belong to whoever the share maps root to, the same as for
+# Radarr, Sonarr and Muxarr, rather than to a uid that exists only in this
+# container.
 set_env PUID 0
 set_env PGID 0
 
 # Tdarr rewrites files in the library, so the permissions they land with are the
 # user's business. 022 leaves them writable by their owner alone; 002 is what a
-# library shared with a group needs.
-set_env UMASK "$(bashio::config 'umask')"
+# library shared with a group needs. It is read on a line of its own because a
+# failed read inside set_env's argument goes unnoticed, and Tdarr would start
+# without it; here it fails the script, which stops the container.
+umask_option="$(bashio::config 'umask')"
+set_env UMASK "${umask_option}"

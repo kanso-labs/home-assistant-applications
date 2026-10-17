@@ -8,6 +8,11 @@ subtitles, fix its metadata, transcode it, or check it for corruption.
 This application runs the Tdarr server and one node together, so a single
 installation does the work itself.
 
+**This application is at 0.x** while it is new to this repository. It has been
+built and booted, and tried through ingress, but a long run over a full library,
+with a flow that extracts subtitles and remuxes each file, has not yet been
+proven.
+
 ## Why it is built on your Home Assistant
 
 Tdarr is free for personal use, but its licence forbids redistributing it, so
@@ -24,7 +29,7 @@ Tdarr means accepting
 
 1. Add this repository to your Home Assistant instance.
 2. Install the "Tdarr" application. Home Assistant builds it first.
-3. Start it, then open it from the sidebar, or on port 8265.
+3. Start it, then select **Open Web UI**, or open port 8265.
 4. Add a library: the folder to watch, under `/media` or `/share`, and the
    transcode cache, `/temp`.
 5. Build a flow, attach it to the library, and test it on a few files before
@@ -32,6 +37,32 @@ Tdarr means accepting
 
 **Test a flow on copies first.** Tdarr replaces the files it processes, and a
 flow that removes the wrong tracks removes them from every file it reaches.
+
+[Muxarr](https://github.com/kanso-labs/home-assistant-applications/tree/main/muxarr),
+also in this store, rewrites files in place as well, so do not point the two at
+the same library folders, or one can pick up a file the other is still
+rewriting.
+
+## Configuration
+
+| Option               | What it sets                                                               |
+| -------------------- | -------------------------------------------------------------------------- |
+| Sign-in              | Whether the web interface asks for Tdarr's own login. On by default        |
+| File permission mask | The permissions processed files land with. 022 by default; 002 for a group |
+
+Turn the sign-in off only when something else stands in front of Tdarr, such as
+ingress or an authenticating reverse proxy, and close port 8265 when you do.
+With the sign-in off and the port open, anyone who can reach it can rewrite your
+library.
+
+The internal node authenticates with an API key the application generates on
+first start and keeps in its configuration directory, so it keeps working
+whether the sign-in is on or off.
+
+Turn on **Watchdog** on the application's Info tab to have Home Assistant
+restart Tdarr when it stops answering, not only when it exits. The image asks
+the Tdarr server for its status every 30 seconds, and five failures in a row
+count as a hang. It is off by default.
 
 ## Ingress
 
@@ -65,32 +96,17 @@ Two things are worth knowing:
   Assistant answers those instead of Tdarr. Go to the same page through Tdarr's
   menu instead.
 
-## Configuration
-
-| Option               | What it sets                                                               |
-| -------------------- | -------------------------------------------------------------------------- |
-| Sign-in              | Whether the web interface asks for Tdarr's own login. On by default        |
-| File permission mask | The permissions processed files land with. 022 by default; 002 for a group |
-
-Turn the sign-in off only when something else stands in front of Tdarr, such as
-ingress or an authenticating reverse proxy, and close port 8265 when you do.
-With the sign-in off and the port open, anyone who can reach it can rewrite your
-library.
-
-The internal node authenticates with an API key the application generates on
-first start and keeps in its configuration directory, so it keeps working
-whether the sign-in is on or off.
-
-**Watchdog**, on the application's Info page, restarts Tdarr when it stops
-answering as well as when it exits. The application asks the Tdarr server for
-its status every 30 seconds, and five failures in a row count as a hang.
-
-## Network
+## Ports
 
 | Port | What it is                                                                       |
 | ---- | -------------------------------------------------------------------------------- |
 | 8265 | The web interface and API                                                        |
 | 8266 | The server port external nodes connect to. Closed by default; open it to add one |
+
+## Hardware transcoding
+
+This application asks Home Assistant for no GPU access, because remuxing and
+subtitle work need none. A flow that transcodes runs on the processor.
 
 ## Storage
 
@@ -117,11 +133,6 @@ Storage**, or give the library a cache on network storage, under
 `/media/<mount>` or `/share/<mount>`. That is slower, but it takes none of Home
 Assistant's space.
 
-## Hardware transcoding
-
-This application asks Home Assistant for no GPU access, because remuxing and
-subtitle work need none. A flow that transcodes runs on the processor.
-
 ## Backups
 
 Backups are taken cold, so Home Assistant stops Tdarr for the duration. The
@@ -147,8 +158,9 @@ For questions about Tdarr itself rather than this packaging, see
 
 This packaging started from
 [alexbelgium's Tdarr add-on](https://github.com/alexbelgium/hassio-addons/tree/master/tdarr),
-which is MIT licensed, and the icon and logo are taken from it. It runs Tdarr's
-own image and service scripts unchanged, adding only what Home Assistant needs.
+which is MIT licensed. It runs Tdarr's own image and service scripts unchanged,
+adding only what Home Assistant needs. The icon is taken from that add-on, and
+the logo sets it beside Tdarr's name.
 
 Tdarr itself is developed by [HaveAGitGat](https://github.com/HaveAGitGat/Tdarr)
 and is distributed under its own end-user licence. It builds on

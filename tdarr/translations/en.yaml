@@ -2,8 +2,8 @@ configuration:
   auth:
     description: >-
       Whether the web interface asks for Tdarr's own login. Turn it off only
-      when an authenticating reverse proxy stands in front of Tdarr and port
-      8265 is closed.
+      when something else signs users in first, such as ingress or an
+      authenticating reverse proxy, and close port 8265 when you do.
     name: Sign-in
   umask:
     description: >-
