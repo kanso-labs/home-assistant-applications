@@ -4,13 +4,23 @@
 
 1. Add this repository to your Home Assistant instance.
 2. Install the "Radarr" application.
-3. Start it, then open it from the sidebar, or on port 7878.
+3. Start it, then select **Open Web UI**, or open port 7878.
 
 ## Configuration
 
 Radarr has no application options. Everything is configured from its own web
 interface, and the settings live in the application's configuration directory so
 they survive restarts and updates.
+
+**Send Anonymous Usage Data**, under Settings → General, is kept off for you,
+and turning it on there has no effect. With it off, Radarr sends Servarr no
+crash reports, apart from an error early in a start, before it has read its
+settings.
+
+Turn on **Watchdog** on the application's Info tab to have Home Assistant
+restart Radarr when it stops answering, not only when it exits. The image asks
+for Radarr's `/ping` every 30 seconds, through nginx so that both are checked,
+and five failures in a row count as a hang. It is off by default.
 
 ## Ingress
 
@@ -70,10 +80,12 @@ keeps its state in SQLite, and copying a database that is being written to can
 produce a backup that will not restore. The application is briefly unavailable
 while a backup runs.
 
-Posters and fan art, in `MediaCover`, and the log files are left out of backups,
-since they can take gigabytes and keep Radarr stopped for longer. After a
-restore Radarr downloads the artwork again as it refreshes each movie, or for
-every movie at once with **Update All** on the Movies page.
+Posters and fan art, in `MediaCover`, are left out of backups, since they can
+take gigabytes and keep Radarr stopped for longer. So are the log files, and
+`logs.db`, which holds the last week of entries under **System → Events**.
+Radarr starts both afresh after a restore, and downloads the artwork again as it
+refreshes each movie, or for every movie at once with **Update All** on the
+Movies page.
 
 ## Updates
 
