@@ -1,2 +1,6 @@
+configuration:
+  log_level:
+    description: How much detail Seerr writes to its log and its Logs page.
+    name: Log level
 network:
   5055/tcp: The port the Seerr web interface listens on.

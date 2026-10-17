@@ -1,10 +1,11 @@
 # https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
 #
-# This is the only application here that does not start from a Home Assistant
-# base image. Seerr publishes no release asset and is not an npm package, so
-# the alternative is cloning the repository and running its pnpm and Next.js
-# build, including the native-module pruning upstream does for musl. Building
-# on top of the image upstream already publishes keeps that parity for free.
+# This starts from the image Seerr publishes rather than a Home Assistant base
+# image, as Cleanuparr, Lingarr, Muxarr and others here do. Seerr publishes no
+# release asset and is not an npm package, so the alternative is cloning the
+# repository and running its pnpm and Next.js build, including the
+# native-module pruning upstream does for musl. Building on top of the image
+# upstream already publishes keeps that parity for free.
 #
 # The cost is that s6-overlay and bashio arrive here by hand rather than from
 # the base image. Both are installed below, and the service layout under
