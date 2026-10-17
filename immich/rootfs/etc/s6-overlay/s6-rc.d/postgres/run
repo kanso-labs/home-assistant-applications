@@ -38,7 +38,17 @@ if [[ ! -s "${data_dir}/PG_VERSION" ]]; then
     > /dev/null || bashio::exit.nok 'Could not create the PostgreSQL cluster'
 fi
 
-chown postgres:postgres "${data_dir}"
+# The postgres user is created when the image is built, with whichever system
+# uid is free then, so an update that creates another system user first can
+# give it a different one. The files in /data keep the old owner, and
+# PostgreSQL then cannot read them. Whatever postgres does not own is handed
+# back to it before the server starts. Pinning a uid in the image would not
+# help: any uid but the one an install already has fails the same way.
+if [[ -n "$(find "${data_dir}" \( ! -user postgres -o ! -group postgres \) -print -quit)" ]]; then
+  bashio::log.info 'Giving the PostgreSQL files back to the postgres user...'
+  chown -R postgres:postgres "${data_dir}" \
+    || bashio::exit.nok 'Could not give the PostgreSQL files to the postgres user'
+fi
 
 # Other applications, such as Immich Power Tools, can read the database once a
 # read-only password is set. PostgreSQL then listens on Home Assistant's
@@ -52,13 +62,30 @@ fi
 
 bashio::log.info 'Starting PostgreSQL...'
 
-# VectorChord has to be loaded as the server starts, and it is the one setting
-# Immich needs beyond PostgreSQL's defaults. Who may connect, and how, is the
-# image's pg_hba.conf.
+# VectorChord has to be loaded as the server starts. Who may connect, and how,
+# is the image's pg_hba.conf.
+#
+# The rest is the tuning upstream's own database image applies for solid-state
+# storage, from its postgresql.ssd.conf. It suits the SD cards and eMMC Home
+# Assistant often runs on as well, since none of them seek. The one change is
+# shared_buffers, half of upstream's 512MB, because this database shares its
+# host with Home Assistant and everything else installed there. max_wal_size
+# lets the write-ahead log in /data grow to about 5GB during a large import
+# before a checkpoint frees it. Settings given here override any made with
+# ALTER SYSTEM.
 exec s6-setuidgid postgres postgres \
   -D "${data_dir}" \
   -c listen_addresses="${listen_addresses}" \
   -c port=5432 \
   -c unix_socket_directories="${socket_dir}" \
   -c hba_file='/etc/immich/pg_hba.conf' \
-  -c shared_preload_libraries='vchord.so'
+  -c shared_preload_libraries='vchord.so' \
+  -c shared_buffers=256MB \
+  -c work_mem=16MB \
+  -c max_wal_size=5GB \
+  -c wal_compression=on \
+  -c autovacuum_vacuum_scale_factor=0.1 \
+  -c autovacuum_analyze_scale_factor=0.05 \
+  -c autovacuum_vacuum_cost_limit=1000 \
+  -c effective_io_concurrency=200 \
+  -c random_page_cost=1.2

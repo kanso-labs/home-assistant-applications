@@ -6,14 +6,6 @@ description:
   Self-hosted photo and video backup for your phones. Immich groups the faces in
   your library and finds photos by what is in them, with its machine learning in
   the Immich Machine Learning application.
-# The same render devices the Plex Media Server application is given, here for
-# QuickSync video transcoding. Supervisor grants the ones that exist and skips
-# the rest, so nothing breaks without them.
-devices:
-  - /dev/dri
-  - /dev/dri/card0
-  - /dev/dri/card1
-  - /dev/dri/renderD128
 image: 'ghcr.io/kanso-labs/home-assistant-application-immich'
 init: false
 map:
@@ -36,6 +28,17 @@ schema:
       address: match(^([0-9]{1,3}(\.[0-9]{1,3}){3}|[0-9A-Fa-f:.]*:[0-9A-Fa-f:.]*)$)
   database_reader_password: password?
 slug: immich
+# How long Supervisor lets the application stop before Docker kills it, in
+# seconds, up from its default of 10. Immich stops first and then PostgreSQL,
+# whose shutdown checkpoint writes back as much of its 256MB cache as changed,
+# and on slow storage that alone can take longer than 10 seconds. A database
+# killed partway loses nothing, but its next start replays the log first.
+timeout: 120
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/immich'
 version: '1.0.2' # x-release-please-version
+# Quick Sync video transcoding. This grants every GPU under /dev/dri, whatever
+# its number, where a devices list grants only the nodes it names: renderD128
+# alone, so a GPU that came up as renderD129 was never used. Nothing breaks
+# without one.
+video: true
 webui: 'http://[HOST]:[PORT:2283]'

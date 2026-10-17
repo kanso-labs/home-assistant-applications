@@ -175,7 +175,10 @@ the reasons.
    the end of its life in November 2026, and Immich accepts 14 and later. It
    comes from the PostgreSQL project's own repository, which Immich's image
    already uses for its client tools, with VectorChord from its release packages
-   and loaded as the server starts.
+   and loaded as the server starts. It runs with the settings upstream's own
+   database image uses on solid-state storage, apart from its cache,
+   `shared_buffers`, which is halved to 256MB to leave room for everything else
+   on the host.
 5. **Valkey is copied from its own image**, bound to the loopback address with
    persistence off. The Debian release Immich builds on ships Valkey 8, a major
    behind the 9 upstream's compose file runs. Persistence stays off because a
@@ -188,12 +191,12 @@ the reasons.
 
 ## Video transcoding and the GPU
 
-The render devices under `/dev/dri` are offered to the container, the same ones
-the Plex Media Server application is given, so Immich can transcode video on an
-Intel GPU with Quick Sync. Nothing breaks when they are absent.
+Every GPU under `/dev/dri` is offered to the container, whatever number it comes
+up as, so Immich can transcode video on an Intel GPU with Quick Sync. Nothing
+breaks when there is none.
 
-Immich does not use them until told to: under Administration → Settings → Video
-Transcoding Settings → Hardware Acceleration, choose **Quick Sync**.
+Immich does not use the GPU until told to: under Administration → Settings →
+Video Transcoding Settings → Hardware Acceleration, choose **Quick Sync**.
 
 ## Ports
 
@@ -213,7 +216,8 @@ Assistant's internal network. No port is published for either.
 | `/data/postgresql` | The database: albums, faces, the search index, people and settings        |
 
 Without network storage, `/media/immich` is on Home Assistant's own data disk,
-and a photo library can fill it.
+and a photo library can fill it. The database is always there, and during a
+large import its write-ahead log can take about 5GB more for a while.
 
 Immich writes the library as root, as its own image runs. Home Assistant mounts
 network storage writable by root alone, so this is also what lets the library
@@ -233,7 +237,9 @@ container as it stops and loads it again when it starts.
 Backups are taken cold, so Home Assistant stops Immich and its database together
 for the duration. That is what makes the copy consistent; a hot copy of a
 running PostgreSQL may not restore. The stop also drops the job queue; see
-Storage.
+Storage. On this and every other stop, Home Assistant waits up to two minutes
+for them rather than its usual ten seconds, so that PostgreSQL has time to shut
+down cleanly.
 
 **`/media` is not part of this application's backup.** Restoring one brings back
 the database, not the library. Photos uploaded since that backup stay on disk as
