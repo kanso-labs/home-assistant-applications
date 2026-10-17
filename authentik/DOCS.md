@@ -2,17 +2,18 @@
 
 ## Before you install
 
-Authentik is heavier than anything else in this repository. Upstream asks for
-**two CPU cores and 2GB of RAM**, and that is for Authentik alone — this
-application also runs the PostgreSQL it needs, in the same container. A
-Raspberry Pi with 2GB total, already running Home Assistant, is not enough.
+Authentik is one of the heavier applications here. Upstream asks for **two CPU
+cores and 2GB of RAM**, and that is for Authentik alone — this application also
+runs the PostgreSQL it needs, in the same container. A Raspberry Pi with 2GB
+total, already running Home Assistant, is not enough.
 
 ## Installation
 
 1. Add this repository to your Home Assistant instance.
 2. Install the "Authentik" application.
 3. Set `bootstrap_password`, and optionally `bootstrap_email`, before the first
-   start. See below if you would rather not.
+   start. The email field shows once **Show unused optional configuration
+   options** is on. See below if you would rather not.
 4. Start it. The first boot runs every database migration and imports the
    default flows, which takes a few minutes; later ones are much quicker.
 5. Open the web interface on port 9000 and log in as `akadmin`.
@@ -62,6 +63,13 @@ application leaves unset. Notification emails always use those, as does any
 stage that keeps **Use global connection settings** on; open an issue if you
 want them.
 
+### Watchdog
+
+Turn on **Watchdog** on the application's Info tab to have Home Assistant
+restart Authentik when it stops answering, not only when it exits. The
+application asks Authentik's liveness endpoint every 30 seconds, and five
+failures in a row count as a hang. It is off by default.
+
 ## Three containers, one application
 
 Upstream runs Authentik as three containers: PostgreSQL, a server and a worker.
@@ -93,9 +101,12 @@ can still run them elsewhere and point them here.
 | `/data/media`       | read/write | Icons and backgrounds people upload       |
 | `/data/secret_key`  | read/write | The key everything encrypted is tied to   |
 
-`/config` is the part you are expected to put files into. `/data` is private
-state that Home Assistant backs up without it being mapped, which is where the
-database belongs.
+`/config` is the part you are expected to put files into:
+`app_configs/2dd33fbd_authentik` on the host, which the Samba share application
+has inside its `app_configs` share and Studio Code Server under
+`/addon_configs`, the older name of `app_configs`. `/data` is private state that
+Home Assistant backs up without it being mapped, which is where the database
+belongs.
 
 Two directories are deliberately **not** mapped. The media library is one:
 Authentik uses `/media` for its own uploads, so mapping Home Assistant's media

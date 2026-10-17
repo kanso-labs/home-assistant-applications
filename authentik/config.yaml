@@ -23,7 +23,9 @@ map:
     type: app_config
 name: Authentik
 options:
-  bootstrap_email: ''
+  # bootstrap_email has no default on purpose. Supervisor checks a default
+  # against its type, and an empty string is not an email address, so an
+  # install that left the field blank refused to start.
   bootstrap_password: ''
   cookie_domain: ''
   log_level: info

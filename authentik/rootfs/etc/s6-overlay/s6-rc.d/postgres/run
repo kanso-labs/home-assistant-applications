@@ -72,6 +72,12 @@ fi
 
 bashio::log.info 'Starting PostgreSQL...'
 
+# s6 stops this service with SIGINT, which down-signal sets, rather than its
+# default SIGTERM. PostgreSQL takes SIGTERM as a smart shutdown, which waits for
+# every client still connected, so a connection Authentik left open would hold
+# it there until Supervisor kills the container, and the next start would
+# replay the log. SIGINT is a fast shutdown, which disconnects them and still
+# writes the shutdown checkpoint.
 exec s6-setuidgid postgres postgres \
   -D "${data_dir}" \
   -c listen_addresses='127.0.0.1' \
