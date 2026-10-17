@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.3](https://github.com/kanso-labs/home-assistant-applications/compare/lingarr-v1.3.2...lingarr-v1.3.3) (2026-10-17)
+
+
+### Bug Fixes
+
+* **lingarr:** add a health check so the watchdog can see a hang ([#720](https://github.com/kanso-labs/home-assistant-applications/issues/720)) ([09aa3cb](https://github.com/kanso-labs/home-assistant-applications/commit/09aa3cb855db15c7f2746dde7a6a8fa38b6879b0))
+
 ## [1.3.2](https://github.com/kanso-labs/home-assistant-applications/compare/lingarr-v1.3.1...lingarr-v1.3.2) (2026-10-17)
 
 

@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0](https://github.com/kanso-labs/home-assistant-applications/compare/flaresolverr-v1.2.3...flaresolverr-v2.0.0) (2026-10-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* **flaresolverr:** stop publishing the port by default ([#703](https://github.com/kanso-labs/home-assistant-applications/issues/703))
+
+### Bug Fixes
+
+* **flaresolverr:** stop publishing the port by default ([#703](https://github.com/kanso-labs/home-assistant-applications/issues/703)) ([423e102](https://github.com/kanso-labs/home-assistant-applications/commit/423e1020365e275e6b6eb6f9146fa3bdfde5258b))
+
 ## [1.2.3](https://github.com/kanso-labs/home-assistant-applications/compare/flaresolverr-v1.2.2...flaresolverr-v1.2.3) (2026-09-12)
 
 

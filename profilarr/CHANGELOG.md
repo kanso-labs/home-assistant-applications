@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1](https://github.com/kanso-labs/home-assistant-applications/compare/profilarr-v1.1.0...profilarr-v1.1.1) (2026-10-17)
+
+
+### Bug Fixes
+
+* **profilarr:** keep the login on when the options cannot be read ([#715](https://github.com/kanso-labs/home-assistant-applications/issues/715)) ([4d42a40](https://github.com/kanso-labs/home-assistant-applications/commit/4d42a40ebb4eecee2c7b81272761023046a45ca9))
+
 ## [1.1.0](https://github.com/kanso-labs/home-assistant-applications/compare/profilarr-v1.0.0...profilarr-v1.1.0) (2026-09-16)
 
 

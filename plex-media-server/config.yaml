@@ -51,7 +51,7 @@ schema:
   claim_code: str?
 slug: plex-media-server
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/plex-media-server'
-version: '1.4.3' # x-release-please-version
+version: '1.4.4' # x-release-please-version
 # Hardware transcoding. This grants every GPU under /dev/dri, whatever its
 # number, where a devices list granted only the nodes it named: renderD128
 # alone, so a GPU that came up as renderD129 was never used.

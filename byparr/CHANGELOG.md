@@ -6,6 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0](https://github.com/kanso-labs/home-assistant-applications/compare/byparr-v1.1.0...byparr-v2.0.0) (2026-10-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* **byparr:** stop publishing the port by default ([#702](https://github.com/kanso-labs/home-assistant-applications/issues/702))
+
+### Bug Fixes
+
+* **byparr:** stop publishing the port by default ([#702](https://github.com/kanso-labs/home-assistant-applications/issues/702)) ([9fc744e](https://github.com/kanso-labs/home-assistant-applications/commit/9fc744ebe7aaf8dfa37e7504f726e67956582770))
+
 ## [1.1.0](https://github.com/kanso-labs/home-assistant-applications/compare/byparr-v1.0.0...byparr-v1.1.0) (2026-09-28)
 
 

@@ -32,4 +32,4 @@ ports:
   11011/tcp: 11011
 slug: cleanuparr
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/cleanuparr'
-version: '1.3.2' # x-release-please-version
+version: '1.3.3' # x-release-please-version

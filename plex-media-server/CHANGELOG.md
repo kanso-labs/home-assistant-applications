@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.4](https://github.com/kanso-labs/home-assistant-applications/compare/plex-media-server-v1.4.3...plex-media-server-v1.4.4) (2026-10-17)
+
+
+### Bug Fixes
+
+* **plex-media-server:** take back what an emptied option granted ([#701](https://github.com/kanso-labs/home-assistant-applications/issues/701)) ([8a9d2f7](https://github.com/kanso-labs/home-assistant-applications/commit/8a9d2f747e1eecf0e9e317efb1173b5a6eab7895))
+
 ## [1.4.3](https://github.com/kanso-labs/home-assistant-applications/compare/plex-media-server-v1.4.2...plex-media-server-v1.4.3) (2026-09-11)
 
 
