@@ -16,7 +16,7 @@ if bashio::config.true 'ssl'; then
   done
 fi
 
-options="$(bashio::addon.config)"
+options="$(bashio::app.config)"
 
 # Host names are matched without regard to case, so two routes differing only in
 # case would compete for the same requests. The first one wins, and says so.
@@ -28,10 +28,42 @@ for host in ${duplicates}; do
   bashio::log.warning "${host} has more than one route. Only the first is used."
 done
 
+# A route's routers and service are named after its host, with the dots made
+# dashes, and its HTTPS router adds -https. A file in the configuration folder
+# can refer to them by those names, so they stay as they are, but two hosts can
+# come out with the same one: my-app.home.local and my.app-home.local do, and
+# with SSL on, so do x-https and x's HTTPS router. Only the last of them made it
+# into the file, and the other host got a 404 with nothing said. The first route
+# keeps the name instead, as with two routes for one host, and the log names the
+# one left out.
+plan="$(jq -c '
+  def name: "route-" + (.host | gsub("\\."; "-"));
+
+  .ssl as $ssl
+  | reduce (.routes // [] | .[] | .host |= ascii_downcase) as $route (
+      {routes: [], taken: {}, clashes: []};
+      ($route | name) as $name
+      | ([$name] + (if $ssl then ["\($name)-https"] else [] end)) as $names
+      | ([$names[] as $n | .taken[$n] // empty] | first) as $owner
+      | if $owner == null then
+          .routes += [$route + {name: $name}]
+          | .taken += ([$names[] | {key: ., value: $route.host}] | from_entries)
+        elif $owner != $route.host then
+          .clashes += [[$route.host, $owner]]
+        else
+          .
+        end
+    )
+  | del(.taken)
+' <<< "${options}")"
+while IFS=$'\t' read -r host owner; do
+  bashio::log.warning "${host} is not routed, because Traefik would give it the same router name as ${owner}, which comes first. Route one of them from a file in the configuration folder instead."
+done < <(jq -r '.clashes[] | @tsv' <<< "${plan}")
+
 # The sidebar reaches the dashboard with its own path stripped, and Traefik
 # serves the dashboard under that path, so the router puts it back. Only the
 # Supervisor, which the sidebar goes through, may connect to that entrypoint.
-ingress_entry="$(bashio::addon.ingress_entry)"
+ingress_entry="$(bashio::app.ingress_entry)"
 if [[ "${ingress_entry}" == 'null' ]]; then
   ingress_entry=''
 fi
@@ -40,7 +72,7 @@ fi
   echo '# Written by the Traefik application every time it starts, from its'
   echo '# Configuration tab. Changes here are overwritten: put your own'
   echo '# configuration in another file in this folder.'
-  jq -r --arg ingress "${ingress_entry}" '
+  jq -r --arg ingress "${ingress_entry}" --argjson routes "$(jq -c '.routes' <<< "${plan}")" '
     # Objects become YAML blocks, and everything else a JSON value, which YAML
     # reads as it is. That keeps every string quoted and escaped.
     def yaml($indent):
@@ -51,8 +83,6 @@ fi
           else "\($indent)\(.key): \(.value | tojson)\n"
           end)
       | add;
-
-    def name: "route-" + (.host | gsub("\\."; "-"));
 
     # Traefik compares a Host rule with the name exactly as the request carries
     # it, so a client that kept capitals missed its route with a 404. The rule is
@@ -65,13 +95,12 @@ fi
       else {}
       end;
 
-    (.routes // [] | map(.host |= ascii_downcase) | unique_by(.host)) as $routes
-    | .ssl as $ssl
+    .ssl as $ssl
     | {
         http: {
           routers: (
             [
-              $routes[] | name as $name
+              $routes[] | .name as $name
               | {
                   key: $name,
                   value: ({
@@ -111,7 +140,7 @@ fi
           services: (
             [
               $routes[]
-              | {key: name, value: {loadBalancer: {servers: [{url: .url}]}}}
+              | {key: .name, value: {loadBalancer: {servers: [{url: .url}]}}}
             ]
             | from_entries
           )
@@ -136,4 +165,4 @@ fi
   ' <<< "${options}"
 } > "${generated}"
 
-bashio::log.info "Routing $(jq '[.routes // [] | .[].host | ascii_downcase] | unique | length' <<< "${options}") host names from the Configuration tab"
+bashio::log.info "Routing $(jq '.routes | length' <<< "${plan}") host names from the Configuration tab"

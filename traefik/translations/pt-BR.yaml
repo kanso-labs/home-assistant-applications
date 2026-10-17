@@ -1,39 +1,39 @@
 configuration:
   certfile:
-    name: Arquivo do certificado
     description: >-
       O certificado servido por HTTPS, na pasta /ssl do Home Assistant.
+    name: Arquivo do certificado
   keyfile:
-    name: Arquivo da chave privada
     description: A chave privada do certificado, na mesma pasta.
+    name: Arquivo da chave privada
   log_level:
-    name: Nível de log
     description: Quanto detalhe o Traefik escreve no log.
+    name: Nível de log
   routes:
-    name: Rotas
     description: >-
       As aplicações para as quais o Traefik encaminha as requisições, uma rota
       por nome de host.
     fields:
       host:
-        name: Nome de host
         description: >-
           O nome para o qual as requisições chegam, como sonarr.home.local, sem
           http:// e sem porta.
+        name: Nome de host
       middlewares:
-        name: Middlewares
         description: >-
           Middlewares a aplicar, em ordem, cada um definido em um arquivo na
           pasta de configuração desta aplicação, como authentik.
+        name: Middlewares
       url:
-        name: Encaminhar para
         description: >-
           Para onde as requisições vão, como http://2dd33fbd-sonarr:8989 para
           outra aplicação ou http://192.168.1.20:8080 para um dispositivo.
+        name: Encaminhar para
+    name: Rotas
   ssl:
-    name: SSL
     description: >-
       Servir também cada rota por HTTPS na porta 443, com o certificado abaixo.
+    name: SSL
 network:
   80/tcp: A porta em que as rotas são servidas por HTTP.
   443/tcp:

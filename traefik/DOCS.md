@@ -47,6 +47,14 @@ A request for a host name with no route gets a `404`. Two routes for the same
 host name compete for the same requests, so only the first is used, and the log
 says so.
 
+Each route's router and service are named after its host name, with the dots
+made dashes, so `sonarr.home.local` becomes `route-sonarr-home-local`, and its
+HTTPS router `route-sonarr-home-local-https`. A file in the configuration folder
+can refer to them by those names. Two host names can come out with the same one,
+as `my-app.home.local` and `my.app-home.local` do. Only the first of those is
+routed too, and the log names the other, which can be routed from a file
+instead.
+
 Traefik passes the host name on exactly as the browser sent it, port included,
 along with `X-Forwarded-Host`, `X-Forwarded-Port` and `X-Forwarded-Proto`. An
 application that builds its own addresses, as Authentik does, gets them right
@@ -103,9 +111,15 @@ certificate covers, can go on using it.
 The application refuses to start while SSL is on and either file is missing, and
 the log names the one it looked for.
 
+A certificate renewed in `/ssl`, as the Let's Encrypt and DuckDNS applications
+renew theirs, is served within about a minute, with no restart. The application
+looks at `/ssl` once a minute, and has Traefik read every certificate again when
+anything in it changes.
+
 Files in the configuration folder can use other certificates from `/ssl` as
 well, through Traefik's
-[TLS configuration](https://doc.traefik.io/traefik/reference/routing-configuration/http/tls/tls-certificates/).
+[TLS configuration](https://doc.traefik.io/traefik/reference/routing-configuration/http/tls/tls-certificates/),
+and those are read again on renewal the same way.
 
 ## The dashboard
 

@@ -1,0 +1,45 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Traefik
+# Has Traefik read its certificates again when one in /ssl changes
+# ==============================================================================
+
+# Traefik reads a certificate's files once, as it builds its configuration, and
+# watches only the configuration folder for changes. The Let's Encrypt and
+# DuckDNS applications renew theirs in /ssl, so Traefik went on serving the old
+# certificate until it expired. SIGHUP has its file provider build everything
+# again, which reads every certificate afresh: the one SSL serves, and any a
+# file in the configuration folder names.
+
+# The name, size and modification time of every file in /ssl. Links are
+# followed, since a certificate kept the way Certbot keeps them is a link to the
+# current one.
+fingerprint() {
+  find -L /ssl -type f -exec stat -L -c '%n %s %Y' {} + 2> /dev/null | sort || true
+}
+
+# A renewal is due a month before the certificate expires, so a minute between
+# looks is more than soon enough, and costs a handful of stat calls.
+current="$(fingerprint)"
+while true; do
+  sleep 60
+  latest="$(fingerprint)"
+  if [[ "${latest}" == "${current}" ]]; then
+    continue
+  fi
+
+  # A renewal writes the certificate and then its key, so this waits for /ssl to
+  # settle rather than reloading a certificate beside the key it replaced.
+  while sleep 5; do
+    previous="${latest}"
+    latest="$(fingerprint)"
+    if [[ "${latest}" == "${previous}" ]]; then
+      break
+    fi
+  done
+  current="${latest}"
+
+  bashio::log.info 'A file in /ssl changed, so Traefik is reading its certificates again'
+  s6-svc -h /run/service/traefik
+done
