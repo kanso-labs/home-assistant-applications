@@ -15,7 +15,7 @@ in through an identity provider has not yet been proven end to end.
 1. Add this repository to your Home Assistant instance.
 2. Install the "Wallos" application.
 3. Start it. There is nothing to configure first.
-4. Open it from the sidebar, or on port `8282`, and register.
+4. Select **Open Web UI**, or open port `8282`, and register.
 
 **The first account you register is the administrator.** Register it before
 anyone else can reach the port. Registration then closes, and stays closed until
@@ -27,9 +27,9 @@ of registering, and it is kept in `/data/db` if you need it later.
 
 ## Configuration
 
-Every option is optional, and Wallos runs with none of them set. Each one
-becomes the environment variable Wallos itself reads, and only when it has a
-value.
+Every option is optional, and Wallos runs with none of them set. Each one but
+`hosts` becomes the environment variable Wallos itself reads, and only when it
+has a value.
 
 **An option that is set owns its field.** It overrides what Wallos's admin page
 saved, and the admin page shows the field locked. Clear the option, and restart,
@@ -65,6 +65,16 @@ that address. Turn it off only if your provider reports `email_verified` as
 false for people whose address you trust, since Wallos then cannot link them to
 the accounts they already have.
 
+### `hosts`
+
+Names Wallos cannot resolve on its own, such as the `.local` names Avahi
+Publisher announces. Each entry is a name and the IPv4 or IPv6 address it
+resolves to. Every entry is written to Wallos's hosts file when it starts, so
+its pages and its notifications both use it.
+
+A name that resolves to an address on your own network also has to be on
+`ssrf_allowlist` before Wallos will contact it.
+
 ### `ssrf_allowlist`
 
 Wallos refuses to contact an address on your own network, whether for a webhook,
@@ -75,38 +85,59 @@ Write the entries separated by commas. Each is a host name or an address, with
 the port when the URL has one, written exactly as it appears in the URL:
 
 ```text
-2dd33fbd-authentik:9000,homeassistant:8123
+authentik.local,homeassistant:8123
 ```
 
 Set here, the list replaces the one under **Admin → Security Settings**. Leave
 it empty to keep using that one. Only the administrator's webhooks may use a
 listed address, unless that same page allows everyone's.
 
+### Watchdog
+
+Turn on **Watchdog** on the application's Info tab to have Home Assistant
+restart Wallos when it stops answering, not only when it exits. Every two
+minutes the image asks nginx and PHP-FPM for a page that only says OK, and three
+failures in a row count as a hang. It is off by default.
+
 ## Signing in through Authentik on the same Home Assistant
 
-This is the part most likely to go wrong, because Wallos and your browser reach
-Authentik at different addresses, and neither can use the other's.
+This is the part most likely to go wrong, because Wallos cannot reach Authentik
+at the address your browser does until it is told how.
 
 - **Your browser** reaches Authentik at the name Avahi Publisher announces and
   Traefik routes, such as `http://authentik.local`.
-- **Wallos** cannot resolve `.local` names. It reaches Authentik as
-  `2dd33fbd-authentik:9000`, which your browser cannot open.
+- **Wallos** cannot resolve `.local` names on its own.
 - **Authentik builds every address in its discovery document from the host it
-  was asked on**, so an issuer alone hands either the browser or Wallos an
-  address it cannot use.
+  was asked on**, so the one address has to work for your browser and for Wallos
+  alike.
 
-So give Wallos each address separately, and leave `oidc_issuer` empty:
+`hosts` closes that gap. Map Authentik's `.local` name to `172.30.32.1` there:
 
-| Option              | Value                                                         |
-| ------------------- | ------------------------------------------------------------- |
-| `oidc_auth_url`     | `http://authentik.local/application/o/authorize/`             |
-| `oidc_token_url`    | `http://2dd33fbd-authentik:9000/application/o/token/`         |
-| `oidc_userinfo_url` | `http://2dd33fbd-authentik:9000/application/o/userinfo/`      |
-| `oidc_redirect_url` | Wallos's address on its port, followed by `/index.php`        |
-| `ssrf_allowlist`    | `2dd33fbd-authentik:9000`, since Authentik is on your network |
+| Name              | Address       |
+| ----------------- | ------------- |
+| `authentik.local` | `172.30.32.1` |
 
-`2dd33fbd` is Home Assistant's name for this repository when it was added by the
-address in the README.
+`172.30.32.1` is this Home Assistant host as an application sees it, where
+Traefik answers on port 80 and routes by name. Wallos then reaches Authentik at
+the same address your browser does, and Authentik writes the same addresses for
+both.
+
+That address is on your own network, so `ssrf_allowlist` has to name
+`authentik.local` as well. Without it, Authentik signs you in, but Wallos then
+refuses to exchange the sign-in for a token, and its login page only says the
+login details are incorrect.
+
+So set these, and leave `oidc_auth_url`, `oidc_token_url` and
+`oidc_userinfo_url` empty, since Wallos discovers all three from the issuer:
+
+| Option              | Value                                                  |
+| ------------------- | ------------------------------------------------------ |
+| `hosts`             | `authentik.local`, at `172.30.32.1`                    |
+| `oidc_issuer`       | `http://authentik.local/application/o/<slug>/`         |
+| `oidc_redirect_url` | Wallos's address on its port, followed by `/index.php` |
+| `ssrf_allowlist`    | `authentik.local`                                      |
+
+`<slug>` is the slug of the application you create for Wallos in Authentik.
 
 In Authentik, create an **OAuth2/OpenID provider** with the redirect URI above,
 and an application that uses it. Copy its client ID and secret into
@@ -192,10 +223,10 @@ Three things follow from that:
 
 ## Storage
 
-| Path          | Holds                                         |
-| ------------- | --------------------------------------------- |
-| `/data/db`    | The SQLite database, and the setup token      |
-| `/data/logos` | The logos and avatars uploaded through Wallos |
+| Path          | Access     | Holds                                         |
+| ------------- | ---------- | --------------------------------------------- |
+| `/data/db`    | read/write | The SQLite database, and the setup token      |
+| `/data/logos` | read/write | The logos and avatars uploaded through Wallos |
 
 Wallos keeps both inside its own web root, which belongs to the image and would
 be replaced by an update. Each is a link into `/data` instead, which survives
