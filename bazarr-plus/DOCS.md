@@ -96,7 +96,7 @@ and moves Bazarr+ itself to port 16767. nginx answers on 6767, puts the path
 back onto whatever arrives without it, and takes it back out of everything it
 returns to the published port.
 
-Four things follow from that:
+Six things follow from that:
 
 - **Ingress starts working on the second start.** Bazarr+ keeps its URL base in
   `config.yaml`, which a first start has not written yet, and the application
@@ -115,6 +115,17 @@ Four things follow from that:
 - **Port 16767 answers on the internal network too**, because Bazarr+'s own
   frontend server always listens on every address. It is not published, and it
   serves the same Bazarr+ as 6767.
+- **Everyone behind Traefik shares one login lockout.** Five wrong passwords
+  lock an address out of Bazarr+ for five minutes. nginx tells Bazarr+ each
+  client's address apart, and the browser's through ingress, so one client's
+  mistakes lock out only that client. Bazarr+'s log names a client by 127 and
+  the last three numbers of its address, `127.168.1.50` for `192.168.1.50`.
+  Everything through Traefik, or any other proxy in front of the published port,
+  arrives from the proxy's one address, so five wrong passwords there lock out
+  everyone using it for five minutes. So do IPv6 clients, among themselves.
+- **A session opened over HTTPS gets a `Secure` cookie**, which the browser then
+  sends over HTTPS alone. HTTPS here means Traefik, or Home Assistant through
+  ingress, said the request was; the published port itself is plain HTTP.
 
 ## Storage
 
@@ -133,6 +144,13 @@ it could never save.
 Backups are taken cold, so Home Assistant stops Bazarr+ for the duration. It
 keeps its state in SQLite, and copying a database that is being written to can
 produce a backup that will not restore.
+
+**The logs and the cache are left out**, `log/` and `cache/` in the
+configuration directory, to keep the time Bazarr+ is stopped short. Bazarr+
+recreates both at start, and the cache holds only what it can work out again:
+the waveforms and video the subtitle editor plays, subtitles read out of video
+files, and the launcher for its synchronisation tool. A restored install starts
+with an empty log.
 
 **Take one before a major update.** The fork's own migrations warn that some
 schema changes are one-way and cannot be rolled back — its log says so during

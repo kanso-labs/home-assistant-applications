@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.3](https://github.com/kanso-labs/home-assistant-applications/compare/radarr-v1.2.2...radarr-v1.2.3) (2026-10-17)
+
+
+### Bug Fixes
+
+* **radarr:** require sign-in again behind a reverse proxy ([#690](https://github.com/kanso-labs/home-assistant-applications/issues/690)) ([6d95729](https://github.com/kanso-labs/home-assistant-applications/commit/6d95729e660dc83776898384ca21a9afceab7941))
+
 ## [1.2.2](https://github.com/kanso-labs/home-assistant-applications/compare/radarr-v1.2.1...radarr-v1.2.2) (2026-10-16)
 
 

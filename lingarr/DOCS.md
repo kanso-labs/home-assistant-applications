@@ -98,8 +98,9 @@ Three things follow from that:
   the ones to use.** Lingarr builds them from the address in the browser, so
   there they name Home Assistant, which Radarr and Sonarr cannot sign in to. On
   the published port they name Lingarr again. For Radarr and Sonarr installed
-  from this repository, give Radarr `http://<slug>:9876/api/webhook/radarr` and
-  Sonarr `http://<slug>:9876/api/webhook/sonarr`.
+  from this repository, give Radarr
+  `http://2dd33fbd-lingarr:9876/api/webhook/radarr` and Sonarr
+  `http://2dd33fbd-lingarr:9876/api/webhook/sonarr`.
 - **Lingarr's own sign-in still applies under ingress**, if you turned it on
   when you set Lingarr up, because Lingarr has no way to trust the one Home
   Assistant has already asked for.
