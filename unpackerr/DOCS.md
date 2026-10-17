@@ -6,7 +6,9 @@
 2. Install the "Unpackerr" application.
 3. Start it once. It will write an example configuration and tell you it has
    nothing to do.
-4. Edit that configuration, then restart it.
+4. Edit that configuration, then restart it. It is `unpackerr.conf` in
+   `app_configs/2dd33fbd_unpackerr` on the host, which the Samba share and
+   Studio Code Server applications can reach.
 
 ## There is no web interface
 
@@ -35,22 +37,25 @@ fill in the block:
 
 ```toml
 [[radarr]]
-  url = "http://homeassistant.local:7878"
+  url = "http://2dd33fbd-radarr:7878"
   api_key = "your radarr api key"
   paths = ['/share/qbittorrent/downloads']
 
 [[sonarr]]
-  url = "http://homeassistant.local:8989"
+  url = "http://2dd33fbd-sonarr:8989"
   api_key = "your sonarr api key"
   paths = ['/share/qbittorrent/downloads']
 ```
 
-**Use your Home Assistant machine's address, the same one you open these on in a
-browser** — they publish their ports on the host, so it always reaches them.
-Their internal hostname is not worth guessing at: Supervisor builds it from a
-hash of this repository's URL, and that hash changes with how the URL was typed,
-so there is no fixed name to document. `addon_local_` is not it either; that
-prefix belongs to applications copied into the `/addons` folder by hand.
+`url` is where Unpackerr finds that application. On the same Home Assistant,
+that is its hostname on the internal network rather than `localhost` or the
+`127.0.0.1` the seeded example has: `http://2dd33fbd-radarr:7878` for Radarr and
+`http://2dd33fbd-sonarr:8989` for Sonarr. A Radarr or Sonarr running anywhere
+else keeps the address you already use for it.
+
+`2dd33fbd` is Home Assistant's name for this repository when it was added by the
+address in the README. A Radarr or Sonarr installed any other way has another
+prefix, shown as **Hostname** on its **Info** tab.
 
 Take each API key from that application, under Settings then General. Restart
 Unpackerr after editing.
@@ -86,6 +91,12 @@ Set it to `off` to fail instead.
 | `/config` | read/write | `unpackerr.conf`                      |
 | `/media`  | read/write | Your media library                    |
 | `/share`  | read/write | Downloads, which it extracts in place |
+
+`/config` is `app_configs/2dd33fbd_unpackerr` on the host, with the same prefix
+as the hostnames above: if this repository was added by another address, it is
+the part before the dash in the **Hostname** on this application's **Info** tab.
+The Samba share application has it inside its `app_configs` share, and Studio
+Code Server under `/addon_configs`, the older name of `app_configs`.
 
 Unpackerr still extracts where the download landed, and leaving the import to
 Radarr and Sonarr remains the tidier arrangement. `/media` is mapped so that it
