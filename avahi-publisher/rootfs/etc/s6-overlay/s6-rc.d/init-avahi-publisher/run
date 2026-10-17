@@ -11,7 +11,7 @@ readonly state_dir='/run/avahi-publisher'
 
 # One request for the whole set of options, rendered with jq below, rather than
 # one Supervisor request per field of every entry.
-options="$(bashio::addon.config)"
+options="$(bashio::app.config)"
 
 # Avahi answers on the interface the host reaches the network through, unless
 # the interfaces option names others. Publishing everywhere would put the

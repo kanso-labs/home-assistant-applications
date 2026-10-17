@@ -6,8 +6,10 @@
 # ==============================================================================
 readonly aliases='/run/avahi-publisher/aliases'
 
+# s6 stops this service with TERM, which ends the wait below early. Exiting from
+# the trap keeps a stop from reading as every alias having failed.
 pids=()
-trap 'kill "${pids[@]}" 2> /dev/null' TERM
+trap 'kill "${pids[@]}" 2> /dev/null; exit 0' TERM
 
 while IFS=$'\t' read -r name address; do
   if [[ -z "${address}" ]]; then
@@ -34,7 +36,8 @@ fi
 # avahi-publish rides out a name collision by taking the next free name, so one
 # that stops has hit an error it cannot recover from, and its log line says
 # which. Stopping the others to retry would only take their records down too, so
-# this waits for all of them.
-wait "${pids[@]}"
+# this waits for all of them. wait then returns the failure, which bashio's
+# errexit would otherwise end the script on before the warning could be logged.
+wait "${pids[@]}" || true
 bashio::log.warning 'Every alias has stopped publishing, so they are being published again'
 exit 1
