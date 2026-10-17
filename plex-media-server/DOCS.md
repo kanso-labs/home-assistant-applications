@@ -34,10 +34,19 @@ not. Plex's own name for these is "Custom server access URLs", under Settings �
 Network, and setting them there works too — this option only saves them being
 lost whenever the application's configuration is rebuilt.
 
+Emptying the option takes the addresses it set back out of Plex on the next
+start. Addresses changed in Plex's own settings since then are left alone.
+
 ### `allowed_networks`
 
 Networks Plex answers without anyone signing in, as a list of addresses and
 masks, such as `192.168.1.0/24`. Empty by default, which means none.
+
+Emptying the option after it has been set takes those networks back out of Plex
+on the next start, so they lose their access. Plex's own name for this is "List
+of IP addresses and networks that are allowed without auth", under Settings →
+Network, and networks entered there yourself are left alone. The log lists every
+allowed network at each start, whichever way it was set.
 
 Use it instead of a claim code to run the server without a Plex account.
 Everyone on a listed network gets full control of it, so list only networks you
@@ -92,15 +101,23 @@ your media is.
 keeps its library in SQLite and copying that while it is being written can
 restore into a corrupt database.
 
-Metadata, caches, logs and crash reports are excluded from backups. They are
-large, they are rebuilt from your media, and including them turns a small backup
-into a very large one.
+Caches, logs, crash reports, and the codecs, drivers and updates Plex downloads
+for itself are excluded from backups. So are metadata and generated media: the
+artwork, posters and preview thumbnails Plex keeps for your library. Including
+them turns a small backup into a very large one, but a restore does not bring
+them back on its own.
+
+After restoring, run **Refresh All Metadata** on each library to download the
+artwork again. Plex regenerates preview thumbnails in its scheduled tasks.
+Posters and artwork you uploaded by hand are not in the backup, and cannot be
+recovered from it.
 
 ## Hardware transcoding
 
-The render devices under `/dev/dri` are offered to the container, so Plex can
-use them if your hardware and your Plex subscription both support it. Nothing
-breaks when they are absent — Plex falls back to transcoding on the processor.
+Every GPU under `/dev/dri` is offered to the container, whatever number it comes
+up as, so Plex can use one if your hardware and your Plex subscription both
+support it. Nothing breaks when there is none — Plex falls back to transcoding
+on the processor.
 
 ## Updates
 
