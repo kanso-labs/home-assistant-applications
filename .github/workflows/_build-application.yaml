@@ -14,6 +14,12 @@ jobs:
   prepare:
     name: Prepare
     runs-on: ubuntu-latest
+    # Read-only, because this job runs home-assistant/actions from its master
+    # branch, and would otherwise inherit the caller's package and OIDC scopes.
+    # Only build and manifest publish anything, and they ask for those scopes
+    # themselves.
+    permissions:
+      contents: read
     outputs:
       architectures: ${{ steps.info.outputs.architectures }}
       build_matrix: ${{ steps.matrix.outputs.matrix }}
@@ -27,6 +33,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Read application metadata
         id: info
@@ -41,6 +49,7 @@ jobs:
         run: |
           image=${{ steps.info.outputs.image }}
           publish=${{ inputs.publish }}
+          version=${{ steps.info.outputs.version }}
           # An application naming no image is built by each Home Assistant
           # itself, and nothing of it may be published: Seadexerr is one, because
           # it carries no licence to redistribute it under. It is still built
@@ -49,12 +58,26 @@ jobs:
             image="ghcr.io/kanso-labs/home-assistant-application-${{ inputs.app }}"
             publish=false
           fi
+          # A version is published once. Every push to main builds what it
+          # touched, and pushing that under the version already released would
+          # hand an unreleased change to every fresh install, reinstall and
+          # restore before release-please had cut anything. So once the
+          # multi-arch tag exists the image is only built, as a check, until
+          # the version moves. That tag is created only once every
+          # architecture's image has been pushed, so a release whose build
+          # failed partway publishes in full on its next push. Anything short
+          # of finding it publishes, as every push used to: a new
+          # application's package cannot even be looked up anonymously until
+          # its first publish creates it.
+          if [[ "${publish}" == 'true' ]] && docker buildx imagetools inspect "${image}:${version}" > /dev/null 2>&1; then
+            echo "::notice::${image}:${version} is already published, so this build pushes nothing. Releasing a new version publishes it."
+            publish=false
+          fi
           {
             echo "publish=${publish}"
             echo "image_name=${image##*/}"
             echo "registry_prefix=${image%/*}"
           } >> "$GITHUB_OUTPUT"
-          version=${{ steps.info.outputs.version }}
           echo "version=${version}" >> "$GITHUB_OUTPUT"
           name=${{ steps.info.outputs.name }}
           echo "name=${name}" >> "$GITHUB_OUTPUT"
