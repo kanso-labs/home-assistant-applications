@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2](https://github.com/kanso-labs/home-assistant-applications/compare/bazarr-plus-v1.1.1...bazarr-plus-v1.1.2) (2026-10-17)
+
+
+### Bug Fixes
+
+* **bazarr-plus:** lock out only the client that got the password wrong ([#695](https://github.com/kanso-labs/home-assistant-applications/issues/695)) ([f5620b0](https://github.com/kanso-labs/home-assistant-applications/commit/f5620b0eeead39514e430a3bf37402d6ad41138f))
+
 ## [1.1.1](https://github.com/kanso-labs/home-assistant-applications/compare/bazarr-plus-v1.1.0...bazarr-plus-v1.1.1) (2026-10-16)
 
 

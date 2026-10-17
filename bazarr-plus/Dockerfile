@@ -64,6 +64,13 @@ RUN \
 # Copy root filesystem
 COPY rootfs /
 
+# The Home Assistant base images set this for every other application, and this
+# one installs s6-overlay itself. A failed init-bazarr-plus, such as a URL base
+# that could not be written, then stops the application. Without it the
+# container stays up with neither nginx nor Bazarr+ started, and Home Assistant
+# shows it as running.
+ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
+
 # s6-overlay is pid 1 here, in place of the image's own entrypoint. That
 # entrypoint exists to remap a uid from PUID and PGID and drop privileges to
 # it, which every application here leaves to Supervisor instead.

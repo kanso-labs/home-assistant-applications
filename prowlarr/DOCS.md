@@ -49,14 +49,22 @@ whatever goes back to the published port.
 Three things follow from that:
 
 - **The published port shows Prowlarr's addresses without the ingress path**, as
-  it did before ingress. A page opened there under the path, from a bookmark
-  made while it showed, is sent to the same page without it.
+  it did before ingress, the download links in its Torznab and Newznab feeds
+  included. A page opened there under the path, from a bookmark made while it
+  showed, is sent to the same page without it. Download links that Sonarr and
+  Radarr stored with the path still work, until a reinstall gives ingress a new
+  path.
 - **URL Base, Port and Bind Address under Settings → General are set by the
   application** and changing them there has no effect. URL Base shows empty on
-  the published port and the ingress path through ingress.
-- **Prowlarr sees the address nginx was called from**, the same one it saw
-  before nginx was in front of it, so "Disabled for Local Addresses" decides as
-  it did. Supervisor's own address is local, which is why ingress opens without
+  the published port and the ingress path through ingress. A URL Base saved
+  before ingress, such as `/prowlarr`, is ignored, and the log says so at start:
+  whatever called `http://<host>:9696/prowlarr` has to call
+  `http://<host>:9696`. Saving Settings → General on the published port clears
+  it.
+- **"Disabled for Local Addresses" decides as it did before ingress.** A browser
+  calling the published port is judged by its own address, and anything reaching
+  it through Traefik, Nginx Proxy Manager or a tunnel has to sign in.
+  Supervisor's own address is local, which is why ingress opens without
   Prowlarr's sign-in when that setting is on; Home Assistant has already asked
   for one.
 
@@ -79,6 +87,8 @@ Backups are taken cold, so Home Assistant stops Prowlarr for the duration.
 Prowlarr keeps its state in SQLite, and copying a database that is being written
 to can produce a backup that will not restore. The application is briefly
 unavailable while a backup runs.
+
+The log files are left out of backups.
 
 ## Updates
 
