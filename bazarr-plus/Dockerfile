@@ -72,9 +72,21 @@ COPY rootfs /
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 
 # s6-overlay is pid 1 here, in place of the image's own entrypoint. That
-# entrypoint exists to remap a uid from PUID and PGID and drop privileges to
-# it, which every application here leaves to Supervisor instead.
+# entrypoint remaps a uid from PUID and PGID and drops privileges to it.
+# Bazarr+ runs as root instead, because it writes subtitles into the library
+# under /media and /share, which Supervisor mounts owned by root.
 ENTRYPOINT ["/init"]
+
+# Upstream's own probe, with a longer start period. It asks Bazarr+'s frontend
+# server, on the port it records in /tmp/bazarr-supervisor.port, whether the
+# backend is running, so nginx on 6767 is never checked. Upstream counts
+# failures after 30 seconds, and a first start or an update that runs
+# migrations, or installs the providers Provider Hub is set to, can take longer
+# than that, which Watchdog would cut short by restarting it.
+HEALTHCHECK --interval=30s --timeout=10s --start-period=300s --retries=3 \
+  CMD port=$(cat /tmp/bazarr-supervisor.port 2>/dev/null || echo 6767); \
+    case "$port" in ""|*[!0-9]*) exit 1 ;; esac; \
+    curl -sf "http://localhost:$port/_supervisor/status" | grep -q '"running"' || exit 1
 
 # Expose the ports
 EXPOSE 6767
