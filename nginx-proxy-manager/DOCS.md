@@ -17,7 +17,19 @@ password works.
 There are no application options. Everything is configured from the web
 interface, and it all lives in the application's configuration directory.
 
-### Ports
+Turn on **Watchdog** on the application's Info tab to have Home Assistant
+restart Nginx Proxy Manager when it stops answering, not only when it exits. The
+image asks for Nginx Proxy Manager's status at `/api/` every 30 seconds, through
+Nginx so that both are checked, and five failures in a row count as a hang. It
+is off by default.
+
+### Certificates
+
+Let's Encrypt certificates are requested from the interface, under **SSL
+Certificates**. An HTTP challenge needs port 80 reachable from the internet; a
+DNS challenge does not, and is the option if your provider blocks it.
+
+## Ports
 
 | Port | What it is                                                      |
 | ---- | --------------------------------------------------------------- |
@@ -29,16 +41,29 @@ Ports 80 and 443 are the ones your router forwards. Port 81 is the one you
 should not forward — it is the administration interface, and nothing outside
 your network needs it.
 
-**Home Assistant itself is not automatically behind this.** Proxying the machine
-you are running on needs care: send a proxy host to the Home Assistant port, and
-add `use_x_forwarded_for` and `trusted_proxies` to your `configuration.yaml`, or
-Home Assistant will reject the forwarded requests.
+Traefik uses the same two ports by default, so only one of them can have each.
+Change or clear a port in the Network section of this application's
+Configuration tab; a cleared port is not opened at all.
 
-### Certificates
+## Proxying Home Assistant
 
-Let's Encrypt certificates are requested from the interface, under **SSL
-Certificates**. An HTTP challenge needs port 80 reachable from the internet; a
-DNS challenge does not, and is the option if your provider blocks it.
+Home Assistant itself is not behind this until you add it. Create a proxy host
+that forwards to `http://homeassistant:8123`, by setting **Scheme** to `http`,
+**Forward Hostname / IP** to `homeassistant` and **Forward Port** to `8123`, and
+turn on **Websockets Support**, which Home Assistant's frontend needs. Then add
+this to Home Assistant's `configuration.yaml` and restart Home Assistant:
+
+```yaml
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 172.30.33.0/24
+```
+
+Without it, Home Assistant answers every request the proxy forwards with 400 Bad
+Request, and logs that its HTTP integration is not set up for reverse proxies.
+`172.30.33.0/24` is the network Home Assistant gives its applications, so this
+trusts the applications on this machine and nothing outside it.
 
 ## Storage
 
