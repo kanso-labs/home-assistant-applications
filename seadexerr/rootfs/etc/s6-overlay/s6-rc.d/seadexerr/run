@@ -30,11 +30,6 @@ if bashio::config.has_value 'radarr_api_key'; then
   bashio::log.info "Looking titles up in Radarr at ${RADARR_BASE_URL}"
 fi
 
-if bashio::config.has_value 'anilist_access_token'; then
-  ANILIST_ACCESS_TOKEN="$(bashio::config 'anilist_access_token')"
-  export ANILIST_ACCESS_TOKEN
-fi
-
 if bashio::config.has_value 'animebytes_passkey'; then
   AB_PASSKEY="$(bashio::config 'animebytes_passkey')"
   export AB_PASSKEY

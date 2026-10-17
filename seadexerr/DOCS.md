@@ -26,15 +26,14 @@ applications, and it needs internet access at the time.
 
 ## Configuration
 
-| Option               | What it sets                                                    |
-| -------------------- | --------------------------------------------------------------- |
-| Sonarr address       | Where Sonarr is reached. This repository's Sonarr by default    |
-| Sonarr API key       | Sonarr's API key. Leave it empty to leave series out            |
-| Radarr address       | Where Radarr is reached. This repository's Radarr by default    |
-| Radarr API key       | Radarr's API key. Leave it empty to leave movies out            |
-| AniList access token | Optional. For when AniList starts limiting or refusing requests |
-| AnimeBytes passkey   | Optional. Also offers the AnimeBytes releases SeaDex lists      |
-| Log level            | How much detail Seadexerr writes to its log                     |
+| Option             | What it sets                                                 |
+| ------------------ | ------------------------------------------------------------ |
+| Sonarr address     | Where Sonarr is reached. This repository's Sonarr by default |
+| Sonarr API key     | Sonarr's API key. Leave it empty to leave series out         |
+| Radarr address     | Where Radarr is reached. This repository's Radarr by default |
+| Radarr API key     | Radarr's API key. Leave it empty to leave movies out         |
+| AnimeBytes passkey | Optional. Also offers the AnimeBytes releases SeaDex lists   |
+| Log level          | How much detail Seadexerr writes to its log                  |
 
 Seadexerr looks each title up in Sonarr or Radarr, so it needs at least one of
 the two API keys, and the application refuses to start without either. Both keys
@@ -43,10 +42,6 @@ are under General in each one's Settings.
 The default addresses reach this repository's Sonarr and Radarr applications
 through their hostnames inside Home Assistant. An address with a base path, such
 as `http://192.168.1.20:8989/sonarr`, works as well.
-
-To get an AniList access token, follow
-[Seadexerr's instructions](https://github.com/Ryder-C/seadexerr#anilist-authentication).
-A token lasts a year.
 
 ## Prowlarr
 

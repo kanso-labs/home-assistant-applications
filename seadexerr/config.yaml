@@ -10,7 +10,6 @@ map:
   - type: app_config
 name: Seadexerr
 options:
-  anilist_access_token: ''
   animebytes_passkey: ''
   log_level: info
   radarr_api_key: ''
@@ -26,7 +25,6 @@ schema:
   sonarr_api_key: password?
   radarr_url: url
   radarr_api_key: password?
-  anilist_access_token: password?
   animebytes_passkey: password?
   log_level: list(trace|debug|info|warn|error)
 slug: seadexerr
