@@ -12,7 +12,7 @@ configuration:
     name: Senha do primeiro administrador
   cookie_domain:
     description: >-
-      O domínio para o qual o cookie de sessão é emitido, como exemplo.com.
+      O domínio para o qual o cookie de sessão é emitido, como example.com.
       Defina-o quando o Authentik protege vários subdomínios, para que o login
       em um seja aceito pelos outros. Deixe vazio ao acessar por endereço.
     name: Domínio do cookie

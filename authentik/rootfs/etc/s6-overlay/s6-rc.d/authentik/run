@@ -12,10 +12,15 @@ readonly database='authentik'
 
 # s6 starts this service as soon as PostgreSQL's service has started, which is
 # not the same as PostgreSQL being ready to answer. `ak` waits for the database
-# itself, but the role and the database have to exist before it can.
+# itself, but the role and the database have to exist before it can. After an
+# unclean stop PostgreSQL first replays its log, which on slow storage takes far
+# longer than a normal start, so the wait is long and says where it is.
 bashio::log.info 'Waiting for PostgreSQL...'
-for _ in {1..60}; do
+for ((waited = 1; waited <= 600; waited++)); do
   pg_isready --host='/run/postgresql' --username='postgres' --quiet && break
+  if ((waited % 30 == 0)); then
+    bashio::log.info "Still waiting for PostgreSQL after ${waited} seconds..."
+  fi
   sleep 1
 done
 pg_isready --host='/run/postgresql' --username='postgres' --quiet \
@@ -99,6 +104,7 @@ if [[ -L /data/media ]]; then
 fi
 mkdir -p /data/media
 if [[ ! -L /media ]]; then
+  # shellcheck disable=SC2114 # the image's own /media, replaced by a link
   rm -r -f /media
   ln -s /data/media /media
 fi
