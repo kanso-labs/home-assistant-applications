@@ -12,7 +12,9 @@
 ARG BUILD_FROM=ghcr.io/kirovair/muxarr:0.9.12
 FROM ${BUILD_FROM}
 
-# s6-overlay has to come up as pid 1, and the base image drops to uid 888.
+# s6-overlay has to come up as root. The image sets no user of its own: it runs
+# as root and drops to uid 888 in its entrypoint, which /init replaces below, so
+# this changes nothing today and keeps s6 working if a later image sets one.
 USER root
 
 # Set shell
@@ -26,8 +28,9 @@ ARG S6_OVERLAY_VERSION=3.2.3.2
 ARG BASHIO_VERSION=0.19.0
 
 RUN \
-  `# curl is already here for the image's own health check, and jq is what` \
-  `# bashio reads options with. xz unpacks the s6 tarballs.` \
+  `# curl is already here, installed by the image to fetch MKVToolNix's` \
+  `# signing key, and jq is what bashio reads options with. xz unpacks the s6` \
+  `# tarballs.` \
   apt-get update \
   && apt-get install --assume-yes --no-install-recommends \
     jq \
@@ -68,6 +71,18 @@ COPY rootfs /
 # which every application here leaves to Supervisor instead; the rest of what
 # it did, the run script does.
 ENTRYPOINT ["/init"]
+
+# Supervisor shows the application as starting until the first result arrives,
+# and with the watchdog on, restarts it when the check fails. Without one it
+# sees only a process that exits, never one that has stopped answering; the
+# app linter rejects config.yaml's `watchdog` in favour of this. The check asks
+# for the login page, which Muxarr renders itself and serves to anyone, before
+# setup and after it, whether or not a login was set up. Its own /health sits
+# behind the redirects every other page does, to /setup until setup is done and
+# to /login while a login is on and the local network is not trusted, and curl
+# counts a redirect as a pass.
+HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=3 \
+  CMD curl -f -s -S -o /dev/null http://127.0.0.1:8183/login || exit 1
 
 # Expose the ports
 EXPOSE 8183
