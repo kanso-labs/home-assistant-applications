@@ -1,12 +1,20 @@
 name: Build
 
 on:
+  # Every pull request, not only those into main, because work here lands as
+  # stacked pull requests, each based on the one below it.
   pull_request:
-    branches:
-      - main
   push:
     branches:
       - main
+  # A push builds only the applications it changed, so a release whose image
+  # failed to publish would otherwise stay unpublished until that application
+  # next changes, and every install of the update would fail meanwhile. These
+  # runs publish any released version missing from the registry. Hourly,
+  # because a release can merge at any time of day.
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -15,15 +23,19 @@ jobs:
   init:
     name: Detect changed applications
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     outputs:
       changed: ${{ steps.filter.outputs.changed }}
       changed_apps: ${{ steps.filter.outputs.changed_apps }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
 
       - name: List changed files
         id: changed_files
+        if: github.event_name == 'pull_request' || github.event_name == 'push'
         uses: tj-actions/changed-files@v47.0.6
 
       - name: Find applications
@@ -40,11 +52,30 @@ jobs:
           # the image as much as editing one.
           CHANGED_FILES:
             ${{ steps.changed_files.outputs.all_changed_and_modified_files }}
+          EVENT: ${{ github.event_name }}
+          REF: ${{ github.ref }}
         run: |
           changed_apps=()
 
+          if [[ "${EVENT}" == 'schedule' || "${EVENT}" == 'workflow_dispatch' ]]; then
+            # Only main's versions are releases.
+            if [[ "${REF}" != 'refs/heads/main' ]]; then
+              echo "::error::Publishing missing releases runs on main only, not ${REF}."
+              exit 1
+            fi
+            for app in ${APPS}; do
+              config="${app}/config.yaml"
+              image=$(sed -nE "s/^image:[[:space:]]*['\"]?([^'\"[:space:]#]+).*/\1/p" "${config}")
+              version=$(sed -nE "s/^version:[[:space:]]*['\"]?([^'\"[:space:]#]+).*/\1/p" "${config}")
+              # An application naming no image is never published.
+              [[ -n "${image}" ]] || continue
+              if ! docker buildx imagetools inspect "${image}:${version}" > /dev/null 2>&1; then
+                echo "${image}:${version} is not published."
+                changed_apps+=("${app}")
+              fi
+            done
           # If a workflow file itself changed, rebuild every application
-          if [[ "${CHANGED_FILES}" =~ \.github/workflows/(build|_build-application)\.yaml ]]; then
+          elif [[ "${CHANGED_FILES}" =~ \.github/workflows/(build|_build-application)\.yaml ]]; then
             read -ra changed_apps <<< "${APPS}"
           else
             for app in ${APPS}; do
@@ -84,9 +115,11 @@ jobs:
     # group, which is why each application has its own: one group for the
     # whole workflow would let a third push drop the second push's builds, and
     # those are the only builds its applications get. A build dropped this way
-    # always has a newer build of the same application waiting behind it.
+    # always has a newer build of the same application waiting behind it. On a
+    # pull request, where nothing is published, a newer push makes the build in
+    # progress pointless, so that one is cancelled.
     concurrency:
-      cancel-in-progress: false
+      cancel-in-progress: ${{ github.event_name == 'pull_request' }}
       group: build-${{ github.ref }}-${{ matrix.app }}
     permissions:
       contents: read
@@ -100,8 +133,9 @@ jobs:
     uses: ./.github/workflows/_build-application.yaml
     with:
       app: ${{ matrix.app }}
-      publish: ${{ github.event_name == 'push' }}
-    secrets: inherit
+      publish:
+        ${{ github.event_name != 'pull_request' && github.ref ==
+        'refs/heads/main' }}
 
   # One job with a fixed name for branch protection to require. The build runs
   # only for the applications a pull request touches, so its own check names are
@@ -110,6 +144,7 @@ jobs:
   confirm:
     name: Confirm builds succeeded
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     needs: [init, build-application]
     if: always()
     steps:
