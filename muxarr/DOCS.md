@@ -28,9 +28,14 @@ and kept in its database.
 
 Connect Sonarr and Radarr under **Settings → Integrations**. Muxarr uses them
 for original-language detection, and they can call its webhook so new imports
-are cleaned up as they arrive. Reach them over the internal network by
-application hostname rather than `localhost` — `http://<slug>:8989` for Sonarr
-and `http://<slug>:7878` for Radarr.
+are cleaned up as they arrive. Reach them over the internal network by their
+hostnames inside Home Assistant rather than `localhost` —
+`http://2dd33fbd-sonarr:8989` for Sonarr and `http://2dd33fbd-radarr:7878` for
+Radarr.
+
+`2dd33fbd` is Home Assistant's name for this repository when it was added by the
+address in the README. A Sonarr or Radarr installed any other way has another
+prefix, shown as **Hostname** on its Info page.
 
 Then create a profile naming the directories to watch and the languages to keep.
 Scan, preview what would change, and queue the files.
