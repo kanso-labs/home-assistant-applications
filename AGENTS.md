@@ -33,13 +33,15 @@ There is no `package.json` at the root, so nothing below is a root npm script.
 Everything is run from the repository root; the site's own scripts live in
 `docs/package.json` and are reached with `npm --prefix docs`.
 
-| Task                  | Command                                      | Notes                                                   |
-| --------------------- | -------------------------------------------- | ------------------------------------------------------- |
-| Format                | `npx prettier --write .`                     | YAML, JSON, Markdown, and the site's TypeScript and CSS |
-| Check formatting      | `npx prettier --check .`                     | `Check formatting` runs this at a pinned version        |
-| Verify release wiring | `./.github/scripts/verify-release-wiring.sh` | Runs in CI as `Verify release wiring`                   |
-| Build the site        | `./.github/scripts/build-pages.sh`           | Assembles `_site/`; nothing is committed                |
-| Develop the site      | `npm --prefix docs run dev`                  | See `docs/README.md`                                    |
+| Task                  | Command                                                                        | Notes                                                                |
+| --------------------- | ------------------------------------------------------------------------------ | -------------------------------------------------------------------- |
+| Format                | `npx prettier --write .`                                                       | YAML, JSON, Markdown, and the site's TypeScript and CSS              |
+| Check formatting      | `npx prettier --check .`                                                       | `Check formatting` runs this at a pinned version                     |
+| Verify release wiring | `./.github/scripts/verify-release-wiring.sh`                                   | Runs in CI as `Verify release wiring`                                |
+| Verify applications   | `node .github/scripts/verify-applications.mjs`                                 | After `npm --prefix docs ci`; runs in CI as `Verify applications`    |
+| Check shell scripts   | `shellcheck --shell=bash --severity=warning --exclude=SC2154,SC2155 <script>…` | Runs in CI as `Check shell scripts`, at the version `lint.yaml` pins |
+| Build the site        | `./.github/scripts/build-pages.sh`                                             | Assembles `_site/`; nothing is committed                             |
+| Develop the site      | `npm --prefix docs run dev`                                                    | See `docs/README.md`                                                 |
 
 Building and booting an application image is the other thing worth running by
 hand, and it has its own step under Adding an application.
@@ -118,19 +120,24 @@ that repository's `AGENTS.md` for what the rest of the organization does.
 
 The shared rule is the Conventions bullet above; what it looks like here:
 
-| `name:`             | Trigger                            | Filename                  |
-| ------------------- | ---------------------------------- | ------------------------- |
-| `Build`             | `push`, `pull_request`             | `build.yaml`              |
-| `Lint`              | `push`, `pull_request`, `schedule` | `lint.yaml`               |
-| `Build application` | `workflow_call`                    | `_build-application.yaml` |
+| `name:`              | Trigger                                                 | Filename                  |
+| -------------------- | ------------------------------------------------------- | ------------------------- |
+| `Build`              | `push`, `pull_request`, `schedule`, `workflow_dispatch` | `build.yaml`              |
+| `Build application`  | `workflow_call`                                         | `_build-application.yaml` |
+| `Deploy Pages`       | `push`, `workflow_dispatch`                             | `deploy-pages.yaml`       |
+| `Lint`               | `push`, `pull_request`, `schedule`                      | `lint.yaml`               |
+| `Release Please`     | `push`, `schedule`, `workflow_dispatch`                 | `release-please.yaml`     |
+| `Renovate Command`   | `issue_comment`                                         | `renovate-command.yaml`   |
+| `Upstream Changelog` | `pull_request`                                          | `upstream-changelog.yaml` |
 
 The leading underscore on a reusable workflow is what separates entry points
 from building blocks in the folder listing.
 
 A job name takes any matrix values appended to it, which the shared bullet does
 not say. **`build.yaml` matches its own filename in a regular expression**, so
-renaming either build workflow means updating that pattern too — nothing else in
-the repository refers to a workflow by name.
+renaming either build workflow means updating that pattern too. The badges in
+`README.md` link `build.yaml` and `lint.yaml`, and `docs/README.md` names
+`deploy-pages.yaml`, so renaming one of those means editing them as well.
 
 ### Image naming
 
@@ -172,18 +179,31 @@ Match what the existing applications have:
 ```
 <slug>/
 ├── CHANGELOG.md      Keep a Changelog format
-├── DOCS.md           installation, configuration, storage, backups, credits
+├── DOCS.md           the full documentation, in the sections below
 ├── Dockerfile
 ├── README.md         short intro, shown in the store
 ├── config.yaml
 ├── icon.png          square, 128×128
-├── logo.png          landscape, around 250×100
+├── logo.png          landscape, 250×100
 ├── rootfs/           s6 service definition
 └── translations/     en.yaml, pt-BR.yaml
 ```
 
 `README.md` and `DOCS.md` are different documents. The store shows the README as
-the intro and DOCS as the full documentation.
+the intro and DOCS as the full documentation, on the application's
+**Documentation** tab. Neither renders a relative link to another file, so the
+README says "See the **Documentation** tab", and a link to another application
+is an absolute GitHub URL.
+
+`DOCS.md` runs Installation, Configuration, Ingress, Ports, any sections of the
+application's own, Storage, Backups, Updates, Support, Credits, then any "A note
+on…" sections, leaving out those that do not apply. Storage is a table of
+`| Path | Access | Holds |`, so that what an application can write is stated
+rather than inferred. Credits say where the icon and logo came from.
+
+**Show in sidebar** is off after an install, so an installation step never says
+to open the application from the sidebar. Write "Start it, then select **Open
+Web UI**, or open port N", as Cleanuparr does.
 
 ### 3. `config.yaml`
 
@@ -202,7 +222,7 @@ arch:
 backup: cold
 image: 'ghcr.io/kanso-labs/home-assistant-application-<slug>'
 init: false
-version: '1.0.0' # x-release-please-version
+version: '0.1.0' # x-release-please-version
 ```
 
 - **`image`** is the generic multi-architecture name, with no `{arch}`
@@ -211,8 +231,28 @@ version: '1.0.0' # x-release-please-version
 - **`backup: cold`** for anything storing state in SQLite, which is most of
   them. A hot backup copies the database while it is being written and can
   restore into a corrupt file.
-- **`version`** starts at `1.0.0` and is never edited by hand afterwards. The
+- **`version`** starts at `0.1.0` and is never edited by hand afterwards. The
   annotation is load-bearing; see Releases.
+
+An application stays below 1.0.0 until it has run on a real Home Assistant, and
+its `DOCS.md` says what it still has to prove, in a bold paragraph under the
+introduction, as Wallos's does. It reaches 1.0.0 through a pull request titled
+`feat(<slug>): release 1.0.0` that removes that paragraph, with this in its
+body:
+
+```text
+BEGIN_COMMIT_OVERRIDE
+feat(<slug>): release 1.0.0
+
+Release-As: 1.0.0
+END_COMMIT_OVERRIDE
+```
+
+The override has to be in the body, because the squash merge keeps no commit
+body for a `Release-As` footer to ride in, and release-please reads the merged
+pull request's body. Seadexerr and Immich Power Tools went that way. A
+`release-as` entry in `release-please-config.json` does the same but pins every
+later release too until it is removed, as Traefik's had to be.
 
 An application that runs its own database, as Authentik, Flight Finder, Grimmory
 and Immich do, also sets `timeout: 120`. Supervisor's default gives the whole
@@ -272,13 +312,18 @@ and jq. `base-python` is the same with Python on it, and `base-ubuntu` and
 one tag covers every architecture.
 
 Name the base by its release, as `base:3.24`, `base-ubuntu:26.04` and
-`base-debian:trixie` are, so every build takes Home Assistant's latest rebuild
-of it. `base-debian`'s dated tags, such as `trixie-2026.08.0`, are not versions
-Renovate's docker versioning can read, so a pin to one never moved; `trixie` is
-not one either, so moving Nginx Proxy Manager to Debian's next release is done
-by hand, along with the suite its Nginx annotation names. `base-python`'s tags
-name a Python release and an Alpine one, as in `3.14-alpine3.24`, and
-`.github/renovate.json` gives it a versioning that follows both.
+`base-debian:trixie` are. Renovate adds the digest of the image that tag names,
+and opens a pull request each time Home Assistant rebuilds it under the same
+tag. That pull request automerges and is typed `deps`, so each rebuild releases
+a patch of every application on the base, which is how its security fixes reach
+installs: an application publishes a version only once, so a rebuild behind an
+unchanged pin would never ship. `base-debian`'s dated tags, such as
+`trixie-2026.08.0`, are not versions Renovate's docker versioning can read, so a
+pin to one never moved; `trixie` is not one either, so moving Nginx Proxy
+Manager to Debian's next release is done by hand, along with the suite its Nginx
+annotation names. `base-python`'s tags name a Python release and an Alpine one,
+as in `3.14-alpine3.24`, and `.github/renovate.json` gives it a versioning that
+follows both.
 
 **Pin a package only through an annotated `ARG`**, so that Renovate moves it and
 each new version cuts a release: the application itself where a distribution
@@ -299,7 +344,10 @@ already fixes the release they come from.
   carry such pins, so their base-image bumps come in a group of their own,
   `Home Assistant Base Images with Alpine package pins`, and the failure holds
   back only them. An application added on a Home Assistant base with a pin like
-  theirs joins that group in `.github/renovate.json`.
+  theirs joins that group in `.github/renovate.json`. Flight Finder and Grimmory
+  pin Alpine packages too, on upstream's image rather than Home Assistant's, so
+  their branch follows upstream's Alpine, and the build that fails is the bump
+  of the application itself.
 
 **A health check is a `HEALTHCHECK`.** With an application's Watchdog toggle on,
 Supervisor restarts it when Docker reports it unhealthy, which is the only way
@@ -307,7 +355,30 @@ it notices a hang rather than an exit. Probe the application's own health or
 status endpoint with `curl -f` on `127.0.0.1` and the port it listens on, which
 works whatever the host maps that port to, and give `--start-period` room for a
 first start's migrations. Authentik's Dockerfile explains why a `HEALTHCHECK`
-inherited from upstream is replaced rather than set to `NONE`.
+inherited from upstream is replaced rather than set to `NONE`. One inherited and
+kept gets a comment naming what it probes, and an application with nothing to
+probe says so in a comment, so that a missing check reads as decided rather than
+forgotten. `Verify applications` fails a Dockerfile with neither.
+
+Watchdog is off by default, so a check restarts nothing until someone turns it
+on. Every application with one says so at the end of its `DOCS.md`'s
+Configuration section, as Cleanuparr's does: "Turn on **Watchdog** on the
+application's Info tab to have Home Assistant restart Cleanuparr when it stops
+answering, not only when it exits", then what the check asks, then "It is off by
+default."
+
+**Run as upstream's user when its image defines one**, dropping to it with
+`s6-setuidgid` and handing it the directories it writes. Supervisor never remaps
+a user, so whatever the run script execs as is what runs. Root is right on a
+Home Assistant base image, whose software has no user of its own, and for an
+application that writes under `/media` or `/share`, which Supervisor mounts
+owned by root.
+
+**An image that installs s6-overlay by hand, or takes it from upstream's, sets
+`ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2` once it has an init script.** Home
+Assistant's base images set it, so that a failing options script stops the
+container. At s6's default the application starts anyway with its options half
+applied. Tdarr and Plex set it for that reason.
 
 ### 5. `rootfs/`
 
@@ -328,14 +399,16 @@ and stay empty.
 
 - Add a row to the applications table in the repository `README.md`, in
   alphabetical order. One line on what it does, and the port it serves its web
-  interface on, or `Ingress`, or `None`.
+  interface on, or `Ingress`, or `Ingress, port N` when it serves both, or
+  `None`.
 - Add the package to `release-please-config.json` and
   `.release-please-manifest.json`, both alphabetically.
 - Add the `depName` of the application's own version to the curated `fix` rule
   in `.github/renovate.json`, alphabetically. Without it an upstream release is
   typed `deps` like any other bump: it ships as a patch under **Dependencies**
   whatever step upstream took, without upstream's notes, and a 0.x minor
-  automerges. Tdarr was added without one. Nothing checks this list.
+  automerges. `Verify applications` fails an application none of whose versions
+  is on it.
 - The website needs nothing. It is generated from every `config.yaml` and
   `icon.png` at deploy time, so the directory existing is enough — see The
   website.
@@ -348,9 +421,12 @@ Every one of these has caught a real failure. Run them.
 you:
 
 ```shell
-gh api repos/frenck/action-app-linter/contents/src/config.schema.json \
-  --jq '.content' | base64 -D > /tmp/addon.schema.json
+gh api -H 'Accept: application/vnd.github.raw' \
+  'repos/frenck/action-app-linter/contents/src/config.schema.json?ref=v2.21.1' \
+  > /tmp/app.schema.json
 ```
+
+The ref is the linter tag `lint.yaml` runs, and moves with it.
 
 Then check your `config.yaml`'s map types and top-level keys against it. This
 exists because the linter rejects values Supervisor documents as current. The
@@ -399,6 +475,18 @@ matches the manifest:
 CI runs this too, as `Verify release wiring`. It does not read the curated rule
 in `.github/renovate.json`.
 
+**Verify the conventions**, which catches what steps 2 to 6 ask for and no other
+check reads: key order, translations that cover every option and port in both
+languages, the icon and logo sizes, the curated rule, a health check or a
+comment saying why there is none, and the retry flags on every download:
+
+```shell
+npm --prefix docs ci && node .github/scripts/verify-applications.mjs
+```
+
+**Check the scripts** with shellcheck, as `Check shell scripts` does in CI, at
+the version `lint.yaml` pins. The command is in the table under Commands.
+
 ## Releases
 
 Home Assistant decides an update exists by comparing `config.yaml`'s `version`
@@ -435,8 +523,10 @@ restore under a version already released. Every push used to publish, and that
 is how the bump to Cleanuparr 2.10.11 reached installs as the application's
 1.3.0 before release-please had cut anything. The multi-arch tag is written only
 once every architecture's image is pushed, so a release whose build failed
-partway publishes in full on its next push. A broken release is repaired by
-releasing a new version, never by pushing over it.
+partway publishes in full on Build's next hourly run, which publishes every
+released version missing from the registry. **Run workflow** on Build does the
+same at once. A broken release is repaired by releasing a new version, never by
+pushing over it.
 
 Build builds an application for any change in its directory, deletions included,
 except the files no image carries: `CHANGELOG.md`, `DOCS.md`, `README.md`,
@@ -449,10 +539,10 @@ Each application is its own release-please package. A commit is attributed to
 one by the files it touches, so a change under `radarr/` releases Radarr alone.
 
 **Which commit types release.** A breaking change, marked `!` as in `feat!`,
-takes a major; `feat` takes a minor; `fix` and `deps` take a patch; everything
-else releases nothing. `release-please-config.json` spells the list out in
-`changelog-sections`, so removing `feat` or `fix` from it would silently stop
-those releases too — for the reason the paragraph below gives.
+takes a major; `feat` takes a minor; `fix`, `deps`, `perf` and `revert` take a
+patch; everything else releases nothing. `release-please-config.json` spells the
+list out in `changelog-sections`, so removing `feat` or `fix` from it would
+silently stop those releases too — for the reason the paragraph below gives.
 
 **Renovate commits are typed `deps:`, and that is what makes them release.**
 release-please computes a patch bump for any commit that is not a `feat` or a
@@ -623,10 +713,12 @@ that when the pin moves.
 
 **A bump with no upstream notes is left alone**, and that is the ordinary case
 for some of these. Renovate has to be able to find the source repository to
-fetch notes at all: Plex publishes none that it can reach, qBittorrent is read
-out of Alpine's package index, which records a homepage and no source
-repository, and Cleanuparr's image carries no `org.opencontainers.image.source`
-label. Those releases read the way they always have.
+fetch notes at all: Plex publishes none that it can reach, and qBittorrent is
+read out of Alpine's package index, which records a homepage and no source
+repository. Authentik's bumps link its repository and still bring no notes.
+Those releases read the way they always have. Cleanuparr's and Flight Finder's
+images carry no `org.opencontainers.image.source` label, so
+`.github/renovate.json` names their repositories with `sourceUrl`.
 
 ### Asking Renovate to redo a pull request
 
@@ -651,9 +743,10 @@ fails rather than pretending otherwise.
 [home-assistant.kansolabs.org](https://home-assistant.kansolabs.org/) is a React
 Router SPA in `docs/`, built with
 [`@kanso-labs/kanso-ui`](https://kanso-ui.kansolabs.org/) and published by
-`.github/workflows/deploy-pages.yaml` on every push to `main`. Pull requests
-build it without publishing, so a build that has stopped working is caught while
-it is still someone's branch.
+`.github/workflows/deploy-pages.yaml` on every push to `main`. Lint's
+`Check the site` job builds it on every pull request without publishing, so a
+build that has stopped working is caught while it is still someone's branch, and
+Renovate's automerge of a site dependency waits for it.
 
 `.github/scripts/build-pages.sh` is the whole deploy: it runs the app's own
 build and assembles `_site/` from it. `docs/README.md` covers running the site
@@ -732,12 +825,12 @@ branch commit messages are discarded by the squash and never reach history.
 That title is therefore the single input to everything below, and it is a
 Conventional Commit. Its type decides whether users see the change:
 
-| Type of the pull request title | Effect                                               |
-| ------------------------------ | ---------------------------------------------------- |
-| any type marked `!`            | releases the application, major bump                 |
-| `feat`                         | releases the application, minor bump                 |
-| `fix`                          | releases the application, patch bump                 |
-| anything else                  | no release, so nothing reaches an installed instance |
+| Type of the pull request title    | Effect                                               |
+| --------------------------------- | ---------------------------------------------------- |
+| any type marked `!`               | releases the application, major bump                 |
+| `feat`                            | releases the application, minor bump                 |
+| `fix`, `deps`, `perf` or `revert` | releases the application, patch bump                 |
+| anything else                     | no release, so nothing reaches an installed instance |
 
 Write branch commits conventionally anyway. They are what a reviewer reads while
 the pull request is open, even though only the title survives the merge.
@@ -823,11 +916,13 @@ an application on a ref at a time, so a push landing just after a release finds
 the tag that release published instead of racing it to the registry. Its group
 is `build-<ref>-<app>`, so a push can only displace a waiting build of the same
 application, which always has a newer one behind it; one group for the whole
-workflow would let a third push drop the second push's builds outright. Deploy
-Pages groups by ref, `pages-<ref>`, so a pull request's run can never take the
-place of a deployment from main waiting its turn. release-please's single group
-can afford to drop a waiting run: each run reads main as it then stands, so only
-the newest one matters.
+workflow would let a third push drop the second push's builds outright. On a
+pull request, where nothing is published, a newer push cancels the build in
+progress instead. Deploy Pages runs only from main and from **Run workflow**,
+and groups by ref, `pages-<ref>`, so a run dispatched from another branch can
+never take the place of a deployment from main waiting its turn.
+release-please's single group can afford to drop a waiting run: each run reads
+main as it then stands, so only the newest one matters.
 
 **The Pages configuration outlived the files it served.** Removing the Spotify
 to Plex application took `docs/spotify-to-plex/` with it, and that was the only
@@ -854,7 +949,8 @@ in a changelog exactly as written or silently skips a release that should have
 happened.
 
 `.github/workflows/lint.yaml` covers the application configuration, the release
-wiring and the formatting, and none of those look at a commit message.
+wiring, the conventions `Verify applications` reads, the shell scripts and the
+formatting, and none of those look at a commit message.
 
 **One pull request, one application.** Attribution is by the files a commit
 touches, and squashing makes a pull request exactly one commit. So a pull
@@ -893,14 +989,11 @@ Docker `HEALTHCHECK` instead (`src/lint.py`), although Supervisor's
 the schema alone therefore passes it. The `HEALTHCHECK` is the route
 Supervisor's watchdog also acts on, and step 4 says how to write one.
 
-**The icon and logo sizes are a target, not a checked one.** The linter does not
-look at either file, and nothing else does either, so an application ships
-whatever it was given. All but three now match both sizes above. Prowlarr,
-qBittorrent and Sonarr ship a `logo.png` byte-identical to their square
-`icon.png`, which the store then renders in a slot shaped like a banner.
-
-Match the sizes when you add an application, and expect no build to tell you if
-you do not.
+**The linter does not look at the icon or the logo.** `Verify applications`
+checks their sizes instead, 128×128 and 250×100, because the store renders the
+logo in a slot shaped like a banner, and a square one there reads as a mistake.
+Every application's logo shows its icon beside its name, and a new application's
+is drawn the same way.
 
 **Every arr project names its release assets differently.** These cannot be
 copied between applications:
@@ -922,6 +1015,8 @@ fatal, and without `-f` a 503 body is written to the file and curl exits 0, so
 the build fails later in `tar` or `gunzip` with something that reads like a
 corrupt release. Use
 `curl -J -L -f --retry 8 --retry-all-errors --retry-max-time 180 -o`.
+`Verify applications` fails any `curl` a Dockerfile runs without `-f` and
+`--retry-all-errors`, whatever it downloads.
 
 `--retry-all-errors` is the load-bearing flag — bare `--retry` covers 5xx but
 not the connection dying mid-transfer, which is half of what is seen. The window

@@ -17,8 +17,7 @@ same thing.
 
 [![Open your Home Assistant instance and show the add application repository dialog with a specific repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2Fkanso-labs%2Fhome-assistant-applications)
 
-Or add it by hand, from **Settings → Add-ons → Add-on store → ⋮ →
-Repositories**:
+Or add it by hand, from **Settings → Apps → App store → ⋮ → Repositories**:
 
 ```text
 https://github.com/kanso-labs/home-assistant-applications
