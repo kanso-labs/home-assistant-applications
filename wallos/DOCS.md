@@ -129,12 +129,11 @@ Assistant passes its time zone to the application, and these times are in it:
 | Every day at 8:00       | Sends reminders of subscriptions you set to cancel          |
 | Every day at 9:00       | Sends the notifications for payments that are coming up     |
 | Every two minutes       | Sends verification and password reset emails                |
-| Every six hours         | Checks for a new Wallos version                             |
 | Mondays, and each month | Records the yearly total, and refreshes the recommendations |
 
-Moving payment dates on, updating exchange rates and checking for a new version
-also run each time the application starts, so a Wallos that was stopped when one
-was due still catches up.
+Moving payment dates on and updating exchange rates also run each time the
+application starts, so a Wallos that was stopped when one was due still catches
+up.
 
 What each job prints goes to the application's log, so a notification that was
 sent, or one that failed, shows up there at 9:00. The jobs that run every two
@@ -218,10 +217,15 @@ restore from its registration page with the setup token.
 Version bumps arrive as pull requests against the repository and reach you as an
 application update once released.
 
-Wallos can also put a notice on the administrator's dashboard when a new version
-of Wallos is out, under **Admin → Maintenance Tasks**. It is off unless you turn
-it on, and is best left that way: the update only reaches you through this
-application, and the notice offers no way to install it.
+Wallos's own version check is not scheduled here. Upstream asks GitHub for its
+latest release at every start and every six hours, for a notice on the
+administrator's dashboard that links to the release notes but cannot install
+anything, since a new version only reaches you through this application.
+
+The notice is still there, under **Admin → Maintenance Tasks**, and off unless
+you turn it on. Turning it on, or pressing **Check for Updates** on the same
+page, checks once, and the dashboard then shows what that check found until the
+application is updated past it.
 
 ## Support
 
@@ -260,9 +264,11 @@ What else is different from upstream's image:
 - **Cron is BusyBox's.** Upstream runs dcron, which cannot be supervised by s6:
   in the foreground it moves itself into a new process group, which a process
   started the way s6 starts every service is not allowed to do. BusyBox's cron
-  is already in the image, and runs upstream's schedule unchanged.
+  is already in the image, and runs upstream's schedule, less the version check.
 - **Cron writes to the log** rather than to a file per job inside the container,
   where nobody looking from Home Assistant would find it.
+- **Nothing checks GitHub for a new version** on its own, at start or on the
+  schedule. See Updates.
 - **PHP-FPM does not log every request.** Its access log put the health check in
   the log every two minutes. nginx still keeps an access log of its own.
 - **Stopping uses `SIGTERM`.** The PHP base image stops with `SIGQUIT`, which
