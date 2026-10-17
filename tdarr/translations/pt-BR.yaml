@@ -2,8 +2,8 @@ configuration:
   auth:
     description: >-
       Se a interface web pede o login do próprio Tdarr. Desligue apenas quando
-      um proxy reverso com autenticação estiver na frente do Tdarr e a porta
-      8265 estiver fechada.
+      outra coisa autenticar os usuários antes, como o ingress ou um proxy
+      reverso com autenticação, e feche a porta 8265 ao fazer isso.
     name: Login
   umask:
     description: >-

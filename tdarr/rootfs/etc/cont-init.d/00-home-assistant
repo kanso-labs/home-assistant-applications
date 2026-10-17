@@ -45,11 +45,15 @@ set_env seededApiKey "${api_key}"
 set_env apiKey "${api_key}"
 
 # Whether the web interface asks for Tdarr's own sign-in. The node is unaffected
-# either way, since it authenticates with the key above.
-if bashio::config.true 'auth'; then
-  set_env auth true
-else
+# either way, since it authenticates with the key above. Only an explicit false
+# turns it off: bashio reads an option it could not fetch from Supervisor as
+# empty, and an empty value has to keep the sign-in on rather than drop it.
+if bashio::config.false 'auth'; then
   set_env auth false
+  bashio::log.warning \
+    'Sign-in is off. Keep port 8265 closed, or anyone who can reach it can use Tdarr.'
+else
+  set_env auth true
 fi
 
 # Run the server and its node in this container, the node reaching the server
