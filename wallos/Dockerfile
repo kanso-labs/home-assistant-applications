@@ -64,8 +64,12 @@ RUN \
   `# find it. Only the daily jobs print anything when there is nothing to do.` \
   `# They end without a newline, which awk adds so that the next line of the` \
   `# log starts on its own, and a job that prints nothing still prints nothing.` \
-  && sed -E 's#>> /var/log/cron/[^ ]+ 2>&1$#2>\&1 | awk 1#' /etc/cron.d/cronjobs \
-    > /etc/crontabs/root \
+  `#` \
+  `# The version check is left off the schedule. Every six hours it asks GitHub` \
+  `# for Wallos's latest release, for a dashboard notice that cannot install` \
+  `# it, when a new version only ever arrives as an application update.` \
+  && sed -E '/checkforupdates\.php/d; s#>> /var/log/cron/[^ ]+ 2>&1$#2>\&1 | awk 1#' \
+    /etc/cron.d/cronjobs > /etc/crontabs/root \
   && chmod 0600 /etc/crontabs/root \
   \
   && rm -f -r \
