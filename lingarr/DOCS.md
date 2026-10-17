@@ -37,8 +37,13 @@ it is off unless you turn it on.
 Point Lingarr at Radarr and Sonarr under **Settings → Integrations**, and choose
 a translation service and your source and target languages under **Settings →
 Services**. Lingarr reaches Radarr and Sonarr over the internal network, so use
-their application hostnames rather than `localhost` — `http://<slug>:7878` for
-Radarr and `http://<slug>:8989` for Sonarr.
+their hostnames inside Home Assistant rather than `localhost` —
+`http://2dd33fbd-radarr:7878` for Radarr and `http://2dd33fbd-sonarr:8989` for
+Sonarr.
+
+`2dd33fbd` is Home Assistant's name for this repository when it was added by the
+address in the README. A Radarr or Sonarr installed any other way has another
+prefix, shown as **Hostname** on its Info page.
 
 Then set the path mappings, which is the part that is easy to miss. Radarr and
 Sonarr report the paths they see, and those are not the paths this application
@@ -130,6 +135,13 @@ Backups are taken cold, so Home Assistant stops Lingarr for the duration.
 Lingarr keeps its state in SQLite, and copying a database that is being written
 to can produce a backup that will not restore. The application is briefly
 unavailable while a backup runs.
+
+## Updates
+
+Version bumps arrive as pull requests against the repository and reach you as an
+application update once released. Lingarr checks for newer releases and may say
+one is out, but it has no updater of its own: the version is built into the
+image, so updating this application is the only route to one.
 
 ## Support
 

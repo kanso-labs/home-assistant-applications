@@ -25,9 +25,10 @@ ARG S6_OVERLAY_VERSION=3.2.3.2
 ARG BASHIO_VERSION=0.19.0
 
 RUN \
-  `# The ASP.NET runtime image is the slim Debian one, which carries neither` \
-  `# curl nor ca-certificates. bashio needs curl and jq at run time, so those` \
-  `# two stay installed rather than being purged with the rest. nginx is what` \
+  `# The ASP.NET runtime image is Ubuntu 24.04 (noble). It carries` \
+  `# ca-certificates, named here so that apt brings it up to date, but not` \
+  `# curl, which bashio needs at run time along with jq. xz-utils unpacks the` \
+  `# s6 tarballs below, and like the rest it stays installed. nginx is what` \
   `# ingress reaches, on a port of its own; the configuration its package` \
   `# ships is replaced by the one in rootfs/, which serves nothing else.` \
   apt-get update \
@@ -71,6 +72,17 @@ COPY rootfs /
 # s6-overlay is pid 1 here, in place of the image's own `dotnet Lingarr.Server.dll`
 # entrypoint, which the run script calls instead.
 ENTRYPOINT ["/init"]
+
+# Supervisor shows the application as starting until the first result arrives,
+# and with the watchdog on, restarts it when the check fails. Without one it
+# sees only a process that exits, never one that has stopped answering; the
+# app linter rejects config.yaml's `watchdog` in favour of this. The page at
+# the root is written by Lingarr itself, which fills in the base and the time
+# zone, and it answers 200 whether or not Lingarr's login is on, where the API
+# answers 401 without a key. 9876 is Lingarr with nothing in front of it, so
+# nginx is not part of the check.
+HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=3 \
+  CMD curl -f -s -S -o /dev/null http://127.0.0.1:9876/ || exit 1
 
 # Expose the ports
 EXPOSE 9876
