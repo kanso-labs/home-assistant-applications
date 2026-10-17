@@ -7,13 +7,25 @@
 
 # The image already points APP_BASE_PATH at /config, which is where Supervisor
 # mounts the application's configuration directory, so nothing has to move.
-# Profilarr expects these four to exist under it rather than creating them
-# itself — the entrypoint this service replaces is what used to.
+# Profilarr creates the directories it uses itself, its database included under
+# data. These are the ones the entrypoint this service replaces made, kept so an
+# install that already has them sees no change.
 mkdir -p \
   /config/backups \
   /config/data \
   /config/databases \
   /config/logs
+
+# The image creates a profilarr user, uid 1000 with /config as its home, and
+# upstream's entrypoint runs Profilarr as that user. s6-overlay has to be pid 1
+# here, so the service starts as root and drops to it at the end. Whatever in
+# /config the user does not own, as on an install that ran Profilarr as root,
+# is handed to it first, since git refuses a clone another user owns.
+if [[ -n "$(find /config \( ! -user profilarr -o ! -group profilarr \) -print -quit)" ]]; then
+  bashio::log.info 'Giving /config to the profilarr user...'
+  chown -R profilarr:profilarr /config \
+    || bashio::exit.nok 'Could not give /config to the profilarr user'
+fi
 
 # Profilarr's own login. It is on by default, which is the right answer for a
 # port published on your network; turning it off is for a network where you
@@ -54,4 +66,9 @@ fi
 
 bashio::log.info 'Starting Profilarr...'
 
-exec /app/profilarr
+# s6-setuidgid changes the user without changing the home directory. Left at
+# /root, which the profilarr user cannot read, it has git warn on every command
+# Profilarr runs. Upstream's entrypoint leaves it at the user's own, /config.
+export HOME='/config'
+
+exec s6-setuidgid profilarr /app/profilarr
