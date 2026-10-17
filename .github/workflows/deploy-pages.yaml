@@ -1,21 +1,19 @@
 name: Deploy Pages
 
+# Pull requests build the site in Lint's site check, which merges wait on, so
+# this runs only to publish.
 on:
-  pull_request:
-    branches:
-      - main
   push:
     branches:
       - main
   workflow_dispatch:
 
 # Pages publishes one deployment at a time. Queue rather than cancel, so the
-# last push to main is the one that ends up published. GitHub keeps only the
-# newest run waiting in a group, so the group is per ref: shared with pull
-# requests, a pull request's run could take the place of a run from main still
-# waiting its turn, and the site would stay a push behind. The whole run is
-# grouped, not only the deploy job, so that runs from main also build in push
-# order and an older build finishing late cannot deploy last.
+# last push to main is the one that ends up published. The group is per ref, so
+# a run dispatched from another branch can never take the place of a run from
+# main still waiting its turn. The whole run is grouped, not only the deploy
+# job, so that runs from main also build in push order and an older build
+# finishing late cannot deploy last.
 concurrency:
   cancel-in-progress: false
   group: pages-${{ github.ref }}
@@ -27,9 +25,12 @@ jobs:
   build:
     name: Build the site
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Check out repository
         uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Configure Pages
         id: pages
@@ -57,13 +58,11 @@ jobs:
         with:
           path: '_site'
 
-  # Pull requests build but do not publish, so a generator that no longer runs
-  # is caught while it is still someone's branch rather than on main.
   deploy:
     name: Publish the site
     needs: build
-    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

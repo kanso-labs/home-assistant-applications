@@ -29,6 +29,13 @@ on:
       - opened
       - synchronize
 
+# One run per pull request at a time. Renovate's push and its rewrite of the body
+# each start one, and only the newest reads the body as it now stands, so an
+# older run still going is cancelled rather than left to write stale notes last.
+concurrency:
+  cancel-in-progress: true
+  group: upstream-changelog-${{ github.event.pull_request.number }}
+
 permissions:
   contents: read
 

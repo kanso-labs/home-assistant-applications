@@ -4,11 +4,18 @@ on:
   push:
     branches:
       - main
+  # Every pull request, not only those into main, because work here lands as
+  # stacked pull requests, each based on the one below it.
   pull_request:
-    branches:
-      - main
   schedule:
     - cron: '0 0 * * *'
+
+# A newer push to a pull request makes the run in progress on it pointless, so
+# that one is cancelled. Runs on main, pushes and the nightly one alike, are
+# never cancelled.
+concurrency:
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: lint-${{ github.ref }}
 
 permissions:
   contents: read
@@ -17,11 +24,14 @@ jobs:
   find:
     name: Find applications
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     outputs:
       addons: ${{ steps.addons.outputs.addons_list }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Find applications
         id: addons
@@ -32,6 +42,7 @@ jobs:
   lint:
     name: Lint ${{ matrix.path }}
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     needs: find
     strategy:
       # Every application reports, so a linter change that rejects something
@@ -42,6 +53,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Run application linter
         uses: frenck/action-app-linter@v2.21.1
@@ -51,9 +64,12 @@ jobs:
   verify:
     name: Verify release wiring
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Check out repository
         uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Verify release wiring
         run: ./.github/scripts/verify-release-wiring.sh
@@ -61,12 +77,15 @@ jobs:
   format:
     name: Check formatting
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     env:
       # renovate: datasource=npm depName=prettier
       PRETTIER_VERSION: '3.9.10'
     steps:
       - name: Check out repository
         uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
 
       # Pinned, because an unpinned Prettier turns its next formatting change
       # into a red build on whichever pull request happens to be open at the
@@ -79,12 +98,20 @@ jobs:
   # what notices, and nothing ran it until this job: a kanso-ui API that had
   # been removed under the site took the page blank for three days while the
   # build, and every other check here, stayed green.
+  #
+  # The site's own build runs here too, rather than only in Deploy Pages, so that
+  # it gates merges: Renovate automerges the site's dependencies once the
+  # required checks pass, and a kanso-ui release that breaks the server build
+  # fails `npm run build` while leaving the types and the dev server fine.
   typecheck:
-    name: Check types
+    name: Check the site
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Check out repository
         uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
 
       # The version docs/.tool-versions pins, so this check and a local one
       # resolve the same Node and npm. react-router typegen, which the
@@ -102,6 +129,9 @@ jobs:
       - name: Check types
         run: npm --prefix docs run typecheck
 
+      - name: Build the site
+        run: ./.github/scripts/build-pages.sh
+
   # The shared action asks to be run as a step of a job the ruleset already
   # requires, because a check name nothing requires is advisory and can fail
   # without stopping anything. Here that guarantee comes from `confirm` instead:
@@ -110,9 +140,12 @@ jobs:
   lint-workflows:
     name: Lint workflows
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Check out repository
         uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Lint workflows
         uses: kanso-labs/actions/lint-workflows@v4.3.0
@@ -134,48 +167,17 @@ jobs:
       - typecheck
       - verify
     if: always()
+    timeout-minutes: 5
     steps:
-      - name: Check the lint result
+      # Every job's result at once, so a run where several failed names them
+      # all, and a job added to needs is covered without another step.
+      - name: Check every job succeeded
         env:
-          RESULT: ${{ needs.lint.result }}
+          NEEDS: ${{ toJSON(needs) }}
         run: |
-          if [[ "${RESULT}" != 'success' ]]; then
-            echo "At least one application failed linting (${RESULT})."
-            exit 1
-          fi
-
-      - name: Check the workflow lint result
-        env:
-          RESULT: ${{ needs.lint-workflows.result }}
-        run: |
-          if [[ "${RESULT}" != 'success' ]]; then
-            echo "Workflow linting failed (${RESULT})."
-            exit 1
-          fi
-
-      - name: Check the release wiring result
-        env:
-          RESULT: ${{ needs.verify.result }}
-        run: |
-          if [[ "${RESULT}" != 'success' ]]; then
-            echo "Release wiring verification failed (${RESULT})."
-            exit 1
-          fi
-
-      - name: Check the formatting result
-        env:
-          RESULT: ${{ needs.format.result }}
-        run: |
-          if [[ "${RESULT}" != 'success' ]]; then
-            echo "Formatting check failed (${RESULT})."
-            exit 1
-          fi
-
-      - name: Check the type checking result
-        env:
-          RESULT: ${{ needs.typecheck.result }}
-        run: |
-          if [[ "${RESULT}" != 'success' ]]; then
-            echo "Type checking failed (${RESULT})."
+          failed=$(jq -r 'to_entries[] | select(.value.result != "success") | "\(.key): \(.value.result)"' <<< "${NEEDS}")
+          if [[ -n "${failed}" ]]; then
+            echo 'Lint did not succeed:'
+            echo "${failed}"
             exit 1
           fi
