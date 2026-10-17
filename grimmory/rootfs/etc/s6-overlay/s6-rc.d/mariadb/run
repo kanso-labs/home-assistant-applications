@@ -29,6 +29,20 @@ if [[ ! -d "${data_dir}/mysql" ]]; then
     > /dev/null || bashio::exit.nok 'Could not create the MariaDB database'
 fi
 
+# The mysql user is created when the image is built, with whichever system uid
+# is free then, so an update that creates another system user first can give
+# it a different one. The files in /data keep the old owner, and MariaDB then
+# cannot read them. Whatever mysql does not own is handed to it before the
+# server starts. That includes mariadb_upgrade_info, which mariadb-install-db
+# leaves to root, so this also happens once after the database is created.
+# Pinning a uid in the image would not help: any uid but the one an install
+# already has fails the same way.
+if [[ -n "$(find "${data_dir}" \( ! -user mysql -o ! -group mysql \) -print -quit)" ]]; then
+  bashio::log.info 'Giving the MariaDB files to the mysql user...'
+  chown -R mysql:mysql "${data_dir}" \
+    || bashio::exit.nok 'Could not give the MariaDB files to the mysql user'
+fi
+
 bashio::log.info 'Starting MariaDB...'
 
 # Alpine's configuration turns networking off, and Grimmory connects over TCP.
