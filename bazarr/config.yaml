@@ -2,6 +2,12 @@ arch:
   - aarch64
   - amd64
 backup: cold
+# What Bazarr rebuilds or regenerates on its own: its cache of provider
+# responses and of the subtitles it extracts from media files, and its logs. The
+# backups Bazarr takes itself, in backup, stay in.
+backup_exclude:
+  - cache
+  - log
 description:
   Subtitle manager for Radarr and Sonarr. Bazarr watches the libraries they
   manage, finds subtitles in the languages you ask for, and keeps them alongside
