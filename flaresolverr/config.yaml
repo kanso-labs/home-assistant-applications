@@ -12,14 +12,26 @@ init: false
 name: FlareSolverr
 options:
   log_level: info
+panel_icon: 'mdi:shield-check'
 # Closed by default. Ingress still shows FlareSolverr's status message, a
 # Prowlarr on the same Home Assistant reaches FlareSolverr by its internal name,
 # and anything that can reach a published port can have the browser fetch pages
 # from inside Home Assistant's network, see DOCS.md.
 ports:
   8191/tcp: null
+# The Configuration tab lists the options in the order the schema declares
+# them, so they follow the order a person fills them in.
 schema:
   log_level: list(error|warning|info|debug)
+  proxy_server: url?
+  proxy_username: str?
+  proxy_password: password?
+  browser_locale: match(^[A-Za-z]{2,3}(-[A-Za-z0-9]{1,8})*$)?
 slug: flaresolverr
+# Every request writes a fresh browser profile and Chrome's shared memory to
+# /tmp, so this keeps them in memory rather than on the disk. Supervisor mounts
+# it noexec, which Chrome and its driver run fine with, since neither runs
+# anything from there.
+tmpfs: true
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/flaresolverr'
 version: '2.0.0' # x-release-please-version

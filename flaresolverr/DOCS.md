@@ -61,6 +61,12 @@ ends in `/v1` becomes `/v1/v1` and fails.
 Give the proxy a tag, then apply that same tag to each indexer that needs it.
 Only tagged indexers are routed through FlareSolverr.
 
+**If indexers behind Cloudflare keep failing** on a network with IPv6, turn on
+`ipv4_only` in this repository's
+[Prowlarr application](https://github.com/kanso-labs/home-assistant-applications/tree/main/prowlarr),
+since Cloudflare has been seen to challenge Prowlarr's own request again over
+IPv6, even with the cookies FlareSolverr had just earned.
+
 Radarr, Sonarr and Bazarr reach it the same way if they talk to indexers
 directly.
 
@@ -77,10 +83,56 @@ documentation.
 How much FlareSolverr writes to the log. Raise it to `debug` when a challenge is
 failing and you want to see what the browser did.
 
+### `proxy_server`, `proxy_username` and `proxy_password`
+
+A proxy for the browser to send every request through, written as
+`protocol://host:port`, such as `http://proxy.local:3128` or
+`socks5://proxy.local:1080`. The user name and password are only needed when the
+proxy asks for them, and Chrome cannot sign in to a SOCKS proxy with them. Give
+the port even when it is the protocol's usual one, and set both the user name
+and the password or neither: FlareSolverr fails every request on a signed-in
+proxy with no port, and sends the word `None` for whichever of the two is
+missing.
+
+Challenges pass more often from an address the site trusts. A proxy FlareSolverr
+cannot reach makes every request fail, rather than going out directly.
+
+**A proxy set in Prowlarr comes first.** When Prowlarr has a proxy of its own,
+under **Settings → General**, it sends it along with each request, and
+FlareSolverr uses that one in place of this one.
+
+**FlareSolverr writes the proxy to its log.** At the `info` level it logs every
+request it receives, and the proxy is part of the request, user name and
+password included. Set `log_level` to `warning` to keep them out of the log,
+which also leaves out the lines about each request and its challenge. The line
+this application logs at start says only that a proxy is in use.
+
+### `browser_locale`
+
+The language the browser presents to websites, as a tag such as `en-US` or
+`pt-BR`. Chrome sends it in the `Accept-Language` header of every request, as
+`en-GB,en;q=0.9` for `en-GB`.
+
+Left empty, the browser presents the setting FlareSolverr's image carries,
+`C.UTF-8`, which names no language at all. Websites then see
+`C.UTF-8,C.UTF;q=0.9`.
+
+### Watchdog
+
+Turn on **Watchdog** on the application's Info tab to have Home Assistant
+restart FlareSolverr when it stops answering, not only when it exits. The image
+asks FlareSolverr's `/health` every 30 seconds and allows about five minutes
+without an answer before counting it as a hang, since a check waits its turn
+behind the four requests FlareSolverr works on at a time. It is off by default.
+
 ## Storage
 
 None. FlareSolverr keeps no configuration and no database, so no directory is
 mapped and nothing survives a restart. There is nothing to back up.
+
+The browser writes a fresh profile to `/tmp` for every request. Home Assistant
+keeps `/tmp` in memory for this application rather than on disk, so those writes
+cost no wear on an SD card or eMMC.
 
 ## Backups
 
@@ -108,12 +160,6 @@ curl http://2dd33fbd-flaresolverr:8191
 With the port open, `http://192.168.1.10:8191` answers the same way. If either
 answers and Prowlarr still cannot connect, the address in Prowlarr is wrong
 rather than FlareSolverr being down.
-
-A health check also asks FlareSolverr's `/health` every 30 seconds. That is what
-lets the **Watchdog** switch on the application's Info tab restart a
-FlareSolverr that has stopped answering, rather than only one that has crashed.
-FlareSolverr works on four requests at a time and a check waits behind them, so
-it takes about five minutes without an answer to count as a failure.
 
 ## Updates
 
