@@ -81,6 +81,10 @@ The internal node authenticates with an API key the application generates on
 first start and keeps in its configuration directory, so it keeps working
 whether the sign-in is on or off.
 
+**Watchdog**, on the application's Info page, restarts Tdarr when it stops
+answering as well as when it exits. The application asks the Tdarr server for
+its status every 30 seconds, and five failures in a row count as a hang.
+
 ## Network
 
 | Port | What it is                                                                       |
@@ -100,6 +104,18 @@ The transcode cache is at `/temp` inside the application, which is
 `/config/cache` on the Home Assistant disk. Point a library's cache there rather
 than at the network share the library may be on: Tdarr writes each file there in
 full before replacing the original.
+
+**Leave room for it.** The cache needs free space of at least the largest file
+being processed, for each worker running at once. That space comes from the disk
+Home Assistant keeps its database and backups on, so a cache that fills it stops
+more than Tdarr. `/media` and `/share` are on the same disk, so a cache in an
+ordinary folder there frees nothing.
+
+On a small eMMC or SD card install, such as Home Assistant Green's 32 GB, either
+move Home Assistant's data disk to a larger drive under **Settings → System →
+Storage**, or give the library a cache on network storage, under
+`/media/<mount>` or `/share/<mount>`. That is slower, but it takes none of Home
+Assistant's space.
 
 ## Hardware transcoding
 
