@@ -13,51 +13,88 @@ of Redis, in Redis's place.
 
 1. Add this repository to your Home Assistant instance.
 2. Install the "Flight Finder" application.
-3. Decide how Flight Finder should keep people out. Out of the box it is open to
-   your whole network; see Signing in below.
-4. Start it, and open its web interface on port `3003`.
+3. In its Configuration tab, set a shared password of at least 12 characters,
+   and rename the Admin profile if you like. See Signing in below.
+4. Start it, and open its web interface on port `3003`. Enter the shared
+   password, then choose the Admin profile.
 5. Choose an AI provider in Flight Finder's admin settings. See AI providers
    below.
 
-The first start creates the database, which takes a moment.
+The first start creates the database, which takes a moment, and then the Admin
+profile. Until that is done, the web interface asks for a command to be run in a
+terminal. Reload it instead.
 
 ## Configuration
 
-| Option          | What it sets                                                     |
-| --------------- | ---------------------------------------------------------------- |
-| Access password | A sign-in in front of every page and API. At least 16 characters |
+| Option          | What it sets                                                                     |
+| --------------- | -------------------------------------------------------------------------------- |
+| Admin profile   | The name of the Admin profile the first start creates. Only read then            |
+| Shared password | The password everyone enters to open Flight Finder. At least 12 characters       |
+| Other addresses | Addresses that reach Flight Finder besides this machine's own, such as a proxy's |
 
 Everything else is set inside Flight Finder, in its admin settings.
 
 ## Signing in
 
-**Out of the box, Flight Finder trusts whoever reaches it.** It starts with no
-sign-in of any kind, not even for its admin pages, so anyone who can reach port
-`3003` can use it and change its settings, including the API keys it uses. The
-log says so on every start until an access password is set.
+**Nobody gets in without the shared password.** Flight Finder has one password
+for the whole household. Whoever enters it then chooses a profile: the Admin
+profile, which reaches the admin pages, or, once multi user mode is on in its
+settings, a member profile the Admin creates under Users. A browser stays signed
+in for 12 hours, and it all works over plain `http://`.
 
-Two things change that, and they can be combined.
+**A profile is not a lock.** Anyone who knows the shared password can choose the
+Admin profile, and with it change Flight Finder's settings, including the API
+keys it uses. Member profiles keep their own trackers, and have no password of
+their own.
 
-**Flight Finder's multi user mode gives each person an account.** Turn it on in
-its settings, under Multi user mode. Everyone then signs in and keeps their own
-trackers, and only admins reach the admin pages. It works over plain `http://`.
+**This application creates the Admin profile.** Upstream has it created by
+running `flight-finder access setup` in a terminal, and shows nothing but a page
+asking for that command until someone has. Here the first start with a shared
+password set runs the same setup with the options instead, a few seconds after
+the web interface answers. Without a shared password it creates nothing, and the
+log says so on every start.
 
-Multi user mode is meant for a household rather than as a lock. An account can
-have no password, in which case signing in is picking a face, and share links
-stay public either way.
+**Setting a new shared password replaces the old one** on the next start. It
+signs everyone out and removes the passkeys saved for the old one, as upstream's
+own `flight-finder access reset` does. The password can also be changed inside
+Flight Finder, on its App access page at `/access/security`, and a change made
+there is kept across restarts until the option changes. To go back to the
+password the option already holds, clear the option and restart once before
+setting it again.
 
-**The access password puts one sign-in in front of everything.** Every page and
-API then asks for it first, and a browser stays signed in for 12 hours. An admin
-can also hand out invite links, which a phone can open from a QR code.
+An installation updated from an earlier version of this application keeps the
+access password it had, which becomes the shared password on the first start.
+That replaces a shared password created by hand in a terminal, so clear the
+option first to keep that one.
 
-- **It needs at least 16 characters.** Flight Finder quietly ignores a shorter
-  one and stays open, so this application refuses to start with one instead.
-- **It needs HTTPS.** The sign-in is kept in a cookie browsers only accept from
-  a secure site. Over plain `http://<address>:3003` you are sent back to the
-  sign-in page every time, so reach Flight Finder through a reverse proxy with a
-  certificate, such as the Nginx Proxy Manager or Traefik application.
+### Addresses
 
-Changing the access password signs everyone out.
+**Flight Finder signs people in only at addresses it knows.** At any other, its
+sign-in page says "This address is not configured for login". This application
+tells it this machine's own, on the port Flight Finder is published on: its
+name, as in `http://homeassistant.local:3003` and `http://homeassistant:3003`,
+and its IPv4 addresses, as in `http://192.168.1.10:3003`. The Open Web UI button
+leads to one of those whenever Home Assistant itself was opened by this
+machine's name or address, and the log lists them all on every start. Reading
+the IPv4 addresses is why this application asks Supervisor for network
+information.
+
+**Add any other address under Other addresses**, such as a reverse proxy's, like
+the Nginx Proxy Manager or Traefik application, or a Tailscale or Cloudflare
+address. Give the scheme, the host and the port alone, as in
+`https://flights.example.com`, without a path.
+
+The first `https://` address under Other addresses becomes Flight Finder's main
+address. Without one, the first address there does, or with none at all, this
+machine's `.local` name. Alerts link to the main address, and passkeys work
+there alone, and only over HTTPS. Behind a reverse proxy, the main address is
+also what lets Flight Finder believe the proxy about which address the browser
+asked for, so a proxy's address should be an `https://` one.
+
+A Public URL saved in Flight Finder's own settings takes over as the main
+address, and is accepted too. Save it as a scheme, a host and a port alone as
+well: while it holds one with a path, Flight Finder cannot sign anyone in at
+all.
 
 ## AI providers
 
@@ -92,15 +129,17 @@ published for either.
 
 ## Storage
 
-| Path               | Holds                                                         |
-| ------------------ | ------------------------------------------------------------- |
-| `/data/postgresql` | The PostgreSQL database: searches, price history and settings |
-| `/data/secrets`    | The secrets Flight Finder is started with                     |
-| `/data/app`        | Flight Finder's own analytics                                 |
+| Path               | Holds                                                                         |
+| ------------------ | ----------------------------------------------------------------------------- |
+| `/data/postgresql` | The PostgreSQL database: searches, price history, settings and profiles       |
+| `/data/secrets`    | The secrets Flight Finder is started with, and the shared password's checksum |
+| `/data/app`        | Flight Finder's own analytics                                                 |
 
 **Keep `/data/secrets`.** The stored API keys are encrypted with one of those
 secrets, and losing it makes them unreadable. It is part of every backup of this
-application.
+application. The checksum is a salted scrypt hash of the shared password this
+application applied last, which is how a restart tells whether the option has
+changed. It never holds the password itself.
 
 Valkey keeps nothing on disk. It holds Flight Finder's rate limits and cache,
 which expire on their own.
@@ -110,6 +149,10 @@ which expire on their own.
 Backups are taken cold, so Home Assistant stops Flight Finder for the duration.
 Copying a PostgreSQL database while it is being written to can produce a backup
 that will not restore.
+
+Stopping, for a backup or for anything else, gives Flight Finder and then
+PostgreSQL two minutes between them before Home Assistant forces them to, rather
+than its default of 10 seconds, so the database is shut down cleanly.
 
 ## Updates
 

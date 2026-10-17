@@ -1,11 +1,24 @@
 configuration:
   access_password:
-    name: Senha de acesso
     description: >-
-      Pelo menos 16 caracteres. Coloca um login na frente de todas as páginas e
-      da API, e só funciona quando o Flight Finder é acessado por HTTPS, como
-      por um proxy reverso com certificado. Deixe vazia para contar com o modo
-      multiusuário do próprio Flight Finder, ou para deixá-lo aberto a quem
-      conseguir acessá-lo.
+      A senha que todos digitam para abrir o Flight Finder, com pelo menos 12
+      caracteres. A primeira inicialização cria o perfil de administrador com
+      ela. Uma nova senha substitui a anterior na inicialização seguinte e
+      desconecta todos, e uma troca feita dentro do Flight Finder é mantida até
+      esta opção mudar.
+    name: Senha compartilhada
+  addresses:
+    description: >-
+      Endereços que levam ao Flight Finder além dos desta máquina, que ele já
+      conhece, como https://voos.exemplo.com por um proxy reverso. Informe
+      apenas o esquema, o host e a porta. O primeiro em https passa a ser o
+      endereço principal, para o qual os alertas apontam e no qual as passkeys
+      funcionam.
+    name: Outros endereços
+  admin_profile:
+    description: >-
+      O nome do perfil de administrador que a primeira inicialização cria. Ele
+      só é lido nesse momento, então mudá-lo depois não tem efeito.
+    name: Perfil de administrador
 network:
   3003/tcp: A porta em que a interface web do Flight Finder é servida.

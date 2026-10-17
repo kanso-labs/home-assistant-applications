@@ -45,10 +45,9 @@ export REDIS_URL='redis://127.0.0.1:6379'
 
 # Upstream's entrypoint generates both secrets afresh on every start unless
 # they are given. ADMIN_SESSION_SECRET is the one that matters: the API keys
-# saved in Flight Finder's settings are encrypted with it, and multi user mode
-# signs its sessions with it, so a new one on every start would make the saved
-# keys unreadable and sign everybody out. Generating the secrets once and
-# keeping them in /data is what makes both survive a restart.
+# saved in Flight Finder's settings are encrypted with a key derived from it, so
+# a new one on every start would make them unreadable. Generating the secrets
+# once and keeping them in /data is what makes them survive a restart.
 mkdir -p "${secrets}"
 chmod 0700 "${secrets}"
 for secret in admin_session_secret cron_secret; do
@@ -61,32 +60,74 @@ ADMIN_SESSION_SECRET="$(<"${secrets}/admin_session_secret")"
 CRON_SECRET="$(<"${secrets}/cron_secret")"
 export ADMIN_SESSION_SECRET CRON_SECRET
 
-# Self-hosted, Flight Finder never shows the sign-in page this password is for:
-# its settings are open to whoever reaches it, or to its own admin accounts once
-# multi user mode is on. Upstream otherwise generates a new one on every start
-# and prints it in the log, which reads as though it were needed, so one is kept
-# here instead and never printed.
-if [[ ! -s "${secrets}/admin_password" ]]; then
-  head -c 12 /dev/urandom | od -An -tx1 | tr -d ' \n' > "${secrets}/admin_password"
-  chmod 0600 "${secrets}/admin_password"
-fi
-ADMIN_PASSWORD="$(<"${secrets}/admin_password")"
-export ADMIN_PASSWORD
+# Flight Finder before 0.16 was started with an admin password, which this
+# application generated and kept here. Nothing reads it any more.
+rm -f "${secrets}/admin_password"
 
-# Without an access password Flight Finder trusts whoever reaches it, unless
-# its own multi user mode is on. With one, it stands in front of every page and
-# API. Upstream quietly leaves the gate off for a password under 16 characters,
-# so a short one stops the start instead of leaving someone believing they are
-# protected.
+# Flight Finder lets nobody in until its first Admin profile and shared password
+# exist, and upstream creates them with a command that asks for both at a
+# terminal. flight-finder-access creates them from the options instead, once
+# Flight Finder is up. A password Flight Finder would refuse stops the start
+# here, rather than leaving it at a setup page nobody can get past.
 if bashio::config.has_value 'access_password'; then
-  FF_ACCESS_PASSWORD="$(bashio::config 'access_password')"
-  if (( ${#FF_ACCESS_PASSWORD} < 16 )); then
-    bashio::exit.nok 'The access password needs at least 16 characters. Flight Finder would ignore a shorter one and stay open.'
+  password="$(bashio::config 'access_password')"
+  if (( ${#password} < 12 )); then
+    bashio::exit.nok 'The shared password needs at least 12 characters'
   fi
-  export FF_ACCESS_PASSWORD
-  bashio::log.info 'Every page and API needs the access password'
+  unset password
+fi
+
+# Flight Finder signs people in only at addresses it was told about, and turns
+# away any other with "This address is not configured for login". It is told
+# the addresses Home Assistant's Open Web UI button leads to, which are this
+# machine's name and IPv4 addresses on the port Flight Finder is published on,
+# as upstream's installer tells it the computer's. The options add the rest,
+# such as a reverse proxy's.
+addresses=()
+for address in $(bashio::config 'addresses'); do
+  address="${address%/}"
+  if [[ ! "${address}" =~ ^https?://(\[[0-9A-Fa-f:.]+\]|[A-Za-z0-9.-]+)(:[0-9]{1,5})?$ ]]; then
+    bashio::exit.nok "Flight Finder takes an address as a scheme, a host and a port alone, such as https://flights.example.com, so it cannot use ${address}"
+  fi
+  addresses+=("${address}")
+done
+
+port="$(bashio::app.port '3003/tcp')"
+if bashio::var.has_value "${port}"; then
+  host_name="$(bashio::info.hostname)"
+  if [[ "${host_name}" =~ ^[A-Za-z0-9-]+$ ]]; then
+    addresses+=("http://${host_name}.local:${port}" "http://${host_name}:${port}")
+  fi
+  # Supervisor answers with an error on a host whose network it cannot read,
+  # which would be logged on every start. The options can still name these.
+  for ip in $( (bashio::log.level 'fatal'; bashio::network.ipv4_address) || true); do
+    ip="${ip%%/*}"
+    if [[ "${ip}" =~ ^[0-9]{1,3}(\.[0-9]{1,3}){3}$ ]]; then
+      addresses+=("http://${ip}:${port}")
+    fi
+  done
+fi
+
+# The main address is the one Flight Finder's alerts link to, and the only one
+# passkeys work at, which they do only over HTTPS. Behind a reverse proxy it
+# is also what lets Flight Finder trust the proxy's account of the address the
+# browser asked for. So the first HTTPS address is the main one, if any is.
+# Every address goes in the list as well, because an address saved in Flight
+# Finder's own settings takes the main one's place.
+if (( ${#addresses[@]} > 0 )); then
+  APP_URL="${addresses[0]}"
+  for address in "${addresses[@]}"; do
+    if [[ "${address}" == https://* ]]; then
+      APP_URL="${address}"
+      break
+    fi
+  done
+  SIDEDOOR_PASSWORD_ORIGINS="$(printf '%s\n' "${addresses[@]}" | jq -R . | jq -c -s 'unique')"
+  export APP_URL SIDEDOOR_PASSWORD_ORIGINS
+  bashio::log.info "Flight Finder accepts sign-ins at $(jq -r 'join(", ")' <<< "${SIDEDOOR_PASSWORD_ORIGINS}")"
+  bashio::log.info "Its main address is ${APP_URL}"
 else
-  bashio::log.warning 'No access password is set, so anyone who can reach Flight Finder can use it and change its settings, unless its multi user mode keeps them out'
+  bashio::log.warning 'Flight Finder is published on no port and no other address is set, so it accepts sign-ins nowhere. Set one in the Configuration tab.'
 fi
 
 # The Claude Code and Codex CLIs are left out. Their logins can only be copied
@@ -109,6 +150,13 @@ export HOME='/home/node'
 export USER='node'
 
 cd /app || bashio::exit.nok 'Flight Finder is missing from the image'
+
+# In the background, with the environment Flight Finder starts with, so that it
+# reaches the same database. It waits for Flight Finder to answer, because the
+# commands it runs need the database upstream's entrypoint prepares first. The
+# outer subshell exits at once, so the init process reaps it rather than
+# Flight Finder's server, which never would.
+( flight-finder-access & )
 
 bashio::log.info 'Starting Flight Finder...'
 
