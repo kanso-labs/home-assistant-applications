@@ -8,8 +8,9 @@
 #
 # The cost is that s6-overlay and bashio arrive here by hand rather than from
 # the base image. Both are installed below, and the service layout under
-# rootfs/ is unchanged from every other application. Unlike Seerr, the image
-# underneath is Debian rather than Alpine, so the packages come from apt.
+# rootfs/ is unchanged from every other application. Unlike Seerr's, the image
+# underneath is Microsoft's ASP.NET runtime image, which is Ubuntu rather than
+# Alpine, so the packages come from apt.
 ARG BUILD_FROM=ghcr.io/cleanuparr/cleanuparr:2.10.11
 FROM ${BUILD_FROM}
 
@@ -67,6 +68,16 @@ COPY rootfs /
 # entrypoint exists to create a user and drop privileges to it, which every
 # application here leaves to Supervisor instead.
 ENTRYPOINT ["/init"]
+
+# Upstream's image has no health check, so Supervisor's watchdog could see
+# Cleanuparr exit but never hang. /health answers without signing in and asks
+# only whether the application is running, never whether a download client or
+# arr application is reachable, so an outage elsewhere cannot get Cleanuparr
+# restarted. It is asked on 11011 directly, which nginx is not in front of. A
+# watchdog URL in config.yaml would do the same, but the application linter
+# rejects that key in favour of this.
+HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=5 \
+  CMD curl -f -s -S -o /dev/null http://127.0.0.1:11011/health || exit 1
 
 # Expose the ports
 EXPOSE 11011

@@ -14,12 +14,18 @@ init: false
 map:
   - read_only: false
     type: app_config
-  # Write access, because the orphaned files cleanup moves entries it no longer
-  # recognises into a directory of its own and deletes them once they are old
-  # enough. Every other part of Cleanuparr works through the download client
+  # Two features read downloads at the path the download client reports, so
+  # both places a download can land are mapped: this repository's qBittorrent
+  # saves to /share, and plenty of installations point it at /media instead.
+  # The unlinked download check counts each file's hard links. The orphaned
+  # files cleanup moves entries it no longer recognises into a directory of
+  # its own and deletes them once they are old enough, which is why both are
+  # writable. Every other part of Cleanuparr works through the download client
   # and arr APIs and touches nothing here.
   - read_only: false
     type: media
+  - read_only: false
+    type: share
 name: Cleanuparr
 panel_icon: 'mdi:broom'
 ports:

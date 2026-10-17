@@ -17,6 +17,12 @@ This application has no options. Cleanuparr is configured entirely from its web
 interface, and those settings live in the application's configuration directory
 so they survive restarts and updates.
 
+Turn on **Watchdog** on the application's page to have Home Assistant restart
+Cleanuparr when it stops answering, not only when it exits. The image asks
+Cleanuparr's `/health` every 30 seconds, which reports only whether Cleanuparr
+itself is running, so a download client or arr application being down never
+counts against it.
+
 ## Ingress
 
 Cleanuparr is served through Home Assistant's ingress, so it opens inside Home
@@ -62,28 +68,37 @@ session in a browser. They still work on the published port.
 | Path      | Access     | Holds                                       |
 | --------- | ---------- | ------------------------------------------- |
 | `/config` | read/write | Settings, the strike database, and the logs |
-| `/media`  | read/write | Your media library                          |
+| `/media`  | read/write | Your media library, and downloads kept here |
+| `/share`  | read/write | Downloads kept here                         |
 
-Most of what Cleanuparr does needs neither. Striking stalled downloads, cleaning
-finished ones and blocking unwanted files all happen through the download client
-and arr APIs, and those applications do the writing.
+Most of what Cleanuparr does needs neither `/media` nor `/share`. Striking
+stalled downloads, cleaning finished ones and blocking unwanted files all happen
+through the download client and arr APIs, and those applications do the writing.
 
-**One feature is different, and it is why `/media` is writable.** The orphaned
-files cleanup works on disk instead: it reads the directories you point it at,
-moves anything no longer claimed by a download into a directory of its own, and
-deletes those entries once they are older than the age you set.
+**Two features read the disk instead, and they are why both are mapped.**
 
-That feature is off until you configure it. It skips any download client with no
-scan directories set, so an installation that never fills those in touches
-nothing.
+- **Unlinked download handling** counts the hard links of every file in a
+  download, to tell whether an arr application still uses it. It only reads.
+- **The orphaned files cleanup** reads the directories you point it at, moves
+  anything no longer claimed by a download into a directory of its own, and
+  deletes those entries once they are older than the age you set. It is why both
+  paths are writable.
 
-**The directories you give it have to be under `/media`.** `/share` is not
-mapped, so a scan directory there is invisible to Cleanuparr and the cleanup
-skips it. Which of the two your downloads land in is set by the download client,
-not by Cleanuparr — the qBittorrent and NZBGet documentation here suggests paths
-under `/share`, and plenty of installations point them at `/media` instead.
+Both are off until you configure them, so an installation that never turns them
+on touches nothing on disk.
 
-Everything else works either way, since it never reads the disk.
+**Both find files at the path the download client reports**, so that path has to
+be under `/media` or `/share`. This repository's qBittorrent saves to
+`/share/qbittorrent/downloads` by default, and plenty of installations point it
+at `/media` instead; either works as it is. A download client whose paths differ
+from Cleanuparr's, such as one on another machine, needs them mapped under the
+client's **Download Directory Source and Target** in Cleanuparr, or the orphaned
+files cleanup can mistake files still in use for orphans.
+
+**Give the orphaned files cleanup the download client's own folder**, such as
+`/share/qbittorrent/downloads`, never `/share` or `/media` itself. Other
+applications keep their files there too, NZBGet's downloads among them, and
+nothing a torrent does not claim is safe in a scan directory.
 
 ## Backups
 
@@ -112,7 +127,8 @@ is MIT licensed.
 
 Cleanuparr itself is
 [a separate project](https://github.com/Cleanuparr/Cleanuparr) and is licensed
-under GPL-3.0. The icon and logo come from that project.
+under GPL-3.0. The icon comes from that project, and the logo sets it beside
+Cleanuparr's name.
 
 ## A note on the base image
 
