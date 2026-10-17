@@ -6,12 +6,23 @@
 # read as a diff against it; see DOCS.md for the credit.
 #
 # The base image is the one change worth knowing about. Upstream builds on
-# hassio-addons/debian-base, and every Debian package here is pinned to an exact
-# trixie version — as is the Nginx repository line further down. Home
-# Assistant publishes its own trixie base, so those pins carry over untouched;
-# base-ubuntu, which AGENTS.md names as the Debian-family option, would have
-# invalidated every one of them.
-ARG BUILD_FROM=ghcr.io/home-assistant/base-debian:trixie-2026.08.0
+# hassio-addons/debian-base, which is Debian trixie, the release the Nginx
+# repository line further down names. Home Assistant publishes its own trixie
+# base, so the same packages install from the same archive; base-ubuntu, which
+# AGENTS.md names as the Debian-family option, would have changed every one.
+#
+# The tag floats, as the Alpine applications float base:3.24, so every build
+# takes Home Assistant's latest rebuild of trixie. The image's dated tags, such
+# as trixie-2026.08.0, are ones Renovate cannot read as versions, so a pin to
+# one never moved.
+#
+# Debian's own packages are not pinned. Its archive keeps only the current
+# version of each, so an exact pin stops resolving at the next point release and
+# fails every build until someone edits it, and the base tag already fixes the
+# release they come from. Nginx and Node.js are pinned below, where Renovate
+# moves them: their repositories keep every version, and Nginx is the server
+# this application exposes to the internet.
+ARG BUILD_FROM=ghcr.io/home-assistant/base-debian:trixie
 FROM ${BUILD_FROM}
 
 ARG BUILD_ARCH=amd64
@@ -28,29 +39,35 @@ COPY patches/*.patch /usr/src/
 ARG CERTBOT_VERSION=5.8.0
 # renovate: datasource=github-releases depName=NginxProxyManager/nginx-proxy-manager
 ARG NGINX_PROXY_MANAGER_VERSION=2.16.0
-# hadolint ignore=DL3003,DL3042
+# Nginx comes from nginx.org's repository and Node.js from NodeSource's, both
+# set up in the step below, and Renovate reads the same ones. nginx.org's suite
+# names the base image's Debian release, and has to follow the base if it moves
+# on from trixie; NodeSource's nodistro suite serves every release. One version
+# covers both architectures.
+# renovate: datasource=deb depName=nginx registryUrl=https://nginx.org/packages/mainline/debian?suite=trixie&components=nginx&binaryArch=amd64
+ARG NGINX_VERSION=1.31.7-1~trixie
+# renovate: datasource=deb depName=nodejs registryUrl=https://deb.nodesource.com/node_22.x?suite=nodistro&components=main&binaryArch=amd64
+ARG NODEJS_VERSION=22.23.3-1nodesource1
+# hadolint ignore=DL3003,DL3008,DL3042
 RUN \
     apt-get update \
     \
     && apt-get install -y --no-install-recommends \
-        apache2-utils=2.4.68-1~deb13u1 \
-        libcap2-bin=1:2.75-10+deb13u1+b3 \
-    # logrotate has been rebuilt on aarch64 but not amd64, so its version
-    # carries a binNMU suffix on one architecture only. Match the Debian
-    # revision and let the suffix vary.
-        logrotate=3.22.0-1* \
-        openssl=3.5.7-1~deb13u2 \
-        python3=3.13.5-1 \
-        python3-venv=3.13.5-1 \
+        apache2-utils \
+        libcap2-bin \
+        logrotate \
+        openssl \
+        python3 \
+        python3-venv \
     \
     && apt-get install -y --no-install-recommends \
-        build-essential=12.12 \
-        git=1:2.47.3-0+deb13u1 \
-        gnupg=2.4.7-21+deb13u1 \
-        libffi-dev=3.4.8-2 \
-        libssl-dev=3.5.7-1~deb13u2 \
-        patch=2.8-2 \
-        python3-dev=3.13.5-1 \
+        build-essential \
+        git \
+        gnupg \
+        libffi-dev \
+        libssl-dev \
+        patch \
+        python3-dev \
     \
     # Debian ships nginx 1.26.3, which is older than both the Alpine build this
     # app used to ship and the OpenResty 1.29.2 upstream builds on. Take nginx
@@ -73,8 +90,8 @@ RUN \
     \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
-        nginx=1.31.6-1~trixie \
-        nodejs=22.23.3-1nodesource1 \
+        "nginx=${NGINX_VERSION}" \
+        "nodejs=${NODEJS_VERSION}" \
     \
     && npm install --global yarn@1.22.22 \
     \

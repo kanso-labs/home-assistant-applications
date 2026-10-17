@@ -89,6 +89,10 @@ Updates arrive by updating this application. Nginx Proxy Manager is built from
 source here, so a new upstream release becomes a new version of this application
 rather than something the interface can install on its own.
 
+The same goes for Nginx and Node.js, which are pinned to exact versions: a new
+release of either, Nginx's security fixes included, reaches you as a new version
+of this application too.
+
 ## Support
 
 Open an issue on the
@@ -107,10 +111,11 @@ keep its logs out of it, the source build, and the Nginx and Let's Encrypt
 configuration. They are carried over unchanged.
 
 Two things differ. The base image is Home Assistant's own Debian trixie base
-rather than the community one, which is what keeps every pinned package version
-valid. And the s6 service bundle is declared in `s6-rc.d/user/contents.d` rather
-than `user-bundles.d`, because the s6-overlay in that base image does not read
-the newer location — with the markers in the newer place, not one of the four
+rather than the community one. Both are the same Debian release, so the
+community build's packages and its Nginx repository carry over. And the s6
+service bundle is declared in `s6-rc.d/user/contents.d` rather than
+`user-bundles.d`, because the s6-overlay in that base image does not read the
+newer location — with the markers in the newer place, not one of the four
 services starts.
 
 Nginx Proxy Manager itself is developed by

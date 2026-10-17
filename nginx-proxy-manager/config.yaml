@@ -8,6 +8,10 @@ description:
   Reverse proxy with a web interface and free SSL certificates. Nginx Proxy
   Manager puts your services behind one hostname each, and gets Let's Encrypt
   certificates for them without touching a configuration file.
+# Nginx resolves the hosts it proxies through Home Assistant's DNS server, and
+# the start-up reads that server's address from Supervisor's /dns/info. Unlike
+# an application's own options and info, Supervisor answers that path only for
+# an application with API access, so without this Nginx never starts.
 hassio_api: true
 image: 'ghcr.io/kanso-labs/home-assistant-application-nginx-proxy-manager'
 init: false
