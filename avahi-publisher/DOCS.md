@@ -131,8 +131,7 @@ since everything the application publishes comes from its options.
 ## Updates
 
 Avahi comes from Alpine's package, and its version is pinned so that a new one
-arrives as a release of this application rather than silently. Alpine currently
-ships Avahi 0.9-rc4.
+arrives as a release of this application rather than silently.
 
 ## Support
 
@@ -150,3 +149,8 @@ applications in this repository.
 
 Avahi is developed by the [Avahi project](https://github.com/avahi/avahi) and is
 licensed under the LGPL-2.1.
+
+The icon is the
+[`access-point`](https://pictogrammers.com/library/mdi/icon/access-point/)
+symbol from Material Design Icons, licensed under the Apache-2.0, on a rounded
+square, and the logo sets that icon beside the application's name.
