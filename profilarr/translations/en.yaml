@@ -7,10 +7,11 @@ configuration:
     name: Require a login
   external_url:
     description: >-
-      The address that reaches this application from outside Home Assistant,
-      such as https://profilarr.example.com. Profilarr only needs it to build
-      OIDC redirects and to decide whether its cookie may be marked secure.
-      Leave it empty unless something is in front of this application.
+      The public address of this application when a reverse proxy is in front of
+      it, such as https://profilarr.example.com. Behind a proxy, signing in can
+      fail with 403 until this is set. Once it is, sign in at that address
+      rather than on port 6868. Leave it empty if you open Profilarr on its
+      port.
     name: External address
   parser_host:
     description: >-
