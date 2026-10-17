@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1](https://github.com/kanso-labs/home-assistant-applications/compare/nat-gateway-v1.0.0...nat-gateway-v1.0.1) (2026-10-17)
+
+
+### Bug Fixes
+
+* **nat-gateway:** remove leftover rules even when nothing is shared ([#719](https://github.com/kanso-labs/home-assistant-applications/issues/719)) ([99753de](https://github.com/kanso-labs/home-assistant-applications/commit/99753de0e160405bd07c2773bf812aaa65d7e915))
+
 ## [1.0.0](https://github.com/kanso-labs/home-assistant-applications/compare/nat-gateway-v0.2.0...nat-gateway-v1.0.0) (2026-10-08)
 
 

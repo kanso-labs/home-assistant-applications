@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.5](https://github.com/kanso-labs/home-assistant-applications/compare/seerr-v1.1.4...seerr-v1.1.5) (2026-10-17)
+
+
+### Bug Fixes
+
+* **seerr:** stop warning that the configuration will be wiped ([#700](https://github.com/kanso-labs/home-assistant-applications/issues/700)) ([0a26eab](https://github.com/kanso-labs/home-assistant-applications/commit/0a26eab0a365ac13daa6061a2a59bf3ad9536462))
+
 ## [1.1.4](https://github.com/kanso-labs/home-assistant-applications/compare/seerr-v1.1.3...seerr-v1.1.4) (2026-09-28)
 
 

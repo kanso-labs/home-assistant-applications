@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1](https://github.com/kanso-labs/home-assistant-applications/compare/seadexerr-v1.1.0...seadexerr-v1.1.1) (2026-10-17)
+
+
+### Bug Fixes
+
+* **seadexerr:** drop the AniList token option Seadexerr no longer reads ([#716](https://github.com/kanso-labs/home-assistant-applications/issues/716)) ([ff417a7](https://github.com/kanso-labs/home-assistant-applications/commit/ff417a79c8ca4f3c03da84bb3547f41a49207744))
+
 ## [1.1.0](https://github.com/kanso-labs/home-assistant-applications/compare/seadexerr-v1.0.1...seadexerr-v1.1.0) (2026-10-12)
 
 

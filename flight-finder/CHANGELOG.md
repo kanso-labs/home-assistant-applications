@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1](https://github.com/kanso-labs/home-assistant-applications/compare/flight-finder-v1.1.0...flight-finder-v1.1.1) (2026-10-17)
+
+
+### Bug Fixes
+
+* **flight-finder:** create the first admin profile from the options ([#699](https://github.com/kanso-labs/home-assistant-applications/issues/699)) ([34f601a](https://github.com/kanso-labs/home-assistant-applications/commit/34f601a417995c900d3de168ce52a16bb6d0b8b9))
+
 ## [1.1.0](https://github.com/kanso-labs/home-assistant-applications/compare/flight-finder-v1.0.0...flight-finder-v1.1.0) (2026-10-15)
 
 

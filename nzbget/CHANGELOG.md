@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.1](https://github.com/kanso-labs/home-assistant-applications/compare/nzbget-v1.3.0...nzbget-v1.3.1) (2026-10-17)
+
+
+### Bug Fixes
+
+* **nzbget:** back up the queue, remove the updater, add Python ([#711](https://github.com/kanso-labs/home-assistant-applications/issues/711)) ([848766a](https://github.com/kanso-labs/home-assistant-applications/commit/848766a43f5ee072211a6cdb84318a9a6027b085))
+
 ## [1.3.0](https://github.com/kanso-labs/home-assistant-applications/compare/nzbget-v1.2.2...nzbget-v1.3.0) (2026-10-16)
 
 
