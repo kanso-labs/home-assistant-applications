@@ -59,8 +59,8 @@ On amd64 this runs Immich's OpenVINO image, which runs the models on an Intel
 GPU, integrated graphics included, and on the processor where there is none. On
 aarch64 there is no OpenVINO image, and the models always run on the processor.
 
-The render devices under `/dev/dri` are offered to the container, the same ones
-the Plex Media Server application is given. Nothing breaks when they are absent.
+Every GPU under `/dev/dri` is offered to the container, whatever number it comes
+up as. Nothing breaks when there is none.
 
 **To see which one is used**, set the log level to `debug`, restart, and upload
 a photo. The first request after a restart loads the models, and the log names

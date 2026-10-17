@@ -11,13 +11,6 @@ description:
   Face recognition and smart search for the Immich application. It runs Immich's
   machine learning on an Intel GPU through OpenVINO, and on the processor where
   there is none.
-# The same render devices the Plex Media Server application is given. Supervisor
-# grants the ones that exist and skips the rest, so nothing breaks without them.
-devices:
-  - /dev/dri
-  - /dev/dri/card0
-  - /dev/dri/card1
-  - /dev/dri/renderD128
 image: 'ghcr.io/kanso-labs/home-assistant-application-immich-machine-learning'
 init: false
 name: Immich Machine Learning
@@ -28,3 +21,8 @@ schema:
 slug: immich-machine-learning
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/immich-machine-learning'
 version: '1.0.2' # x-release-please-version
+# OpenVINO on an Intel GPU. This grants every GPU under /dev/dri, whatever its
+# number, where a devices list grants only the nodes it names: renderD128
+# alone, so a GPU that came up as renderD129 was never used. Nothing breaks
+# without one.
+video: true
