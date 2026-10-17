@@ -28,4 +28,4 @@ schema:
   ipv4_only: bool
 slug: prowlarr
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/prowlarr'
-version: '1.3.2' # x-release-please-version
+version: '1.3.3' # x-release-please-version
