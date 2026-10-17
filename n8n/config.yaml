@@ -59,5 +59,9 @@ services:
   - 'mqtt:want'
   - 'mysql:want'
 slug: n8n
+# How long Supervisor lets the application stop before Docker kills it, in
+# seconds, up from its default of 10. n8n gives running workflows 30 seconds to
+# finish before it exits, and records any it had to cut off as crashed.
+timeout: 60
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/n8n'
 version: '1.5.6' # x-release-please-version
