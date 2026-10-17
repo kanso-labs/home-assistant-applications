@@ -4,7 +4,7 @@
 
 1. Add this repository to your Home Assistant instance.
 2. Install the "qBittorrent" application.
-3. Start it, then open it from the sidebar, or on port 8080.
+3. Start it, then select **Open Web UI**, or open port 8080.
 
 ## First login
 
@@ -39,6 +39,11 @@ here:
 
 Both are only written when no configuration exists, so anything you change
 afterwards is left alone.
+
+Turn on **Watchdog** on the application's Info tab to have Home Assistant
+restart qBittorrent when it stops answering, not only when it exits. The image
+asks qBittorrent directly for its web interface every 30 seconds, and five
+failures in a row count as a hang. It is off by default.
 
 ## Ingress
 
@@ -78,6 +83,14 @@ Three things follow from that:
 - **Phone apps cannot use ingress**, because it needs a Home Assistant session
   in a browser. They still work on the published port.
 
+## Ports
+
+| Port       | Purpose                                                     |
+| ---------- | ----------------------------------------------------------- |
+| `6881/tcp` | Peer connections. Forward this on your router to seed well. |
+| `6881/udp` | Peer connections and DHT.                                   |
+| `8080/tcp` | Web interface and API, which Radarr and Sonarr call.        |
+
 ## Storage
 
 | Path      | Access     | Holds                                    |
@@ -91,14 +104,6 @@ them into `/media` remains the tidier arrangement. `/media` is mapped so that
 qBittorrent can also be pointed straight at a library path when you want it to
 save there, and so that seeding from a file already in the library works without
 a second copy.
-
-## Ports
-
-| Port       | Purpose                                                     |
-| ---------- | ----------------------------------------------------------- |
-| `6881/tcp` | Peer connections. Forward this on your router to seed well. |
-| `6881/udp` | Peer connections and DHT.                                   |
-| `8080/tcp` | Web interface and API, which Radarr and Sonarr call.        |
 
 ## Backups
 
@@ -121,12 +126,14 @@ For questions about qBittorrent itself rather than this packaging, see the
 
 ## Credits
 
-The icon and logo come from
+The icon comes from
 [alexbelgium/hassio-addons](https://github.com/alexbelgium/hassio-addons), which
 also served as a reference for what a Home Assistant qBittorrent needs. That
 packaging is considerably broader than this one — it carries VPN support, CIFS
 mounts and hardware device access. This application deliberately ships none of
 that, and asks for no elevated privileges.
+
+The logo sets the same icon beside qBittorrent's name.
 
 qBittorrent itself is developed by the
 [qBittorrent team](https://github.com/qbittorrent/qBittorrent). Its source is
