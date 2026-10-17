@@ -23,7 +23,7 @@ ARG BAZARR_VERSION=1.6.2
 # unrarsrc-7.2.7 is UnRAR 7.23, and the page links a beta as readily as a
 # release: RARVER_BETA in the tarball's version.hpp says which a bump is.
 # renovate: datasource=custom.rarlab depName=unrar
-ARG UNRAR_VERSION=7.2.7
+ARG UNRAR_VERSION=7.3.1
 
 # Install requirements for application
 RUN \
