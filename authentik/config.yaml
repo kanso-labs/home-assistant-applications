@@ -36,6 +36,12 @@ schema:
   cookie_domain: str?
   log_level: list(trace|debug|info|warning|error)
 slug: authentik
+# How long Supervisor lets the application stop before Docker kills it, in
+# seconds, up from its default of 10. Authentik's server and worker stop first,
+# which took close to 30 seconds when this was tried, and then PostgreSQL,
+# which writes its shutdown checkpoint. A database killed partway loses
+# nothing, but its next start replays the log first.
+timeout: 120
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/authentik'
 version: '1.0.1' # x-release-please-version
 webui: 'http://[HOST]:[PORT:9000]'

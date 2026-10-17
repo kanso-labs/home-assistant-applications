@@ -120,4 +120,9 @@ cd / || bashio::exit.nok 'The root directory is missing'
 # Dropping to the authentik user here is load-bearing rather than tidiness: `ak`
 # chowns the whole of /data to that user when it runs as root, and the
 # PostgreSQL cluster is under /data.
-exec s6-setuidgid authentik ak allinone
+#
+# HOME is set the way upstream's entrypoint sets it as it drops root itself.
+# s6-setuidgid leaves it at /root, which the authentik user cannot write, and
+# Authentik keeps the SSH configuration for Docker outposts under it, in the
+# /authentik/.ssh the image creates for that user.
+exec s6-setuidgid authentik env HOME=/authentik ak allinone

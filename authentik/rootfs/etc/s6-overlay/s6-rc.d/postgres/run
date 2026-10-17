@@ -5,9 +5,12 @@
 # Runs the PostgreSQL that Authentik stores everything in
 # ==============================================================================
 
-# Debian keeps the server binaries out of PATH so that several major versions
-# can be installed side by side. Only one is installed here.
-export PATH="/usr/lib/postgresql/17/bin:${PATH}"
+# The major version the image installs, which the Dockerfile and the Authentik
+# service name as well. Debian keeps the server binaries out of PATH so that
+# several major versions can be installed side by side. Only one is installed
+# here.
+readonly pg_major='17'
+export PATH="/usr/lib/postgresql/${pg_major}/bin:${PATH}"
 
 readonly data_dir='/data/postgresql'
 readonly socket_dir='/run/postgresql'
@@ -38,7 +41,34 @@ if [[ ! -s "${data_dir}/PG_VERSION" ]]; then
     > /dev/null || bashio::exit.nok 'Could not create the PostgreSQL cluster'
 fi
 
-chown postgres:postgres "${data_dir}"
+# A cluster can only be opened by the major version that created it, so moving
+# this application to a new one takes a migration shipped in the same release,
+# with both versions installed for pg_upgrade. This is what catches a release
+# without one. PostgreSQL would refuse the cluster anyway, but in words that do
+# not say what to do.
+cluster_major="$(<"${data_dir}/PG_VERSION")"
+if [[ "${cluster_major}" != "${pg_major}" ]]; then
+  bashio::log.error \
+    "The database in ${data_dir} was created by PostgreSQL ${cluster_major}," \
+    "and this release runs PostgreSQL ${pg_major}, which cannot open it."
+  bashio::log.error \
+    'Restore the backup taken before this update, which brings back the' \
+    'release that matches the database, and report this on the issue tracker:' \
+    'https://github.com/kanso-labs/home-assistant-applications/issues'
+  bashio::exit.nok "PostgreSQL ${pg_major} cannot open a PostgreSQL ${cluster_major} database"
+fi
+
+# The postgres user is created when the image is built, with whichever system
+# uid is free then, so an update that creates another system user first can
+# give it a different one. The files in /data keep the old owner, and
+# PostgreSQL then cannot read them. Whatever postgres does not own is handed
+# back to it before the server starts. Pinning a uid in the image would not
+# help: any uid but the one an install already has fails the same way.
+if [[ -n "$(find "${data_dir}" \( ! -user postgres -o ! -group postgres \) -print -quit)" ]]; then
+  bashio::log.info 'Giving the PostgreSQL files back to the postgres user...'
+  chown -R postgres:postgres "${data_dir}" \
+    || bashio::exit.nok 'Could not give the PostgreSQL files to the postgres user'
+fi
 
 bashio::log.info 'Starting PostgreSQL...'
 
