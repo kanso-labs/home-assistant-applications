@@ -5,4 +5,8 @@ configuration:
       challenge is failing and you need to see what the browser did.
     name: Log level
 network:
-  8191/tcp: The port FlareSolverr answers requests on.
+  8191/tcp: >-
+    Only for a Prowlarr outside Home Assistant. One inside it reaches
+    FlareSolverr at http://2dd33fbd-flaresolverr:8191 with no port opened.
+    Anyone who can reach this port can have FlareSolverr fetch pages from inside
+    Home Assistant's network.

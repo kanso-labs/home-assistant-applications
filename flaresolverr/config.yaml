@@ -12,8 +12,12 @@ init: false
 name: FlareSolverr
 options:
   log_level: info
+# Closed by default. Ingress still shows FlareSolverr's status message, a
+# Prowlarr on the same Home Assistant reaches FlareSolverr by its internal name,
+# and anything that can reach a published port can have the browser fetch pages
+# from inside Home Assistant's network, see DOCS.md.
 ports:
-  8191/tcp: 8191
+  8191/tcp: null
 schema:
   log_level: list(error|warning|info|debug)
 slug: flaresolverr
