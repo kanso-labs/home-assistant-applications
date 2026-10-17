@@ -210,7 +210,8 @@ are only read back to recover from a crash.
 ## Updates
 
 n8n is installed from npm at build time, at a version pinned in this
-application's `package.json`. Updates arrive as pull requests against the
+application's `package.json`, and every package it depends on is pinned in the
+`package-lock.json` beside it. Updates arrive as pull requests against the
 repository and reach you as an application update once released.
 
 n8n's own update prompts do not apply. Nothing inside the container can replace
@@ -288,5 +289,8 @@ installed from the editor, because there is nothing left to compile it with. npm
 itself stays, since n8n installs community nodes with it.
 
 Node itself is installed with mise, at a version pinned in `.tool-versions`
-beside the `package.json`. Those two pins together decide what an image
-resolves, which is why both are exact.
+beside the `package.json`. n8n is installed with `npm ci`, which takes exactly
+the packages `package-lock.json` records. `package.json` pins only n8n, and n8n
+names much of what it depends on by range, so it is the lockfile that keeps a
+rebuild of the same commit from resolving different code. Those three files
+together decide what an image holds.

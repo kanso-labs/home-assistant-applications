@@ -60,7 +60,7 @@ export N8N_UNVERIFIED_PACKAGES_ENABLED="${N8N_UNVERIFIED_PACKAGES_ENABLED:-true}
 # Setup integration with Home Assistant
 GENERIC_TIMEZONE=$(bashio::info.timezone)
 N8N_LOG_LEVEL=$(bashio::config 'log_level')
-N8N_PATH="$(bashio::addon.ingress_entry | sed 's|/*$|/|')"
+N8N_PATH="$(bashio::app.ingress_entry | sed 's|/*$|/|')"
 N8N_SECURE_COOKIE=$(bashio::config 'enable_ssl')
 export GENERIC_TIMEZONE N8N_LOG_LEVEL N8N_PATH N8N_SECURE_COOKIE
 
@@ -74,14 +74,14 @@ if bashio::config.has_value 'webhook_url'; then
   N8N_WEBHOOK_URL=$(bashio::config 'webhook_url')
   export N8N_WEBHOOK_URL
 else
-  N8N_EDITOR_BASE_URL=$(bashio::addon.ingress_url)
+  N8N_EDITOR_BASE_URL=$(bashio::app.ingress_url)
   export N8N_EDITOR_BASE_URL
 fi
 
 # Home Assistant shares the internal network with this application, so an
 # automation can call a webhook here with no port published, by the hostname
 # Supervisor registers for it.
-internal_host=$(bashio::addon.hostname)
+internal_host=$(bashio::app.hostname)
 bashio::log.info "Home Assistant can call webhooks at http://${internal_host}:${N8N_PORT}/webhook/..."
 
 EXT_MODULES=""
