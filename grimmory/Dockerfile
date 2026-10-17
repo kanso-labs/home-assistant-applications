@@ -82,10 +82,11 @@ COPY rootfs /
 # service.
 ENTRYPOINT ["/init"]
 
-# Upstream's check, given a longer start period. The first start creates the
-# database and runs every migration before Grimmory opens its port, and without
-# one the check counts every failure until then. Supervisor shows the
-# application as starting until the first result arrives.
+# Upstream's probe, asked of 127.0.0.1 every 30 seconds rather than of localhost
+# every 60, with a start period of five minutes rather than one. The first start
+# creates the database and runs every migration before Grimmory opens its port,
+# which the start period leaves room for. Supervisor shows the application as
+# starting until the first result arrives.
 HEALTHCHECK --interval=30s --timeout=10s --start-period=300s --retries=5 \
   CMD wget -q --spider http://127.0.0.1:6060/api/v1/healthcheck || exit 1
 

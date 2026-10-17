@@ -47,6 +47,12 @@ are not reliable, and Grimmory then leaves the files where they are.
 
 Everything else is set in Grimmory's own settings.
 
+Turn on **Watchdog** on the application's Info tab to have Home Assistant
+restart Grimmory when it stops answering, not only when it exits. The image asks
+for Grimmory's `/api/v1/healthcheck` every 30 seconds, which Grimmory answers
+without reaching MariaDB, and once it has had five minutes to start, five
+failures in a row count as a hang. It is off by default.
+
 ## Devices and readers
 
 Everything is served on port `6060`.
@@ -104,11 +110,16 @@ one Grimmory is published on under its **Network** settings.
 
 ## Storage
 
-| Path               | Holds                                                               |
-| ------------------ | ------------------------------------------------------------------- |
-| `/data/mariadb`    | The database: books, shelves, reading progress, people and settings |
-| `/data/grimmory`   | Covers, author photos, fonts, and Grimmory's caches                 |
-| `/media`, `/share` | Your library and the BookDrop folder                                |
+| Path               | Access     | Holds                                                               |
+| ------------------ | ---------- | ------------------------------------------------------------------- |
+| `/data/mariadb`    | read/write | The database: books, shelves, reading progress, people and settings |
+| `/data/grimmory`   | read/write | Covers, author photos, fonts, and Grimmory's caches                 |
+| `/media`, `/share` | read/write | Your library and the BookDrop folder                                |
+
+`/media` and `/share` are writable because BookDrop moves each book you import
+out of the BookDrop folder and into a library, and Grimmory moves and renames
+the files it organizes unless **Library on network storage** is on. Read-only
+mappings would leave it able to read your books but not file them.
 
 Grimmory uses about 500 MB of memory at rest, MariaDB included.
 
