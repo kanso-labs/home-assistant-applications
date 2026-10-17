@@ -111,12 +111,13 @@ For questions about Notifiarr itself rather than this packaging, see the
 
 ## Credits
 
-The icon and logo come from
-[zanyraspi/home-assistant-addons](https://github.com/zanyraspi/home-assistant-addons),
-which also served as a reference for what a Home Assistant Notifiarr needs. That
-add-on runs Notifiarr's own prebuilt container image; this one packages the
-project's published binary instead, so the version is tracked and released the
-same way as every other application here.
+[zanyraspi/home-assistant-addons](https://github.com/zanyraspi/home-assistant-addons)
+served as a reference for what a Home Assistant Notifiarr needs. That add-on
+runs Notifiarr's own prebuilt container image; this one packages the project's
+published binary instead, so the version is tracked and released the same way as
+every other application here.
 
 Notifiarr itself is developed by
 [Notifiarr](https://github.com/Notifiarr/notifiarr) and is licensed under MIT.
+The icon is the one its macOS application ships, and the logo sets it beside
+Notifiarr's name.
