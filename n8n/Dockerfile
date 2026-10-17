@@ -22,9 +22,15 @@ RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
     openssh-client \
   && rm -rf /var/lib/apt/lists/*
 
-# Install mise
-RUN curl -L -f --retry 8 --retry-all-errors --retry-max-time 180 https://mise.run \
-  | MISE_VERSION="${MISE_VERSION}" sh
+# Install mise. The installer comes from the pinned release rather than from
+# https://mise.run, which changes with every release, so it is fixed for each
+# commit and carries that release's checksums. It still needs MISE_VERSION:
+# without it, the installer fetches the newest release instead of its own.
+RUN curl -J -L -f --retry 8 --retry-all-errors --retry-max-time 180 \
+      -o /tmp/mise-install.sh \
+      "https://github.com/jdx/mise/releases/download/v${MISE_VERSION}/install.sh" \
+  && MISE_VERSION="${MISE_VERSION}" sh /tmp/mise-install.sh \
+  && rm -f /tmp/mise-install.sh
 ENV PATH="/root/.local/bin:$PATH"
 
 # Configure n8n
@@ -81,6 +87,6 @@ EXPOSE 5678
 
 LABEL \
     org.opencontainers.image.title="Home Assistant Application: n8n" \
-    org.opencontainers.image.description="Flexible AI workflow automation for technical teams." \
+    org.opencontainers.image.description="Workflow automation that connects your services and Home Assistant, with a visual editor, code steps and AI nodes." \
     org.opencontainers.image.source="https://github.com/kanso-labs/home-assistant-applications" \
     org.opencontainers.image.licenses="MIT"
