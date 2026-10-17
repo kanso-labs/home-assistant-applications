@@ -40,6 +40,15 @@ RUN \
 # Copy root filesystem
 COPY rootfs /
 
+# Tdarr's image has no health check of its own. With one, Supervisor shows the
+# application as starting until the first result arrives, and with the watchdog
+# on, restarts it when the check fails, so a server that has stopped answering
+# is caught as well as one that has exited. /api/v2/status answers without an
+# API key even while the sign-in is on. The start period leaves room for a slow
+# first start after an update.
+HEALTHCHECK --interval=30s --timeout=10s --start-period=300s --retries=5 \
+  CMD curl -f -s -S -o /dev/null http://127.0.0.1:8265/api/v2/status || exit 1
+
 # Expose the ports
 EXPOSE 8265 8266
 
