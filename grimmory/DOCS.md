@@ -117,7 +117,9 @@ Grimmory uses about 500 MB of memory at rest, MariaDB included.
 Backups are taken cold, so Home Assistant stops Grimmory and its database
 together for the duration. That is what makes the copy consistent; a copy of a
 running database may not restore. Its caches are left out, because Grimmory
-rebuilds them.
+rebuilds them. On this and every other stop, Home Assistant waits up to two
+minutes for the two rather than its usual ten seconds, so that MariaDB has time
+to shut down cleanly.
 
 **Your library is not part of this application's backup.** It lives in `/media`
 or `/share`, and restoring a backup brings back the database alone.
