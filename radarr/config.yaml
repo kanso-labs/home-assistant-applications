@@ -2,6 +2,11 @@ arch:
   - aarch64
   - amd64
 backup: cold
+# The artwork, which Radarr downloads again as it refreshes each movie, and the
+# log files are left out, to keep the time Radarr is stopped for a backup short.
+backup_exclude:
+  - MediaCover
+  - logs
 description:
   Movie collection manager for Usenet and BitTorrent users. Radarr monitors
   multiple RSS feeds for new movies, talks to your download clients and indexers
