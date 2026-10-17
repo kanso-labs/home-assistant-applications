@@ -62,7 +62,6 @@
       "extractVersion": "^(?<version>.+)$",
       "matchDepNames": [
         "certbot",
-        "ghcr.io/haveagitgat/tdarr",
         "ghcr.io/immich-app/immich-machine-learning",
         "ghcr.io/immich-app/immich-server",
         "tensorchord/VectorChord",
@@ -115,6 +114,18 @@
       "matchPackageNames": ["ghcr.io/home-assistant/**"]
     },
     {
+      "description": "Home Assistant rebuilds its base images under the same tag, with whatever security fixes their distribution has shipped since. A tag alone changes nothing in this repository when that happens, and an application publishes a version only once, so the rebuild reached installs only when the application happened to release for some other reason. Pinned by digest, each rebuild is a pull request in the groups above, typed deps, so every application on that base releases a patch carrying it.",
+      "matchManagers": ["dockerfile"],
+      "matchPackageNames": ["ghcr.io/home-assistant/**"],
+      "pinDigests": true
+    },
+    {
+      "automerge": true,
+      "description": "A digest update is a rebuild of the same base release, which the shared preset's automerge for minors and patches does not cover. It merges once the required checks pass, as a patch would.",
+      "matchPackageNames": ["ghcr.io/home-assistant/**"],
+      "matchUpdateTypes": ["digest"]
+    },
+    {
       "description": "The application versions users actually see, typed fix so that they release under Bug Fixes rather than Dependencies. That is the patch: the two rules below retype a minor as feat and a major as feat!, so each release takes the step upstream took. They find these applications by the fix this rule gives them, so this list is the only one to keep, and it has to stay above them.",
       "matchDepNames": [
         "NginxProxyManager/nginx-proxy-manager",
@@ -141,6 +152,7 @@
         "ghcr.io/ryder-c/seadexerr",
         "ghcr.io/seerr-team/seerr",
         "ghcr.io/thephaseless/byparr",
+        "iptables",
         "morpheus65535/bazarr",
         "n8n",
         "nzbgetcom/nzbget",
@@ -177,6 +189,22 @@
         "ghcr.io/immich-app/immich-machine-learning",
         "ghcr.io/immich-app/immich-server"
       ]
+    },
+    {
+      "description": "n8n's lockfile decides every package its image installs, and Renovate refreshes it with every n8n bump, so the two move together. Daily lock file maintenance would move it on its own instead, in a pull request typed chore, which changes the image and releases nothing. The site's lockfile is left to that maintenance, since nothing ships from it.",
+      "enabled": false,
+      "matchFileNames": ["n8n/**"],
+      "matchUpdateTypes": ["lockFileMaintenance"]
+    },
+    {
+      "description": "These images carry no org.opencontainers.image.source label, so Renovate finds no repository for them and their bumps arrive without upstream's release notes. Naming the repository each one's DOCS.md credits is what lets it look them up.",
+      "matchDepNames": ["ghcr.io/cleanuparr/cleanuparr"],
+      "sourceUrl": "https://github.com/Cleanuparr/Cleanuparr"
+    },
+    {
+      "description": "As above, for Flight Finder.",
+      "matchDepNames": ["ghcr.io/affromero/flight-finder"],
+      "sourceUrl": "https://github.com/affromero/flight-finder"
     }
   ]
 }
