@@ -61,6 +61,10 @@ RUN \
 # Copy root filesystem
 COPY rootfs /
 
+# No HEALTHCHECK, because there is nothing to probe: Configarr serves nothing,
+# and the run script only starts a sync and sleeps until the next one. A sync
+# that fails is logged and left to the next run.
+
 LABEL \
     org.opencontainers.image.title="Home Assistant Application: Configarr" \
     org.opencontainers.image.description="Syncs TRaSH Guides and Recyclarr templates into the arr applications." \
