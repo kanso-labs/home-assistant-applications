@@ -49,6 +49,14 @@ RUN \
 # Copy root filesystem
 COPY rootfs /
 
+# Supervisor shows the application as starting until the first result arrives,
+# and with the watchdog on, restarts it when the check fails. Prowlarr's ping
+# needs no sign-in, and asking nginx for it checks both halves of the
+# application. The start period covers the database migrations a first start
+# after an update can run.
+HEALTHCHECK --interval=30s --timeout=10s --start-period=300s --retries=5 \
+  CMD curl -f -s -S -o /dev/null http://127.0.0.1:9696/ping || exit 1
+
 # Expose the ports
 EXPOSE 9696
 
