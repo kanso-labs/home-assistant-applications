@@ -39,6 +39,18 @@ RUN \
 # Copy root filesystem
 COPY rootfs /
 
+# Supervisor shows the application as starting until the first result arrives,
+# and with the watchdog on, restarts it when the check fails. It asks Notifiarr
+# directly, at the loopback address above, for `/`, which lies outside the URL
+# base the ingress path sets. Notifiarr answers that with its web interface's
+# page and checks no sign-in, whereas the URL base nginx would send it to
+# answers 401 while Authentication Type is set to Header or No Password.
+# Notifiarr opens its port only after it has tried to report to notifiarr.com,
+# and asked Plex for its name when one is set up, so the start period leaves
+# room for either being slow to answer.
+HEALTHCHECK --interval=30s --timeout=10s --start-period=300s --retries=5 \
+  CMD curl -f -s -S -o /dev/null "http://${DN_BIND_ADDR}/" || exit 1
+
 # Expose the ports
 EXPOSE 5454
 

@@ -5,7 +5,7 @@
 1. Add this repository to your Home Assistant instance.
 2. Install the "Notifiarr" application.
 3. Put your Notifiarr.com API key in the application options.
-4. Start it, then open the web interface from the sidebar, or on port 5454.
+4. Start it, then select **Open Web UI**, or open port 5454.
 
 Without an API key Notifiarr still starts and serves its web interface, but it
 cannot reach Notifiarr.com. The log says so on every start until one is set.
@@ -22,6 +22,14 @@ Everything else is configured from Notifiarr's own web interface, and those
 settings live in the application's configuration directory so they survive
 restarts and updates.
 
+### Watchdog
+
+Turn on **Watchdog** on the application's Info tab to have Home Assistant
+restart Notifiarr when it stops answering, not only when it exits. The image
+asks Notifiarr itself for its page at `/` every 30 seconds, which its log shows
+each time as a request from 127.0.0.1, and five failures in a row count as a
+hang. It is off by default.
+
 ## First login
 
 The username is `admin`. Notifiarr leaves its web interface password unset,
@@ -34,8 +42,12 @@ Web interface username: admin
 Web interface password: <password>
 ```
 
-Read it from the log and sign in. Changing it in the web interface stores it
-encrypted, which is worth doing.
+Read it from the log and sign in. It is written once, near the top of the first
+start's log, and the image's health check adds a line every 30 seconds after it
+whether or not Watchdog is on, so a log read later has to be scrolled back, or
+downloaded in full, to reach it. Until you change it, it is also `ui_password`
+in `notifiarr.conf`, in the application's configuration directory. Changing it
+in the web interface stores it encrypted, which is worth doing.
 
 ## Ingress
 
