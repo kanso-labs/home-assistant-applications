@@ -1,10 +1,9 @@
 {
   "inputs": [
     {
-      "description": "Name of application (to add your application to this list, please edit .vscode/tasks.json)",
+      "description": "The application's slug, its directory name",
       "id": "appName",
-      "options": ["n8n"],
-      "type": "pickString"
+      "type": "promptString"
     }
   ],
   "tasks": [

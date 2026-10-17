@@ -74,6 +74,78 @@ jobs:
       - name: Verify release wiring
         run: ./.github/scripts/verify-release-wiring.sh
 
+  # What AGENTS.md asks of every application and nothing else reads: key order,
+  # translations, icon and logo sizes, the curated Renovate rule, a health check
+  # and download retries. Each has slipped unnoticed before.
+  applications:
+    name: Verify applications
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      # The check reads YAML with the package the site already pins, so it
+      # installs the site's dependencies rather than anything of its own.
+      - name: Set up Node
+        uses: actions/setup-node@v7.1.0
+        with:
+          cache: npm
+          cache-dependency-path: docs/package-lock.json
+          node-version-file: docs/.tool-versions
+
+      - name: Install dependencies
+        run: npm --prefix docs ci
+
+      - name: Verify applications
+        run: node .github/scripts/verify-applications.mjs
+
+  shellcheck:
+    name: Check shell scripts
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      # The release tag, v and all, which is also how the release names its
+      # files.
+      # renovate: datasource=github-releases depName=koalaman/shellcheck
+      SHELLCHECK_VERSION: 'v0.11.0'
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      # Pinned rather than the runner's own copy, which moves with the runner
+      # image and would turn a new warning into a red build on whatever pull
+      # request is open at the time.
+      - name: Install shellcheck
+        run: |
+          curl -J -L -f --retry 8 --retry-all-errors --retry-max-time 180 \
+            -o "${RUNNER_TEMP}/shellcheck.tar.xz" \
+            "https://github.com/koalaman/shellcheck/releases/download/${SHELLCHECK_VERSION}/shellcheck-${SHELLCHECK_VERSION}.linux.x86_64.tar.xz"
+          tar -x -J -f "${RUNNER_TEMP}/shellcheck.tar.xz" -C "${RUNNER_TEMP}"
+          echo "${RUNNER_TEMP}/shellcheck-${SHELLCHECK_VERSION}" >> "$GITHUB_PATH"
+
+      # Every tracked script, found by its shebang, since s6's run and finish
+      # files carry no extension. Most start `with-contenv bashio`, a shell
+      # shellcheck does not know, so all of them are read as bash. SC2154 is off
+      # because bashio and with-contenv supply variables shellcheck cannot see.
+      # SC2155 is off until the shared finish template stops tripping it, though
+      # it is the rule that catches `export X="$(...)"` hiding a failure.
+      - name: Check shell scripts
+        run: |
+          mapfile -t scripts < <(
+            git ls-files | while IFS= read -r file; do
+              if [[ -f "${file}" ]] && head -n 1 "${file}" | grep -q -E '^#!.*[/ ](bash|sh|bashio)( |$)'; then
+                echo "${file}"
+              fi
+            done
+          )
+          echo "Checking ${#scripts[@]} scripts."
+          shellcheck --shell=bash --severity=warning --exclude=SC2154,SC2155 "${scripts[@]}"
+
   format:
     name: Check formatting
     runs-on: ubuntu-latest
@@ -161,9 +233,11 @@ jobs:
     name: Confirm lint succeeded
     runs-on: ubuntu-latest
     needs:
+      - applications
       - format
       - lint
       - lint-workflows
+      - shellcheck
       - typecheck
       - verify
     if: always()
