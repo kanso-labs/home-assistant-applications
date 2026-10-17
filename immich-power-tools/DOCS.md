@@ -18,9 +18,10 @@ Power Tools needs Immich 3.0 or later, and two ways in:
 - **Immich's PostgreSQL database**, which it reads directly. Every page needs
   it, the sign-in page included.
 
-The [Immich](../immich) application in this repository keeps its database to
-itself until a **read-only database password** is set in its options. Other
-applications can then read it as the user `reader`, and none can change it.
+[The Immich application](https://github.com/kanso-labs/home-assistant-applications/tree/main/immich)
+in this repository keeps its database to itself until a **read-only database
+password** is set in its options. Other applications can then read it as the
+user `reader`, and none can change it.
 
 ## Installation
 
@@ -30,7 +31,8 @@ applications can then read it as the user `reader`, and none can change it.
 3. In its configuration, set **Database password** to the same password. The
    other settings already reach the Immich application.
 4. Set **Immich URL for your browser** to the address you open Immich at, such
-   as `http://homeassistant.local:2283`.
+   as `http://homeassistant.local:2283`. The field shows once **Show unused
+   optional configuration options** is on.
 5. Start it, open the web interface on port `3000`, and sign in with your Immich
    account.
 
@@ -68,6 +70,10 @@ The Immich URL and the database settings default to the Immich application in
 this repository, when the repository was added by the address in the README.
 `2dd33fbd` is Home Assistant's name for the repository then.
 
+**Immich URL for your browser**, **Power Tools URL** and **AI API URL** have no
+default, so the Configuration tab lists them only once **Show unused optional
+configuration options** is on.
+
 ### Share links
 
 Power Tools can share a filtered view of your library as a link. It makes none
@@ -89,6 +95,14 @@ for example `http://192.168.1.10:11434/v1`, and any text as the key.
 Find sends the model what you type and today's date, and nothing from your
 library.
 
+### Watchdog
+
+Turn on **Watchdog** on the application's Info tab to have Home Assistant
+restart Power Tools when it stops answering, not only when it exits. The image
+asks Power Tools' `/api/health` every 30 seconds, which answers whenever its web
+server does, so Immich or its database being down never counts against it. It is
+off by default.
+
 ## Ports
 
 | Port   | Serves            |
@@ -101,10 +115,10 @@ one Power Tools is published on under its **Network** settings.
 
 ## Storage
 
-| Path                      | Holds                                            |
-| ------------------------- | ------------------------------------------------ |
-| `/data/app.db`            | Power Tools' workflows, import jobs and settings |
-| `/data/share-link-secret` | The secret share links are signed with           |
+| Path                      | Access     | Holds                                            |
+| ------------------------- | ---------- | ------------------------------------------------ |
+| `/data/app.db`            | read/write | Power Tools' workflows, import jobs and settings |
+| `/data/share-link-secret` | read/write | The secret share links are signed with           |
 
 Your photos and Immich's database stay with Immich. Power Tools keeps no copy of
 either.

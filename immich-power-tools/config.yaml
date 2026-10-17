@@ -14,11 +14,19 @@ name: Immich Power Tools
 # The defaults reach the Immich application in this repository, when the
 # repository was added by the address in the README. Its database password is
 # the one place they cannot have a default; see DOCS.md.
+#
+# The empty defaults keep their fields on the Configuration tab, which hides an
+# optional field that has none, and the run script takes an empty value as
+# unset. The optional URLs cannot default to empty: Supervisor checks a default
+# against its type, and an empty string is not an address.
 options:
+  ai_api_key: ''
+  ai_model: ''
   database_host: 2dd33fbd-immich
   database_name: immich
   database_port: 5432
   database_user: reader
+  immich_api_key: ''
   immich_url: 'http://2dd33fbd-immich:2283'
 ports:
   3000/tcp: 3000

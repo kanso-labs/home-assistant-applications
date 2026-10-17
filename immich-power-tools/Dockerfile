@@ -62,6 +62,9 @@ COPY rootfs /
 # command, so Power Tools is started only by its service.
 ENTRYPOINT ["/init"]
 
+# Upstream's health check is kept as it is. It asks /api/health on port 3000,
+# which shows only that Next.js answers, not that Immich or its database do.
+
 # Expose the ports
 EXPOSE 3000
 

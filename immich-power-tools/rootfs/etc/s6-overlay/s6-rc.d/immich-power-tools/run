@@ -6,37 +6,49 @@
 # ==============================================================================
 readonly secret_file='/data/share-link-secret'
 
-export IMMICH_URL="$(bashio::config 'immich_url')"
-export DB_HOST="$(bashio::config 'database_host')"
-export DB_PORT="$(bashio::config 'database_port')"
-export DB_DATABASE_NAME="$(bashio::config 'database_name')"
-export DB_USERNAME="$(bashio::config 'database_user')"
-export DB_PASSWORD="$(bashio::config 'database_password')"
+# Each value is assigned before it is exported. bashio stops the script when it
+# cannot read the options from Supervisor, but `export NAME="$(…)"` reports the
+# export's own success instead, which would start Power Tools with every setting
+# empty. Stopped, the application shows that it failed, and Watchdog, when it is
+# on, starts it again to read them afresh.
+IMMICH_URL="$(bashio::config 'immich_url')"
+DB_HOST="$(bashio::config 'database_host')"
+DB_PORT="$(bashio::config 'database_port')"
+DB_DATABASE_NAME="$(bashio::config 'database_name')"
+DB_USERNAME="$(bashio::config 'database_user')"
+DB_PASSWORD="$(bashio::config 'database_password')"
+export IMMICH_URL DB_HOST DB_PORT DB_DATABASE_NAME DB_USERNAME DB_PASSWORD
 
 # Each of these is exported only when it has a value. bashio reads an option
 # that was never set as the word null, which Power Tools would take for an
 # address or a key.
 if bashio::config.has_value 'external_immich_url'; then
-  export EXTERNAL_IMMICH_URL="$(bashio::config 'external_immich_url')"
+  EXTERNAL_IMMICH_URL="$(bashio::config 'external_immich_url')"
+  export EXTERNAL_IMMICH_URL
 fi
 
 if bashio::config.has_value 'immich_api_key'; then
-  export IMMICH_API_KEY="$(bashio::config 'immich_api_key')"
+  IMMICH_API_KEY="$(bashio::config 'immich_api_key')"
+  export IMMICH_API_KEY
   bashio::log.warning 'An Immich API key is set, so anyone who opens Power Tools acts as its owner without signing in'
 fi
 
 if bashio::config.has_value 'power_tools_url'; then
-  export POWER_TOOLS_ENDPOINT_URL="$(bashio::config 'power_tools_url')"
+  POWER_TOOLS_ENDPOINT_URL="$(bashio::config 'power_tools_url')"
+  export POWER_TOOLS_ENDPOINT_URL
 fi
 
 if bashio::config.has_value 'ai_base_url'; then
-  export AI_BASE_URL="$(bashio::config 'ai_base_url')"
+  AI_BASE_URL="$(bashio::config 'ai_base_url')"
+  export AI_BASE_URL
 fi
 if bashio::config.has_value 'ai_model'; then
-  export AI_MODEL="$(bashio::config 'ai_model')"
+  AI_MODEL="$(bashio::config 'ai_model')"
+  export AI_MODEL
 fi
 if bashio::config.has_value 'ai_api_key'; then
-  export AI_API_KEY="$(bashio::config 'ai_api_key')"
+  AI_API_KEY="$(bashio::config 'ai_api_key')"
+  export AI_API_KEY
 fi
 
 # Power Tools keeps its workflows, import jobs and settings in SQLite, which
@@ -49,7 +61,8 @@ export APP_DB_PATH='/data/app.db'
 if [[ ! -s "${secret_file}" ]]; then
   (umask 077 && head -c 48 /dev/urandom | base64 | tr -d '\n' > "${secret_file}")
 fi
-export JWT_SECRET="$(< "${secret_file}")"
+JWT_SECRET="$(< "${secret_file}")"
+export JWT_SECRET
 
 # The upstream image runs Power Tools as nextjs, which has to be able to write
 # the database and the journal files SQLite keeps beside it.
@@ -60,5 +73,7 @@ bashio::log.info "Starting Immich Power Tools ${VERSION}..."
 cd /app || bashio::exit.nok 'The application directory is missing'
 
 # s6-overlay has to be pid 1, so the service starts as root and drops back to
-# the user upstream runs as here.
+# the user upstream runs as here. s6-setuidgid changes the user alone, so HOME
+# is set to that user's own.
+export HOME='/home/nextjs'
 exec s6-setuidgid nextjs node server.js
