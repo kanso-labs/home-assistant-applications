@@ -1,0 +1,49 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Bazarr
+# Runs nginx, which answers on 6767 for Bazarr, puts its URL base back onto
+# requests that arrive without it, and takes it out of what goes back to the
+# published port
+# ==============================================================================
+readonly config_file='/config/config/config.yaml'
+readonly servers_dir='/etc/nginx/servers'
+
+mkdir -p "${servers_dir}"
+rm -f "${servers_dir}"/*.conf
+
+# The base comes from the file Bazarr reads it from, which init-bazarr has
+# already brought up to date, so the two cannot disagree.
+base_url=''
+if [[ -s "${config_file}" ]]; then
+  base_url="$(PYTHONPATH=/opt/bin/libs python3 - "${config_file}" <<'EOF'
+import sys
+
+import yaml
+
+with open(sys.argv[1]) as f:
+    config = yaml.safe_load(f) or {}
+print(((config.get('general') or {}).get('base_url') or '').rstrip('/'))
+EOF
+)" || base_url=''
+fi
+
+# Supervisor gives the hassio network IPv6 addresses on some installs and not
+# others, and nginx will not start on an address family the container lacks.
+ipv6=false
+if [[ -s /proc/net/if_inet6 ]]; then
+  ipv6=true
+fi
+
+# Bazarr's own run script passes it the same port.
+jq -n \
+  --arg base_url "${base_url}" \
+  --argjson ipv6 "${ipv6}" \
+  --argjson port 6767 \
+  --argjson upstream 16767 \
+  '{base_url: $base_url, ipv6: $ipv6, port: $port, upstream: $upstream}' \
+  | tempio \
+    -template /etc/nginx/templates/bazarr.gtpl \
+    -out "${servers_dir}/bazarr.conf"
+
+exec nginx

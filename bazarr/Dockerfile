@@ -25,7 +25,9 @@ ARG BAZARR_VERSION=1.6.2
 # renovate: datasource=custom.rarlab depName=unrar
 ARG UNRAR_VERSION=7.3.1
 
-# Install requirements for application
+# Install requirements for application. nginx is what ingress and the published
+# port reach; the configuration its package ships is replaced by the one in
+# rootfs/, which serves nothing else.
 RUN \
   apk add --no-cache --virtual .build-dependencies \
     autoconf \
@@ -38,6 +40,7 @@ RUN \
     7zip \
     ffmpeg \
     mediainfo \
+    nginx \
     unzip \
   \
   && curl -J -L -f --retry 8 --retry-all-errors --retry-max-time 180 -o /tmp/unrar.tar.gz \
@@ -54,7 +57,7 @@ RUN \
       /tmp/bazarr.zip \
       -d /opt/bin \
   \
-  && echo -e "PackageVersion=${BAZARR_VERSION}\nUpdateMethod=Docker\nBranch=master\nPackageAuthor=Kanso Labs" \
+  && echo -e "UpdateMethod=docker\nBranch=master\nPackageVersion=${BUILD_VERSION}\nPackageAuthor=Kanso Labs" \
     > /opt/package_info \
   \
   `# Bazarr imports pkg_resources at startup, which setuptools dropped after` \
@@ -70,6 +73,15 @@ RUN \
 
 # Copy root filesystem
 COPY rootfs /
+
+# Supervisor shows the application as starting until the first result arrives,
+# and with the watchdog on, restarts it when the check fails. Bazarr's ping
+# needs no sign-in, and asking nginx for it checks both halves of the
+# application. Bazarr answers a path outside its URL base with a redirect, which
+# passes too, since the server is still answering. The start period covers the
+# database migrations a first start after an update can run.
+HEALTHCHECK --interval=30s --timeout=10s --start-period=300s --retries=5 \
+  CMD curl -f -s -S -o /dev/null http://127.0.0.1:6767/api/system/ping || exit 1
 
 # Expose the ports
 EXPOSE 6767

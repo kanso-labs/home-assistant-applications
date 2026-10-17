@@ -1,0 +1,88 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Bazarr
+# Seeds a new install's login, and makes the ingress path Bazarr's URL base
+# ==============================================================================
+readonly config_dir='/config/config'
+readonly config_file="${config_dir}/config.yaml"
+
+# Bazarr starts with no login, on a port published to the network, and with its
+# analytics on. A new install gets a form login with a generated password, and
+# analytics off. Written on first run only, so a user's own choices are never
+# overwritten: Bazarr turns a config.ini into config.yaml itself, so either file
+# means an existing install. Bazarr stores the password as its MD5 hex digest,
+# and fills in every setting the file leaves out.
+if ! bashio::fs.file_exists "${config_file}" \
+  && ! bashio::fs.file_exists "${config_dir}/config.ini"; then
+  bashio::log.info 'No configuration found, seeding defaults...'
+
+  # Read a bounded amount rather than piping /dev/urandom into head, which
+  # closes the pipe early and kills the service with SIGPIPE.
+  password="$(head -c 256 /dev/urandom | tr -dc 'A-Za-z0-9' | cut -c 1-20)"
+  password_hash="$(printf '%s' "${password}" | md5sum | cut -d ' ' -f 1)"
+
+  mkdir -p "${config_dir}"
+  cat > "${config_file}" <<EOF
+analytics:
+  enabled: false
+auth:
+  password: '${password_hash}'
+  type: form
+  username: admin
+EOF
+
+  bashio::log.notice 'Web interface username: admin'
+  bashio::log.notice "Web interface password: ${password}"
+  bashio::log.notice 'Change it under Settings, Application, General in the web interface.'
+fi
+
+# Ingress serves Bazarr under a path Supervisor chooses, and Bazarr writes one
+# URL base into every page it serves. So the ingress path is that base, and
+# nginx answers on 6767 in Bazarr's place, adding the path to whatever arrives
+# without it. Bazarr takes no command-line flag for the base, so it is written
+# into config.yaml, on every start in case it was changed under Settings.
+ingress_entry="$(bashio::app.ingress_entry)"
+if ! bashio::var.has_value "${ingress_entry}" || [[ "${ingress_entry}" == 'null' ]]; then
+  bashio::log.warning 'Supervisor reported no ingress path; leaving the URL base as it is'
+  exit 0
+fi
+
+# Only an install still on config.ini gets here without config.yaml. Bazarr
+# converts the file at start, and would ignore it if config.yaml existed.
+if ! bashio::fs.file_exists "${config_file}"; then
+  bashio::log.info 'No config.yaml yet; ingress follows on the next start'
+  exit 0
+fi
+
+# PyYAML is one of the libraries Bazarr carries in its own directory. What
+# comes back is a URL base someone chose, if this replaced one.
+replaced_base_url="$(PYTHONPATH=/opt/bin/libs python3 - "${config_file}" "${ingress_entry%/}" <<'EOF'
+import os
+import sys
+
+import yaml
+
+path, base_url = sys.argv[1], sys.argv[2]
+with open(path) as f:
+    config = yaml.safe_load(f) or {}
+
+general = config.get('general') or {}
+saved = (general.get('base_url') or '').rstrip('/')
+if saved == base_url:
+    sys.exit(0)
+
+general['base_url'] = base_url
+config['general'] = general
+with open(path + '.tmp', 'w') as f:
+    yaml.safe_dump(config, f, allow_unicode=True, default_flow_style=False, sort_keys=False)
+os.replace(path + '.tmp', path)
+
+if saved and not saved.startswith('/api/hassio_ingress/'):
+    print(saved)
+EOF
+)" || bashio::exit.nok 'Could not write the URL base into config.yaml'
+
+if [[ -n "${replaced_base_url}" ]]; then
+  bashio::log.warning "The Base URL ${replaced_base_url} saved in Bazarr's settings is replaced by the ingress path. Bazarr answers at the root of port 6767, so anything calling http://<host>:6767${replaced_base_url} has to call http://<host>:6767 instead."
+fi

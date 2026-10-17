@@ -7,4 +7,6 @@
 
 bashio::log.info 'Starting Bazarr...'
 
-exec python3 /opt/bin/bazarr.py --no-update --config /config
+# --port moves Bazarr off 6767, where nginx answers in its place, and wins over
+# general.port in config.yaml. Bazarr passes it on when it restarts itself.
+exec python3 /opt/bin/bazarr.py --no-update --config /config --port 16767

@@ -13,6 +13,11 @@ description:
   manage, finds subtitles in the languages you ask for, and keeps them alongside
   the media.
 image: 'ghcr.io/kanso-labs/home-assistant-application-bazarr'
+# nginx answers on 6767 for ingress and the published port alike, see DOCS.md.
+# Bazarr's only uploads are subtitle files, well inside the 16 MiB Supervisor
+# reads whole of a request through ingress, so ingress_stream is left off.
+ingress: true
+ingress_port: 6767
 init: false
 map:
   - read_only: false
@@ -22,9 +27,9 @@ map:
   - read_only: false
     type: share
 name: Bazarr
+panel_icon: 'mdi:subtitles-outline'
 ports:
   6767/tcp: 6767
 slug: bazarr
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/bazarr'
 version: '1.1.7' # x-release-please-version
-webui: 'http://[HOST]:[PORT:6767]'
