@@ -17,10 +17,10 @@ option below is for.
 3. Start it. There is nothing to configure first.
 4. Point Prowlarr at it, as described below.
 
-**Byparr uses port 8191, the same as FlareSolverr.** Only one of them can
-publish it on the Home Assistant machine. A Prowlarr running on the same Home
-Assistant needs neither port published, so both can run at once, as Running it
-alongside FlareSolverr below describes.
+**Byparr's port is closed by default.** A Prowlarr on the same Home Assistant
+reaches Byparr by its internal name and needs no port, which is also what lets
+Byparr and FlareSolverr run side by side. Open the port only for a Prowlarr on
+another machine, as Connecting Prowlarr below describes.
 
 Each request starts a browser of its own, which takes up to about 600 MB of
 memory until the request finishes. At rest, Byparr uses about 100 MB.
@@ -32,8 +32,7 @@ Byparr answers FlareSolverr's requests, so that proxy type is the one to choose.
 Set the host to the address Prowlarr can reach Byparr on:
 
 - **A Prowlarr on the same Home Assistant**, such as this repository's Prowlarr
-  application, reaches Byparr by its internal name, with no published port
-  needed:
+  application, reaches Byparr by its internal name, with no port opened:
 
   ```
   http://2dd33fbd-byparr:8191
@@ -42,12 +41,26 @@ Set the host to the address Prowlarr can reach Byparr on:
   `2dd33fbd` is Home Assistant's name for this repository when it was added by
   the address in the README. The name only resolves while Byparr is running.
 
-- **A Prowlarr anywhere else** uses your Home Assistant machine's address and
-  Byparr's published port:
+- **A Prowlarr anywhere else** needs Byparr's port opened first. In Byparr's
+  **Configuration** tab, under **Network**, set the port to `8191`, then use
+  your Home Assistant machine's address:
 
   ```
   http://192.168.1.10:8191
   ```
+
+**Open the port only on a network you trust.** Byparr has no login, and it
+fetches whatever page it is asked for from inside Home Assistant's network.
+Anyone who can reach the port can therefore have it fetch the applications there
+that open no port of their own, such as Seadexerr's feed with the AnimeBytes
+passkey in its links, and read back what they answer.
+
+**Set up while the port was open by default?** Byparr used to publish 8191 on
+the Home Assistant machine. An update closes it unless you had set the port
+yourself under **Network**, so a proxy in Prowlarr pointing at
+`http://192.168.1.10:8191` stops connecting. From a Prowlarr on the same Home
+Assistant, change its host to `http://2dd33fbd-byparr:8191`. From one anywhere
+else, open the port again as above.
 
 **Replace the address Prowlarr suggests.** It defaults to
 `http://localhost:8191/`, which cannot work here. Every application runs in its
@@ -59,9 +72,11 @@ ends in `/v1` becomes `/v1/v1` and fails.
 Give the proxy a tag, then apply that same tag to each indexer that needs it.
 Only tagged indexers are routed through Byparr.
 
-**Moving from FlareSolverr** needs nothing new in Prowlarr. Stop FlareSolverr,
-start Byparr on the same port, and the proxy Prowlarr already has reaches Byparr
-instead.
+**Moving from FlareSolverr** needs only the proxy's host changed. From a
+Prowlarr on the same Home Assistant, change `http://2dd33fbd-flaresolverr:8191`
+to `http://2dd33fbd-byparr:8191`. From one anywhere else, stop FlareSolverr and
+open Byparr's port on `8191`, and the address Prowlarr already has reaches
+Byparr instead.
 
 Two things work differently from FlareSolverr:
 
@@ -82,10 +97,10 @@ use the other.
    give each a tag of its own, such as `flaresolverr` and `byparr`.
 2. From a Prowlarr on the same Home Assistant, set their hosts to
    `http://2dd33fbd-flaresolverr:8191` and `http://2dd33fbd-byparr:8191`.
-   Neither needs a published port, and the two cannot both publish 8191, so turn
-   the port off in Byparr's **Network** settings.
-3. From a Prowlarr anywhere else, move Byparr's published port to another one,
-   such as `8192`, and use `http://192.168.1.10:8192` for it.
+   Neither needs its port opened.
+3. From a Prowlarr anywhere else, open the two ports on different numbers, since
+   only one of them can take 8191. Open Byparr's on `8192`, say, and use
+   `http://192.168.1.10:8192` for it.
 4. Give each indexer the tag of the one proxy it should use. Indexers carrying
    neither tag connect directly.
 
@@ -152,27 +167,30 @@ nothing else is stored.
 
 ## Checking it works
 
-Opening the web interface from Home Assistant shows Byparr's API documentation,
-which is all the interface it has. Seeing it means the server is up.
+Prowlarr tests the connection each time you save the proxy, and reports an
+address it cannot reach. That is the quickest check, and it needs no port.
 
-To check the browser as well, ask for the health response from the address
-Prowlarr uses:
+To check the browser as well, ask Byparr for its health response. The Terminal &
+SSH application runs on the same network as Prowlarr, so from there the internal
+name works with the port closed:
 
 ```shell
-curl http://192.168.1.10:8191/health
+curl http://2dd33fbd-byparr:8191/health
 ```
 
+With the port open, the address a Prowlarr elsewhere would use works too, such
+as `http://192.168.1.10:8191/health`. Either way, the answer is:
+
 ```json
-{ "msg": "Byparr is working!", "version": "3.0.4", "userAgent": "..." }
+{ "msg": "Byparr is working!", "version": "...", "userAgent": "..." }
 ```
 
 That request starts the browser and loads `https://google.com`, so it takes a
 few seconds. If it answers and Prowlarr still cannot connect, the address in
 Prowlarr is wrong rather than Byparr being down.
 
-Both checks need Byparr's port published. With it turned off, Prowlarr checks
-the connection itself each time you save the proxy, and reports an address it
-cannot reach.
+Byparr has no interface beyond its API documentation, which an open port serves
+at `http://192.168.1.10:8191/docs`.
 
 ## Updates
 
