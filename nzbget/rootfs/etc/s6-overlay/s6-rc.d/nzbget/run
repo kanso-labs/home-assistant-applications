@@ -7,6 +7,7 @@
 
 readonly config_file='/config/nzbget.conf'
 readonly main_dir='/share/nzbget'
+readonly queue_dir='/config/queue'
 
 # NZBGet ships a configuration that downloads inside its own install directory,
 # which is discarded on every update, and a web interface password that is the
@@ -20,6 +21,10 @@ if ! bashio::fs.file_exists "${config_file}"; then
   # closes the pipe early and kills the service with SIGPIPE.
   password="$(head -c 256 /dev/urandom | tr -dc 'A-Za-z0-9' | cut -c 1-20)"
   sed -i "s|^MainDir=.*|MainDir=${main_dir}|" "${config_file}"
+  # Upstream keeps the queue, history and statistics under MainDir, which would
+  # put them in /share, outside this application's backups. They stay in its
+  # own directory instead, and only the downloads go to /share.
+  sed -i "s|^QueueDir=.*|QueueDir=${queue_dir}|" "${config_file}"
   sed -i "s|^ControlPassword=.*|ControlPassword=${password}|" "${config_file}"
   # Supervisor already captures stdout, and NZBGet's own log file is appended
   # to forever. Seeded rather than forced, so it can be turned back on.
@@ -35,14 +40,49 @@ if ! bashio::fs.file_exists "${config_file}"; then
   bashio::log.notice 'Change it under Settings, Security in the web interface.'
 fi
 
+# Configurations seeded before the queue moved still keep it under MainDir.
+# Each is moved once, while NZBGet is not running, and only while QueueDir is
+# still upstream's default, so a directory chosen in NZBGet's settings stays
+# where it was put. The copy is made beside its destination and renamed into
+# place, and the original removed only once the configuration points at the
+# copy, so a start interrupted at any step still finds the queue.
+# ${MainDir} is NZBGet's own variable, matched as written in the file.
+# shellcheck disable=SC2016
+if grep -q '^QueueDir=\${MainDir}/queue$' "${config_file}"; then
+  current_main_dir="$(sed -n 's|^MainDir=||p' "${config_file}")"
+
+  if bashio::fs.directory_exists "${queue_dir}"; then
+    bashio::log.warning \
+      "The queue stays in ${current_main_dir}/queue, because ${queue_dir}" \
+      'already exists. Remove whichever is stale, or set QueueDir under' \
+      'Settings, Paths.'
+  elif [[ "${current_main_dir}" != /* || "${current_main_dir}" == *'$'* ]]; then
+    bashio::log.warning \
+      "The queue stays under MainDir, which is not a plain path:" \
+      "${current_main_dir}. Set QueueDir under Settings, Paths to move it."
+  else
+    bashio::log.info "Moving the queue from ${current_main_dir}/queue to ${queue_dir}..."
+    if bashio::fs.directory_exists "${current_main_dir}/queue"; then
+      rm -f -r "${queue_dir}.moving"
+      cp -a "${current_main_dir}/queue" "${queue_dir}.moving"
+      mv "${queue_dir}.moving" "${queue_dir}"
+    fi
+    sed -i "s|^QueueDir=.*|QueueDir=${queue_dir}|" "${config_file}"
+    rm -f -r "${current_main_dir}/queue"
+  fi
+fi
+
 mkdir -p "${main_dir}"
 
 bashio::log.info 'Starting NZBGet...'
 
 # NZBGet's console mode draws with curses and exits if it cannot open a
 # terminal, which it never can under s6. Loggable output also reads correctly
-# in the Home Assistant log.
+# in the Home Assistant log. The update check would announce releases this
+# image has no updater for. It is turned off here rather than seeded, so that
+# existing configurations lose it too.
 exec /opt/nzbget/nzbget \
   --server \
   --configfile "${config_file}" \
-  --option OutputMode=loggable
+  --option OutputMode=loggable \
+  --option UpdateCheck=none

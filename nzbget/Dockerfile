@@ -13,9 +13,14 @@ ARG NZBGET_VERSION=26.3
 # Install requirements for application
 RUN \
   `# NZBGet calls lscpu on startup. Without it the binary still runs, but` \
-  `# every start logs a "not found" error.` \
+  `# every start logs a "not found" error. The extensions in its Extension` \
+  `# Manager are Python 3 scripts, so Python is installed and linked under` \
+  `# both names they call it by, as NZBGet's own image does.` \
   apk add --no-cache \
+    python3 \
     util-linux \
+  \
+  && ln -s -f /usr/bin/python3 /usr/bin/python \
   \
   && if [ "${BUILD_ARCH}" = "aarch64" ]; then NZBGET_ARCH="aarch64"; \
   elif [ "${BUILD_ARCH}" = "amd64" ]; then NZBGET_ARCH="x86_64"; \
@@ -29,6 +34,15 @@ RUN \
   && sh /tmp/nzbget.run \
       --arch "${NZBGET_ARCH}" \
       --destdir /opt/nzbget \
+  \
+  `# NZBGet's own updater would replace /opt/nzbget inside a container that` \
+  `# Supervisor recreates on every start, so an update would run without the` \
+  `# page edit below until the next start, which then puts the old version` \
+  `# back. The page reads its update feed and install script from` \
+  `# package-info.json, so emptying that and removing the script leaves the` \
+  `# update dialog nothing to install.` \
+  && rm -f /opt/nzbget/install-update.sh \
+  && echo '{}' > /opt/nzbget/webui/package-info.json \
   \
   `# The page loads its scripts and styles as combined.js?a.js+b.js, which` \
   `# ingress cannot carry: Home Assistant and Supervisor both re-encode the` \

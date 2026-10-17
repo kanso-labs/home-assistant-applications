@@ -30,18 +30,28 @@ they survive restarts and updates.
 Add your news servers under Settings, then News-Servers. Until you do, the log
 reports that no servers are configured, which is expected on a fresh install.
 
-Four defaults are changed on first start, because NZBGet's own would be wrong
+Five defaults are changed on first start, because NZBGet's own would be wrong
 here:
 
 | Setting           | Seeded value    | Why                                                                                   |
 | ----------------- | --------------- | ------------------------------------------------------------------------------------- |
 | `MainDir`         | `/share/nzbget` | NZBGet downloads into its install directory, which is replaced on every update        |
+| `QueueDir`        | `/config/queue` | NZBGet keeps the queue under `MainDir`, outside this application's backups            |
 | `ControlPassword` | generated       | The shipped password is identical on every NZBGet in the world                        |
 | `WriteLog`        | `none`          | Home Assistant already captures the log, and NZBGet's own file is appended to forever |
 | `FormAuth`        | `yes`           | NZBGet's sign-in form fits inside Home Assistant better than the browser's dialog     |
 
-All four are written only when no configuration exists, so anything you change
-afterwards is left alone.
+All five are written only when no configuration exists, so anything you change
+afterwards is left alone. `QueueDir` is the one exception. An installation from
+before it was seeded has its queue, history and statistics moved from
+`/share/nzbget/queue` into `/config/queue` once, on its first start after the
+update, as long as `QueueDir` still reads upstream's `${MainDir}/queue`. A queue
+directory you chose yourself stays where you put it.
+
+Extensions from NZBGet's Extension Manager, under Settings, then Extension
+Manager, are Python 3 scripts, and the image carries Python 3 for them. They
+install into `/share/nzbget/scripts`, so they are not part of this application's
+backup, but their settings are.
 
 ## Ingress
 
@@ -90,11 +100,11 @@ Home Assistant session in a browser. They still work on the published port.
 
 ## Storage
 
-| Path      | Access     | Holds                     |
-| --------- | ---------- | ------------------------- |
-| `/config` | read/write | The NZBGet configuration  |
-| `/media`  | read/write | Your media library        |
-| `/share`  | read/write | Downloads, under `nzbget` |
+| Path      | Access     | Holds                                                   |
+| --------- | ---------- | ------------------------------------------------------- |
+| `/config` | read/write | The NZBGet configuration, queue, history and statistics |
+| `/media`  | read/write | Your media library                                      |
+| `/share`  | read/write | Downloads and extensions, under `nzbget`                |
 
 Downloads still land in `/share` by default, and letting Radarr and Sonarr file
 them into `/media` remains the tidier arrangement. `/media` is mapped so that a
@@ -103,14 +113,20 @@ path when you want NZBGet to put files there itself.
 
 ## Backups
 
-Backups are taken cold, so Home Assistant stops NZBGet for the duration. Queue
-state is written continuously while it runs, and copying it mid-write can
-produce a backup that restores into a broken queue.
+Backups are taken cold, so Home Assistant stops NZBGet for the duration. The
+queue, history and statistics are in `/config` and come along in the
+application's backup. NZBGet writes them continuously while it runs, and copying
+them mid-write could produce a backup that restores into a broken queue.
+
+The downloads themselves, finished or not, stay in `/share`, which the
+application's backup does not include.
 
 ## Updates
 
 Version bumps arrive as pull requests against the repository and reach you as an
-application update once released. NZBGet's own updater is not used.
+application update once released. NZBGet's own updater is not used: the image
+leaves it out and turns its update check off, because an update installed from
+inside the container would be undone the next time it starts.
 
 ## Support
 
