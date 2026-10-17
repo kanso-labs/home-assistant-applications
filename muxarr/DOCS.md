@@ -44,6 +44,18 @@ Scan, preview what would change, and queue the files.
 a profile that keeps fewer languages than you meant is applied to the whole
 library at once.
 
+[Tdarr](https://github.com/kanso-labs/home-assistant-applications/tree/main/tdarr),
+also in this store, rewrites files in place too, so do not point the two at the
+same library folders, or one can pick up a file the other is still rewriting.
+
+### Watchdog
+
+Turn on **Watchdog** on the application's Info tab to have Home Assistant
+restart Muxarr when it stops answering, not only when it exits. The image asks
+for Muxarr's login page every 30 seconds, which Muxarr serves to anyone, before
+setup and after it, without asking Sonarr or Radarr anything, so neither of them
+being down counts against it. It is off by default.
+
 ## What it does to a file
 
 Muxarr remuxes rather than re-encodes: the video and the tracks you keep are
@@ -107,4 +119,6 @@ than a port. Its shape follows the other applications in this repository.
 
 Muxarr itself is developed by [KirovAir](https://github.com/KirovAir/muxarr) and
 is licensed under GPL-3.0. It builds on [FFmpeg](https://ffmpeg.org/) and
-[MKVToolNix](https://mkvtoolnix.download/), which carry their own licences.
+[MKVToolNix](https://mkvtoolnix.download/), which carry their own licences. The
+icon is Muxarr's own, from its repository, and the logo sets it beside Muxarr's
+name.

@@ -67,9 +67,10 @@ RUN \
 COPY rootfs /
 
 # s6-overlay is pid 1 here, in place of the image's own entrypoint. That
-# entrypoint exists to remap a uid from PUID/PGID and drop privileges to it,
-# which every application here leaves to Supervisor instead; the rest of what
-# it did, the run script does.
+# entrypoint remaps a uid from PUID and PGID, hands /config to it and drops
+# privileges to it. Muxarr runs as root instead, because it rewrites media files
+# in place under /media and /share, which Supervisor mounts owned by root. The
+# rest of what the entrypoint did, the run script does.
 ENTRYPOINT ["/init"]
 
 # Supervisor shows the application as starting until the first result arrives,
