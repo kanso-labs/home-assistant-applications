@@ -54,7 +54,7 @@ options+=(--providers.file.directory=/config --providers.file.watch=true)
 # The dashboard is served under the sidebar's own path, so that the addresses
 # it builds for itself go back through Home Assistant.
 options+=(--api.dashboard=true)
-ingress_entry="$(bashio::addon.ingress_entry)"
+ingress_entry="$(bashio::app.ingress_entry)"
 if bashio::var.has_value "${ingress_entry}" && [[ "${ingress_entry}" != 'null' ]]; then
   options+=("--api.basePath=${ingress_entry}")
 fi
