@@ -17,6 +17,19 @@ if ! bashio::var.has_value "${ingress_entry}" || [[ "${ingress_entry}" == 'null'
 fi
 export Sonarr__Server__UrlBase="${ingress_entry%/}"
 
+# A URL base saved before ingress, /sonarr say, is one nothing answers under
+# any more: whatever still calls Sonarr there gets its web page or a 404 in
+# place of an answer. An ingress path is passed over: Sonarr writes the base
+# to config.xml only when it is changed under Settings, never the one these
+# variables give it, so one is there only if it was typed in, and nothing
+# outside Home Assistant calls it.
+saved_url_base="$(xmlstarlet sel -t -v '/Config/UrlBase' /config/config.xml 2>/dev/null || true)"
+saved_url_base="${saved_url_base#/}"
+saved_url_base="${saved_url_base%/}"
+if [[ -n "${saved_url_base}" && "${saved_url_base}" != api/hassio_ingress/* ]]; then
+  bashio::log.warning "The URL Base /${saved_url_base} saved in config.xml is ignored. Sonarr answers at the root of port 8989, so anything calling http://<host>:8989/${saved_url_base} has to call http://<host>:8989 instead. Saving Settings → General on the published port clears it."
+fi
+
 bashio::log.info 'Starting Sonarr...'
 
 exec /opt/bin/Sonarr -nobrowser -data=/config

@@ -2,6 +2,11 @@ arch:
   - aarch64
   - amd64
 backup: cold
+# The artwork, which Sonarr downloads again as it refreshes each series, and the
+# log files are left out, to keep the time Sonarr is stopped for a backup short.
+backup_exclude:
+  - MediaCover
+  - logs
 description:
   Smart PVR for Usenet and BitTorrent users. Sonarr monitors multiple RSS feeds
   for new episodes of the shows you follow, grabs them through your download
