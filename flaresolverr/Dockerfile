@@ -64,6 +64,16 @@ COPY rootfs /
 # other application; this one has to set it itself.
 ENTRYPOINT ["/init"]
 
+# Upstream's image has no health check, so Supervisor's watchdog could see
+# FlareSolverr crash but never hang. /health answers without starting the
+# browser. FlareSolverr works on four requests at a time, though, and a check
+# waits its turn behind challenges being solved, so the timeout and retries are
+# long enough to let a busy FlareSolverr through. One that has stopped answering
+# turns unhealthy after about five minutes. A watchdog URL in config.yaml would
+# do the same, but the application linter rejects that key in favour of this.
+HEALTHCHECK --interval=30s --timeout=30s --start-period=60s --retries=5 \
+  CMD curl -s -f -o /dev/null "http://127.0.0.1:8191/health" || exit 1
+
 # Expose the ports
 EXPOSE 8191
 
