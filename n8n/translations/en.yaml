@@ -10,6 +10,15 @@ configuration:
       More of n8n's environment variables, each a name and a value, for the many
       settings n8n reads that have no option here. The ones this application
       sets itself cannot be changed this way.
+    fields:
+      name:
+        description: >-
+          The variable's name, in capital letters, digits and underscores, such
+          as EXECUTIONS_DATA_MAX_AGE.
+        name: Name
+      value:
+        description: The value to give it, such as 72.
+        name: Value
     name: Environment variables
   home_assistant_credential:
     description: >-

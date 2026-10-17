@@ -10,6 +10,15 @@ configuration:
       Outras variáveis de ambiente do n8n, cada uma com nome e valor, para as
       muitas configurações que o n8n lê e que não têm opção aqui. As que esta
       aplicação define por conta própria não podem ser alteradas assim.
+    fields:
+      name:
+        description: >-
+          O nome da variável, em letras maiúsculas, dígitos e sublinhados, como
+          EXECUTIONS_DATA_MAX_AGE.
+        name: Nome
+      value:
+        description: O valor que ela recebe, como 72.
+        name: Valor
     name: Variáveis de ambiente
   home_assistant_credential:
     description: >-

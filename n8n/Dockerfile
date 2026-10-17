@@ -30,14 +30,23 @@ ENV PATH="/root/.local/bin:$PATH"
 # Configure n8n
 WORKDIR /usr/src/n8n
 
-# Only the two pins that decide the install come first, so a change to the
-# service scripts reuses the installed layer instead of rebuilding it, and an
-# update that changes only those scripts downloads only them.
-COPY rootfs/usr/src/n8n/package.json rootfs/usr/src/n8n/.tool-versions ./
+# Only the files that decide the install come first, so a change to the service
+# scripts reuses the installed layer instead of rebuilding it, and an update that
+# changes only those scripts downloads only them.
+COPY \
+  rootfs/usr/src/n8n/package.json \
+  rootfs/usr/src/n8n/package-lock.json \
+  rootfs/usr/src/n8n/.tool-versions \
+  ./
 
 # Install Node.js and n8n. Its native modules compile here, so the toolchain
 # comes and goes within this one layer, and npm's cache goes with it. Left
 # behind, the two made up most of the image.
+#
+# npm ci installs exactly the tree the lockfile records, and fails if it and
+# package.json disagree. package.json pins n8n alone, while n8n names much of
+# what it depends on by range, so without the lockfile a rebuild of the same
+# commit could resolve different code.
 RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
     g++ \
     linux-libc-dev \
@@ -45,7 +54,7 @@ RUN apt-get update && apt-get install --assume-yes --no-install-recommends \
     python3 \
   && mise install \
   && eval "$(mise activate)" \
-  && npm install --no-audit --no-fund \
+  && npm ci --no-audit --no-fund \
   && npm cache clean --force \
   && apt-get purge --assume-yes --auto-remove g++ linux-libc-dev make python3 \
   && rm -rf /var/lib/apt/lists/* /root/.cache /root/.npm /tmp/*
