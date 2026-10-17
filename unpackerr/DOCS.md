@@ -37,12 +37,12 @@ fill in the block:
 [[radarr]]
   url = "http://homeassistant.local:7878"
   api_key = "your radarr api key"
-  paths = ['/share/qbittorrent/downloads', '/share/nzbget']
+  paths = ['/share/qbittorrent/downloads']
 
 [[sonarr]]
   url = "http://homeassistant.local:8989"
   api_key = "your sonarr api key"
-  paths = ['/share/qbittorrent/downloads', '/share/nzbget']
+  paths = ['/share/qbittorrent/downloads']
 ```
 
 **Use your Home Assistant machine's address, the same one you open these on in a
@@ -58,6 +58,10 @@ Unpackerr after editing.
 `paths` must be where the downloads actually land, and must match what the arr
 application sees. If Unpackerr and Radarr disagree about a path, extraction
 appears to do nothing.
+
+Unpackerr is for the torrent client. It skips Usenet downloads unless its
+`protocols` setting names them, and NZBGet unpacks its own downloads before
+Radarr and Sonarr see them, so NZBGet's folder does not belong in `paths`.
 
 ## Extraction limits
 
@@ -109,12 +113,12 @@ For questions about Unpackerr itself rather than this packaging, see
 
 ## Credits
 
-The icon and logo come from
-[alexbelgium/hassio-addons](https://github.com/alexbelgium/hassio-addons), which
-also served as a reference for what a Home Assistant Unpackerr needs. That
-packaging is broader than this one, carrying VPN support, CIFS mounts and
-elevated privileges. This application asks for none of it.
+[alexbelgium/hassio-addons](https://github.com/alexbelgium/hassio-addons) served
+as a reference for what a Home Assistant Unpackerr needs. That packaging is
+broader than this one, carrying VPN support, CIFS mounts and elevated
+privileges. This application asks for none of it.
 
 Unpackerr itself is developed by
 [the Unpackerr project](https://github.com/Unpackerr/unpackerr) and is licensed
-under MIT. The binary is the project's own official release.
+under MIT. The binary is the project's own official release, and the icon and
+logo are the project's own artwork.
