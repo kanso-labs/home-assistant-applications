@@ -72,6 +72,12 @@ ends in `/v1` becomes `/v1/v1` and fails.
 Give the proxy a tag, then apply that same tag to each indexer that needs it.
 Only tagged indexers are routed through Byparr.
 
+**If indexers behind Cloudflare keep failing** on a network with IPv6, turn on
+`ipv4_only` in this repository's
+[Prowlarr application](https://github.com/kanso-labs/home-assistant-applications/tree/main/prowlarr).
+Cloudflare has been seen to challenge Prowlarr's own request again over IPv6,
+even with the cookies Byparr had just earned.
+
 **Moving from FlareSolverr** needs only the proxy's host changed. From a
 Prowlarr on the same Home Assistant, change `http://2dd33fbd-flaresolverr:8191`
 to `http://2dd33fbd-byparr:8191`. From one anywhere else, stop FlareSolverr and
@@ -134,6 +140,14 @@ address out, since it can carry credentials.
 The language the browser presents to websites, as a tag such as `en-US` or
 `pt-BR`. Left empty, it matches the country the requests leave from.
 
+### Watchdog
+
+Turn on **Watchdog** on the application's Info tab to have Home Assistant
+restart Byparr when it stops answering, not only when it exits. The image asks
+for Byparr's API documentation at `/docs` every 30 seconds, which needs neither
+the browser nor the internet, and three failures in a row count as a hang. It is
+off by default.
+
 ## What it looks up
 
 Before each request, the browser asks a public service which address it leaves
@@ -148,9 +162,9 @@ release before every request and replaces it when one appears.
 
 ## Storage
 
-| Path          | Holds                                          |
-| ------------- | ---------------------------------------------- |
-| `/data/geoip` | The GeoIP database the browser downloaded last |
+| Path          | Access     | Holds                                          |
+| ------------- | ---------- | ---------------------------------------------- |
+| `/data/geoip` | read/write | The GeoIP database the browser downloaded last |
 
 That database is the only thing kept. Byparr has no settings and no database of
 its own, so no other directory is mapped.
@@ -158,6 +172,11 @@ its own, so no other directory is mapped.
 Home Assistant creates a new container every time an application starts, so the
 database lives in `/data` rather than beside the browser. Kept there, a restart,
 an update or a reboot does not download it again.
+
+The browser also writes a fresh profile for every request and deletes it when
+the request finishes. It goes to `/tmp`, which Home Assistant keeps in memory
+for this application rather than on disk, so those writes cost no wear on an SD
+card or eMMC.
 
 ## Backups
 
