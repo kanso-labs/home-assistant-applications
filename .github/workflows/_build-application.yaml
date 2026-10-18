@@ -20,6 +20,7 @@ jobs:
     # themselves.
     permissions:
       contents: read
+    timeout-minutes: 10
     outputs:
       architectures: ${{ steps.info.outputs.architectures }}
       build_matrix: ${{ steps.matrix.outputs.matrix }}
@@ -46,15 +47,26 @@ jobs:
 
       - name: Normalize application metadata
         id: normalize
+        # helpers/info writes each value as JSON, a quoted string or null. They
+        # reach the script through the environment, and jq decodes them, so
+        # nothing in a name or a description is ever read as shell.
+        env:
+          INFO_DESCRIPTION: ${{ steps.info.outputs.description }}
+          INFO_IMAGE: ${{ steps.info.outputs.image }}
+          INFO_NAME: ${{ steps.info.outputs.name }}
+          INFO_URL: ${{ steps.info.outputs.url }}
+          INFO_VERSION: ${{ steps.info.outputs.version }}
+          PUBLISH: ${{ inputs.publish }}
         run: |
-          image=${{ steps.info.outputs.image }}
-          publish=${{ inputs.publish }}
-          version=${{ steps.info.outputs.version }}
+          decode() { jq -r '. // empty | gsub("\n"; " ")' <<< "${1:-null}"; }
+          image=$(decode "${INFO_IMAGE}")
+          publish="${PUBLISH}"
+          version=$(decode "${INFO_VERSION}")
           # An application naming no image is built by each Home Assistant
           # itself, and nothing of it may be published: Seadexerr is one, because
           # it carries no licence to redistribute it under. It is still built
           # here, under the name it would have had, to show that it builds.
-          if [[ -z "${image}" || "${image}" == 'null' ]]; then
+          if [[ -z "${image}" ]]; then
             image="ghcr.io/kanso-labs/home-assistant-application-${{ inputs.app }}"
             publish=false
           fi
@@ -65,7 +77,8 @@ jobs:
           # multi-arch tag exists the image is only built, as a check, until
           # the version moves. That tag is created only once every
           # architecture's image has been pushed, so a release whose build
-          # failed partway publishes in full on its next push. Anything short
+          # failed partway publishes in full on Build's next hourly run, which
+          # looks for released versions missing from the registry. Anything short
           # of finding it publishes, as every push used to: a new
           # application's package cannot even be looked up anonymously until
           # its first publish creates it.
@@ -73,20 +86,18 @@ jobs:
             echo "::notice::${image}:${version} is already published, so this build pushes nothing. Releasing a new version publishes it."
             publish=false
           fi
+          url=$(decode "${INFO_URL}")
           {
             echo "publish=${publish}"
             echo "image_name=${image##*/}"
             echo "registry_prefix=${image%/*}"
+            echo "version=${version}"
+            echo "name=$(decode "${INFO_NAME}")"
+            echo "description=$(decode "${INFO_DESCRIPTION}")"
+            if [[ -n "${url}" ]]; then
+              echo "url=${url}"
+            fi
           } >> "$GITHUB_OUTPUT"
-          echo "version=${version}" >> "$GITHUB_OUTPUT"
-          name=${{ steps.info.outputs.name }}
-          echo "name=${name}" >> "$GITHUB_OUTPUT"
-          description=${{ steps.info.outputs.description }}
-          echo "description=${description}" >> "$GITHUB_OUTPUT"
-          url=${{ steps.info.outputs.url }}
-          if [[ -n "$url" && "$url" != "null" ]]; then
-            echo "url=${url}" >> "$GITHUB_OUTPUT"
-          fi
 
       - name: Prepare build matrix
         id: matrix
@@ -104,6 +115,7 @@ jobs:
       contents: read
       id-token: write
       packages: write
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix: ${{ fromJSON(needs.prepare.outputs.build_matrix) }}
@@ -147,6 +159,7 @@ jobs:
     permissions:
       id-token: write
       packages: write
+    timeout-minutes: 10
     steps:
       - name: Publish multi-arch manifest
         uses: home-assistant/builder/actions/publish-multi-arch-manifest@2026.09.0
