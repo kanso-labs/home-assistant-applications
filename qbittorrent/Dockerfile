@@ -26,6 +26,19 @@ RUN \
 # Copy root filesystem
 COPY rootfs /
 
+# Supervisor shows the application as starting until the first result arrives,
+# and with the watchdog on, restarts it when the check fails. qBittorrent is
+# asked on 8080 directly, because the nginx that ingress goes through answers
+# only Supervisor, so the check does not cover nginx. Its sign-in page answers
+# without a session, where the API turns the request away. qBittorrent opens its
+# web interface only once every torrent is loaded, so the start period leaves
+# room for a large session. With sign-in bypassed for localhost, qBittorrent
+# opens a session for every request that brings no cookie, so the check keeps
+# its cookie between runs rather than leaving a new session behind each time.
+HEALTHCHECK --interval=30s --timeout=10s --start-period=300s --retries=5 \
+  CMD curl -f -s -S -o /dev/null -b /tmp/healthcheck.cookies \
+    -c /tmp/healthcheck.cookies http://127.0.0.1:8080/ || exit 1
+
 # Expose the ports
 EXPOSE 6881 8080
 
