@@ -53,7 +53,10 @@ is off by default.
 
 Add Seadexerr as a **Generic Torznab** indexer, named `Seadexerr`, with the URL
 `http://2dd33fbd-seadexerr:2071`. That is its hostname inside Home Assistant,
-which the Prowlarr application reaches with no port opened.
+which the Prowlarr application reaches with no port opened. `2dd33fbd` is Home
+Assistant's name for this repository when it was added by the address in the
+README. If it was added by another address, Seadexerr has another prefix, shown
+as **Hostname** on its **Info** tab.
 
 ## Sonarr and Radarr
 
