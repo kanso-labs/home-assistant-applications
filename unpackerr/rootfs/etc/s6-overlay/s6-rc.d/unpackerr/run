@@ -22,6 +22,17 @@ if ! bashio::fs.file_exists "${config_file}"; then
   # install starts clean; uncommenting one is part of configuring it.
   sed -i -E 's/^(\[\[(sonarr|radarr)\]\])/# \1/' "${config_file}"
 
+  # The example's commented addresses are for a Radarr and Sonarr on the same
+  # machine, which inside this container is Unpackerr itself, and every block's
+  # paths name a /downloads that does not exist here. Naming this repository's
+  # Radarr and Sonarr, and qBittorrent's folder in every block, leaves only the
+  # API key to fill in once a block is uncommented.
+  sed -i \
+    -e 's|"http://127\.0\.0\.1:7878"|"http://2dd33fbd-radarr:7878"|' \
+    -e 's|"http://127\.0\.0\.1:8989"|"http://2dd33fbd-sonarr:8989"|' \
+    -e "s|\['/downloads'\]|['/share/qbittorrent/downloads']|" \
+    "${config_file}"
+
   bashio::log.notice 'Unpackerr has nothing to do until it is configured.'
   bashio::log.notice "Edit ${config_file} and uncomment the [[radarr]] or"
   bashio::log.notice '[[sonarr]] header you need, along with its url, api_key'
