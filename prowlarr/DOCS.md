@@ -4,13 +4,18 @@
 
 1. Add this repository to your Home Assistant instance.
 2. Install the "Prowlarr" application.
-3. Start it, then open it from the sidebar, or on port 9696.
+3. Start it, then select **Open Web UI**, or open port 9696.
 
 ## Configuration
 
 Almost everything is configured from Prowlarr's own web interface, and the
 settings live in the application's configuration directory so they survive
 restarts and updates. The one application option is below.
+
+**Send Anonymous Usage Data**, under Settings → General, is kept off for you,
+and turning it on there has no effect. With it off, Prowlarr sends Servarr no
+crash reports, apart from an error early in a start, before it has read its
+settings.
 
 ### `ipv4_only`
 
@@ -23,9 +28,23 @@ IPv6, Cloudflare has been seen to challenge Prowlarr's request again over IPv6,
 even with the cookies the solver had just earned. The same request over IPv4 got
 through.
 
-To connect it to the rest of the stack, add Radarr and Sonarr under Settings
-then Apps. Prowlarr reaches them over the internal network, so use their
-application hostnames rather than `localhost`.
+### Connecting Radarr and Sonarr
+
+Add Radarr and Sonarr under Settings → Apps. Prowlarr reaches them over Home
+Assistant's internal network by hostname, not at `localhost`: for the Radarr and
+Sonarr in this repository, **Radarr Server** is `http://2dd33fbd-radarr:7878`
+and **Sonarr Server** is `http://2dd33fbd-sonarr:8989`. They reach Prowlarr the
+same way, so set **Prowlarr Server** to `http://2dd33fbd-prowlarr:9696` in each.
+`2dd33fbd` is Home Assistant's name for this repository when it was added by the
+address in the README. An application from another repository has another
+prefix, shown as **Hostname** on that application's **Info** tab.
+
+### Watchdog
+
+Turn on **Watchdog** on the application's Info tab to have Home Assistant
+restart Prowlarr when it stops answering, not only when it exits. The image asks
+for Prowlarr's `/ping` every 30 seconds, through nginx so that both are checked,
+and five failures in a row count as a hang. It is off by default.
 
 ## Ingress
 
@@ -88,7 +107,9 @@ Prowlarr keeps its state in SQLite, and copying a database that is being written
 to can produce a backup that will not restore. The application is briefly
 unavailable while a backup runs.
 
-The log files are left out of backups.
+The log files are left out of backups, and so is `logs.db`, which holds the last
+week of entries under **System → Events**. Prowlarr starts both afresh after a
+restore.
 
 ## Updates
 
@@ -113,3 +134,6 @@ by Franck Nijhof, used under the MIT licence.
 Prowlarr itself is developed by the
 [Prowlarr team](https://github.com/Prowlarr/Prowlarr) and is licensed under
 GPLv3.
+
+The icon is Prowlarr's own, from its repository. The logo sets the same icon
+beside Prowlarr's name.

@@ -3,9 +3,12 @@ arch:
   - amd64
 backup: cold
 # The log files are left out, to keep the time Prowlarr is stopped for a backup
-# short.
+# short. So are logs.db and its -shm and -wal files, which Prowlarr creates
+# again when they are missing. Their entry starts from the folder /config is
+# kept in, so that its trailing wildcard matches nothing further down.
 backup_exclude:
   - logs
+  - '*_prowlarr/logs.db*'
 description:
   Indexer manager and proxy for the arr stack. Prowlarr keeps your indexer
   definitions in one place and pushes them out to Radarr, Sonarr and the rest,
@@ -14,6 +17,9 @@ image: 'ghcr.io/kanso-labs/home-assistant-application-prowlarr'
 # nginx answers on 9696 for ingress and the published port alike, see DOCS.md.
 ingress: true
 ingress_port: 9696
+# Supervisor reads a request through ingress whole and refuses one over 16 MiB,
+# unless it is streamed. A backup restored from the System page can be larger.
+ingress_stream: true
 init: false
 map:
   - read_only: false
