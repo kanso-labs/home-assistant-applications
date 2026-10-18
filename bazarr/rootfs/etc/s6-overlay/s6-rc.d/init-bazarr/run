@@ -55,13 +55,21 @@ if ! bashio::fs.file_exists "${config_file}"; then
   exit 0
 fi
 
-# PyYAML is one of the libraries Bazarr carries in its own directory. What
-# comes back is a URL base someone chose, if this replaced one.
+# Bazarr reads and writes config.yaml through the YAML 1.2 library its own
+# dynaconf carries in /opt/bin/libs, which leaves a value such as no, on or
+# 1:30 unquoted. PyYAML, beside it, reads those the YAML 1.1 way, as false,
+# true and 90, and would write them back so. The file therefore goes through
+# Bazarr's own library and is written the way Bazarr writes it, with PyYAML
+# standing in only if a later Bazarr stops carrying that library. What comes
+# back is a URL base someone chose, if this replaced one.
 replaced_base_url="$(PYTHONPATH=/opt/bin/libs python3 - "${config_file}" "${ingress_entry%/}" <<'EOF'
 import os
 import sys
 
-import yaml
+try:
+    from dynaconf.vendor.ruamel import yaml
+except ImportError:
+    import yaml
 
 path, base_url = sys.argv[1], sys.argv[2]
 with open(path) as f:
@@ -75,7 +83,7 @@ if saved == base_url:
 general['base_url'] = base_url
 config['general'] = general
 with open(path + '.tmp', 'w') as f:
-    yaml.safe_dump(config, f, allow_unicode=True, default_flow_style=False, sort_keys=False)
+    yaml.dump(config, f, Dumper=yaml.SafeDumper, explicit_start=True, indent=2, default_flow_style=False)
 os.replace(path + '.tmp', path)
 
 if saved and not saved.startswith('/api/hassio_ingress/'):
