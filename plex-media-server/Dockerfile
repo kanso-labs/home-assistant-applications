@@ -12,10 +12,9 @@
 # which never updates across one; since every Plex release mints a fresh hash,
 # the default would silently offer no update at all, ever.
 #
-# Unlike the other applications built this way, no s6-overlay is installed
-# here. Plex's image already runs it, already declares /init as its entrypoint,
-# and already starts Plex. Only bashio is missing, and it is what lets the
-# application's options reach Plex.
+# As in Tdarr, no s6-overlay is installed here. Plex's image already runs it,
+# already declares /init as its entrypoint, and already starts Plex. Only bashio
+# is missing, and it is what lets the application's options reach Plex.
 ARG BUILD_FROM=plexinc/pms-docker:1.43.4.10903-e5521bd8c
 FROM ${BUILD_FROM}
 
