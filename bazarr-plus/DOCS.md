@@ -2,9 +2,10 @@
 
 ## This is a fork, and Bazarr is also in this store
 
-Bazarr+ is a fork of [Bazarr](../bazarr), which this repository ships as its own
-application. They are the same program underneath, and everything Bazarr does,
-this does too.
+Bazarr+ is a fork of
+[Bazarr](https://github.com/kanso-labs/home-assistant-applications/tree/main/bazarr),
+which this repository ships as its own application. They are the same program
+underneath, and everything Bazarr does, this does too.
 
 What the fork adds:
 
@@ -27,7 +28,9 @@ database schema has diverged from the one Bazarr writes.
 
 1. Add this repository to your Home Assistant instance.
 2. Install the "Bazarr+" application.
-3. Start it, then open it from the sidebar, or on port 6767.
+3. Start it, then select **Open Web UI**, or open port 6767. **Open Web UI**
+   goes through ingress, which starts working on the second start, so the first
+   time open the port or restart the application once.
 4. Work through the setup wizard: Sonarr and Radarr, then languages and
    providers.
 
@@ -57,8 +60,12 @@ interface, and the settings live in the application's configuration directory so
 they survive restarts and updates.
 
 Point it at Radarr and Sonarr under Settings, then choose the subtitle languages
-and providers you want. It reaches them over the internal network, so use their
-application hostnames rather than `localhost`.
+and providers you want. Bazarr+ reaches them over Home Assistant's internal
+network by hostname, not at `localhost`: the Radarr and Sonarr in this
+repository are `2dd33fbd-radarr` on port 7878 and `2dd33fbd-sonarr` on
+port 8989. `2dd33fbd` is Home Assistant's name for this repository when it was
+added by the address in the README. A Radarr or Sonarr from another repository
+has another prefix, shown as **Hostname** on that application's **Info** tab.
 
 Language profiles are applied automatically only to series and movies Bazarr+
 syncs after you set a default under **Settings → Languages**. Anything it synced
@@ -68,15 +75,25 @@ Edit** on the Series and Movies pages.
 ### Translation
 
 Nothing is translated until you choose a translator under **Settings →
-Translator**. [Lingarr](../lingarr), which this repository also ships, needs
-only its address and API key here; which service does the translating is set in
-Lingarr. Gemini and OpenRouter are paid third-party services with API keys of
-their own, and nothing is sent to any of them until you configure one.
+Translator**.
+[Lingarr](https://github.com/kanso-labs/home-assistant-applications/tree/main/lingarr),
+which this repository also ships, needs only its address and API key here; which
+service does the translating is set in Lingarr. Gemini and OpenRouter are paid
+third-party services with API keys of their own, and nothing is sent to any of
+them until you configure one.
 
 To translate automatically, set **Translate From** on a language in a language
 profile — Portuguese (Brazil) from English, say. When that language is missing
 and a subtitle in the source language exists, Bazarr+'s search for missing
 subtitles translates it rather than looking for it on the providers.
+
+### Watchdog
+
+Turn on **Watchdog** on the application's Info tab to have Home Assistant
+restart Bazarr+ when it stops answering, not only when it exits. The image asks
+Bazarr+'s frontend server every 30 seconds whether the backend is running, on
+port 16767 rather than through nginx, and once it has had five minutes to start,
+three failures in a row count as a hang. It is off by default.
 
 ## Ingress
 
@@ -179,3 +196,6 @@ licensed under GPLv3.
 This packaging is new rather than a port, and its shape follows the other
 applications in this repository — including the Bazarr beside it, whose mappings
 and reasoning it borrows.
+
+The icon is Bazarr+'s own, from its web interface. The logo sets the same icon
+beside Bazarr+'s name.
