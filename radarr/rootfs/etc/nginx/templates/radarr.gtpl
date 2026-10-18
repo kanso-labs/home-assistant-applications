@@ -21,6 +21,17 @@ map $from_supervisor $forwarded_for {
     1 $remote_addr;
     0 $proxy_add_x_forwarded_for;
 }
+
+# nginx itself only ever speaks http, so Radarr is told the scheme that Home
+# Assistant, through ingress, or a reverse proxy such as Traefik says the
+# browser used. Radarr builds the address of its sign-in page from it, and a
+# browser will not load an http page inside Home Assistant's https one. Only
+# https is taken: a client that claims it over plain http is sent to an https
+# address itself, and nobody else's requests change.
+map $http_x_forwarded_proto $forwarded_proto {
+    default $scheme;
+    https https;
+}
 {{ if .ingress_entry }}
 # Supervisor marks every ingress request with X-Ingress-Path. Anything without
 # it came in on the published port.
@@ -93,7 +104,7 @@ server {
     # the user in, so ingress is judged by Supervisor's local address.
     proxy_set_header X-Forwarded-For $forwarded_for;
     proxy_set_header X-Forwarded-Host $http_host;
-    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Forwarded-Proto $forwarded_proto;
     # Live updates hold a WebSocket open for as long as the page is.
     proxy_buffering off;
     proxy_read_timeout 1h;
