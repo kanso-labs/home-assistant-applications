@@ -29,6 +29,11 @@ RUN \
 # Copy root filesystem
 COPY rootfs /
 
+# No HEALTHCHECK, because there is nothing to probe: Avahi answers multicast
+# DNS, not HTTP. When the daemon exits, its finish script stops the container,
+# which Watchdog acts on without a health check, and s6 starts the aliases
+# again when every one of them has stopped publishing.
+
 LABEL \
     org.opencontainers.image.title="Home Assistant Application: Avahi Publisher" \
     org.opencontainers.image.description="Publishes extra .local names and Bonjour services on your network with Avahi." \
