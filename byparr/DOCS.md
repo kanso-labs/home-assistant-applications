@@ -118,6 +118,10 @@ of them.
 
 ## Configuration
 
+Only **Log level** shows on the Configuration tab at first. The proxy and
+browser language options have no default, so they show once **Show unused
+optional configuration options** is on.
+
 ### `log_level`
 
 How much Byparr writes to the log. Raise it to `debug` when a challenge is
@@ -235,7 +239,7 @@ and the logo is built from it.
 
 ## A note on the base image
 
-Most applications here start from a Home Assistant base image, which supplies
+Many applications here start from a Home Assistant base image, which supplies
 s6-overlay and bashio. Byparr starts from the image its own project publishes
 instead, an Ubuntu 24.04 build carrying Python and the browser, for amd64 and
 arm64 together. It is about 900 MB, of which the browser is 560 MB. s6-overlay
