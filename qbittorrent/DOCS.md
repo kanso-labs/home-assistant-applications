@@ -69,7 +69,7 @@ expects to be the whole window, so nginx tells it that it is, inside Home
 Assistant's frame too. qBittorrent's own protections, against requests from
 other sites and against being framed by them, stay on.
 
-Three things follow from that:
+Four things follow from that:
 
 - **qBittorrent sees ingress as coming from the loopback address.** It still
   asks for its own password there. Turning on **Bypass authentication for
@@ -82,6 +82,13 @@ Three things follow from that:
   Restarting the application lifts the ban.
 - **Phone apps cannot use ingress**, because it needs a Home Assistant session
   in a browser. They still work on the published port.
+- **Use HTTPS instead of HTTP has to stay off**, under Tools → Options → WebUI.
+  Once it has a certificate and key it can load, qBittorrent answers only HTTPS
+  on 8080, while nginx and the image's health check both ask it over plain HTTP.
+  Ingress then shows a 502 error, and with Watchdog on, Home Assistant restarts
+  qBittorrent again and again. A certificate or key it cannot load leaves it on
+  plain HTTP, and its log says HTTPS setup failed. For HTTPS from outside your
+  network, put Traefik or Nginx Proxy Manager in front of port 8080 instead.
 
 ## Ports
 
