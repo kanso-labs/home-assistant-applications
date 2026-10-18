@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0](https://github.com/kanso-labs/home-assistant-applications/compare/immich-machine-learning-v1.0.3...immich-machine-learning-v1.1.0) (2026-10-18)
+
+
+### Features
+
+* **immich-machine-learning:** let the port be opened for an Immich server elsewhere ([#755](https://github.com/kanso-labs/home-assistant-applications/issues/755)) ([e69fb55](https://github.com/kanso-labs/home-assistant-applications/commit/e69fb557723720dfe409297fd6e623440487394d))
+
 ## [1.0.3](https://github.com/kanso-labs/home-assistant-applications/compare/immich-machine-learning-v1.0.2...immich-machine-learning-v1.0.3) (2026-10-17)
 
 

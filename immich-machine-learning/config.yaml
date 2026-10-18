@@ -25,7 +25,7 @@ schema:
   log_level: list(verbose|debug|log|warn|error)
 slug: immich-machine-learning
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/immich-machine-learning'
-version: '1.0.3' # x-release-please-version
+version: '1.1.0' # x-release-please-version
 # OpenVINO on an Intel GPU. This grants every GPU under /dev/dri, whatever its
 # number, where a devices list grants only the nodes it names: renderD128
 # alone, so a GPU that came up as renderD129 was never used. Nothing breaks

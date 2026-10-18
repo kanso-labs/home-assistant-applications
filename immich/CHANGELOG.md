@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.4](https://github.com/kanso-labs/home-assistant-applications/compare/immich-v1.0.3...immich-v1.0.4) (2026-10-18)
+
+
+### Bug Fixes
+
+* **immich:** show the read-only database password on the Configuration tab ([#754](https://github.com/kanso-labs/home-assistant-applications/issues/754)) ([ab0f2d9](https://github.com/kanso-labs/home-assistant-applications/commit/ab0f2d977d9b73ab031df86e5d5036bf44c14228))
+
 ## [1.0.3](https://github.com/kanso-labs/home-assistant-applications/compare/immich-v1.0.2...immich-v1.0.3) (2026-10-17)
 
 

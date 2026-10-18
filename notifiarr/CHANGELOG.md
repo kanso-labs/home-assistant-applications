@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.2](https://github.com/kanso-labs/home-assistant-applications/compare/notifiarr-v1.2.1...notifiarr-v1.2.2) (2026-10-18)
+
+
+### Bug Fixes
+
+* **notifiarr:** add a health check so Watchdog can catch a hang ([#760](https://github.com/kanso-labs/home-assistant-applications/issues/760)) ([574ba2b](https://github.com/kanso-labs/home-assistant-applications/commit/574ba2be870fda9282d82d723a18c2efaf82a3ef))
+
 ## [1.2.1](https://github.com/kanso-labs/home-assistant-applications/compare/notifiarr-v1.2.0...notifiarr-v1.2.1) (2026-10-16)
 
 

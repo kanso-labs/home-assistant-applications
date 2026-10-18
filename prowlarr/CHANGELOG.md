@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.4](https://github.com/kanso-labs/home-assistant-applications/compare/prowlarr-v1.3.3...prowlarr-v1.3.4) (2026-10-18)
+
+
+### Bug Fixes
+
+* **prowlarr:** restore large backups through ingress, and stop crash reports ([#740](https://github.com/kanso-labs/home-assistant-applications/issues/740)) ([d3f2ca8](https://github.com/kanso-labs/home-assistant-applications/commit/d3f2ca87cf284758c8c7be62c3c35d46c2d34895))
+
 ## [1.3.3](https://github.com/kanso-labs/home-assistant-applications/compare/prowlarr-v1.3.2...prowlarr-v1.3.3) (2026-10-17)
 
 

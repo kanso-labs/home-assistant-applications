@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.2](https://github.com/kanso-labs/home-assistant-applications/compare/qbittorrent-v1.3.1...qbittorrent-v1.3.2) (2026-10-18)
+
+
+### Bug Fixes
+
+* **qbittorrent:** add a health check so Watchdog can restart a hung qBittorrent ([#764](https://github.com/kanso-labs/home-assistant-applications/issues/764)) ([fa01eeb](https://github.com/kanso-labs/home-assistant-applications/commit/fa01eeb445d3b4b383d9b89176f500f2d68d24db))
+
 ## [1.3.1](https://github.com/kanso-labs/home-assistant-applications/compare/qbittorrent-v1.3.0...qbittorrent-v1.3.1) (2026-10-17)
 
 

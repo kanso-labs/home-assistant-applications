@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.5](https://github.com/kanso-labs/home-assistant-applications/compare/traefik-v1.0.4...traefik-v1.0.5) (2026-10-18)
+
+
+### Bug Fixes
+
+* **traefik:** add a health check on Traefik's ping ([#767](https://github.com/kanso-labs/home-assistant-applications/issues/767)) ([22c9ab8](https://github.com/kanso-labs/home-assistant-applications/commit/22c9ab88f59b3af1d3ae4e1e3893d7a515dfbe9c))
+
 ## [1.0.4](https://github.com/kanso-labs/home-assistant-applications/compare/traefik-v1.0.3...traefik-v1.0.4) (2026-10-17)
 
 

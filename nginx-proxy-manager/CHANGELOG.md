@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.3](https://github.com/kanso-labs/home-assistant-applications/compare/nginx-proxy-manager-v1.1.2...nginx-proxy-manager-v1.1.3) (2026-10-18)
+
+
+### Bug Fixes
+
+* **nginx-proxy-manager:** add a health check so a hung proxy can be restarted ([#759](https://github.com/kanso-labs/home-assistant-applications/issues/759)) ([6232fc0](https://github.com/kanso-labs/home-assistant-applications/commit/6232fc06493808d57db4442d4ab8337a19cec021))
+
 ## [1.1.2](https://github.com/kanso-labs/home-assistant-applications/compare/nginx-proxy-manager-v1.1.1...nginx-proxy-manager-v1.1.2) (2026-10-17)
 
 

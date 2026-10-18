@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2](https://github.com/kanso-labs/home-assistant-applications/compare/seadexerr-v1.1.1...seadexerr-v1.1.2) (2026-10-18)
+
+
+### Bug Fixes
+
+* **seadexerr:** match the four indexer flags Seadexerr 3.2 sets, and let Watchdog see a hang ([#765](https://github.com/kanso-labs/home-assistant-applications/issues/765)) ([71af8f8](https://github.com/kanso-labs/home-assistant-applications/commit/71af8f8c029a5b95e0e5ea7514ac6f5383b995d0))
+
 ## [1.1.1](https://github.com/kanso-labs/home-assistant-applications/compare/seadexerr-v1.1.0...seadexerr-v1.1.1) (2026-10-17)
 
 

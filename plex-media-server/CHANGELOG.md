@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.5](https://github.com/kanso-labs/home-assistant-applications/compare/plex-media-server-v1.4.4...plex-media-server-v1.4.5) (2026-10-18)
+
+
+### Bug Fixes
+
+* **plex-media-server:** stop the application when a start-up script fails ([#762](https://github.com/kanso-labs/home-assistant-applications/issues/762)) ([e2828d6](https://github.com/kanso-labs/home-assistant-applications/commit/e2828d6bf0b4349121fb1db949495448dd6ed2dd))
+
 ## [1.4.4](https://github.com/kanso-labs/home-assistant-applications/compare/plex-media-server-v1.4.3...plex-media-server-v1.4.4) (2026-10-17)
 
 

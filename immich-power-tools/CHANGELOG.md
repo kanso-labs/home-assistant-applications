@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1](https://github.com/kanso-labs/home-assistant-applications/compare/immich-power-tools-v1.0.0...immich-power-tools-v1.0.1) (2026-10-18)
+
+
+### Bug Fixes
+
+* **immich-power-tools:** stop on unread settings, and show every option ([#737](https://github.com/kanso-labs/home-assistant-applications/issues/737)) ([3bbabbb](https://github.com/kanso-labs/home-assistant-applications/commit/3bbabbbd15cbc4401b42fa01a35583025fa14a8e))
+
 ## [1.0.0](https://github.com/kanso-labs/home-assistant-applications/compare/immich-power-tools-v0.2.1...immich-power-tools-v1.0.0) (2026-10-08)
 
 
