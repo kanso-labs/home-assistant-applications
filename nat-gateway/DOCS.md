@@ -117,8 +117,7 @@ Backups are taken hot. There is no state to catch part way through a write.
 ## Updates
 
 iptables comes from Alpine's package, and its version is pinned so that a new
-one arrives as a release of this application rather than silently. Alpine
-currently ships iptables 1.8.13.
+one arrives as a release of this application rather than silently.
 
 ## Support
 
@@ -136,3 +135,8 @@ application leaves the port to Home Assistant and writes only the rules.
 
 iptables is developed by the [netfilter project](https://www.netfilter.org/) and
 is licensed under the GPL-2.0.
+
+The icon is the
+[`router-network`](https://pictogrammers.com/library/mdi/icon/router-network/)
+symbol from Material Design Icons, licensed under the Apache-2.0, on a rounded
+square, and the logo sets that icon beside the application's name.

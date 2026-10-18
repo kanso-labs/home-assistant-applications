@@ -25,6 +25,11 @@ RUN \
 # Copy root filesystem
 COPY rootfs /
 
+# No HEALTHCHECK, because there is nothing to probe: the application writes
+# firewall rules on the host and serves nothing. Its run script checks them
+# every 30 seconds, and writes them again when the uplink, the address or the
+# rules themselves have changed.
+
 LABEL \
     org.opencontainers.image.title="Home Assistant Application: NAT Gateway" \
     org.opencontainers.image.description="Shares this host's network connection with a device plugged straight into a spare Ethernet port." \
