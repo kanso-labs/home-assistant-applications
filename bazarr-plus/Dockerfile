@@ -8,6 +8,10 @@
 #
 # The image underneath is python:3.14-slim-trixie, so the packages come from
 # apt as they do for Cleanuparr.
+#
+# init-bazarr-plus seeds a new install's config.yaml with two values Bazarr+'s
+# upgrade migrations would otherwise change, so check those migrations in
+# bazarr/app/config.py when this version moves.
 ARG BUILD_FROM=ghcr.io/lavx/bazarr:2.7.1
 FROM ${BUILD_FROM}
 
@@ -77,16 +81,26 @@ ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 # under /media and /share, which Supervisor mounts owned by root.
 ENTRYPOINT ["/init"]
 
-# Upstream's own probe, with a longer start period. It asks Bazarr+'s frontend
-# server, on the port it records in /tmp/bazarr-supervisor.port, whether the
-# backend is running, so nginx on 6767 is never checked. Upstream counts
-# failures after 30 seconds, and a first start or an update that runs
-# migrations, or installs the providers Provider Hub is set to, can take longer
-# than that, which Watchdog would cut short by restarting it.
+# Bazarr+'s unauthenticated ping, asked of nginx on 6767, so the check covers
+# nginx, Bazarr+'s frontend server, which passes /api/ on to the backend or
+# answers 503 while it is down, and the backend itself. Upstream's own probe
+# asks the frontend server only whether it believes the backend is running,
+# which stays true of a backend that has stopped answering. Neither nginx nor
+# the frontend server logs the request. Upstream counts failures after 30
+# seconds, and a first start or an update that runs migrations, or installs
+# the providers Provider Hub is set to, can take longer than that, which
+# Watchdog would cut short by restarting it.
+#
+# A 503 while the frontend server still reports the backend running is a
+# restart from inside Bazarr+, which upstream's probe was built not to count as
+# an outage, and which can run for minutes while Provider Hub installs
+# providers. A backend that has stopped answering still fails, on curl's
+# --max-time.
 HEALTHCHECK --interval=30s --timeout=10s --start-period=300s --retries=3 \
-  CMD port=$(cat /tmp/bazarr-supervisor.port 2>/dev/null || echo 6767); \
-    case "$port" in ""|*[!0-9]*) exit 1 ;; esac; \
-    curl -sf "http://localhost:$port/_supervisor/status" | grep -q '"running"' || exit 1
+  CMD code="$(curl -s -o /dev/null -w '%{http_code}' --max-time 8 http://127.0.0.1:6767/api/system/ping)"; \
+    [ "${code}" = 200 ] && exit 0; \
+    [ "${code}" = 503 ] && curl -s --max-time 1 http://127.0.0.1:16767/_supervisor/status | grep -q '"running"' && exit 0; \
+    exit 1
 
 # Expose the ports
 EXPOSE 6767

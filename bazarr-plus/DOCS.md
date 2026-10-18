@@ -28,22 +28,30 @@ database schema has diverged from the one Bazarr writes.
 
 1. Add this repository to your Home Assistant instance.
 2. Install the "Bazarr+" application.
-3. Start it, then select **Open Web UI**, or open port 6767. **Open Web UI**
-   goes through ingress, which starts working on the second start, so the first
-   time open the port or restart the application once.
+3. Start it, then select **Open Web UI**, or open port 6767.
 4. Work through the setup wizard: Sonarr and Radarr, then languages and
    providers.
 
-### Turn on a login
+### First login
 
-Bazarr+ starts with no authentication, and port 6767 is published on your
-network. Until you add a login, anyone who can reach the port has the whole
-interface, including the provider passwords and the Sonarr and Radarr API keys
-it stores.
+Bazarr+ itself starts with no authentication, and port 6767 is published on your
+network, where anyone who can reach it would have the whole interface, including
+the provider passwords and the Sonarr and Radarr API keys it stores. So on its
+first start this application turns on Bazarr+'s form login and writes the
+generated password to the log:
 
-Set **Settings → General → Security → Authentication** to **Form** and choose a
-username and password. Anything that talks to Bazarr+ through its API key keeps
-working.
+```
+Web interface username: admin
+Web interface password: <password>
+```
+
+Read it from the log and sign in. Change the username and password under
+**Settings → General → Security**. Anything that talks to Bazarr+ through its
+API key keeps working.
+
+The login is seeded only when there is no configuration yet, so an install from
+before keeps whatever it had. If that is no login, set **Authentication** there
+to **Form** and choose a username and password.
 
 ### If 6767 is taken
 
@@ -59,13 +67,14 @@ There are no application options. Everything is configured from the web
 interface, and the settings live in the application's configuration directory so
 they survive restarts and updates.
 
-Point it at Radarr and Sonarr under Settings, then choose the subtitle languages
-and providers you want. Bazarr+ reaches them over Home Assistant's internal
-network by hostname, not at `localhost`: the Radarr and Sonarr in this
-repository are `2dd33fbd-radarr` on port 7878 and `2dd33fbd-sonarr` on
-port 8989. `2dd33fbd` is Home Assistant's name for this repository when it was
-added by the address in the README. A Radarr or Sonarr from another repository
-has another prefix, shown as **Hostname** on that application's **Info** tab.
+Point it at Radarr and Sonarr under **Settings → Connections**, then choose the
+subtitle languages and providers you want. Bazarr+ reaches them over Home
+Assistant's internal network by hostname, not at `localhost`: the Radarr and
+Sonarr in this repository are `2dd33fbd-radarr` on port 7878 and
+`2dd33fbd-sonarr` on port 8989. `2dd33fbd` is Home Assistant's name for this
+repository when it was added by the address in the README. A Radarr or Sonarr
+from another repository has another prefix, shown as **Hostname** on that
+application's **Info** tab.
 
 Language profiles are applied automatically only to series and movies Bazarr+
 syncs after you set a default under **Settings → Languages**. Anything it synced
@@ -74,7 +83,7 @@ Edit** on the Series and Movies pages.
 
 ### Translation
 
-Nothing is translated until you choose a translator under **Settings →
+Nothing is translated until you choose a translator under **Settings → AI
 Translator**.
 [Lingarr](https://github.com/kanso-labs/home-assistant-applications/tree/main/lingarr),
 which this repository also ships, needs only its address and API key here; which
@@ -91,9 +100,10 @@ subtitles translates it rather than looking for it on the providers.
 
 Turn on **Watchdog** on the application's Info tab to have Home Assistant
 restart Bazarr+ when it stops answering, not only when it exits. The image asks
-Bazarr+'s frontend server every 30 seconds whether the backend is running, on
-port 16767 rather than through nginx, and once it has had five minutes to start,
-three failures in a row count as a hang. It is off by default.
+for Bazarr+'s `/api/system/ping` every 30 seconds, through nginx so that both
+are checked, and once it has had five minutes to start, three failures in a row
+count as a hang. A restart from inside Bazarr+ does not count as one. It is off
+by default.
 
 ## Ingress
 
@@ -113,22 +123,24 @@ and moves Bazarr+ itself to port 16767. nginx answers on 6767, puts the path
 back onto whatever arrives without it, and takes it back out of everything it
 returns to the published port.
 
-Six things follow from that:
+Five things follow from that:
 
-- **Ingress starts working on the second start.** Bazarr+ keeps its URL base in
-  `config.yaml`, which a first start has not written yet, and the application
-  leaves a new install's file for Bazarr+ to create. Until then Bazarr+ serves
-  at the root, ingress included.
 - **The published port shows Bazarr+'s own addresses**, with no path, as it did
   before ingress, and its API and webhooks answer at the root. A page opened
   there under the path, from a bookmark made since ingress arrived, is sent to
   the same page without it.
-- **Base URL and Port under Settings → General are set by the application.** The
-  base is written back into `config.yaml` on every start, and the port Bazarr+
-  listens on is passed to it on the command line, which wins over the one saved.
-  On the published port the base shows as `/`. Leave it alone: one saved there
-  is written over at the application's next start, but a restart from inside
-  Bazarr+ would put it into effect first and break both routes.
+- **Base URL, Port and Trusted Proxy under Settings → General are set by the
+  application.** The base and the trusted proxy are written back into
+  `config.yaml` on every start, and the port Bazarr+ listens on is passed to it
+  on the command line, which wins over the one saved. On the published port the
+  base shows as `/`. Trusted Proxy stays `127.0.0.1`, Bazarr+'s own frontend
+  server and the only address its backend hears from. Bazarr+'s help suggests
+  your reverse proxy's address there, but here any other value makes Bazarr+
+  believe no forwarded header at all. Every client, ingress included, would then
+  share one login lockout, no session would get a `Secure` cookie, and live
+  updates would stop. Leave all three alone: a value saved there is written over
+  at the application's next start, but a restart from inside Bazarr+ puts it
+  into effect first, which for the base breaks both routes.
 - **Port 16767 answers on the internal network too**, because Bazarr+'s own
   frontend server always listens on every address. It is not published, and it
   serves the same Bazarr+ as 6767.
@@ -140,9 +152,14 @@ Six things follow from that:
   Everything through Traefik, or any other proxy in front of the published port,
   arrives from the proxy's one address, so five wrong passwords there lock out
   everyone using it for five minutes. So do IPv6 clients, among themselves.
+  Trusted Proxy cannot change that here.
 - **A session opened over HTTPS gets a `Secure` cookie**, which the browser then
   sends over HTTPS alone. HTTPS here means Traefik, or Home Assistant through
-  ingress, said the request was; the published port itself is plain HTTP.
+  ingress, said the request was; the published port itself is plain HTTP. Leave
+  **Secure Session Cookie** under Settings → General → Security on Automatic,
+  which is what does this. Always would mark the cookie `Secure` on plain HTTP
+  as well, where browsers refuse it, so signing in on the published port would
+  stop working.
 
 ## Storage
 

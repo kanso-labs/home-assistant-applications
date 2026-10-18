@@ -2,9 +2,64 @@
 # shellcheck shell=bash
 # ==============================================================================
 # Kanso Labs Home Assistant Application: Bazarr+
-# Makes the ingress path Bazarr+'s URL base
+# Seeds a new install's login, makes the ingress path Bazarr+'s URL base, and
+# keeps its trusted proxy on its own frontend server
 # ==============================================================================
-readonly config_file='/config/config/config.yaml'
+readonly config_dir='/config/config'
+readonly config_file="${config_dir}/config.yaml"
+
+# Bazarr+ starts with no login, on a port published to the network. A new
+# install gets a form login with a generated password, written on first run
+# only, so a user's own choices are never overwritten: Bazarr+ turns a
+# config.ini into config.yaml itself, so either file means an existing install.
+# Bazarr+ runs its upgrade migrations on any config.yaml with something in it,
+# in the block of bazarr/app/config.py that starts
+# "if os.path.getsize(config_yaml_file) > 0:". Two of them give an upgrade
+# other values than a new install gets, so the seed writes a new install's:
+# general.upgrade_manual false and translator.openrouter_provider_routing
+# smartfast. With them, the file Bazarr+ writes matches a new install's but for
+# the login and its random keys. Check that block on every Bazarr+ update.
+# Bazarr+ fills in every other setting, and encrypts the login when it first
+# writes the file. The password is stored in Bazarr+'s own format, from
+# hash_password in bazarr/utilities/helper.py.
+if [[ ! -s "${config_file}" ]] \
+  && ! bashio::fs.file_exists "${config_dir}/config.ini"; then
+  bashio::log.info 'No configuration found, seeding a login...'
+
+  mkdir -p "${config_dir}"
+  password="$(python - "${config_file}" <<'EOF'
+import hashlib
+import os
+import secrets
+import string
+import sys
+
+import yaml
+
+password = ''.join(secrets.choice(string.ascii_letters + string.digits) for _ in range(20))
+salt = os.urandom(16)
+digest = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 600_000)
+config = {
+    'auth': {
+        'password': 'pbkdf2:' + salt.hex() + ':' + digest.hex(),
+        'type': 'form',
+        'username': 'admin',
+    },
+    'general': {'upgrade_manual': False},
+    'translator': {'openrouter_provider_routing': 'smartfast'},
+}
+path = sys.argv[1]
+with open(path + '.tmp', 'w') as f:
+    yaml.safe_dump(config, f, default_flow_style=False)
+os.replace(path + '.tmp', path)
+print(password)
+EOF
+)" || bashio::exit.nok 'Could not seed config.yaml'
+
+  bashio::log.notice 'Web interface username: admin'
+  bashio::log.notice "Web interface password: ${password}"
+  bashio::log.notice 'Change it under Settings, General, Security in the web interface.'
+fi
 
 # Ingress serves Bazarr+ under a path Supervisor chooses, and Bazarr+ writes one
 # URL base into every page it serves. So the ingress path is that base, and nginx
@@ -18,33 +73,47 @@ if ! bashio::var.has_value "${ingress_entry}" || [[ "${ingress_entry}" == 'null'
   exit 0
 fi
 
-# A first start has no config.yaml yet, and Bazarr+ treats a file with anything
-# in it as an upgrade rather than a new install. So the base waits for the
-# second start, and nginx, which reads it from the same file, adds no path until
-# then.
+# Only an install still on config.ini gets here without config.yaml. Bazarr+
+# converts the file at start, and the base follows on the next one.
 if [[ ! -s "${config_file}" ]]; then
   bashio::log.info 'No configuration yet; ingress follows on the next start'
   exit 0
 fi
 
+# Bazarr+ reads and writes config.yaml through the YAML 1.2 library its
+# dynaconf carries, which leaves a value such as no, on or 1:30 unquoted.
+# PyYAML reads those the YAML 1.1 way, as false, true and 90, and would write
+# them back so. The file therefore goes through Bazarr+'s own library and is
+# written the way Bazarr+ writes it, with PyYAML standing in only if a later
+# Bazarr+ stops carrying that library.
 python - "${config_file}" "${ingress_entry%/}" <<'EOF' \
-  || bashio::exit.nok 'Could not write the URL base into config.yaml'
+  || bashio::exit.nok 'Could not write the URL base and trusted proxy into config.yaml'
 import os
 import sys
 
-import yaml
+try:
+    from dynaconf.vendor.ruamel import yaml
+except ImportError:
+    import yaml
 
 path, base_url = sys.argv[1], sys.argv[2]
 with open(path) as f:
     config = yaml.safe_load(f) or {}
 
+# Bazarr+'s backend hears only from its own frontend server, on 127.0.0.1, so
+# that is the one address whose X-Forwarded-For, X-Forwarded-Host and
+# X-Forwarded-Proto it may believe. Any other value, the reverse proxy's
+# address that Bazarr+'s help suggests included, makes it believe none.
+pinned = {'base_url': base_url, 'trusted_proxy': '127.0.0.1'}
 general = config.setdefault('general', {})
-if general.get('base_url') == base_url:
+changed = {key: value for key, value in pinned.items() if general.get(key) != value}
+if not changed:
     sys.exit(0)
 
-general['base_url'] = base_url
+general.update(changed)
 with open(path + '.tmp', 'w') as f:
-    yaml.safe_dump(config, f, allow_unicode=True, default_flow_style=False, sort_keys=False)
+    yaml.dump(config, f, Dumper=yaml.SafeDumper, explicit_start=True, indent=2, default_flow_style=False)
 os.replace(path + '.tmp', path)
-print(f'URL base set to {base_url}')
+for key, value in changed.items():
+    print(f'{key} set to {value}')
 EOF
