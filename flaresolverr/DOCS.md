@@ -78,6 +78,10 @@ documentation.
 
 ## Configuration
 
+Only **Log level** shows on the Configuration tab at first. The proxy and
+browser language options have no default, so they show once **Show unused
+optional configuration options** is on.
+
 ### `log_level`
 
 How much FlareSolverr writes to the log. Raise it to `debug` when a challenge is
@@ -187,7 +191,7 @@ built from it.
 
 ## A note on the base image
 
-Most applications here start from a Home Assistant base image, which supplies
+Many applications here start from a Home Assistant base image, which supplies
 s6-overlay and bashio. FlareSolverr starts from the image its own project
 publishes instead.
 
