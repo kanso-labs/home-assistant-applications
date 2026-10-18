@@ -3,7 +3,9 @@ configuration:
     description: >-
       Se a interface web pede o login do próprio Tdarr. Desligue apenas quando
       outra coisa autenticar os usuários antes, como o ingress ou um proxy
-      reverso com autenticação, e feche a porta 8265 ao fazer isso.
+      reverso com autenticação, e feche a porta 8265 ao fazer isso. Mesmo assim,
+      as outras aplicações deste Home Assistant conseguem acessar o Tdarr sem
+      fazer login.
     name: Login
   umask:
     description: >-

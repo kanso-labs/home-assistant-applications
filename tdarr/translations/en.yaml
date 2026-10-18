@@ -3,7 +3,9 @@ configuration:
     description: >-
       Whether the web interface asks for Tdarr's own login. Turn it off only
       when something else signs users in first, such as ingress or an
-      authenticating reverse proxy, and close port 8265 when you do.
+      authenticating reverse proxy, and close port 8265 when you do. Even then,
+      the other applications on this Home Assistant can reach Tdarr without
+      signing in.
     name: Sign-in
   umask:
     description: >-
