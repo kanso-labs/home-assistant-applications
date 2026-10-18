@@ -39,7 +39,6 @@
   ],
   "description": "local>kanso-labs/.github:renovate-config is the organization's shared Renovate preset, holding the settings that have to hold in every kanso-labs repository. It is listed last because a later preset wins a conflict with an earlier one: moved ahead of config:recommended it would be overridden by the very preset it exists to correct. This file is merged over the runner's config.js rather than inheriting from it, so extending the preset here is what carries an organization-wide setting into this repository at all. See the README in kanso-labs/.github.",
   "extends": ["config:recommended", "local>kanso-labs/.github:renovate-config"],
-  "minimumReleaseAge": null,
   "packageRules": [
     {
       "description": "Plex tags carry a per-build commit hash, and docker versioning treats everything after the first dash as a compatibility suffix it will not cross. Every release mints a fresh hash, so no newer tag is ever compatible and no update was ever offered. Parsing the four numeric parts and declaring no compatibility group is what lets the build number order the tags.",
@@ -69,8 +68,9 @@
       ]
     },
     {
+      "allowedVersions": "!/^7\\.3\\.1$/",
       "automerge": false,
-      "description": "UnRAR has no repository or registry to ask, so the rarlab datasource reads RARLAB's download page, and every link on it comes back as a candidate version. This keeps the version out of the source tarball's name, unrarsrc-7.3.1.tar.gz, and drops every other link, in place of the shared ^v(?<version>.*)$, which none of them would match. The page links RARLAB's betas too, under names that look exactly like a release: unrarsrc-7.3.1 is UnRAR 7.30 beta 1. Nothing in the name tells them apart, so no UnRAR update merges on its own; a person checks RARVER_BETA in the tarball's version.hpp first.",
+      "description": "UnRAR has no repository or registry to ask, so the rarlab datasource reads RARLAB's download page, and every link on it comes back as a candidate version. This keeps the version out of the source tarball's name, unrarsrc-7.3.1.tar.gz, and drops every other link, in place of the shared ^v(?<version>.*)$, which none of them would match. The page links RARLAB's betas too, under names that look exactly like a release: unrarsrc-7.3.1 is UnRAR 7.30 beta 1. Nothing in the name tells them apart, so no UnRAR update merges on its own, and Bazarr's build reads RARVER_BETA in the tarball's version.hpp and fails on a beta. allowedVersions keeps 7.3.1 from being proposed again once Bazarr has gone back from it, which Renovate would otherwise do at once, whatever recreateWhen says, because the pull request that brought it in was merged rather than closed. Take it out once RARLAB links a later tarball.",
       "extractVersion": "unrarsrc-(?<version>\\d+(?:\\.\\d+)+)\\.tar\\.gz$",
       "matchDepNames": ["unrar"]
     },
@@ -121,9 +121,9 @@
     },
     {
       "automerge": true,
-      "description": "A digest update is a rebuild of the same base release, which the shared preset's automerge for minors and patches does not cover. It merges once the required checks pass, as a patch would.",
+      "description": "A digest update is a rebuild of the same base release, which the shared preset's automerge for minors and patches does not cover. It merges once the required checks pass, as a patch would. Renovate types the first pin of a digest as pinDigest rather than digest, and it merges the same way, so a base image that arrives without a digest is pinned without waiting for a person.",
       "matchPackageNames": ["ghcr.io/home-assistant/**"],
-      "matchUpdateTypes": ["digest"]
+      "matchUpdateTypes": ["digest", "pinDigest"]
     },
     {
       "description": "The application versions users actually see, typed fix so that they release under Bug Fixes rather than Dependencies. That is the patch: the two rules below retype a minor as feat and a major as feat!, so each release takes the step upstream took. They find these applications by the fix this rule gives them, so this list is the only one to keep, and it has to stay above them.",
@@ -180,6 +180,12 @@
       "description": "Below 1.0 an upstream's minor release is its breaking one, and the shared preset automerges minors. That is how Flight Finder 0.16.0, which replaced its sign-in, was merged and released with nobody having read its notes. So a minor of an application still below 1.0 waits for a person, as a major does, while its patches still automerge. It finds the applications by the feat the minor rule above gave them, and it follows the preset's automerge rule, as every rule in this file does, so it wins.",
       "matchCurrentVersion": "/^v?0\\./",
       "matchJsonata": ["semanticCommitType = 'feat'"],
+      "matchUpdateTypes": ["minor"]
+    },
+    {
+      "automerge": false,
+      "description": "Authentik numbers its releases by date, so Renovate reads a feature release such as 2026.8 to 2026.11 as a minor, although upstream treats each one as a major and opens its notes with breaking changes. Its bumps also arrive without those notes. So a feature release waits for a person, as a major does. It follows the preset's automerge rule, as every rule in this file does, so it wins. Patches still automerge while no feature release is waiting, since Renovate folds them into the minor while one is. Merge each one before the next ships: Authentik will not migrate a database more than one feature release old, and a waiting pull request moves to the newest release when another lands, which would skip one.",
+      "matchDepNames": ["ghcr.io/goauthentik/server"],
       "matchUpdateTypes": ["minor"]
     },
     {
