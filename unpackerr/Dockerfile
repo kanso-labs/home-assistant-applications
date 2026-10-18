@@ -39,6 +39,10 @@ RUN \
 # Copy root filesystem
 COPY rootfs /
 
+# No HEALTHCHECK, because there is nothing to probe: Unpackerr serves nothing
+# unless its own web server is turned on, which is off by default and serves
+# only metrics, on whatever address its configuration names.
+
 LABEL \
     org.opencontainers.image.title="Home Assistant Application: Unpackerr" \
     org.opencontainers.image.description="Extracts completed downloads for the arr applications." \
