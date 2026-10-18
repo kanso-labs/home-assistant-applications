@@ -135,13 +135,9 @@ patches that move the application's state into the configuration directory and
 keep its logs out of it, the source build, and the Nginx and Let's Encrypt
 configuration. They are carried over unchanged.
 
-Two things differ. The base image is Home Assistant's own Debian trixie base
+One thing differs: the base image is Home Assistant's own Debian trixie base
 rather than the community one. Both are the same Debian release, so the
-community build's packages and its Nginx repository carry over. And the s6
-service bundle is declared in `s6-rc.d/user/contents.d` rather than
-`user-bundles.d`, because the s6-overlay in that base image does not read the
-newer location — with the markers in the newer place, not one of the four
-services starts.
+community build's packages and its Nginx repository carry over.
 
 Nginx Proxy Manager itself is developed by
 [jc21](https://github.com/NginxProxyManager/nginx-proxy-manager) and is MIT

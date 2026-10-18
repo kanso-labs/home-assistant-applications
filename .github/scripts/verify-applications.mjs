@@ -196,6 +196,15 @@ for (const app of apps) {
       fail(app, `${file} is ${size[0]}x${size[1]}, not ${width}x${height}`)
   }
 
+  // s6-overlay reads the user bundle from user-bundles.d. An s6-rc.d/user
+  // directory is its deprecated location, and its presence alone makes
+  // s6-overlay ignore user-bundles.d, so nothing marked there would start.
+  if (existsSync(`${app}/rootfs/etc/s6-overlay/s6-rc.d/user`))
+    fail(
+      app,
+      'declares its s6 services in s6-rc.d/user, which s6-overlay deprecates; mark them in rootfs/etc/s6-overlay/user-bundles.d/user/contents.d',
+    )
+
   const dockerfile = readFileSync(`${app}/Dockerfile`, 'utf8')
 
   // The application's own version is in the curated rule, or its bumps ship as

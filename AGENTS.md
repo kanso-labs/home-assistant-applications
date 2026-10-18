@@ -389,11 +389,15 @@ rootfs/etc/s6-overlay/s6-rc.d/<slug>/run          executable
 rootfs/etc/s6-overlay/s6-rc.d/<slug>/finish       executable
 rootfs/etc/s6-overlay/s6-rc.d/<slug>/type         contains "longrun"
 rootfs/etc/s6-overlay/s6-rc.d/<slug>/dependencies.d/base    empty
-rootfs/etc/s6-overlay/s6-rc.d/user/contents.d/<slug>        empty
+rootfs/etc/s6-overlay/user-bundles.d/user/contents.d/<slug>  empty
 ```
 
 `run` and `finish` need the executable bit. The empty marker files must exist
-and stay empty.
+and stay empty. The user bundle goes in `user-bundles.d`, where s6-overlay
+3.2.3.2 reads it. Its older location, `s6-rc.d/user`, still works but logs a
+deprecation warning at every start, and its mere presence makes s6-overlay
+ignore `user-bundles.d`, so an application never has both. `Verify applications`
+fails one that has `s6-rc.d/user`.
 
 ### 6. Register it
 
