@@ -43,6 +43,12 @@ The default addresses reach this repository's Sonarr and Radarr applications
 through their hostnames inside Home Assistant. An address with a base path, such
 as `http://192.168.1.20:8989/sonarr`, works as well.
 
+Turn on **Watchdog** on the application's Info tab to have Home Assistant
+restart Seadexerr when it stops answering, not only when it exits. The image
+asks Seadexerr's `/health` every 30 seconds, which it answers without contacting
+Sonarr, Radarr or SeaDex, so one of them being down never counts against it. It
+is off by default.
+
 ## Prowlarr
 
 Add Seadexerr as a **Generic Torznab** indexer, named `Seadexerr`, with the URL
@@ -51,24 +57,28 @@ which the Prowlarr application reaches with no port opened.
 
 ## Sonarr and Radarr
 
-Seadexerr marks every release it offers with the `Freeleech25` indexer flag,
-which is how Sonarr and Radarr can tell its releases apart:
+Seadexerr marks every release it offers with four indexer flags, `Freeleech25`,
+`DoubleUpload`, `Internal` and `Scene`, which is how Sonarr and Radarr can tell
+its releases apart. Releases from other indexers almost never carry all four:
 
-1. In **Settings → Custom Formats**, add one named `Seadex`, with an **Indexer
-   Flag** condition set to `Freeleech25`.
+1. In **Settings → Custom Formats**, add one named `Seadex`, with four **Indexer
+   Flag** conditions, one for each of those flags, and **Required** checked on
+   all four.
 2. In **Settings → Profiles**, give that format a high score in the profiles
    your anime use, such as `5000`.
 
-Seadexerr's author notes that automatic searching needs the `Freeleech25` flag
-to mean nothing else for now, so leave it unused elsewhere.
+A format matching `Freeleech25` alone, as Seadexerr before 3.2 had you set up,
+also scores any other indexer's 25% freeleech release, so add the other three to
+one made that way.
 
 ## Scoring
 
 When SeaDex lists several releases for one entry, Seadexerr offers the one you
 would prefer, which is the best release unless told otherwise. To change what
 wins, put a `scoring.toml` in this application's configuration folder:
-`addon_configs/2dd33fbd_seadexerr` on the host, which the Samba and Studio Code
-Server applications can reach.
+`app_configs/2dd33fbd_seadexerr` on the host, which the Samba share application
+has inside its `app_configs` share and Studio Code Server under
+`/addon_configs`, the older name of `app_configs`.
 
 Seadexerr's
 [`example_scoring.toml`](https://github.com/Ryder-C/seadexerr/blob/main/example_scoring.toml)
