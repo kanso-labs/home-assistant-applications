@@ -4,7 +4,7 @@
 
 1. Add this repository to your Home Assistant instance.
 2. Install the "Lingarr" application.
-3. Start it, then open it from the sidebar, or on port 9876.
+3. Start it, then select **Open Web UI**, or open port 9876.
 
 ## Configuration
 
@@ -29,10 +29,22 @@ restarted part way through.
 ### Setting the rest up
 
 The first time you open the web interface, Lingarr asks two questions. The first
-is whether to require a username and password; leaving it off is reasonable on a
-home network, and turning it on is the safer answer if the port is reachable
-from outside one. The second is whether to send anonymous usage statistics, and
-it is off unless you turn it on.
+is whether to require a username and password. The second is whether to send
+anonymous usage statistics, and it is off unless you turn it on.
+
+Leave the sign-in off only when you close port 9876 and open Lingarr through
+ingress, which Home Assistant authenticates. The port is Lingarr itself, with
+nothing in front of it, so with the sign-in off anyone who can reach it can read
+the Radarr, Sonarr and translation-service keys Lingarr stores, and spend your
+translation quota. Radarr and Sonarr installed from this repository can reach
+Lingarr over the internal network instead, at the webhook addresses under
+Ingress below, so give their webhooks those addresses before you close the port.
+
+With the sign-in on, Lingarr refuses Radarr's and Sonarr's webhooks unless they
+carry its API key, which **Settings → Authentication** generates. Add it to each
+webhook connection under **Headers**, an advanced setting, with `X-Api-Key` as
+the name. A sign-in skipped at first can be added later on the same page: create
+a user there, then turn authentication on.
 
 Point Lingarr at Radarr and Sonarr under **Settings → Integrations**, and choose
 a translation service and your source and target languages under **Settings →
@@ -70,6 +82,14 @@ Each is configured in the web interface and most need an API key you supply.
 Schedules and every timestamp in the web interface follow the Home Assistant
 system time zone, which Supervisor passes to the application.
 
+### Watchdog
+
+Turn on **Watchdog** on the application's Info tab to have Home Assistant
+restart Lingarr when it stops answering, not only when it exits. The image asks
+Lingarr itself for its page at `/` every 30 seconds, on port 9876 rather than
+through nginx, and three failures in a row count as a hang. It is off by
+default.
+
 ## Ingress
 
 Lingarr is served through Home Assistant's ingress, so it opens inside Home
@@ -101,9 +121,9 @@ Three things follow from that:
   from this repository, give Radarr
   `http://2dd33fbd-lingarr:9876/api/webhook/radarr` and Sonarr
   `http://2dd33fbd-lingarr:9876/api/webhook/sonarr`.
-- **Lingarr's own sign-in still applies under ingress**, if you turned it on
-  when you set Lingarr up, because Lingarr has no way to trust the one Home
-  Assistant has already asked for.
+- **Lingarr's own sign-in still applies under ingress**, if you turned it on,
+  because Lingarr has no way to trust the one Home Assistant has already asked
+  for.
 
 ## Storage
 
@@ -125,9 +145,9 @@ protection keys at `/config` instead, so `/app/config` stays empty.
 ## Database
 
 Lingarr supports MySQL, PostgreSQL and SQLite, and defaults to MySQL in a second
-container. This application runs it on SQLite, which needs no second container
-and matches every other database-backed application here. The database is
-`/config/local.db`, and the job store is `/config/Hangfire.db`.
+container. This application runs it on SQLite, which needs no second container,
+as with the other SQLite applications here. The database is `/config/local.db`,
+and the job store is `/config/Hangfire.db`.
 
 ## Backups
 
@@ -161,4 +181,5 @@ same reason.
 
 Lingarr itself is developed by the
 [Lingarr team](https://github.com/lingarr-translate/lingarr) and is licensed
-under AGPL-3.0.
+under AGPL-3.0. The icon is Lingarr's own, from its web interface, and the logo
+sets it beside Lingarr's name.
