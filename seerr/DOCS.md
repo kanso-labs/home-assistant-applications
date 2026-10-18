@@ -4,12 +4,21 @@
 
 1. Add this repository to your Home Assistant instance.
 2. Install the "Seerr" application.
-3. Start it, then open the web interface on port 5055.
+3. Start it, then select **Open Web UI**, or open port 5055.
 4. Follow the setup wizard: sign in with Plex or Jellyfin, then connect your
    Radarr and Sonarr instances.
 
 There is nothing to configure before the first start. Everything Seerr needs is
 asked for by its own setup wizard.
+
+Seerr reaches Radarr and Sonarr over Home Assistant's internal network by
+hostname, not at `localhost`, which inside Seerr's container is Seerr itself.
+For the Radarr and Sonarr in this repository, enter `2dd33fbd-radarr` with port
+7878 and `2dd33fbd-sonarr` with port 8989, with SSL off and the URL base empty.
+Each one's API key is under its own **Settings → General**. `2dd33fbd` is Home
+Assistant's name for this repository when it was added by the address in the
+README. A Radarr or Sonarr installed any other way has another prefix, shown as
+**Hostname** on its **Info** tab.
 
 ## Configuration
 
@@ -83,7 +92,7 @@ on a light background too.
 
 ## A note on the base image
 
-Most applications here start from a Home Assistant base image, which supplies
+Many applications here start from a Home Assistant base image, which supplies
 s6-overlay and bashio. Seerr starts from the image its own project publishes
 instead.
 
