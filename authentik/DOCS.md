@@ -18,6 +18,11 @@ total, already running Home Assistant, is not enough.
    default flows, which takes a few minutes; later ones are much quicker.
 5. Open the web interface on port 9000 and log in as `akadmin`.
 6. Clear `bootstrap_password` from the configuration.
+7. In Authentik's Admin interface, under **System → Settings**, set **Base URL**
+   to the address people reach Authentik at, with no path after it, such as
+   `https://auth.example.com`, or `http://<host>:9000` when you open it by
+   address. Until it is set, Authentik logs `Base URL is not configured` on
+   every start, and upstream says it becomes required in 2026.11.
 
 If you start it without a bootstrap password, go to
 `http://<host>:9000/if/flow/initial-setup/` instead and set one there. That page
@@ -135,6 +140,22 @@ Read Authentik's release notes before taking a major one. Its releases sometimes
 carry migrations that cannot be rolled back, and restoring the Home Assistant
 backup you took first is the only way down.
 
+Take Authentik's feature releases one at a time. They are numbered by date, such
+as 2026.5, 2026.8 and 2026.11, about three months apart, and each one opens only
+a database last run by itself or by the feature release before it. Started on an
+older database, Authentik refuses to migrate it and logs
+`Major version skips are not allowed`. Home Assistant only ever offers the
+newest version of this application, so an install left behind while two feature
+releases come out has no update left that will start. Take each update when it
+is offered, or turn on **Auto update** on the application's Info tab, and start
+Authentik after an update if it is not running, since it moves its database
+forward only as it starts. Each update that moves Authentik names its version in
+the changelog.
+
+If an update does stop on that message, restoring the backup taken before it
+brings Authentik back as it was. Open an issue then, since the release in
+between can no longer be installed from the store.
+
 PostgreSQL stays on 17, and takes the updates within 17 that come with each
 release of this application. A database can only be opened by the major version
 that created it. If an update ever starts on a database from another major
@@ -185,3 +206,5 @@ image's health check, which ran `ak healthcheck`.
 Authentik itself is developed by
 [Authentik Security Inc.](https://github.com/goauthentik/authentik) and is MIT
 licensed, with its enterprise components under a separate licence of their own.
+
+The icon and logo are Authentik's own, from its brand assets.
