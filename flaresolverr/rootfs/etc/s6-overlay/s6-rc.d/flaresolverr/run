@@ -13,6 +13,32 @@ if bashio::config.has_value 'log_level'; then
   export LOG_LEVEL="$(bashio::config 'log_level')"
 fi
 
+# The proxy and the language are exported only when set, too. bashio reads an
+# option that was never set as the word null, which FlareSolverr would take for
+# a proxy address or a language. A proxy that Prowlarr sends with a request
+# takes the place of this one for that request.
+if bashio::config.has_value 'proxy_server'; then
+  export PROXY_URL="$(bashio::config 'proxy_server')"
+
+  if bashio::config.has_value 'proxy_username'; then
+    export PROXY_USERNAME="$(bashio::config 'proxy_username')"
+  fi
+  if bashio::config.has_value 'proxy_password'; then
+    export PROXY_PASSWORD="$(bashio::config 'proxy_password')"
+  fi
+
+  # The address is left out of this line because it can carry credentials.
+  # FlareSolverr's own log of each request still shows it, see DOCS.md.
+  bashio::log.info 'Sending the browser through the configured proxy'
+fi
+
+# FlareSolverr hands LANG to Chrome as the language to present to websites. The
+# image sets it to C.UTF-8 for Python, which falls back to C.UTF-8 by itself,
+# silently, when LANG holds a tag such as en-GB instead.
+if bashio::config.has_value 'browser_locale'; then
+  export LANG="$(bashio::config 'browser_locale')"
+fi
+
 # The upstream image gives its user /app as a home directory, and `USER` would
 # set HOME to match. Dropping privileges below does not, so without this the
 # browser tries to write to root's home and fails on permissions.
