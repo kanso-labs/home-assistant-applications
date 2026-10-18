@@ -190,12 +190,16 @@ ingress session along with it. With `webhook_url` set, n8n sends providers to
 `<webhook_url>rest/oauth2-credential/callback`, which is the address to register
 with them. Most of them insist that it is HTTPS.
 
-**The published port is not authenticated.** Anything that can reach it can
-reach n8n's editor, so put a reverse proxy or a tunnel in front of it rather
-than forwarding it from a router, and terminate TLS there.
+**The published port is not behind Home Assistant's sign-in.** Webhook triggers
+and OAuth callbacks answer anyone who can reach it, and n8n's sign-in and API
+are there too, behind n8n's own login. Put a reverse proxy or a tunnel in front
+of it rather than forwarding it from a router, and terminate TLS there.
 
-Ingress keeps working alongside this. **Open Web UI** stays the comfortable way
-in for you, and the port exists for the machines.
+**The editor opens only through ingress, which keeps working alongside this.**
+n8n addresses its pages under the ingress path, so the port shows nothing usable
+in a browser, and a reverse proxy route to it will not bring the editor up
+either. **Open Web UI** is the way in for you, and the port exists for the
+machines.
 
 ## Backups
 
@@ -280,10 +284,13 @@ which permits internal business use and personal use but restricts reselling it
 as a service. Files marked `.ee` need a separate n8n Enterprise License and are
 not covered by that licence.
 
+The icon and logo are n8n's own.
+
 ## A note on the base image
 
-Most applications here start from `ghcr.io/home-assistant/base`, which is
-Alpine. This one starts from `base-ubuntu`, the Debian-family equivalent.
+Most applications here that start from a Home Assistant base image use
+`ghcr.io/home-assistant/base`, which is Alpine. This one starts from
+`base-ubuntu`, the Debian-family equivalent.
 
 n8n is installed from npm rather than unpacked from a release archive, and that
 install compiles native code — which is why the Dockerfile pulls in `g++`,
