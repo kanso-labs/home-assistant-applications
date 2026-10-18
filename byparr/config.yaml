@@ -31,5 +31,11 @@ schema:
   proxy_password: password?
   browser_locale: match(^[A-Za-z]{2,3}(-[A-Za-z0-9]{1,8})*$)?
 slug: byparr
+# The browser writes a fresh profile to /tmp for every request and deletes it
+# afterwards, which on an SD card or eMMC is wear for nothing. This keeps /tmp
+# in memory instead. Upstream now recommends a tmpfs too, mounted exec.
+# Supervisor mounts this one noexec, which the browser does not mind, since
+# nothing it runs is kept in /tmp.
+tmpfs: true
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/byparr'
 version: '2.0.0' # x-release-please-version

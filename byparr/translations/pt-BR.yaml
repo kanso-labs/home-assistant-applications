@@ -1,9 +1,18 @@
 configuration:
+  browser_locale:
+    description: >-
+      O idioma que o navegador apresenta aos sites, como uma etiqueta do tipo
+      en-US ou pt-BR. Deixe vazio para seguir o país de onde as requisições
+      saem.
+    name: Idioma do navegador
   log_level:
     description: >-
       Quanto o Byparr escreve no log. Aumente para debug quando um desafio
       estiver falhando e você precisar ver o que o navegador fez.
     name: Nível de log
+  proxy_password:
+    description: A senha do proxy, se ele pedir uma.
+    name: Senha do proxy
   proxy_server:
     description: >-
       Um proxy pelo qual o navegador envia todas as requisições, no formato
@@ -15,15 +24,6 @@ configuration:
   proxy_username:
     description: O nome de usuário do proxy, se ele pedir um.
     name: Usuário do proxy
-  proxy_password:
-    description: A senha do proxy, se ele pedir uma.
-    name: Senha do proxy
-  browser_locale:
-    description: >-
-      O idioma que o navegador apresenta aos sites, como uma etiqueta do tipo
-      en-US ou pt-BR. Deixe vazio para seguir o país de onde as requisições
-      saem.
-    name: Idioma do navegador
 network:
   8191/tcp: >-
     Só para um Prowlarr fora do Home Assistant. Um Prowlarr dentro dele acessa o
