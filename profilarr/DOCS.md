@@ -10,6 +10,14 @@ On first start Profilarr asks you to create an account. Everything after that is
 configured from its own web interface — the four options below are the ones it
 reads from the environment at startup instead.
 
+### Configarr is in this store too
+
+[Configarr](https://github.com/kanso-labs/home-assistant-applications/tree/main/configarr)
+manages the same quality profiles and custom formats in Radarr and Sonarr, and
+this repository ships it as an application of its own. **Pick one for each
+instance.** Pointed at the same Radarr or Sonarr, each overwrites the other's
+changes on every sync, and whichever synced last wins.
+
 ## Configuration
 
 ### Option: `enable_authentication`
@@ -56,6 +64,19 @@ prefix, shown as **Hostname** on its Info page.
 Schedules and log timestamps follow the Home Assistant system time zone, which
 Supervisor passes to the application.
 
+### Watchdog
+
+Turn on **Watchdog** on the application's Info tab to have Home Assistant
+restart Profilarr when it stops answering, not only when it exits. The image
+asks Profilarr's `/api/v1/health` every 30 seconds, which fails when Profilarr
+cannot read its own database or when every database linked to it is disabled,
+and three failures in a row count as a hang. It is off by default.
+
+Profilarr disables a linked database itself when it cannot build it, and it
+stays disabled across a restart. With Watchdog on and no other database enabled,
+Home Assistant then restarts Profilarr every few minutes until that database is
+unlinked.
+
 ## The testing pages need a parser
 
 Profilarr has three parts: building configurations, testing them, and deploying
@@ -75,12 +96,11 @@ not tested locally is the ordinary way to use it.
 
 ## Storage
 
-| Path                | Access     | Holds                                 |
-| ------------------- | ---------- | ------------------------------------- |
-| `/config/backups`   | read/write | Configuration backups Profilarr takes |
-| `/config/data`      | read/write | Git clones of the databases you link  |
-| `/config/databases` | read/write | The SQLite databases                  |
-| `/config/logs`      | read/write | Application logs                      |
+| Path              | Access     | Holds                                                                                                    |
+| ----------------- | ---------- | -------------------------------------------------------------------------------------------------------- |
+| `/config/backups` | read/write | Configuration backups Profilarr takes                                                                    |
+| `/config/data`    | read/write | Profilarr's SQLite database, `profilarr.db`, and under `databases`, git clones of the databases you link |
+| `/config/logs`    | read/write | Application logs                                                                                         |
 
 Nothing else is mapped. Profilarr reaches every application it manages over its
 API, and that includes the renames — they are issued as Radarr and Sonarr
@@ -94,8 +114,9 @@ Profilarr keeps its state in SQLite, and copying a database that is being
 written to can produce a backup that will not restore. The application is
 briefly unavailable while a backup runs.
 
-Profilarr also takes backups of its own, into `/config/backups`, which a Home
-Assistant backup then includes.
+The logs, in `/config/logs`, are left out of backups: Profilarr starts new ones,
+and a restore needs none of them. The backups Profilarr takes of its own, into
+`/config/backups`, stay in.
 
 ## Updates
 

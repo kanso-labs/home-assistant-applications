@@ -8,7 +8,7 @@ configuration:
   external_url:
     description: >-
       O endereço público desta aplicação quando há um proxy reverso à frente
-      dela, como https://profilarr.exemplo.com. Atrás de um proxy, o login pode
+      dela, como https://profilarr.example.com. Atrás de um proxy, o login pode
       falhar com 403 até que ele seja definido. Depois disso, entre por esse
       endereço, e não pela porta 6868. Deixe vazio se você abre o Profilarr pela
       porta dele.

@@ -61,10 +61,14 @@ RUN \
 COPY rootfs /
 
 # s6-overlay is pid 1 here, in place of the image's own tini and entrypoint.
-# That entrypoint exists to reassign a uid from PUID/PGID and drop privileges
-# to it, which every application here leaves to Supervisor instead; what it
-# does besides that, the run script does.
+# That entrypoint reassigns the profilarr user's uid from PUID and PGID, hands
+# /config to it and drops privileges to it. Supervisor sets neither and never
+# remaps a user, so the run script hands /config to profilarr as the image
+# creates it, uid 1000, and starts Profilarr as that user.
 ENTRYPOINT ["/init"]
+
+# Upstream's health check is kept as it is. It asks /api/v1/health on the port
+# in the image's PORT, 6868, so a PORT set in the run script would break it.
 
 # Expose the ports
 EXPOSE 6868
