@@ -69,9 +69,17 @@ jobs:
               version=$(sed -nE "s/^version:[[:space:]]*['\"]?([^'\"[:space:]#]+).*/\1/p" "${config}")
               # An application naming no image is never published.
               [[ -n "${image}" ]] || continue
-              if ! docker buildx imagetools inspect "${image}:${version}" > /dev/null 2>&1; then
-                echo "${image}:${version} is not published."
-                changed_apps+=("${app}")
+              # Only a version the registry says is missing is handed to a
+              # build. One it could not answer for is looked at again on the
+              # next run, rather than handed to a build that would fail on
+              # the same error.
+              if ! error=$(docker buildx imagetools inspect "${image}:${version}" 2>&1 > /dev/null); then
+                if grep -q -E ': not found$|failed to fetch anonymous token: .*: 403 Forbidden$' <<< "${error}"; then
+                  echo "${image}:${version} is not published."
+                  changed_apps+=("${app}")
+                else
+                  echo "::warning::Could not tell whether ${image}:${version} is published, so the next run looks again: ${error//$'\n'/ }"
+                fi
               fi
             done
           # If a workflow file itself changed, rebuild every application
