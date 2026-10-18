@@ -97,6 +97,13 @@ accepts: middlewares, routers with rules beyond a host name, or services with
 several servers. Routers and services defined there are complete on their own,
 and the Configuration tab's routes can use middlewares defined there by name.
 
+A router that names no `entryPoints` is used on port 80, and on port 443 as well
+when SSL is on, never on the dashboard's port. As anywhere in Traefik, a router
+with a `tls` section answers only HTTPS, and one without answers only plain
+HTTP, so a host name served both ways takes a router of each, as the
+Configuration tab's routes do with SSL on. Those entrypoints are named `web` and
+`websecure`, for a router that should use only one of them.
+
 For example, `authentik.yml` holding this middleware lets a route put Authentik
 in front of its application, once **Middlewares** lists `authentik`:
 
