@@ -17,11 +17,11 @@ This application has no options. Cleanuparr is configured entirely from its web
 interface, and those settings live in the application's configuration directory
 so they survive restarts and updates.
 
-Turn on **Watchdog** on the application's page to have Home Assistant restart
-Cleanuparr when it stops answering, not only when it exits. The image asks
-Cleanuparr's `/health` every 30 seconds, which reports only whether Cleanuparr
-itself is running, so a download client or arr application being down never
-counts against it.
+Turn on **Watchdog** on the application's Info tab to have Home Assistant
+restart Cleanuparr when it stops answering, not only when it exits. The image
+asks Cleanuparr's `/health` every 30 seconds, which reports only whether
+Cleanuparr itself is running, so a download client or arr application being down
+never counts against it. It is off by default.
 
 ## Ingress
 
@@ -105,6 +105,9 @@ nothing a torrent does not claim is safe in a scan directory.
 `backup: cold` stops the application before the backup is taken. Cleanuparr
 keeps its state in SQLite, and copying that file while it is being written can
 restore into a corrupt database.
+
+The logs, in `/config/logs`, are left out of backups: Cleanuparr starts new
+ones, and a restore needs none of them.
 
 ## Updates
 
