@@ -37,6 +37,14 @@ RUN \
 # Copy root filesystem
 COPY rootfs /
 
+# Supervisor shows the application as starting until the first result arrives,
+# and with the watchdog on, restarts it when the check fails. Traefik serves its
+# ping from the same process as every route, on an entrypoint of its own that
+# only the container itself can reach. The start period covers the init script
+# and Traefik reading its configuration files, which take seconds.
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=5 \
+  CMD curl -f -s -S -o /dev/null http://127.0.0.1:8082/ping || exit 1
+
 # Expose the ports
 EXPOSE 80 443
 

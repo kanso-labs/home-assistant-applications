@@ -43,6 +43,22 @@ Each route sends the requests for one host name somewhere else.
   this application's configuration folder, and they apply in order. See
   Configuration files below.
 
+To route Home Assistant itself, set its route's **Forward to** to
+`http://homeassistant:8123`. Then add this to Home Assistant's
+`configuration.yaml` and restart Home Assistant:
+
+```yaml
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 172.30.33.0/24
+```
+
+Without it, Home Assistant answers every request Traefik forwards with 400 Bad
+Request, and logs that its HTTP integration is not set up for reverse proxies.
+`172.30.33.0/24` is the network Home Assistant gives its applications, so this
+trusts the applications on this machine and nothing outside it.
+
 A request for a host name with no route gets a `404`. Two routes for the same
 host name compete for the same requests, so only the first is used, and the log
 says so.
@@ -63,9 +79,13 @@ even when Traefik is on a port other than 80.
 ### Configuration files
 
 Traefik reads every `.yml`, `.yaml` and `.toml` file in this application's
-configuration folder: `addon_configs/<repository>_traefik` on the host, which
-the Samba and Studio Code Server applications can reach. Changes to them apply
-without a restart, and a mistake in one is reported in the log.
+configuration folder: `app_configs/2dd33fbd_traefik` on the host, which the
+Samba share application has inside its `app_configs` share and Studio Code
+Server under `/addon_configs`, the older name of `app_configs`. `2dd33fbd` is
+Home Assistant's name for this repository when it was added by the address in
+the README; otherwise it is the part before the dash in the **Hostname** on this
+application's **Info** tab. Changes to the files apply without a restart, and a
+mistake in one is reported in the log.
 
 `generated.yml` is the one exception. The application writes it from the
 Configuration tab every time it starts, so anything changed in it is lost. Put
@@ -100,6 +120,13 @@ It is taken from
 which also covers the provider to create in Authentik and the extra route its
 single-application mode needs.
 
+### Watchdog
+
+Turn on **Watchdog** on the application's Info tab to have Home Assistant
+restart Traefik when it stops answering, not only when it exits. The image asks
+for Traefik's ping every 30 seconds, on a port only the container itself can
+reach, and five failures in a row count as a hang. It is off by default.
+
 ## HTTPS
 
 Turning on **SSL** serves every route over HTTPS on port 443 as well as over
@@ -123,8 +150,9 @@ and those are read again on renewal the same way.
 
 ## The dashboard
 
-Traefik's dashboard opens from the Home Assistant sidebar and shows every
-router, service and middleware, with any errors in them. It is read-only.
+Traefik's dashboard opens from **Open Web UI**, or from the Home Assistant
+sidebar once **Show in sidebar** is on. It shows every router, service and
+middleware, with any errors in them, and is read-only.
 
 It is only reachable through Home Assistant, which puts its own login in front.
 Neither port 80 nor port 443 serves it.
