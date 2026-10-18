@@ -50,6 +50,21 @@ if bashio::config.true 'oidc_enabled'; then
   bashio::log.info 'Sign-in through OIDC is turned on by the configuration'
 fi
 
+# Names Wallos should resolve to an address of your choosing, such as the .local
+# name Authentik is reached at, which nothing inside Home Assistant resolves on
+# its own. See DOCS.md. Written here, before PHP-FPM and cron start, they reach
+# both. Docker writes the hosts file afresh every time a container starts, and
+# this runs once per start, so the check only keeps an entry listed twice from
+# being written twice.
+options="$(bashio::app.config)"
+while IFS=$'\t' read -r name address; do
+  entry="$(printf '%s\t%s' "${address}" "${name}")"
+  if ! grep -q -x -F "${entry}" /etc/hosts; then
+    echo "${entry}" >> /etc/hosts
+  fi
+  bashio::log.info "Resolving ${name} to ${address}"
+done < <(jq -r '.hosts[]? | [.name, .address] | @tsv' <<< "${options}")
+
 cd "${app_dir}" || bashio::exit.nok 'The application directory is missing'
 
 # Upstream's startup.sh runs both of these on every start, the first to create

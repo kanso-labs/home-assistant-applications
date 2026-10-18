@@ -1,69 +1,85 @@
 configuration:
-  oidc_enabled:
+  hosts:
     description: >-
-      Liga ou desliga o login por um provedor OpenID Connect, como o Authentik.
-      Deixe sem valor para gerenciar pela página de administração do Wallos.
-    name: Login por OIDC
-  oidc_provider_name:
-    description: O nome mostrado no botão de login, como Authentik.
-    name: Nome do provedor
+      Nomes extras para o Wallos resolver, escritos no seu arquivo de hosts
+      quando ele inicia. É assim que o Wallos alcança o Authentik pelo mesmo
+      nome .local que o seu navegador usa; veja a documentação.
+    fields:
+      address:
+        description: >-
+          O endereço IPv4 ou IPv6 para o qual o nome resolve. 172.30.32.1 é este
+          host do Home Assistant, visto de dentro de uma aplicação.
+        name: Endereço
+      name:
+        description: O nome a resolver, como authentik.local.
+        name: Nome
+    name: Hosts
+  oidc_auth_url:
+    description: >-
+      Para onde o seu navegador é enviado para fazer login, como
+      http://authentik.local/application/o/authorize/.
+    name: URL de autorização
+  oidc_auto_create_user:
+    description: >-
+      Cria uma conta no Wallos para quem faz login pelo provedor pela primeira
+      vez.
+    name: Criar contas no primeiro login
   oidc_client_id:
     description: O client ID que o provedor deu ao Wallos.
     name: Client ID
   oidc_client_secret:
     description: O client secret que o provedor deu ao Wallos.
     name: Client secret
-  oidc_issuer:
-    description: >-
-      A URL do emissor do provedor, a partir da qual o Wallos descobre os três
-      endereços abaixo. Deixe vazio para um provedor neste Home Assistant e
-      preencha os três endereços.
-    name: URL do emissor
-  oidc_auth_url:
-    description: >-
-      Para onde o seu navegador é enviado para fazer login, como
-      http://authentik.local/application/o/authorize/.
-    name: URL de autorização
-  oidc_token_url:
-    description: >-
-      Onde o Wallos troca o login por um token. Para o Authentik neste Home
-      Assistant, http://2dd33fbd-authentik:9000/application/o/token/.
-    name: URL do token
-  oidc_userinfo_url:
-    description: >-
-      Onde o Wallos lê quem fez login. Para o Authentik neste Home Assistant,
-      http://2dd33fbd-authentik:9000/application/o/userinfo/.
-    name: URL de informações do usuário
-  oidc_redirect_url:
-    description: >-
-      Para onde o provedor devolve o seu navegador: o endereço em que você abre
-      o Wallos, seguido de /index.php.
-    name: URL de redirecionamento
-  oidc_scopes:
-    description: >-
-      Os escopos a pedir ao provedor, separados por espaços. O Wallos pede
-      openid email profile quando fica vazio.
-    name: Escopos
-  oidc_auto_create_user:
-    description: >-
-      Cria uma conta no Wallos para quem faz login pelo provedor pela primeira
-      vez.
-    name: Criar contas no primeiro login
-  oidc_require_email_verified:
-    description: >-
-      Vincula um login a uma conta existente apenas quando o provedor diz que o
-      e-mail foi verificado. O Wallos faz isso a menos que seja desligado.
-    name: Exigir e-mail verificado
   oidc_disable_password_login:
     description: >-
       Esconde o formulário de senha, para que todos façam login pelo provedor.
       Ligue apenas depois que o login pelo provedor estiver funcionando.
     name: Desativar login por senha
+  oidc_enabled:
+    description: >-
+      Liga ou desliga o login por um provedor OpenID Connect, como o Authentik.
+      Deixe sem valor para gerenciar pela página de administração do Wallos.
+    name: Login por OIDC
+  oidc_issuer:
+    description: >-
+      A URL do emissor do provedor, a partir da qual o Wallos descobre os três
+      endereços abaixo, como http://authentik.local/application/o/wallos/. Para
+      o Authentik neste Home Assistant, adicione também o nome dele em Hosts e
+      em Endereços de rede permitidos.
+    name: URL do emissor
+  oidc_provider_name:
+    description: O nome mostrado no botão de login, como Authentik.
+    name: Nome do provedor
+  oidc_redirect_url:
+    description: >-
+      Para onde o provedor devolve o seu navegador: o endereço em que você abre
+      o Wallos, seguido de /index.php.
+    name: URL de redirecionamento
+  oidc_require_email_verified:
+    description: >-
+      Vincula um login a uma conta existente apenas quando o provedor diz que o
+      e-mail foi verificado. O Wallos faz isso a menos que seja desligado.
+    name: Exigir e-mail verificado
+  oidc_scopes:
+    description: >-
+      Os escopos a pedir ao provedor, separados por espaços. O Wallos pede
+      openid email profile quando fica vazio.
+    name: Escopos
+  oidc_token_url:
+    description: >-
+      Onde o Wallos troca o login por um token, como
+      http://authentik.local/application/o/token/.
+    name: URL do token
+  oidc_userinfo_url:
+    description: >-
+      Onde o Wallos lê quem fez login, como
+      http://authentik.local/application/o/userinfo/.
+    name: URL de informações do usuário
   ssrf_allowlist:
     description: >-
       Endereços da sua própria rede que o Wallos pode acessar, separados por
-      vírgulas, como 2dd33fbd-authentik:9000,homeassistant:8123. Substitui a
-      lista da página de administração do Wallos.
+      vírgulas, como authentik.local,homeassistant:8123. Substitui a lista da
+      página de administração do Wallos.
     name: Endereços de rede permitidos
 network:
   80/tcp: A porta em que a interface web do Wallos responde.
