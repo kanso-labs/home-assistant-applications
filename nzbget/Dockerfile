@@ -64,6 +64,20 @@ RUN \
 # Copy root filesystem
 COPY rootfs /
 
+# Supervisor shows the application as starting until the first result arrives,
+# and with the watchdog on, restarts it when the check fails. Ingress and the
+# published port both reach NZBGet on 6789 with nothing in between, so that is
+# where it is asked. -f is left off on purpose. The configuration NZBGet ships
+# lets 127.0.0.1 in without a password, under AuthorizedIP, but a user can take
+# it out, and FormAuth is seeded only into a new configuration. On an
+# installation with neither, NZBGet answers 401 to every page asked for without
+# the password, so any answer counts as the server being up, and only a
+# connection that is refused, dropped or left unanswered fails the check. A 401
+# to a request that sent no password is not logged. The start period leaves room
+# for the queue an older installation moves once, before NZBGet listens.
+HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=5 \
+  CMD curl -s -S -o /dev/null http://127.0.0.1:6789/ || exit 1
+
 # Expose the ports
 EXPOSE 6789
 

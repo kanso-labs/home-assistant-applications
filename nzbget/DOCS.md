@@ -4,7 +4,7 @@
 
 1. Add this repository to your Home Assistant instance.
 2. Install the "NZBGet" application.
-3. Start it, then open it from the sidebar, or on port 6789.
+3. Start it, then select **Open Web UI**, or open port 6789.
 
 ## First login
 
@@ -52,6 +52,12 @@ Extensions from NZBGet's Extension Manager, under Settings, then Extension
 Manager, are Python 3 scripts, and the image carries Python 3 for them. They
 install into `/share/nzbget/scripts`, so they are not part of this application's
 backup, but their settings are.
+
+Turn on **Watchdog** on the application's Info tab to have Home Assistant
+restart NZBGet when it stops answering, not only when it exits. The image asks
+NZBGet for its web interface every 30 seconds, and any answer passes, even one
+asking for the password, so only five requests in a row that go unanswered count
+as a hang. It is off by default.
 
 ## Ingress
 
