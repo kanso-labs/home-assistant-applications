@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.3](https://github.com/kanso-labs/home-assistant-applications/compare/bazarr-plus-v1.1.2...bazarr-plus-v1.1.3) (2026-10-18)
+
+
+### Bug Fixes
+
+* **bazarr-plus:** give a slow start five minutes before Watchdog steps in ([#747](https://github.com/kanso-labs/home-assistant-applications/issues/747)) ([1485847](https://github.com/kanso-labs/home-assistant-applications/commit/148584733054bcabfd656140cd691031754eb30e))
+
 ## [1.1.2](https://github.com/kanso-labs/home-assistant-applications/compare/bazarr-plus-v1.1.1...bazarr-plus-v1.1.2) (2026-10-17)
 
 

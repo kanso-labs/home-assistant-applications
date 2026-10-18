@@ -32,5 +32,5 @@ slug: flight-finder
 # written its shutdown checkpoint, during a cold backup as much as an update.
 timeout: 120
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/flight-finder'
-version: '1.1.1' # x-release-please-version
+version: '1.1.2' # x-release-please-version
 webui: 'http://[HOST]:[PORT:3003]'

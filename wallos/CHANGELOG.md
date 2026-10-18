@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0](https://github.com/kanso-labs/home-assistant-applications/compare/wallos-v0.4.0...wallos-v0.5.0) (2026-10-18)
+
+
+### Features
+
+* **wallos:** add a hosts option so sign-in can use Authentik's .local name ([#769](https://github.com/kanso-labs/home-assistant-applications/issues/769)) ([bbf17f0](https://github.com/kanso-labs/home-assistant-applications/commit/bbf17f09d35ef1b224786e1c61d6c4d509e4bad4))
+
 ## [0.4.0](https://github.com/kanso-labs/home-assistant-applications/compare/wallos-v0.3.0...wallos-v0.4.0) (2026-10-17)
 
 

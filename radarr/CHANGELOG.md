@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.4](https://github.com/kanso-labs/home-assistant-applications/compare/radarr-v1.2.3...radarr-v1.2.4) (2026-10-18)
+
+
+### Bug Fixes
+
+* **radarr:** restore large backups through ingress, and stop crash reports ([#739](https://github.com/kanso-labs/home-assistant-applications/issues/739)) ([7548ad0](https://github.com/kanso-labs/home-assistant-applications/commit/7548ad0edf61d3e95fb13216382e8cdcf8323b91))
+
 ## [1.2.3](https://github.com/kanso-labs/home-assistant-applications/compare/radarr-v1.2.2...radarr-v1.2.3) (2026-10-17)
 
 

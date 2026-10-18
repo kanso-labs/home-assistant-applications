@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0](https://github.com/kanso-labs/home-assistant-applications/compare/flaresolverr-v2.0.0...flaresolverr-v2.1.0) (2026-10-18)
+
+
+### Features
+
+* **flaresolverr:** add proxy and browser language options ([#751](https://github.com/kanso-labs/home-assistant-applications/issues/751)) ([c4a8b45](https://github.com/kanso-labs/home-assistant-applications/commit/c4a8b459d1ebccef410cbff28f97ffa2826a08eb))
+
 ## [2.0.0](https://github.com/kanso-labs/home-assistant-applications/compare/flaresolverr-v1.2.3...flaresolverr-v2.0.0) (2026-10-17)
 
 

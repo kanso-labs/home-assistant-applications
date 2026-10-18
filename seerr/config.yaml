@@ -23,5 +23,5 @@ schema:
   log_level: list(debug|info|warn|error)
 slug: seerr
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/seerr'
-version: '1.1.5' # x-release-please-version
+version: '1.2.0' # x-release-please-version
 webui: 'http://[HOST]:[PORT:5055]'

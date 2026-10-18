@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1](https://github.com/kanso-labs/home-assistant-applications/compare/configarr-v1.2.0...configarr-v1.2.1) (2026-10-18)
+
+
+### Bug Fixes
+
+* **configarr:** seed the internal Sonarr and Radarr hostnames ([#750](https://github.com/kanso-labs/home-assistant-applications/issues/750)) ([1e6bcac](https://github.com/kanso-labs/home-assistant-applications/commit/1e6bcacfb3e8c5c8b436eec65272ee6c1a7ab9bc))
+
 ## [1.2.0](https://github.com/kanso-labs/home-assistant-applications/compare/configarr-v1.1.4...configarr-v1.2.0) (2026-10-13)
 
 

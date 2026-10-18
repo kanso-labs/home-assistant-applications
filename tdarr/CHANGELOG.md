@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.2](https://github.com/kanso-labs/home-assistant-applications/compare/tdarr-v0.3.1...tdarr-v0.3.2) (2026-10-18)
+
+
+### Bug Fixes
+
+* **tdarr:** never start with the sign-in off or options half applied ([#736](https://github.com/kanso-labs/home-assistant-applications/issues/736)) ([7b7ad86](https://github.com/kanso-labs/home-assistant-applications/commit/7b7ad863514147a9715b9d81241038e9d8d4259b))
+
 ## [0.3.1](https://github.com/kanso-labs/home-assistant-applications/compare/tdarr-v0.3.0...tdarr-v0.3.1) (2026-10-17)
 
 

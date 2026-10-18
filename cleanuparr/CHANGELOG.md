@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.4](https://github.com/kanso-labs/home-assistant-applications/compare/cleanuparr-v1.3.3...cleanuparr-v1.3.4) (2026-10-18)
+
+
+### Bug Fixes
+
+* **cleanuparr:** leave the logs out of backups ([#749](https://github.com/kanso-labs/home-assistant-applications/issues/749)) ([5148dad](https://github.com/kanso-labs/home-assistant-applications/commit/5148dad8b26f4926dcc18dac8169fe451d76102a))
+
 ## [1.3.3](https://github.com/kanso-labs/home-assistant-applications/compare/cleanuparr-v1.3.2...cleanuparr-v1.3.3) (2026-10-17)
 
 

@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.4](https://github.com/kanso-labs/home-assistant-applications/compare/sonarr-v1.2.3...sonarr-v1.2.4) (2026-10-18)
+
+
+### Bug Fixes
+
+* **sonarr:** restore large backups through ingress, and stop crash reports ([#738](https://github.com/kanso-labs/home-assistant-applications/issues/738)) ([d5447c6](https://github.com/kanso-labs/home-assistant-applications/commit/d5447c652b31e8fbe138dce6c85f004b5bf6feb1))
+
 ## [1.2.3](https://github.com/kanso-labs/home-assistant-applications/compare/sonarr-v1.2.2...sonarr-v1.2.3) (2026-10-17)
 
 
