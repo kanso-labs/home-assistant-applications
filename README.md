@@ -46,7 +46,7 @@ one's `DOCS.md` covers its options, what it maps, and how it is backed up.
 | [Immich Power Tools](./immich-power-tools)           | Bulk tools for Immich: merging people, filling in missing locations and finding albums to make.                          | Port 3000           |
 | [Lingarr](./lingarr)                                 | Translates the subtitles your library is missing, through LibreTranslate, DeepL or an AI service.                        | Ingress, port 9876  |
 | [Muxarr](./muxarr)                                   | Strips unwanted audio and subtitle tracks from your media, remuxing rather than re-encoding.                             | Port 8183           |
-| [n8n](./n8n)                                         | Workflow and AI automation, built with the precision of code or the speed of drag and drop.                              | Ingress             |
+| [n8n](./n8n)                                         | Workflow automation connecting your services and Home Assistant, with a visual editor, code steps and AI nodes.          | Ingress             |
 | [NAT Gateway](./nat-gateway)                         | Shares this host's network connection with a device plugged straight into a spare Ethernet port, such as a NAS.          | None                |
 | [Nginx Proxy Manager](./nginx-proxy-manager)         | Reverse proxy with a web interface and free Let's Encrypt certificates for the services behind it.                       | Port 81             |
 | [Notifiarr](./notifiarr)                             | Unified client for Notifiarr.com, reporting on the stack and letting Discord drive it.                                   | Ingress, port 5454  |

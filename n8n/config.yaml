@@ -7,10 +7,10 @@ backup_exclude:
   - '.n8n/crash.journal'
   - '.n8n/n8nEventLog*.log'
 description:
-  Flexible AI workflow automation for technical teams. Build with the precision
-  of code or the speed of drag-n-drop. Host with on-prem control or in-the-cloud
-  convenience. n8n gives you more freedom to implement multi-step AI agents and
-  integrate apps than any other tool.
+  Workflow automation that connects your services and Home Assistant, with a
+  visual editor, code steps and AI nodes. n8n opens inside Home Assistant
+  through ingress, and Home Assistant can call its webhooks with no port
+  published.
 # What makes the Home Assistant credential work without a token: Supervisor
 # hands this application a token for the Core API, which the proxy in nginx adds
 # to every request. The grant holds whether or not the credential is used, and
@@ -59,5 +59,9 @@ services:
   - 'mqtt:want'
   - 'mysql:want'
 slug: n8n
+# How long Supervisor lets the application stop before Docker kills it, in
+# seconds, up from its default of 10. n8n gives running workflows 30 seconds to
+# finish before it exits, and records any it had to cut off as crashed.
+timeout: 60
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/n8n'
 version: '1.5.6' # x-release-please-version

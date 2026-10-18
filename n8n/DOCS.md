@@ -4,11 +4,12 @@
 
 1. Add this repository to your Home Assistant instance.
 2. Install the "n8n" application.
-3. Start it, then open it from the sidebar.
+3. Start it, then select **Open Web UI**.
 
 There is no port to open and no address to remember. n8n is served through Home
-Assistant's ingress, so it appears in the sidebar and is reached through the
-same session you are already signed in to.
+Assistant's ingress, so it is reached through the same session you are already
+signed in to. Turn on **Show in sidebar** on the application's page to give it a
+sidebar entry.
 
 There is nothing to configure before the first start. n8n asks you to create an
 owner account the first time you open it.
@@ -65,7 +66,13 @@ memory available. Code nodes run in a separate process that reads
 Two settings are taken from Home Assistant rather than asked for. n8n runs in
 your instance's timezone, so schedule triggers fire when you expect, and while
 `webhook_url` is empty the links it generates point at the ingress address, so
-they open from the sidebar.
+they open inside Home Assistant.
+
+Turn on **Watchdog** on the application's Info tab to have Home Assistant
+restart n8n when it stops answering, not only when it exits. The image asks
+n8n's `/healthz/readiness` every 30 seconds, which succeeds only once its
+database is connected and migrated and n8n has finished starting, and five
+failures in a row count as a hang. It is off by default.
 
 ## Storage
 
@@ -155,8 +162,8 @@ back when something about it next changes; to have it back sooner, delete
 
 From anywhere else, ingress is the only way in as installed, and it is
 authenticated — every request carries a Home Assistant session cookie that
-Supervisor checks before the request reaches n8n. That is what makes the sidebar
-work without a second login, and it is also why an external service cannot call
+Supervisor checks before the request reaches n8n. That keeps n8n to people
+signed in to Home Assistant, and it is also why an external service cannot call
 in.
 
 **Webhook triggers therefore do not work from outside out of the box.** Nothing
@@ -187,8 +194,8 @@ with them. Most of them insist that it is HTTPS.
 reach n8n's editor, so put a reverse proxy or a tunnel in front of it rather
 than forwarding it from a router, and terminate TLS there.
 
-Ingress keeps working alongside this. The sidebar stays the comfortable way in
-for you, and the port exists for the machines.
+Ingress keeps working alongside this. **Open Web UI** stays the comfortable way
+in for you, and the port exists for the machines.
 
 ## Backups
 
