@@ -6,7 +6,17 @@
 2. Install the "Configarr" application.
 3. Start it once. It writes an example configuration and tells you it has
    nothing to sync.
-4. Edit that configuration, put your API keys beside it, then restart.
+4. Edit that configuration, put your API keys beside it, then restart. Both
+   files are in `app_configs/2dd33fbd_configarr` on the host, which the Samba
+   share and Studio Code Server applications can reach.
+
+### Profilarr is in this store too
+
+[Profilarr](https://github.com/kanso-labs/home-assistant-applications/tree/main/profilarr)
+manages the same quality profiles and custom formats in Sonarr and Radarr, and
+this repository ships it as an application of its own. **Pick one for each
+instance.** Pointed at the same Sonarr or Radarr, each overwrites the other's
+changes on every sync, and whichever synced last wins.
 
 ## There is no web interface
 
@@ -46,7 +56,7 @@ each application Configarr should manage and fill it in:
 ```yaml
 sonarr:
   series:
-    base_url: http://homeassistant.local:8989
+    base_url: http://2dd33fbd-sonarr:8989
     api_key: !secret SONARR_API_KEY
     include:
       - template: sonarr-quality-definition-series
@@ -54,10 +64,15 @@ sonarr:
       - template: sonarr-v4-custom-formats-web-1080p
 ```
 
-`base_url` is the address you already use to reach that application. An
-application's hostname inside Home Assistant carries a hash of the repository it
-was installed from, which differs between instances, so it is not worth guessing
-at.
+`base_url` is where Configarr finds that application. On the same Home
+Assistant, that is its hostname on the internal network rather than `localhost`:
+`http://2dd33fbd-sonarr:8989` for Sonarr and `http://2dd33fbd-radarr:7878` for
+Radarr. A Sonarr or Radarr running anywhere else keeps the address you already
+use for it.
+
+`2dd33fbd` is Home Assistant's name for this repository when it was added by the
+address in the README. A Sonarr or Radarr installed any other way has another
+prefix, shown as **Hostname** on its **Info** tab.
 
 API keys go in `/config/secrets.yml` and are referenced with `!secret`, which
 keeps them out of the file you would paste into an issue:
@@ -90,6 +105,12 @@ rather than whether the run completed, is what says the sync worked.
 | ------------- | ---------- | -------------------------------------------------- |
 | `/config`     | read/write | `config.yml` and `secrets.yml`                     |
 | `/data/repos` | read/write | Clones of TRaSH Guides and the Recyclarr templates |
+
+`/config` is `app_configs/2dd33fbd_configarr` on the host, with the same prefix
+as the hostnames above: if this repository was added by another address, it is
+the part before the dash in the **Hostname** on this application's **Info** tab.
+The Samba share application has it inside its `app_configs` share, and Studio
+Code Server under `/addon_configs`, the older name of `app_configs`.
 
 Nothing else is mapped. Configarr reaches every application it manages over that
 application's API, so it needs neither `/media` nor `/share`, unlike the arr

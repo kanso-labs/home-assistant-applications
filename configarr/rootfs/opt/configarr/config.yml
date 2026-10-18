@@ -7,10 +7,12 @@
 # to write to, and changes nothing. Uncomment the block for each application
 # Configarr should manage, fill in its address and API key, and restart.
 #
-# base_url is the address you already use to reach that application, such as
-# http://homeassistant.local:8989. An application's hostname inside Home
-# Assistant carries a hash of the repository it was installed from, so it is
-# not worth guessing at.
+# base_url is where Configarr finds that application. The Sonarr and Radarr in
+# this repository are at http://2dd33fbd-sonarr:8989 and
+# http://2dd33fbd-radarr:7878, their hostnames inside Home Assistant, when the
+# repository was added by the address in its README. Otherwise use the Hostname
+# shown on that application's Info tab. A Sonarr or Radarr running anywhere
+# else keeps the address you already use for it.
 #
 # API keys belong in secrets.yml beside this file, and are referenced here with
 # !secret. Each arr application prints its own under Settings, then General.
@@ -19,7 +21,7 @@ trashGuideUrl: https://github.com/TRaSH-Guides/Guides
 recyclarrConfigUrl: https://github.com/recyclarr/config-templates
 #sonarr:
 #  series:
-#    base_url: http://homeassistant.local:8989
+#    base_url: http://2dd33fbd-sonarr:8989
 #    api_key: !secret SONARR_API_KEY
 #    include:
 #      - template: sonarr-quality-definition-series
@@ -27,7 +29,7 @@ recyclarrConfigUrl: https://github.com/recyclarr/config-templates
 #      - template: sonarr-v4-custom-formats-web-1080p
 #radarr:
 #  movies:
-#    base_url: http://homeassistant.local:7878
+#    base_url: http://2dd33fbd-radarr:7878
 #    api_key: !secret RADARR_API_KEY
 #    include:
 #      - template: radarr-quality-definition-movie
