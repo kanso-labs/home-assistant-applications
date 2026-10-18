@@ -1,7 +1,7 @@
 #!/command/with-contenv bashio
 # shellcheck shell=bash
 # ==============================================================================
-# Home Assistant Community App: Nginx Proxy Manager
+# Kanso Labs Home Assistant Application: Nginx Proxy Manager
 # Runs the nginx proxy manager interface
 # ==============================================================================
 declare -a options
@@ -17,11 +17,6 @@ export NODE_ENV=production
 # and uses it to pin the DNS plugins it installs.
 CERTBOT_VERSION="$(certbot --version 2>&1 | grep -Eo '[0-9](\.[0-9]+)+')"
 export CERTBOT_VERSION
-
-if bashio::debug; then
-  export DEBUG=1
-fi
-
 
 cd /opt/nginx-proxy-manager \
     || bashio::exit.nok "Could not change directory to app"

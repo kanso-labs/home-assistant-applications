@@ -73,8 +73,15 @@ RUN \
     # app used to ship and the OpenResty 1.29.2 upstream builds on. Take nginx
     # from the nginx project's own repository instead. It compiles the stream
     # module in statically, so no load_module directive is needed.
-    && curl -fsSL https://nginx.org/keys/nginx_signing.key \
-        | gpg --dearmor > /usr/share/keyrings/nginx-archive-keyring.gpg \
+    #
+    # Its signing key, like NodeSource's below, is saved to a file before gpg
+    # reads it. curl cannot take back what a failed attempt has already written
+    # to a pipe, so a retried download would send gpg that part twice.
+    && curl -J -L -f --retry 8 --retry-all-errors --retry-max-time 180 \
+        -o /tmp/nginx_signing.key \
+        https://nginx.org/keys/nginx_signing.key \
+    && gpg --dearmor < /tmp/nginx_signing.key \
+        > /usr/share/keyrings/nginx-archive-keyring.gpg \
     && echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg]" \
         "http://nginx.org/packages/mainline/debian trixie nginx" \
         > /etc/apt/sources.list.d/nginx.list \
@@ -82,8 +89,11 @@ RUN \
     # The app needs Node 22, while Debian ships Node 20 and its dependencies
     # refuse to install on it. Take Node from the NodeSource repository. That
     # package carries npm inside it, so no separate npm package is needed.
-    && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key \
-        | gpg --dearmor > /usr/share/keyrings/nodesource-keyring.gpg \
+    && curl -J -L -f --retry 8 --retry-all-errors --retry-max-time 180 \
+        -o /tmp/nodesource-repo.gpg.key \
+        https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key \
+    && gpg --dearmor < /tmp/nodesource-repo.gpg.key \
+        > /usr/share/keyrings/nodesource-keyring.gpg \
     && echo "deb [signed-by=/usr/share/keyrings/nodesource-keyring.gpg]" \
         "https://deb.nodesource.com/node_22.x nodistro main" \
         > /etc/apt/sources.list.d/nodesource.list \
@@ -199,6 +209,16 @@ ENV PIP_CONSTRAINT=/etc/certbot-constraints.txt
 
 # Copy root filesystem
 COPY rootfs /
+
+# Supervisor shows the application as starting until the first result arrives,
+# and with the watchdog on, restarts it when the check fails. /api/ is the
+# status upstream's own check-health reads. It needs no sign-in, and asking the
+# admin interface's Nginx for it checks both halves of the application. Every
+# start installs the Certbot DNS plugins its certificates use before the Manager
+# listens, and the first start of a new version runs its migrations as well, so
+# the start period leaves room for both.
+HEALTHCHECK --interval=30s --timeout=10s --start-period=300s --retries=5 \
+    CMD curl -f -s -S -o /dev/null http://127.0.0.1:81/api/ || exit 1
 
 LABEL \
     org.opencontainers.image.title="Home Assistant Application: Nginx Proxy Manager" \
