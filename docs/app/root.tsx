@@ -12,7 +12,7 @@ import '@kanso-labs/kanso-ui/tokens.css'
 import './styles/theme.css'
 import './styles/layout.css'
 
-import { Text } from '@kanso-labs/kanso-ui'
+import { Container, Stack, Text } from '@kanso-labs/kanso-ui'
 
 import type { Route } from './+types/root'
 
@@ -81,14 +81,18 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
     details = error.message
   }
 
+  // The home page's measure, so the message sits where that page's content
+  // would, inside the same gutter.
   return (
-    <main className="shell section stack">
-      <Text render={<h1 />} variant="headlineMedium">
-        {message}
-      </Text>
-      <Text tone="muted" variant="bodyLarge">
-        {details}
-      </Text>
-    </main>
+    <Container maxInlineSize="1100px" render={<main />}>
+      <Stack className="section" gap="md">
+        <Text render={<h1 />} variant="headlineMedium">
+          {message}
+        </Text>
+        <Text tone="muted" variant="bodyLarge">
+          {details}
+        </Text>
+      </Stack>
+    </Container>
   )
 }
