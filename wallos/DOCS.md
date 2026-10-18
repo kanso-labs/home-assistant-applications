@@ -281,7 +281,7 @@ its repository.
 
 ## A note on the base image
 
-Most applications here start from a Home Assistant base image, which supplies
+Many applications here start from a Home Assistant base image, which supplies
 s6-overlay and bashio. Wallos starts from the image its own project publishes
 instead, `bellamy/wallos`, an Alpine build of PHP 8.3 carrying the extensions
 Wallos needs, with nginx in front of it. s6-overlay and bashio are installed on

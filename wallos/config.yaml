@@ -13,6 +13,10 @@ image: 'ghcr.io/kanso-labs/home-assistant-application-wallos'
 # upstream's own nginx on port 80 with no URL base and nothing in front of it.
 ingress: true
 ingress_port: 80
+# Supervisor reads a request through ingress whole and refuses one over 16 MiB,
+# unless it is streamed. A Wallos backup restored through it carries the logos,
+# and upstream lifts its own limits to 256 MiB for that reason.
+ingress_stream: true
 init: false
 name: Wallos
 options:
