@@ -25,8 +25,16 @@ function preference() {
   xmlstarlet sel -T -t -m '/Preferences' -v "@${1}" -n "${preferences}"
 }
 
-token="$(preference 'PlexOnlineToken')"
-allowed="$(preference 'allowedNetworks')"
+# A setting Plex has not written reads as empty, as the token does on a server
+# that is not claimed yet. Only a damaged settings file fails a lookup, and
+# since a failed start-up script stops the application, this one, which only
+# reports, gives up with a warning instead.
+if ! token="$(preference 'PlexOnlineToken')" \
+  || ! allowed="$(preference 'allowedNetworks')"; then
+  bashio::log.warning "Plex's settings could not be read, so whether this"
+  bashio::log.warning 'server can be reached cannot be reported.'
+  exit 0
+fi
 
 # Reported on its own, because an allowed network hides the consequence of the
 # claim failing without making the claim any more likely to have worked.

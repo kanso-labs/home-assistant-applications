@@ -71,6 +71,13 @@ why the option is not removed for you.
 Everything else is configured from Plex's own web interface, and those settings
 live in the application's configuration directory.
 
+### Watchdog
+
+Turn on **Watchdog** on the application's Info tab to have Home Assistant
+restart Plex when it stops answering, not only when it exits. The image asks
+Plex's `/identity` every 5 seconds, and once it has had five minutes to start,
+counts about two minutes without an answer as a hang. It is off by default.
+
 ## Storage
 
 | Path      | Access     | Holds                                        |
@@ -84,8 +91,10 @@ and writes nothing back to it on its own — artwork and metadata live in its ow
 directory — but the features that do touch it, such as deleting a file from the
 web interface and recording live TV to the library, need somewhere to write.
 
-`/share` stays read-only, because nothing Plex does writes there. Applications
-that organise files, such as Radarr and Sonarr, are what write to it.
+`/share` stays read-only, so Plex can play a library there but not change it:
+deleting a file from the web interface and recording live TV work only in a
+library under `/media`. Applications that organise files, such as Radarr and
+Sonarr, are what write to `/share`.
 
 **Plex runs as root here, and what it writes under `/media` is owned by root.**
 Home Assistant owns the shares it hands out, so an application that writes to
@@ -142,7 +151,9 @@ The packaging is adapted from
 [hassio-addons/app-plex](https://github.com/hassio-addons/app-plex), which is
 MIT licensed.
 
-The icon and logo come from that packaging.
+The icon and logo come from that packaging. The logo's dark background has been
+taken out, and its white lettering recoloured to that same dark so that it reads
+on a light background.
 
 ## A note on licensing
 
