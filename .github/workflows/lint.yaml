@@ -75,8 +75,9 @@ jobs:
         run: ./.github/scripts/verify-release-wiring.sh
 
   # What AGENTS.md asks of every application and nothing else reads: key order,
-  # translations, icon and logo sizes, the curated Renovate rule, a health check
-  # and download retries. Each has slipped unnoticed before.
+  # translations, executable scripts, the s6 user bundle's location, icon and
+  # logo sizes, the curated Renovate rule, a health check and download retries.
+  # Each has slipped unnoticed before.
   applications:
     name: Verify applications
     runs-on: ubuntu-latest
@@ -129,16 +130,19 @@ jobs:
           echo "${RUNNER_TEMP}/shellcheck-${SHELLCHECK_VERSION}" >> "$GITHUB_PATH"
 
       # Every tracked script, found by its shebang, since s6's run and finish
-      # files carry no extension. Most start `with-contenv bashio`, a shell
-      # shellcheck does not know, so all of them are read as bash. SC2154 is off
-      # because bashio and with-contenv supply variables shellcheck cannot see.
-      # SC2155 is off until the shared finish template stops tripping it, though
-      # it is the rule that catches `export X="$(...)"` hiding a failure.
+      # files carry no extension, or by a `# shellcheck shell=` directive on its
+      # first line, which is how a library that is only ever sourced, such as
+      # NAT Gateway's rules.sh, says what it is. Most start
+      # `with-contenv bashio`, a shell shellcheck does not know, so all of them
+      # are read as bash. SC2154 is off because bashio and with-contenv supply
+      # variables shellcheck cannot see. SC2155 is off until the shared finish
+      # template stops tripping it, though it is the rule that catches
+      # `export X="$(...)"` hiding a failure.
       - name: Check shell scripts
         run: |
           mapfile -t scripts < <(
             git ls-files | while IFS= read -r file; do
-              if [[ -f "${file}" ]] && head -n 1 "${file}" | grep -q -E '^#!.*[/ ](bash|sh|bashio)( |$)'; then
+              if [[ -f "${file}" ]] && head -n 1 "${file}" | grep -q -E '^(#!.*[/ ](bash|sh|bashio)( |$)|# shellcheck shell=(bash|sh)$)'; then
                 echo "${file}"
               fi
             done

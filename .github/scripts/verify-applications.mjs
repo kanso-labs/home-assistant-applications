@@ -9,6 +9,7 @@
 // Run from the repository root, after `npm --prefix docs ci`: it reads YAML with
 // the `yaml` package the site already pins, so nothing new is installed.
 
+import { execFileSync } from 'node:child_process'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 
@@ -165,6 +166,21 @@ for (const app of apps) {
       if (!entry?.name || !entry?.description)
         fail(app, `${path} gives ${option} no name or no description`)
     }
+    // A list option's entries are labelled by its fields, and an entry field
+    // with no translation shows as its raw key.
+    for (const [option, value] of Object.entries(config.schema ?? {})) {
+      const entry = Array.isArray(value) ? value[0] : null
+      if (!entry || typeof entry !== 'object') continue
+      const fields = Object.keys(
+        translation.configuration?.[option]?.fields ?? {},
+      )
+      if (!sameSet(fields, Object.keys(entry))) {
+        fail(
+          app,
+          `${path} translates ${option} fields [${fields}], but the schema has [${Object.keys(entry)}]`,
+        )
+      }
+    }
     const network = Object.keys(translation.network ?? {})
     if (!sameSet(network, ports))
       fail(
@@ -204,6 +220,25 @@ for (const app of apps) {
       app,
       'declares its s6 services in s6-rc.d/user, which s6-overlay deprecates; mark them in rootfs/etc/s6-overlay/user-bundles.d/user/contents.d',
     )
+
+  // s6 runs a service's run and finish scripts directly, and Docker copies
+  // rootfs with the mode git checked out, so a script that lost its executable
+  // bit builds cleanly and never starts. The mode is git's rather than the
+  // filesystem's, since a checkout is what the image is built from.
+  const tracked = execFileSync(
+    'git',
+    ['ls-files', '-s', '-z', '--', `${app}/rootfs`],
+    { encoding: 'utf8' },
+  )
+  for (const entry of tracked.split('\0').filter(Boolean)) {
+    const [, mode, file] = entry.match(/^(\d+) \S+ \d+\t(.*)$/s)
+    if (
+      mode === '100644' &&
+      existsSync(file) &&
+      readFileSync(file, 'latin1').startsWith('#!')
+    )
+      fail(app, `${file} starts with #! but is not executable in git`)
+  }
 
   const dockerfile = readFileSync(`${app}/Dockerfile`, 'utf8')
 
