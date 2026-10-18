@@ -12,6 +12,11 @@ readonly config_dir='/config'
 # is what makes both survive.
 export CONFIG_DIRECTORY="${config_dir}"
 
+# Seerr logs at debug unless told otherwise, and the option defaults to info.
+# Its Logs page reads the same log, so it shows debug lines only at debug.
+LOG_LEVEL="$(bashio::config 'log_level')"
+export LOG_LEVEL
+
 # A file named DOCKER in the configuration directory is how Seerr detects a
 # missing volume: upstream bakes one into its image, so that mounting a volume
 # over the directory hides it. While it is present, the setup wizard warns that
@@ -20,8 +25,25 @@ export CONFIG_DIRECTORY="${config_dir}"
 # of this application created by mistake.
 rm -f "${config_dir}/DOCKER"
 
+# Seerr runs as the node user below, which has to own what it writes here.
+# Supervisor creates the directory owned by root, and earlier versions of this
+# application ran Seerr as root, so whatever node does not own is handed to it.
+# After the first start there is nothing left to hand over.
+if [[ -n "$(find "${config_dir}" \( ! -user node -o ! -group node \) -print -quit)" ]]; then
+  bashio::log.info 'Giving the configuration directory to the node user...'
+  chown -R node:node "${config_dir}" \
+    || bashio::exit.nok 'Could not give the configuration directory to the node user'
+fi
+
+# s6-setuidgid changes the user without changing the home directory, and npm
+# writes its cache and logs under it.
+export HOME='/home/node'
+
 bashio::log.info 'Starting Seerr...'
 
 cd /app || bashio::exit.nok 'The application directory is missing'
 
-exec npm start
+# Upstream's image runs Seerr as node, which owns everything under /app.
+# s6-overlay has to be pid 1, so the service starts as root and drops back to
+# that user here.
+exec s6-setuidgid node npm start

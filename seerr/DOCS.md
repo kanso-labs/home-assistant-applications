@@ -13,9 +13,23 @@ asked for by its own setup wizard.
 
 ## Configuration
 
-This application has no options. Seerr is configured entirely from its web
-interface, and those settings live in the application's configuration directory
-so they survive restarts and updates.
+| Option    | What it sets                                               |
+| --------- | ---------------------------------------------------------- |
+| Log level | How much detail Seerr writes to its log. `info` by default |
+
+Seerr itself defaults to `debug`, and this application to `info`. Seerr's Logs
+page, under Settings, shows only what is logged, so its debug lines appear there
+only once the level is `debug`.
+
+Everything else is configured from Seerr's web interface, and those settings
+live in the application's configuration directory so they survive restarts and
+updates.
+
+Turn on **Watchdog** on the application's Info tab to have Home Assistant
+restart Seerr when it stops answering, not only when it exits. The image asks
+for Seerr's `/api/v1/status/appdata` every 30 seconds, which Seerr answers
+without calling GitHub or a media server, and five failures in a row count as a
+hang. It is off by default.
 
 ## Storage
 
@@ -35,6 +49,11 @@ it asks Radarr and Sonarr to fetch them, and they do the writing.
 `backup: cold` stops the application before the backup is taken. Seerr keeps its
 requests in SQLite, and copying that file while it is being written can restore
 into a corrupt database.
+
+The logs and the image cache, `logs/` and `cache/` in the configuration
+directory, are left out of backups. The cache can grow large once **Enable Image
+Caching** is on, and Seerr fetches those images again as they are needed. A
+restored install starts with an empty log, and so does Seerr's Logs page.
 
 ## Updates
 
