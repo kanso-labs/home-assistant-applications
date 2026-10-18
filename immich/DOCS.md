@@ -55,10 +55,18 @@ mounted there until the folder is moved out of the way.
 Everything else is set from Immich's own settings, under Administration →
 Settings.
 
+Turn on **Watchdog** on the application's Info tab to have Home Assistant
+restart Immich when it stops answering, not only when it exits. The image asks
+for Immich's `/api/server/ping` every 30 seconds, which Immich answers without
+reaching its database, and once it has had an hour to start, five failures in a
+row count as a hang. That hour is for the migrations and index rebuilds some
+updates run before Immich answers. It is off by default.
+
 ## Letting other applications read the database
 
 Immich keeps its database to itself. Some tools read it directly, such as
-[Immich Power Tools](../immich-power-tools), and need a way in.
+[Immich Power Tools](https://github.com/kanso-labs/home-assistant-applications/tree/main/immich-power-tools),
+and need a way in.
 
 Setting **Read-only database password** gives them one. After a restart,
 PostgreSQL also listens on Home Assistant's internal network and lets in one
@@ -210,10 +218,10 @@ Assistant's internal network. No port is published for either.
 
 ## Storage
 
-| Path               | Holds                                                                     |
-| ------------------ | ------------------------------------------------------------------------- |
-| `/media/immich`    | The library: originals, thumbnails, encoded video, and Immich's own dumps |
-| `/data/postgresql` | The database: albums, faces, the search index, people and settings        |
+| Path               | Access     | Holds                                                                     |
+| ------------------ | ---------- | ------------------------------------------------------------------------- |
+| `/media/immich`    | read/write | The library: originals, thumbnails, encoded video, and Immich's own dumps |
+| `/data/postgresql` | read/write | The database: albums, faces, the search index, people and settings        |
 
 Without network storage, `/media/immich` is on Home Assistant's own data disk,
 and a photo library can fill it. The database is always there, and during a
@@ -263,7 +271,10 @@ restores the database along with the application.
 
 - **PostgreSQL stays on 17.** Updates within 17 arrive as releases of this
   application. Moving to a new major version is a dump and restore, done
-  deliberately rather than by an update.
+  deliberately rather than by an update. If an update ever starts on a database
+  from another major version, it stops rather than starting PostgreSQL, and its
+  log says so. Restoring the backup taken before that update brings back the
+  release that matches the database.
 - **VectorChord** updates arrive the same way. Immich updates the extension and
   rebuilds its search indexes on the first start after one, so that start takes
   longer.

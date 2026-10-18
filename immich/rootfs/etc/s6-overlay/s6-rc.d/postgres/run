@@ -5,10 +5,14 @@
 # Runs the PostgreSQL that Immich keeps everything but the files in
 # ==============================================================================
 
-# PGDG keeps the server binaries out of PATH so that several major versions can
-# be installed side by side. The image carries clients for 14 to 18, and one
-# server.
-export PATH="/usr/lib/postgresql/17/bin:${PATH}"
+# The major version the image installs, which the Dockerfile names as well, in
+# its postgresql-17 packages and paths, the Immich service in its pg_bin, and
+# .github/renovate.json in its pgvector rule, so moving to another one means
+# changing all four. PGDG keeps the server binaries out of PATH so that several
+# major versions can be installed side by side. The image carries clients for 14
+# to 18, and one server.
+readonly pg_major='17'
+export PATH="/usr/lib/postgresql/${pg_major}/bin:${PATH}"
 
 readonly data_dir='/data/postgresql'
 readonly socket_dir='/run/postgresql'
@@ -36,6 +40,23 @@ if [[ ! -s "${data_dir}/PG_VERSION" ]]; then
     --auth-host='trust' \
     --data-checksums \
     > /dev/null || bashio::exit.nok 'Could not create the PostgreSQL cluster'
+fi
+
+# A cluster can only be opened by the major version that created it, so moving
+# this application to a new one takes a migration shipped in the same release,
+# with both versions installed, for pg_upgrade or a dump and restore. This is
+# what catches a release without one. PostgreSQL would refuse the cluster
+# anyway, but in words that do not say what to do.
+cluster_major="$(<"${data_dir}/PG_VERSION")"
+if [[ "${cluster_major}" != "${pg_major}" ]]; then
+  bashio::log.error \
+    "The database in ${data_dir} was created by PostgreSQL ${cluster_major}," \
+    "and this release runs PostgreSQL ${pg_major}, which cannot open it."
+  bashio::log.error \
+    'Restore the backup taken before this update, which brings back the' \
+    'release that matches the database, and report this on the issue tracker:' \
+    'https://github.com/kanso-labs/home-assistant-applications/issues'
+  bashio::exit.nok "PostgreSQL ${pg_major} cannot open a PostgreSQL ${cluster_major} database"
 fi
 
 # The postgres user is created when the image is built, with whichever system

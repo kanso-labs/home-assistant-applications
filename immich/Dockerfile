@@ -142,9 +142,13 @@ ENTRYPOINT ["/init"]
 
 # Upstream's check, given a start period. Immich runs its migrations, and after
 # some updates rebuilds its search indexes, before it opens its port, and
-# without one the check counts every failure until then. Supervisor shows the
-# application as starting until the first result arrives.
-HEALTHCHECK --interval=30s --timeout=10s --start-period=600s --retries=5 \
+# without one the check counts every failure until then. A large library on
+# slow hardware can take well past ten minutes over that, and with Watchdog on a
+# restart then would begin the reindex again, every time. So the period is an
+# hour, which costs a healthy start nothing: Docker counts failures from the
+# first check that passes. Supervisor shows the application as starting until
+# the first result arrives.
+HEALTHCHECK --interval=30s --timeout=10s --start-period=3600s --retries=5 \
   CMD immich-healthcheck || exit 1
 
 # Expose the ports
