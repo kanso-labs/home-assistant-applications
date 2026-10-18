@@ -54,8 +54,13 @@ Three things follow from that:
   Cleanuparr's sign-in**, because ingress reaches Cleanuparr from inside the
   application. That setting already lets in every local address on the published
   port, so turning it on is a choice about your network, not only about ingress.
-  With "Trust Forwarded Headers" on as well, Cleanuparr judges an ingress visit
-  by the browser's address instead.
+  Traefik, Nginx Proxy Manager and anything else that forwards the published
+  port connect to Cleanuparr from a local address of their own, so with this on
+  and "Trust Forwarded Headers" off, everyone who reaches Cleanuparr through
+  them is let in without signing in, from the internet included. Turn "Trust
+  Forwarded Headers" on with it, or leave it off. With "Trust Forwarded Headers"
+  on as well, Cleanuparr judges an ingress visit by the browser's address
+  instead.
 - **Cleanuparr's own `BASE_PATH` is not used.** Setting it would move every
   address on the published port under the ingress token, and answer 404 outside
   it.
@@ -135,7 +140,7 @@ Cleanuparr's name.
 
 ## A note on the base image
 
-Most applications here start from a Home Assistant base image, which supplies
+Many applications here start from a Home Assistant base image, which supplies
 s6-overlay and bashio. This one starts from the image Cleanuparr publishes,
 which is the same choice Seerr makes and for a related reason.
 
