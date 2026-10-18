@@ -4,7 +4,7 @@
 
 1. Add this repository to your Home Assistant instance.
 2. Install the "Profilarr" application.
-3. Start it, then open the web interface on port 6868.
+3. Start it, then select **Open Web UI**, or open port 6868.
 
 On first start Profilarr asks you to create an account. Everything after that is
 configured from its own web interface — the four options below are the ones it
@@ -42,6 +42,18 @@ Profilarr also marks its session cookie secure when the address starts with
 
 Once it is set, Profilarr takes every request as arriving at that address, so
 sign in there. A login sent from port 6868 is refused the same way.
+
+**Leave Local Bypass off behind a reverse proxy or tunnel.** Profilarr's
+**Settings → Security** page has a **Local Bypass** switch, off by default, that
+skips the login for any request from a local network address. Profilarr judges
+that by the address the connection comes from and ignores `X-Forwarded-For`. A
+proxy or tunnel on this Home Assistant, such as Traefik, Nginx Proxy Manager or
+Cloudflared, connects from its internal network, and a proxy elsewhere on your
+network from a private address. With the switch on, everyone they let through
+therefore counts as local and skips the login, with the Radarr and Sonarr API
+keys Profilarr holds in reach. This repository's Radarr and Sonarr do not work
+that way with **Disabled for Local Addresses**: they judge a browser by its own
+address, and anything that comes through a proxy has to sign in.
 
 ### Options: `parser_host` and `parser_port`
 
@@ -144,3 +156,6 @@ rest of this repository uses.
 Profilarr itself is developed by
 [Dictionarry](https://github.com/Dictionarry-Hub/profilarr) and is licensed
 under AGPL-3.0.
+
+The icon and logo are Profilarr's own, from its repository: the icon is scaled
+down from `logo-512.png`, and the logo is its banner.
