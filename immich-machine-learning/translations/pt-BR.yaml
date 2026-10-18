@@ -5,3 +5,8 @@ configuration:
       informa o dispositivo em que o OpenVINO executa os modelos, que é como
       distinguir a GPU do processador.
     name: Nível de log
+network:
+  3003/tcp: >-
+    Só para um servidor Immich em outro lugar da sua rede. A aplicação Immich
+    deste Home Assistant acessa o aprendizado de máquina em
+    http://2dd33fbd-immich-machine-learning:3003 sem abrir porta nenhuma.

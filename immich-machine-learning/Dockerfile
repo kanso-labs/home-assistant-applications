@@ -94,7 +94,7 @@ ENTRYPOINT ["/init"]
 # starting for long.
 
 # Reached on Home Assistant's internal network by the Immich application, and
-# never published on the host.
+# published on the host only when someone opens it under Network.
 EXPOSE 3003
 
 LABEL \
