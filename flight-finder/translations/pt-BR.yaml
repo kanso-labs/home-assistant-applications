@@ -10,7 +10,7 @@ configuration:
   addresses:
     description: >-
       Endereços que levam ao Flight Finder além dos desta máquina, que ele já
-      conhece, como https://voos.exemplo.com por um proxy reverso. Informe
+      conhece, como https://voos.example.com por um proxy reverso. Informe
       apenas o esquema, o host e a porta. O primeiro em https passa a ser o
       endereço principal, para o qual os alertas apontam e no qual as passkeys
       funcionam.

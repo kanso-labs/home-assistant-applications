@@ -85,6 +85,18 @@ COPY rootfs /
 # other application; this one has to set it itself.
 ENTRYPOINT ["/init"]
 
+# Upstream's check, given a longer start period and five retries rather than
+# three. Before Flight Finder opens its port, every start waits for PostgreSQL,
+# which after an unclean stop first replays its log, and a first start then
+# creates the database and pushes its schema. Upstream allows a minute for all
+# of that, so the start period here matches the 10 minutes the run script waits
+# for PostgreSQL instead. /api/health answers 503 while PostgreSQL or Valkey
+# cannot be reached, so with the watchdog on, either of them hanging restarts
+# the application as well. Supervisor shows the application as starting until
+# the first result arrives.
+HEALTHCHECK --interval=30s --timeout=10s --start-period=600s --retries=5 \
+  CMD curl -f -s -S -o /dev/null http://127.0.0.1:3003/api/health || exit 1
+
 # Expose the ports
 EXPOSE 3003
 

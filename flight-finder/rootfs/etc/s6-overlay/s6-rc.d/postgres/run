@@ -4,6 +4,11 @@
 # Kanso Labs Home Assistant Application: Flight Finder
 # Runs the PostgreSQL that Flight Finder stores everything in
 # ==============================================================================
+
+# The major version the image installs, which the Dockerfile names as well, in
+# its postgresql17 packages, so moving to another one means changing both.
+readonly pg_major='17'
+
 readonly data_dir='/data/postgresql'
 readonly socket_dir='/run/postgresql'
 
@@ -31,10 +36,33 @@ if [[ ! -s "${data_dir}/PG_VERSION" ]]; then
     > /dev/null || bashio::exit.nok 'Could not create the PostgreSQL cluster'
 fi
 
+# A cluster can only be opened by the major version that created it, so moving
+# this application to a new one takes a migration shipped in the same release,
+# with both versions installed for pg_upgrade. This is what catches a release
+# without one. PostgreSQL would refuse the cluster anyway, but in words that do
+# not say what to do.
+cluster_major="$(<"${data_dir}/PG_VERSION")"
+if [[ "${cluster_major}" != "${pg_major}" ]]; then
+  bashio::log.error \
+    "The database in ${data_dir} was created by PostgreSQL ${cluster_major}," \
+    "and this release runs PostgreSQL ${pg_major}, which cannot open it."
+  bashio::log.error \
+    'Restore the backup taken before this update, which brings back the' \
+    'release that matches the database, and report this on the issue tracker:' \
+    'https://github.com/kanso-labs/home-assistant-applications/issues'
+  bashio::exit.nok "PostgreSQL ${pg_major} cannot open a PostgreSQL ${cluster_major} database"
+fi
+
 chown postgres:postgres "${data_dir}"
 
 bashio::log.info 'Starting PostgreSQL...'
 
+# s6 stops this service with SIGINT, which down-signal sets, rather than its
+# default SIGTERM. PostgreSQL takes SIGTERM as a smart shutdown, which waits for
+# every client still connected, so a connection left open when Flight Finder
+# stops would hold it there until Supervisor kills the container, and the next
+# start would replay the log. SIGINT is a fast shutdown, which disconnects them
+# and still writes the shutdown checkpoint.
 exec s6-setuidgid postgres postgres \
   -D "${data_dir}" \
   -c listen_addresses='127.0.0.1' \
