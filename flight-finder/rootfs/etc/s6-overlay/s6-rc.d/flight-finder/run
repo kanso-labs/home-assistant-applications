@@ -35,9 +35,10 @@ fi
 
 export DATABASE_URL="postgresql://${database}@127.0.0.1:5432/${database}"
 
-# Flight Finder keeps its rate limits in Valkey. Whenever it cannot reach it,
-# the limit on failed sign-ins lets every attempt through and the search bar's
-# previews are all refused, so it does not start until Valkey answers.
+# Flight Finder keeps its search rate limits and its caches in Valkey; failed
+# sign-ins are counted in PostgreSQL. Whenever it cannot reach Valkey, the
+# search bar's previews are all refused and the limit on parsing searches lets
+# every request through, so it does not start until Valkey answers.
 bashio::log.info 'Waiting for Valkey...'
 for _ in {1..30}; do
   valkey-cli -h 127.0.0.1 -p 6379 ping > /dev/null 2>&1 && break
