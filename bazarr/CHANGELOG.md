@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1](https://github.com/kanso-labs/home-assistant-applications/compare/bazarr-v1.2.0...bazarr-v1.2.1) (2026-10-19)
+
+
+### Bug Fixes
+
+* **bazarr:** go back to UnRAR 7.23, and keep settings like no intact ([#777](https://github.com/kanso-labs/home-assistant-applications/issues/777)) ([1ef86c1](https://github.com/kanso-labs/home-assistant-applications/commit/1ef86c1215ecbc841fdb2070c751ea8b12d863c1))
+
 ## [1.2.0](https://github.com/kanso-labs/home-assistant-applications/compare/bazarr-v1.1.7...bazarr-v1.2.0) (2026-10-18)
 
 

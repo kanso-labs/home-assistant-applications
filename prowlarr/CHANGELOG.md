@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.5](https://github.com/kanso-labs/home-assistant-applications/compare/prowlarr-v1.3.4...prowlarr-v1.3.5) (2026-10-19)
+
+
+### Bug Fixes
+
+* **prowlarr:** keep https in sign-in redirects and Torznab feed links ([#776](https://github.com/kanso-labs/home-assistant-applications/issues/776)) ([ae52626](https://github.com/kanso-labs/home-assistant-applications/commit/ae52626e7559c6c75b90c269054eca093cfb6e55))
+
 ## [1.3.4](https://github.com/kanso-labs/home-assistant-applications/compare/prowlarr-v1.3.3...prowlarr-v1.3.4) (2026-10-18)
 
 
