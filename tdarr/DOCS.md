@@ -50,10 +50,17 @@ rewriting.
 | Sign-in              | Whether the web interface asks for Tdarr's own login. On by default        |
 | File permission mask | The permissions processed files land with. 022 by default; 002 for a group |
 
-Turn the sign-in off only when something else stands in front of Tdarr, such as
-ingress or an authenticating reverse proxy, and close port 8265 when you do.
-With the sign-in off and the port open, anyone who can reach it can rewrite your
-library.
+Leave the sign-in on unless something else signs people in first, such as
+ingress or an authenticating reverse proxy, and close port 8265 if you turn it
+off. With the sign-in off and the port open, anyone who can reach it can rewrite
+your library.
+
+Closing the port keeps out the rest of your network, but not the other
+applications on this Home Assistant. They reach Tdarr on port 8265 over Home
+Assistant's internal network either way, and with the sign-in off they can do
+anything you can in Tdarr. That includes running a flow, and a flow can run any
+command as root, with write access to `/media` and `/share`. Turn the sign-in
+off only if you trust every application installed here.
 
 The internal node authenticates with an API key the application generates on
 first start and keeps in its configuration directory, so it keeps working
@@ -88,8 +95,9 @@ Two things are worth knowing:
 - **Tdarr's own sign-in comes on top of Home Assistant's** while it is on.
   Ingress shows Tdarr's sign-in page the first time, and the browser keeps the
   session after that, separately for each address Home Assistant is opened at.
-  Ingress alone is reason enough to turn it off, provided port 8265 is closed;
-  see Configuration.
+  Turning it off saves that step, but leaves Tdarr open to every other
+  application on this Home Assistant, even with port 8265 closed; see
+  Configuration.
 - **Two of Tdarr's buttons leave ingress**, because Tdarr wrote their addresses
   from the root of the host rather than from the page: the process memory figure
   on the home page, and **View Flow** under a library's transcode options. Home
