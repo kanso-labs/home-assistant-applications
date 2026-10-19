@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.5](https://github.com/kanso-labs/home-assistant-applications/compare/sonarr-v1.2.4...sonarr-v1.2.5) (2026-10-19)
+
+
+### Bug Fixes
+
+* **sonarr:** keep https in sign-in redirects behind ingress or a proxy ([#774](https://github.com/kanso-labs/home-assistant-applications/issues/774)) ([1fd7250](https://github.com/kanso-labs/home-assistant-applications/commit/1fd72507fa9357ba1d98f94aa0cbea58f46c2e79))
+
 ## [1.2.4](https://github.com/kanso-labs/home-assistant-applications/compare/sonarr-v1.2.3...sonarr-v1.2.4) (2026-10-18)
 
 

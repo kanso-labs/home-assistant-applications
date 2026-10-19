@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.1](https://github.com/kanso-labs/home-assistant-applications/compare/wallos-v0.5.0...wallos-v0.5.1) (2026-10-19)
+
+
+### Bug Fixes
+
+* **wallos:** stream ingress uploads so a large backup can be restored ([#784](https://github.com/kanso-labs/home-assistant-applications/issues/784)) ([7877a7e](https://github.com/kanso-labs/home-assistant-applications/commit/7877a7ec89cc2c2b3918c995c03e9adebd437200))
+
 ## [0.5.0](https://github.com/kanso-labs/home-assistant-applications/compare/wallos-v0.4.0...wallos-v0.5.0) (2026-10-18)
 
 

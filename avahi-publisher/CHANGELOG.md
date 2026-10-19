@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2](https://github.com/kanso-labs/home-assistant-applications/compare/avahi-publisher-v1.0.1...avahi-publisher-v1.0.2) (2026-10-19)
+
+
+### Bug Fixes
+
+* **avahi-publisher:** retry a taken alias name every five minutes ([#782](https://github.com/kanso-labs/home-assistant-applications/issues/782)) ([e827c2c](https://github.com/kanso-labs/home-assistant-applications/commit/e827c2c5633379a90263d0a3b8d537e06ba00085))
+
 ## [1.0.1](https://github.com/kanso-labs/home-assistant-applications/compare/avahi-publisher-v1.0.0...avahi-publisher-v1.0.1) (2026-10-17)
 
 

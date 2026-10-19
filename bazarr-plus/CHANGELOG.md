@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.4](https://github.com/kanso-labs/home-assistant-applications/compare/bazarr-plus-v1.1.3...bazarr-plus-v1.1.4) (2026-10-19)
+
+
+### Bug Fixes
+
+* **bazarr-plus:** give new installs a login from the first start ([#773](https://github.com/kanso-labs/home-assistant-applications/issues/773)) ([ac9dfe9](https://github.com/kanso-labs/home-assistant-applications/commit/ac9dfe9d4dc0c25c116693d2aae7dc19a24c239d))
+
 ## [1.1.3](https://github.com/kanso-labs/home-assistant-applications/compare/bazarr-plus-v1.1.2...bazarr-plus-v1.1.3) (2026-10-18)
 
 

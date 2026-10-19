@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.4](https://github.com/kanso-labs/home-assistant-applications/compare/unpackerr-v1.2.3...unpackerr-v1.2.4) (2026-10-19)
+
+
+### Bug Fixes
+
+* **unpackerr:** seed addresses and paths that work on Home Assistant ([#783](https://github.com/kanso-labs/home-assistant-applications/issues/783)) ([b65d1a7](https://github.com/kanso-labs/home-assistant-applications/commit/b65d1a7f21fed304328346c2a7288974dc5d3c80))
+
 ## [1.2.3](https://github.com/kanso-labs/home-assistant-applications/compare/unpackerr-v1.2.2...unpackerr-v1.2.3) (2026-08-31)
 
 

@@ -41,4 +41,4 @@ slug: traefik
 # are up as early as they can be.
 startup: services
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/traefik'
-version: '1.0.5' # x-release-please-version
+version: '1.0.6' # x-release-please-version
