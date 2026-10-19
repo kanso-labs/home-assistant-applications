@@ -21,9 +21,10 @@ ARG BAZARR_VERSION=1.6.2
 # repository; the rarlab datasource in .github/renovate.json reads its download
 # page. Its source tarballs are numbered by build rather than by version, so
 # unrarsrc-7.2.7 is UnRAR 7.23, and the page links a beta as readily as a
-# release: RARVER_BETA in the tarball's version.hpp says which a bump is.
+# release: RARVER_BETA in the tarball's version.hpp says which a bump is, and
+# the build below fails on a beta.
 # renovate: datasource=custom.rarlab depName=unrar
-ARG UNRAR_VERSION=7.3.1
+ARG UNRAR_VERSION=7.2.7
 
 # Install requirements for application. nginx is what ingress and the published
 # port reach; the configuration its package ships is replaced by the one in
@@ -48,6 +49,10 @@ RUN \
   && tar zxf \
       /tmp/unrar.tar.gz \
       -C /tmp \
+  && if ! grep -q -E '^#define RARVER_BETA +0$' /tmp/unrar/version.hpp; then \
+      echo "unrarsrc-${UNRAR_VERSION} is a beta of UnRAR, which this image does not ship" >&2; \
+      exit 1; \
+    fi \
   && make -C /tmp/unrar \
   && install -v -m755 /tmp/unrar/unrar /usr/local/bin \
   \

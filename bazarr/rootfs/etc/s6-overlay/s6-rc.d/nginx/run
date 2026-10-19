@@ -30,8 +30,11 @@ fi
 
 # Supervisor gives the hassio network IPv6 addresses on some installs and not
 # others, and nginx will not start on an address family the container lacks.
+# The kernel lists the container's IPv6 addresses in /proc/net/if_inet6, and
+# the file is read rather than tested for size, since every file under /proc
+# reports a size of 0.
 ipv6=false
-if [[ -s /proc/net/if_inet6 ]]; then
+if grep -q . /proc/net/if_inet6 2>/dev/null; then
   ipv6=true
 fi
 
