@@ -37,6 +37,15 @@ map $from_ingress $upstream_accept_encoding {
     0 '';
 }
 
+# Notifiarr sets its session cookie on the root. Through ingress that is Home
+# Assistant's, shared by every ingress application, and Bazarr's and Bazarr+'s
+# session cookies have the same name, so there it is scoped to the ingress path
+# instead.
+map $from_ingress $ingress_cookie_path {
+    1 {{ .ingress_entry }};
+    0 /;
+}
+
 # Notifiarr hands its pages their URL base in a cookie, which the scripts read
 # before anything else, and nginx can only rewrite a cookie's path, not its
 # value. So the published port is sent a second one, the cookie Notifiarr sends
@@ -101,16 +110,16 @@ server {
 {{ if .ingress_entry }}
     # Beyond that cookie, Notifiarr writes its base into the settings its API
     # answers with and into its redirects, and names it nowhere else: the page
-    # loads its scripts by relative address, and its session cookie is set on
-    # the root. Replacing that one string everywhere it appears is all the rest
-    # takes. Through ingress the replacement is the path itself, which changes
-    # nothing.
+    # loads its scripts by relative address. Replacing that one string
+    # everywhere it appears is all the rest takes. Through ingress the
+    # replacement is the path itself, which changes nothing.
     proxy_set_header Accept-Encoding $upstream_accept_encoding;
     sub_filter '{{ .ingress_entry }}' '$public_base';
     sub_filter_once off;
     sub_filter_types application/javascript application/json application/manifest+json application/xml text/css text/javascript text/xml;
     proxy_redirect ~^(https?://[^/]+)?{{ .ingress_entry }}(/.*)$ $1$public_base$2;
     proxy_redirect ~^(https?://[^/]+)?{{ .ingress_entry }}$ $1$public_root;
+    proxy_cookie_path ~^/$ $ingress_cookie_path;
     add_header Set-Cookie $public_urlbase_cookie;
 
     location ^~ {{ .ingress_entry }} {

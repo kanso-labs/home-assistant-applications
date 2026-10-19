@@ -32,13 +32,15 @@ if ! bashio::fs.file_exists "${config_file}"; then
 fi
 
 # The API key stays in the application options and reaches Notifiarr through
-# the environment, so this never writes it to disk.
+# the environment, so this never writes it to disk. Notifiarr does, with every
+# other setting, whenever it rewrites notifiarr.conf: at the first sign-in and
+# on every save under Configuration.
 if bashio::config.has_value 'api_key'; then
   export DN_API_KEY="$(bashio::config 'api_key')"
 else
   bashio::log.warning \
-    'No API key set. Notifiarr will start, but cannot reach notifiarr.com' \
-    'until one is added in the application options.'
+    'No API key set in the application options. Notifiarr uses the one saved' \
+    'in notifiarr.conf, if it has one, and otherwise cannot reach notifiarr.com.'
 fi
 
 # Ingress serves Notifiarr under a path Supervisor chooses, and Notifiarr's web

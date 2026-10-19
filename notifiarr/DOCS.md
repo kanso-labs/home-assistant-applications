@@ -15,8 +15,15 @@ cannot reach Notifiarr.com. The log says so on every start until one is set.
 ### `api_key`
 
 Your API key from [notifiarr.com](https://notifiarr.com), found under your
-profile. It is passed to Notifiarr through the environment and is never written
-into the configuration file on disk.
+profile. It reaches Notifiarr through the environment, which wins over any key
+saved in `notifiarr.conf`, and the application never writes it to disk itself.
+Notifiarr does: your first sign-in, and every save under Configuration, rewrite
+`notifiarr.conf` with every setting in effect, this key included, and keep a
+copy of the earlier file under `backups/` beside it. Both are in the
+application's configuration directory, so Home Assistant's backups carry the key
+too. Removing it from the options does not take it out of `notifiarr.conf`, and
+Notifiarr goes on using the copy saved there. A different key in the options
+replaces it.
 
 Everything else is configured from Notifiarr's own web interface, and those
 settings live in the application's configuration directory so they survive
@@ -26,9 +33,9 @@ restarts and updates.
 
 Turn on **Watchdog** on the application's Info tab to have Home Assistant
 restart Notifiarr when it stops answering, not only when it exits. The image
-asks Notifiarr itself for its page at `/` every 30 seconds, which its log shows
-each time as a request from 127.0.0.1, and five failures in a row count as a
-hang. It is off by default.
+asks for `/ui/ws` every 30 seconds, through nginx so that both are checked, at
+the one address Notifiarr leaves out of its log, and five failures in a row
+count as a hang. It is off by default.
 
 ## First login
 
@@ -43,11 +50,10 @@ Web interface password: <password>
 ```
 
 Read it from the log and sign in. It is written once, near the top of the first
-start's log, and the image's health check adds a line every 30 seconds after it
-whether or not Watchdog is on, so a log read later has to be scrolled back, or
-downloaded in full, to reach it. Until you change it, it is also `ui_password`
-in `notifiarr.conf`, in the application's configuration directory. Changing it
-in the web interface stores it encrypted, which is worth doing.
+start's log. Until your first sign-in, it is also `ui_password` in
+`notifiarr.conf`, in the application's configuration directory. Signing in
+stores it hashed, but Notifiarr keeps the file as it was under `backups/` beside
+it, so changing the password in the web interface is still worth doing.
 
 ## Ingress
 
