@@ -11,10 +11,12 @@
 # base, so the same packages install from the same archive; base-ubuntu, which
 # AGENTS.md names as the Debian-family option, would have changed every one.
 #
-# The tag floats, as the Alpine applications float base:3.24, so every build
-# takes Home Assistant's latest rebuild of trixie. The image's dated tags, such
-# as trixie-2026.08.0, are ones Renovate cannot read as versions, so a pin to
-# one never moved.
+# The tag names the Debian release. Renovate pins it by digest, as it does every
+# Home Assistant base image, and opens a pull request each time Home Assistant
+# rebuilds trixie under it. The image's dated tags, such as trixie-2026.08.0,
+# are ones Renovate cannot read as versions, so a pin to one never moved, and
+# moving to Debian's next release is done by hand, with the suite the Nginx
+# annotation below names.
 #
 # Debian's own packages are not pinned. Its archive keeps only the current
 # version of each, so an exact pin stops resolving at the next point release and

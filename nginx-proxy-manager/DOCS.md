@@ -4,7 +4,7 @@
 
 1. Add this repository to your Home Assistant instance.
 2. Install the "Nginx Proxy Manager" application.
-3. Start it, then open the web interface on port 81.
+3. Start it, then select **Open Web UI**, or open port 81.
 4. Create your administrator account on the page it opens with.
 
 The first page is a setup form asking for a name, an email address and a
@@ -67,15 +67,15 @@ trusts the applications on this machine and nothing outside it.
 
 ## Storage
 
-| Path                      | Holds                                      |
-| ------------------------- | ------------------------------------------ |
-| `/config/database.sqlite` | Hosts, users, access lists, settings       |
-| `/config/nginx`           | The Nginx host files it generates          |
-| `/config/letsencrypt`     | The Let's Encrypt account and certificates |
-| `/config/access`          | Access lists                               |
-| `/config/custom_ssl`      | Certificates you uploaded yourself         |
-| `/config/logs`            | Certbot's logs, excluded from backups      |
-| `/data/keys.json`         | The JWT key pair                           |
+| Path                      | Access     | Holds                                      |
+| ------------------------- | ---------- | ------------------------------------------ |
+| `/config/database.sqlite` | read/write | Hosts, users, access lists, settings       |
+| `/config/nginx`           | read/write | The Nginx host files it generates          |
+| `/config/letsencrypt`     | read/write | The Let's Encrypt account and certificates |
+| `/config/access`          | read/write | Access lists                               |
+| `/config/custom_ssl`      | read/write | Certificates you uploaded yourself         |
+| `/config/logs`            | read/write | Certbot's logs, excluded from backups      |
+| `/data/keys.json`         | read/write | The JWT key pair                           |
 
 Nothing else is mapped. Nginx Proxy Manager reaches the services it proxies over
 the network, so it needs neither `/media` nor `/share`.
@@ -142,3 +142,6 @@ community build's packages and its Nginx repository carry over.
 Nginx Proxy Manager itself is developed by
 [jc21](https://github.com/NginxProxyManager/nginx-proxy-manager) and is MIT
 licensed.
+
+The icon and logo are the community app's, scaled to 128 by 128 and 250 by 100
+pixels.
