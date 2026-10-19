@@ -97,10 +97,10 @@ and the same packages, and the workflow reads that same `.tool-versions` through
 
 **Two actions run from `@master`, against the pinning rule, because there is no
 release to pin.** `home-assistant/actions/helpers/find-addons` finds the
-applications in `lint.yaml` and `build.yaml`, and `helpers/info` reads each
-one's metadata in `_build-application.yaml`. The repository's only tag, `1.0.0`,
-dates from 2020 and predates `helpers/` entirely, and a commit SHA is not a
-release tag either. Upstream has been asked to tag releases in
+applications in `build.yaml`, and `helpers/info` reads each one's metadata in
+`_build-application.yaml`. The repository's only tag, `1.0.0`, dates from 2020
+and predates `helpers/` entirely, and a commit SHA is not a release tag either.
+Upstream has been asked to tag releases in
 [home-assistant/actions#144](https://github.com/home-assistant/actions/issues/144).
 Until it does, whatever lands on its `master` runs here on the next job, and
 Renovate has nothing to propose. What it can reach is kept small: every job that
@@ -108,7 +108,7 @@ runs one holds `contents: read` and nothing else. `_build-application.yaml` has
 to say so on its Prepare job, which would otherwise inherit the package and OIDC
 scopes the build is given, and its checkout there leaves no token behind.
 [#482](https://github.com/kanso-labs/home-assistant-applications/issues/482)
-tracks pinning all three once a tag exists, and removing this paragraph.
+tracks pinning both once a tag exists, and removing this paragraph.
 
 **Prettier formats the YAML, JSON and Markdown here**, and the site's TypeScript
 and CSS along with them; CI checks it. There is no root `package.json`, so there
@@ -434,8 +434,17 @@ fails one that has `s6-rc.d/user`.
 
 Every one of these has caught a real failure. Run them.
 
-**Validate against the linter's own schema**, rather than waiting for CI to tell
-you:
+**Run the linter** as `Lint applications` does, rather than waiting for CI to
+tell you:
+
+```shell
+docker build --tag app-linter \
+  'https://github.com/frenck/action-app-linter.git#v2.21.1:src'
+docker run --rm --env INPUT_COMMUNITY=false --env INPUT_PATH=./<slug> \
+  --volume "$PWD:/github/workspace" --workdir /github/workspace app-linter
+```
+
+**Validate against the linter's own schema** as well:
 
 ```shell
 gh api -H 'Accept: application/vnd.github.raw' \
@@ -443,7 +452,8 @@ gh api -H 'Accept: application/vnd.github.raw' \
   > /tmp/app.schema.json
 ```
 
-The ref is the linter tag `lint.yaml` runs, and moves with it.
+Both refs are the linter tag `lint.yaml` pins in `APP_LINTER_VERSION`, and move
+with it.
 
 Then check your `config.yaml`'s map types and top-level keys against it. This
 exists because the linter rejects values Supervisor documents as current. The

@@ -21,45 +21,54 @@ permissions:
   contents: read
 
 jobs:
-  find:
-    name: Find applications
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    outputs:
-      addons: ${{ steps.addons.outputs.addons_list }}
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v7.0.1
-        with:
-          persist-credentials: false
-
-      - name: Find applications
-        id: addons
-        # Unpinned, as there is no release tag to pin. See AGENTS.md and
-        # https://github.com/kanso-labs/home-assistant-applications/issues/482
-        uses: home-assistant/actions/helpers/find-addons@master
-
+  # One job, not one per application. The linter is a Docker action, and a step
+  # runs it on a single path, so linting each application meant a job each:
+  # 33 jobs that worked for 15 seconds apiece and waited minutes for a runner,
+  # since a free organization runs 20 jobs at a time across every workflow. Its
+  # image is built once here, at the tag Renovate moves, and run over every
+  # application in turn.
   lint:
-    name: Lint ${{ matrix.path }}
+    name: Lint applications
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    needs: find
-    strategy:
-      # Every application reports, so a linter change that rejects something
-      # several of them share shows its whole reach in one run.
-      fail-fast: false
-      matrix:
-        path: ${{ fromJson(needs.find.outputs.addons) }}
+    env:
+      # renovate: datasource=github-tags depName=frenck/action-app-linter
+      APP_LINTER_VERSION: 'v2.21.1'
     steps:
       - name: Check out repository
         uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
-      - name: Run application linter
-        uses: frenck/action-app-linter@v2.21.1
-        with:
-          path: './${{ matrix.path }}'
+      - name: Build the application linter
+        run: |
+          docker build --quiet --tag app-linter \
+            "https://github.com/frenck/action-app-linter.git#${APP_LINTER_VERSION}:src"
+
+      # Every application is linted whatever fails before it, so a linter
+      # change that rejects something several of them share shows its whole
+      # reach in one run. The container sees the workspace where it would as an
+      # action, so its annotations land on the same files.
+      - name: Lint every application
+        run: |
+          failed=()
+          for config in */config.yaml; do
+            app="${config%/config.yaml}"
+            echo "::group::${app}"
+            if ! docker run --rm \
+              --env INPUT_COMMUNITY=false \
+              --env "INPUT_PATH=./${app}" \
+              --volume "${PWD}:/github/workspace" \
+              --workdir /github/workspace \
+              app-linter; then
+              failed+=("${app}")
+            fi
+            echo '::endgroup::'
+          done
+          if [[ ${#failed[@]} -gt 0 ]]; then
+            echo "The linter rejected: ${failed[*]}"
+            exit 1
+          fi
 
   verify:
     name: Verify release wiring
@@ -226,9 +235,9 @@ jobs:
       - name: Lint workflows
         uses: kanso-labs/actions/lint-workflows@v4.3.0
 
-  # One job with a fixed name for branch protection to require. The linter runs
-  # once per application, so its own check names change whenever an application
-  # is added, and a forgotten name fails silently by never being required.
+  # One job with a fixed name for branch protection to require, so that adding
+  # or renaming a job here never needs the ruleset changed, and a forgotten
+  # name cannot fail silently by never being required.
   #
   # The name predates the release wiring check and is left alone deliberately:
   # it is the name branch protection asks for, and renaming it would stop the
