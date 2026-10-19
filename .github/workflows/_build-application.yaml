@@ -78,13 +78,31 @@ jobs:
           # the version moves. That tag is created only once every
           # architecture's image has been pushed, so a release whose build
           # failed partway publishes in full on Build's next hourly run, which
-          # looks for released versions missing from the registry. Anything short
-          # of finding it publishes, as every push used to: a new
-          # application's package cannot even be looked up anonymously until
-          # its first publish creates it.
-          if [[ "${publish}" == 'true' ]] && docker buildx imagetools inspect "${image}:${version}" > /dev/null 2>&1; then
-            echo "::notice::${image}:${version} is already published, so this build pushes nothing. Releasing a new version publishes it."
-            publish=false
+          # looks for released versions missing from the registry.
+          #
+          # imagetools inspect exits 1 alike for a missing version and for a
+          # registry that did not answer, so its error is read. Only "not
+          # found", or the 403 ghcr gives an anonymous lookup of a package that
+          # does not exist yet, as a new application's does until its first
+          # publish, counts as unpublished. Anything else is asked again, then
+          # fails this build rather than push over a release, and the hourly
+          # run publishes a release still missing once the registry answers.
+          if [[ "${publish}" == 'true' ]]; then
+            for attempt in 1 2 3; do
+              if error=$(docker buildx imagetools inspect "${image}:${version}" 2>&1 > /dev/null); then
+                echo "::notice::${image}:${version} is already published, so this build pushes nothing. Releasing a new version publishes it."
+                publish=false
+                break
+              fi
+              if grep -q -E ': not found$|failed to fetch anonymous token: .*: 403 Forbidden$' <<< "${error}"; then
+                break
+              fi
+              if [[ "${attempt}" -eq 3 ]]; then
+                echo "::error::Could not tell whether ${image}:${version} is published, so nothing is pushed: ${error//$'\n'/ }"
+                exit 1
+              fi
+              sleep "$((attempt * 15))"
+            done
           fi
           url=$(decode "${INFO_URL}")
           {
