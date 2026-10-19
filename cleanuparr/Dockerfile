@@ -11,7 +11,7 @@
 # rootfs/ is unchanged from every other application. Unlike Seerr's, the image
 # underneath is Microsoft's ASP.NET runtime image, which is Ubuntu rather than
 # Alpine, so the packages come from apt.
-ARG BUILD_FROM=ghcr.io/cleanuparr/cleanuparr:2.10.11
+ARG BUILD_FROM=ghcr.io/cleanuparr/cleanuparr:2.10.12
 FROM ${BUILD_FROM}
 
 # Set shell
