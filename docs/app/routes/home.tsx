@@ -145,9 +145,9 @@ export default function Home() {
             <span className="keys">
               <Keycap>Settings</Keycap>
               <span aria-hidden="true">→</span>
-              <Keycap>Add-ons</Keycap>
+              <Keycap>Apps</Keycap>
               <span aria-hidden="true">→</span>
-              <Keycap>Add-on store</Keycap>
+              <Keycap>App store</Keycap>
               <span aria-hidden="true">→</span>
               <Keycap>⋮</Keycap>
               <span aria-hidden="true">→</span>
@@ -221,7 +221,11 @@ export default function Home() {
               <Code>
                 ghcr.io/kanso-labs/home-assistant-application-&lt;slug&gt;
               </Code>
-              , covering aarch64 and amd64.
+              , covering aarch64 and amd64. A version is published once and
+              never pushed over, so it is the same image on every install. Tdarr
+              and Seadexerr publish none, because neither may be passed on: your
+              Home Assistant builds each from its Dockerfile when you install or
+              update it, from the image its author publishes.
             </PackagingNote>
 
             <PackagingNote title="As little mapped as possible">
@@ -240,7 +244,9 @@ export default function Home() {
 
             <PackagingNote title="Updates that arrive">
               Renovate watches each upstream project's releases, release-please
-              cuts a version, and Home Assistant offers the update. The arr
+              cuts a version, and Home Assistant offers the update. A major
+              release, or a minor one of a project still below 1.0, waits for a
+              person to read upstream's notes before it ships. The arr
               applications' own updaters are switched off deliberately — they
               would announce a new version and then refuse to install it — so
               this packaging is the one route in.
@@ -259,7 +265,7 @@ export default function Home() {
             </li>
             <li>
               <Link
-                href={`${repository}/blob/main/CONTRIBUTING.md`}
+                href="https://github.com/kanso-labs/.github/blob/main/CONTRIBUTING.md"
                 tone="inherit"
                 underline="hover"
               >
@@ -288,9 +294,13 @@ export default function Home() {
 
           <Text block className="measure" tone="muted" variant="bodySmall">
             This packaging is MIT licensed. The applications it packages keep
-            their own terms — mostly GPLv3 or MIT, with Plex Media Server
-            proprietary and used under Plex's. Each application's docs record
-            its licence and credit the packaging it was ported from.
+            their own terms, mostly a GNU licence or MIT. n8n is fair-code,
+            under its Sustainable Use License, and Plex Media Server is
+            proprietary and used under Plex's terms. Tdarr is free for personal
+            use under a licence that forbids redistributing it, and Seadexerr
+            carries no licence at all, which is why neither has an image here.
+            Each application's docs record its licence and credit the packaging
+            it was ported from.
           </Text>
         </Stack>
       </Container>
