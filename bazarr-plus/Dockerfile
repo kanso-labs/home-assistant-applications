@@ -12,7 +12,7 @@
 # init-bazarr-plus seeds a new install's config.yaml with two values Bazarr+'s
 # upgrade migrations would otherwise change, so check those migrations in
 # bazarr/app/config.py when this version moves.
-ARG BUILD_FROM=ghcr.io/lavx/bazarr:2.7.1
+ARG BUILD_FROM=ghcr.io/lavx/bazarr:2.7.2
 FROM ${BUILD_FROM}
 
 # Set shell
