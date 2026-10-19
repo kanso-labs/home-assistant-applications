@@ -8,6 +8,7 @@
 readonly config_file='/config/nzbget.conf'
 readonly main_dir='/share/nzbget'
 readonly queue_dir='/config/queue'
+readonly script_dir='/config/scripts'
 
 # NZBGet ships a configuration that downloads inside its own install directory,
 # which is discarded on every update, and a web interface password that is the
@@ -25,6 +26,11 @@ if ! bashio::fs.file_exists "${config_file}"; then
   # put them in /share, outside this application's backups. They stay in its
   # own directory instead, and only the downloads go to /share.
   sed -i "s|^QueueDir=.*|QueueDir=${queue_dir}|" "${config_file}"
+  # Upstream's package keeps extensions in its install directory, which every
+  # start replaces, so an extension installed from Extension Manager would be
+  # gone after the next one. They stay in this application's own directory
+  # instead, beside the settings NZBGet keeps for them.
+  sed -i "s|^ScriptDir=.*|ScriptDir=${script_dir}|" "${config_file}"
   sed -i "s|^ControlPassword=.*|ControlPassword=${password}|" "${config_file}"
   # Supervisor already captures stdout, and NZBGet's own log file is appended
   # to forever. Seeded rather than forced, so it can be turned back on.
@@ -70,6 +76,19 @@ if grep -q '^QueueDir=\${MainDir}/queue$' "${config_file}"; then
     sed -i "s|^QueueDir=.*|QueueDir=${queue_dir}|" "${config_file}"
     rm -f -r "${current_main_dir}/queue"
   fi
+fi
+
+# Configurations seeded before extensions moved still keep them in the install
+# directory, where every start discarded them. Each is repointed once, and only
+# while ScriptDir is still upstream's default, so a directory chosen in NZBGet's
+# settings stays. There is nothing to move, since the old directory never
+# outlived a start. ${AppDir} is NZBGet's own variable too.
+# shellcheck disable=SC2016
+if grep -q '^ScriptDir=\${AppDir}/scripts$' "${config_file}"; then
+  bashio::log.notice \
+    "Extensions now install into ${script_dir}. Reinstall any you had under" \
+    'Settings, Extension Manager.'
+  sed -i "s|^ScriptDir=.*|ScriptDir=${script_dir}|" "${config_file}"
 fi
 
 mkdir -p "${main_dir}"

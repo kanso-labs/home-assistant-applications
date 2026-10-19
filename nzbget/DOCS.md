@@ -30,28 +30,33 @@ they survive restarts and updates.
 Add your news servers under Settings, then News-Servers. Until you do, the log
 reports that no servers are configured, which is expected on a fresh install.
 
-Five defaults are changed on first start, because NZBGet's own would be wrong
+Six defaults are changed on first start, because NZBGet's own would be wrong
 here:
 
-| Setting           | Seeded value    | Why                                                                                   |
-| ----------------- | --------------- | ------------------------------------------------------------------------------------- |
-| `MainDir`         | `/share/nzbget` | NZBGet downloads into its install directory, which is replaced on every update        |
-| `QueueDir`        | `/config/queue` | NZBGet keeps the queue under `MainDir`, outside this application's backups            |
-| `ControlPassword` | generated       | The shipped password is identical on every NZBGet in the world                        |
-| `WriteLog`        | `none`          | Home Assistant already captures the log, and NZBGet's own file is appended to forever |
-| `FormAuth`        | `yes`           | NZBGet's sign-in form fits inside Home Assistant better than the browser's dialog     |
+| Setting           | Seeded value      | Why                                                                                   |
+| ----------------- | ----------------- | ------------------------------------------------------------------------------------- |
+| `MainDir`         | `/share/nzbget`   | NZBGet downloads into its install directory, which is replaced on every update        |
+| `QueueDir`        | `/config/queue`   | NZBGet keeps the queue under `MainDir`, outside this application's backups            |
+| `ScriptDir`       | `/config/scripts` | NZBGet keeps extensions in its install directory, which is replaced on every start    |
+| `ControlPassword` | generated         | The shipped password is identical on every NZBGet in the world                        |
+| `WriteLog`        | `none`            | Home Assistant already captures the log, and NZBGet's own file is appended to forever |
+| `FormAuth`        | `yes`             | NZBGet's sign-in form fits inside Home Assistant better than the browser's dialog     |
 
-All five are written only when no configuration exists, so anything you change
-afterwards is left alone. `QueueDir` is the one exception. An installation from
-before it was seeded has its queue, history and statistics moved from
-`/share/nzbget/queue` into `/config/queue` once, on its first start after the
-update, as long as `QueueDir` still reads upstream's `${MainDir}/queue`. A queue
-directory you chose yourself stays where you put it.
+All six are written only when no configuration exists, so anything you change
+afterwards is left alone. `QueueDir` and `ScriptDir` are the exceptions. An
+installation from before `QueueDir` was seeded has its queue, history and
+statistics moved from `/share/nzbget/queue` into `/config/queue` once, on its
+first start after the update, as long as `QueueDir` still reads upstream's
+`${MainDir}/queue`. One from before `ScriptDir` was seeded is pointed at
+`/config/scripts` the same way, as long as `ScriptDir` still reads upstream's
+`${AppDir}/scripts`. A directory you chose yourself stays where you put it.
 
 Extensions from NZBGet's Extension Manager, under Settings, then Extension
 Manager, are Python 3 scripts, and the image carries Python 3 for them. They
-install into `/share/nzbget/scripts`, so they are not part of this application's
-backup, but their settings are.
+install into `/config/scripts`, so they come along in this application's backup
+together with their settings. Older versions of this application installed them
+inside the image, where the next restart removed them, so reinstall any you
+added before this update.
 
 Turn on **Watchdog** on the application's Info tab to have Home Assistant
 restart NZBGet when it stops answering, not only when it exits. The image asks
@@ -106,11 +111,11 @@ Home Assistant session in a browser. They still work on the published port.
 
 ## Storage
 
-| Path      | Access     | Holds                                                   |
-| --------- | ---------- | ------------------------------------------------------- |
-| `/config` | read/write | The NZBGet configuration, queue, history and statistics |
-| `/media`  | read/write | Your media library                                      |
-| `/share`  | read/write | Downloads and extensions, under `nzbget`                |
+| Path      | Access     | Holds                                                               |
+| --------- | ---------- | ------------------------------------------------------------------- |
+| `/config` | read/write | The NZBGet configuration, extensions, queue, history and statistics |
+| `/media`  | read/write | Your media library                                                  |
+| `/share`  | read/write | Downloads, under `nzbget`                                           |
 
 Downloads still land in `/share` by default, and letting Radarr and Sonarr file
 them into `/media` remains the tidier arrangement. `/media` is mapped so that a
