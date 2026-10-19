@@ -50,9 +50,13 @@ learning by the name above and needs no port. Open it only for an Immich server
 elsewhere on your network: in this application's **Configuration** tab, under
 **Network**, set the port to `3003`, then point that server's Machine Learning
 Settings at your Home Assistant machine's address, such as
-`http://192.168.1.10:3003`. Keep that server on the same Immich version as this
-application, since Immich warns that a mismatch between the two can cause bugs.
-Machine learning has no login, so open the port only on a network you trust.
+`http://192.168.1.10:3003`. Two applications cannot publish the same port, and
+Home Assistant reports the conflict only when the second one starts. Flight
+Finder publishes `3003`, so with it installed, set another port, such as `3013`,
+and use that in the address instead. Keep that server on the same Immich version
+as this application, since Immich warns that a mismatch between the two can
+cause bugs. Machine learning has no login, so open the port only on a network
+you trust.
 
 **Immich keeps working while this is stopped**, from uploads to browsing. Two
 things are the exception:
@@ -76,17 +80,18 @@ up as. Nothing breaks when there is none.
 
 **To see which one is used**, set the log level to `debug`, restart, and upload
 a photo. The first request after a restart loads the models, and the log names
-the device OpenVINO chose:
+the device OpenVINO was given. The message is wrapped over several lines, and
+starts like this:
 
 ```text
-OpenVINO: Using GPU device GPU.0
+Setting execution provider options to
+[{'device_type': 'GPU.0', …
 ```
 
-or, without a GPU it can use:
-
-```text
-OpenVINO: No GPU found, using CPU
-```
+`GPU.0` is the GPU. Without a GPU it can use, the message reads
+`'device_type': 'CPU'` instead. The messages that name
+`OpenVINOExecutionProvider` appear either way, so they do not tell the two
+apart.
 
 Set the log level back to `log` afterwards. At `debug` the log grows quickly.
 
