@@ -3,7 +3,7 @@
 # This is the official Avahi as Alpine packages it, on the Home Assistant base
 # image, and nothing else. There is no third-party application here: the options
 # are turned into Avahi's own service files and avahi-publish calls.
-ARG BUILD_FROM=ghcr.io/home-assistant/base:3.24
+ARG BUILD_FROM=ghcr.io/home-assistant/base:3.24@sha256:8fde4170393bdf7a121ea4d6e34b417e1d0b90125948459f9f9f70cdf5d77c16
 FROM ${BUILD_FROM}
 
 # Set shell
