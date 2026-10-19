@@ -12,6 +12,18 @@ Sonarr has no application options. Everything is configured from its own web
 interface, and the settings live in the application's configuration directory so
 they survive restarts and updates.
 
+Add a download client under Settings → Download Clients. Sonarr reaches the
+qBittorrent and NZBGet in this repository over Home Assistant's internal network
+by hostname, not at `localhost`: qBittorrent is `2dd33fbd-qbittorrent` on port
+8080, and NZBGet is `2dd33fbd-nzbget` on port 6789. Both download under
+`/share`, which Sonarr sees at the same path, so no remote path mapping is
+needed. Indexers can come from
+[Prowlarr](https://github.com/kanso-labs/home-assistant-applications/tree/main/prowlarr),
+which adds them to Sonarr itself once Sonarr is added under Prowlarr's Settings
+→ Apps. `2dd33fbd` is Home Assistant's name for this repository when it was
+added by the address in the README. An application from another repository has
+another prefix, shown as **Hostname** on that application's **Info** tab.
+
 **Send Anonymous Usage Data**, under Settings → General, is kept off for you,
 and turning it on there has no effect. With it off, Sonarr sends the Sonarr team
 no crash reports, apart from an error early in a start, before it has read its
@@ -109,3 +121,6 @@ Franck Nijhof, used under the MIT licence.
 
 Sonarr itself is developed by the
 [Sonarr team](https://github.com/Sonarr/Sonarr) and is licensed under GPLv3.
+
+The icon is the community app's, scaled to 128 by 128 pixels. The logo sets the
+same icon beside Sonarr's name.
