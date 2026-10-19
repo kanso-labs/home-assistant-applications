@@ -197,9 +197,15 @@ is an absolute GitHub URL.
 
 `DOCS.md` runs Installation, Configuration, Ingress, Ports, any sections of the
 application's own, Storage, Backups, Updates, Support, Credits, then any "A note
-on…" sections, leaving out those that do not apply. Storage is a table of
-`| Path | Access | Holds |`, so that what an application can write is stated
-rather than inferred. Credits say where the icon and logo came from.
+on…" sections, leaving out those that do not apply. That is the order a new
+application's DOCS follow. Most existing ones depart from it where their reader
+needs a section earlier or later than it puts one: a section to read before
+installing goes ahead of Installation, as Immich's "Before you install" does, a
+first login comes straight after Installation, as NZBGet's does, and a check or
+a caveat can follow Storage. They are left as they are rather than moved to fit.
+Storage is a table of `| Path | Access | Holds |`, so that what an application
+can write is stated rather than inferred. Credits say where the icon and logo
+came from.
 
 **Show in sidebar** is off after an install, so an installation step never says
 to open the application from the sidebar. Write "Start it, then select **Open
@@ -210,10 +216,14 @@ Web UI**, or open port N", as Cleanuparr does.
 Keys are ordered by name. Required: `name`, `version`, `slug`, `description`,
 `arch`.
 
-The one exception is inside `schema`, whose order carries meaning: the
-Configuration tab shows the options, and the fields of a list entry, in the
-order `schema` declares them. Order those the way a person fills them in, and
-say so in a comment.
+Two kinds of key keep the order they are shown in rather than order by name.
+Inside `schema`, the Configuration tab shows the options, and the fields of a
+list entry, in the order `schema` declares them: order those the way a person
+fills them in, and say so in a comment. Inside `ports`, the Network tab lists
+the ports in the order `config.yaml` declares them, so they run in port order,
+as Nginx Proxy Manager's 80, 81 and 443 do, and `ports_description` and the
+translations' `network` follow the same order. `Verify applications` checks the
+order of every other key.
 
 ```yaml
 arch:
@@ -274,10 +284,13 @@ maps both.
 Publish the least, too. A port only other applications use is declared as
 `null`, which leaves it closed until someone opens it under Network, as Byparr's
 and FlareSolverr's are. Applications on the same Home Assistant reach it either
-way, at `http://2dd33fbd-<slug>:<port>`: `2dd33fbd` is the hash Supervisor takes
-of this repository's URL, the same on every install, and the bare slug resolves
-to nothing. Such a port gets no `webui`, because Supervisor builds that link
-from the published port.
+way, at `http://2dd33fbd-<slug>:<port>`. `2dd33fbd` is the hash Supervisor takes
+of the repository URL as it was added, ignoring case, so it holds on every
+install that added the address in the README, while one added with a trailing
+slash or `.git` gets another prefix, shown as **Hostname** on the application's
+**Info** tab. DOCS that give such an address say so, as Byparr's does. The bare
+slug resolves to nothing. Such a port gets no `webui`, because Supervisor builds
+that link from the published port.
 
 Ask for `hassio_api` only when the application calls a Supervisor endpoint
 beyond its own options and info, which every application can read without it,
@@ -480,9 +493,11 @@ CI runs this too, as `Verify release wiring`. It does not read the curated rule
 in `.github/renovate.json`.
 
 **Verify the conventions**, which catches what steps 2 to 6 ask for and no other
-check reads: key order, translations that cover every option and port in both
-languages, the icon and logo sizes, the curated rule, a health check or a
-comment saying why there is none, and the retry flags on every download:
+check reads: key order, translations that cover every option, list field and
+port in both languages, the executable bit on every script under `rootfs/`, the
+user bundle in `user-bundles.d` rather than `s6-rc.d/user`, the icon and logo
+sizes, the curated rule, a health check or a comment saying why there is none,
+and the retry flags on every download:
 
 ```shell
 npm --prefix docs ci && node .github/scripts/verify-applications.mjs
@@ -625,6 +640,28 @@ was merged and released with nobody having read its notes, so a rule in
 minor rule gave them, so it stays below that rule, and their patches still
 automerge.
 
+Nor does a feature release of Authentik. Authentik numbers its releases by date,
+so Renovate reads one such as 2026.8 to 2026.11 as a minor, although upstream
+treats each feature release as a major and opens its notes with breaking
+changes, and its bumps arrive here without those notes. A rule in
+`.github/renovate.json` holds those minors back by name, below the 0.x rule.
+Authentik's patches still automerge while no feature release is waiting, since
+Renovate folds them into the minor while one is.
+
+**Authentik ships one feature release at a time.** It migrates a database last
+run by its own feature release or the one before, and refuses anything older
+with `Major version skips are not allowed`. Home Assistant installs only the
+newest version of an application, so a feature release this repository skips
+leaves every install still on the one before with no update that starts.
+Renovate keeps one pull request for the newest minor and one for the newest
+major, and moves each to the newest release as another ships, so a feature
+release left waiting past the next one, or the major that opens a new year left
+waiting past that year's second feature release, skips one. Before merging,
+check that the pull request moves exactly one feature release. If it moves two,
+leave it unmerged and bump to the release in between by hand first, typed as
+Renovate would have typed it. Renovate then rebases its pull request onto that,
+and it moves one.
+
 An application below 1.0.0 goes to 1.0.0 the first time upstream takes a major,
 because release-please's default treats a breaking change the same at any
 version.
@@ -673,8 +710,13 @@ out of the source tarball's name. Those are numbered by build within a series
 rather than by version: `unrarsrc-7.2.7` is UnRAR 7.23, and `unrarsrc-7.3.1` is
 7.30 beta 1. The page links only the newest, betas included, and `RARVER_BETA`
 in the tarball's `unrar/version.hpp` is the only way to tell one from a release.
-Renovate cannot tell either, so a beta arrives as an ordinary bump, and
-automerges as one.
+Renovate cannot tell either, so `.github/renovate.json` never automerges an
+UnRAR bump, and Bazarr's Dockerfile reads `RARVER_BETA` after unpacking and
+fails the build on a beta, which keeps one from passing
+`Confirm builds succeeded`. Bazarr 1.2.0 shipped 7.30 beta 1 before the build
+checked. `.github/renovate.json` also excludes 7.3.1 with `allowedVersions`, so
+that the beta Bazarr went back from is not proposed again, and the exclusion
+comes out once RARLAB links a later tarball.
 
 ### Upstream release notes in the changelog
 
@@ -771,8 +813,8 @@ data is in the tree — `_site/`, `docs/build/`, `docs/app/generated/` and
 checked-in copy; it would be one more thing to keep in step, which is the
 problem this arrangement exists to avoid.
 
-**Every fact on the page is read from the applications themselves**, so the page
-cannot describe something the repository does not ship.
+**Every card on the page is read from the applications themselves**, so the
+catalogue cannot describe something the repository does not ship.
 `docs/scripts/generate-catalogue.mjs` runs ahead of `dev` and `build`, reads
 every `*/config.yaml`, and writes the catalogue the page renders:
 
@@ -794,6 +836,9 @@ applications table is written rather than generated. Nothing checks it, so a
 change to what an application is or how it is reached means editing that row in
 the same pull request. The page and the README are the two places a reader meets
 an application before installing it, and only one of them keeps itself honest.
+The rest of the page is written by hand too: its install steps, packaging notes
+and licence line in `docs/app/routes/home.tsx` repeat the README's, so a change
+to one is made in both.
 
 **The site is built for wherever Pages serves it.** `SITE_BASE` sets both Vite's
 `base` and the router's `basename`, and the workflow passes whatever
@@ -1046,9 +1091,10 @@ script that starts `#!/command/with-contenv bashio` runs under `errexit`,
 `errtrace`, `nounset` and `pipefail`, which bashio sets itself. A `wait` that
 returns non-zero, because a child failed or because a trapped signal interrupted
 it, therefore ends the script on the spot, and whatever was meant to follow
-never runs: Avahi Publisher's warning that every alias had stopped publishing
-was never logged for that reason. Write `wait … || true` when code follows it,
-and give a `TERM` trap that should end the service quietly an `exit` of its own.
+never runs: Avahi Publisher once warned when every alias had stopped publishing,
+and the warning was never logged for that reason. Write `wait … || true` when
+code follows it, and give a `TERM` trap that should end the service quietly an
+`exit` of its own.
 
 **The build cache is scoped per application on purpose.** `build-image` scopes
 its GitHub Actions cache to the architecture alone unless told otherwise, so a
@@ -1087,6 +1133,14 @@ the build at that package rather than bringing a server that cannot open the
 cluster. Immich's PostgreSQL settings are `-c` flags in its `postgres/run`,
 which outrank anything set with `ALTER SYSTEM`, so that is where a change to
 them goes.
+
+An embedded PostgreSQL is stopped with `SIGINT`, which a `down-signal` file in
+its `postgres` service sets, as Authentik's, Flight Finder's and Immich's do. s6
+stops a service with `SIGTERM` by default, which PostgreSQL takes as a smart
+shutdown that waits for every client to disconnect. A connection the application
+leaves open then holds it until Supervisor kills the container, and the next
+start replays the log. `SIGINT` is a fast shutdown, which disconnects the
+clients and still writes the shutdown checkpoint.
 
 **`UpdateMethod=docker` disables the application's own updater.** These images
 write it into `/opt/package_info` deliberately. The application will show that a
