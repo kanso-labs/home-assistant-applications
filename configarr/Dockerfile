@@ -6,7 +6,7 @@
 # error text rules out the usual escape hatch: a glibc build cannot be loaded
 # on musl even with gcompat. The alternative is upstream's published image,
 # which carries a full Node runtime to run the same program.
-ARG BUILD_FROM=ghcr.io/home-assistant/base-ubuntu:26.04
+ARG BUILD_FROM=ghcr.io/home-assistant/base-ubuntu:26.04@sha256:379f7f6de68801cd7e4e47c466cbd8b3f1c0025bebc35f20e6b05fdd171477a6
 FROM ${BUILD_FROM}
 
 # Set shell

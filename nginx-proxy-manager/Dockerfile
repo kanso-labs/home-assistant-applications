@@ -24,7 +24,7 @@
 # release they come from. Nginx and Node.js are pinned below, where Renovate
 # moves them: their repositories keep every version, and Nginx is the server
 # this application exposes to the internet.
-ARG BUILD_FROM=ghcr.io/home-assistant/base-debian:trixie
+ARG BUILD_FROM=ghcr.io/home-assistant/base-debian:trixie@sha256:a7f262f331e2a4f4e3e02173da932a8d8c26f3d5758a5f59903d46de1f728e5b
 FROM ${BUILD_FROM}
 
 ARG BUILD_ARCH=amd64
