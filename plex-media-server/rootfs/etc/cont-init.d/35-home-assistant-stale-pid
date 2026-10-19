@@ -1,0 +1,23 @@
+#!/usr/bin/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Plex Media Server
+# Removes the PID file a killed server leaves behind
+# ==============================================================================
+#
+# Plex deletes plexmediaserver.pid when it exits cleanly, and refuses to start
+# while the number in it names any live process. A killed server leaves the file
+# in /config, and in a new container that number can belong to s6 itself, which
+# keeps Plex logging "already running" and never starting. No Plex can be running
+# in this container while its start-up scripts run, so the file is always stale
+# here. linuxserver/docker-plex removes it at start for the same reason.
+
+# shellcheck source=/dev/null
+[ -f /etc/default/plexmediaserver ] && . /etc/default/plexmediaserver
+support="${PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR:-/config/Library/Application Support}"
+readonly pid_file="${support}/Plex Media Server/plexmediaserver.pid"
+
+if bashio::fs.file_exists "${pid_file}"; then
+  bashio::log.notice 'Plex did not stop cleanly last time. Removing the PID file it left.'
+  rm -f "${pid_file}"
+fi

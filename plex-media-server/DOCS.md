@@ -7,7 +7,8 @@
 3. Get a claim code from [plex.tv/claim](https://plex.tv/claim) and put it in
    the application options. A code expires four minutes after it is issued, so
    fetch it when you are ready to start.
-4. Start the application, then open the web interface on port 32400.
+4. Start the application, then select **Open Web UI**, or open port 32400 at
+   `/web`, as in `http://192.168.1.10:32400/web`.
 
 Claiming links the server to your Plex account, and is what lets you reach it.
 An unclaimed server starts, but answers nothing. Set `allowed_networks` instead
@@ -80,11 +81,12 @@ counts about two minutes without an answer as a hang. It is off by default.
 
 ## Storage
 
-| Path      | Access     | Holds                                        |
-| --------- | ---------- | -------------------------------------------- |
-| `/config` | read/write | Settings, the library database, and metadata |
-| `/media`  | read/write | Your library                                 |
-| `/share`  | read-only  | Anything shared between applications         |
+| Path            | Access     | Holds                                                                |
+| --------------- | ---------- | -------------------------------------------------------------------- |
+| `/config`       | read/write | Settings, the library database, and metadata                         |
+| `/data/applied` | read/write | What `advertise_addresses` and `allowed_networks` last put into Plex |
+| `/media`        | read/write | Your library                                                         |
+| `/share`        | read-only  | Anything shared between applications                                 |
 
 **`/media` is writable so Plex can act on your library.** Plex reads your media
 and writes nothing back to it on its own — artwork and metadata live in its own
@@ -168,14 +170,18 @@ Plex's terms, not only this repository's licence.
 
 ## A note on the base image
 
-Most applications here start from a Home Assistant base image, which supplies
+Many applications here start from a Home Assistant base image, which supplies
 s6-overlay and bashio. This one starts from the image Plex publishes.
 
 Plex has no source to build and no versioned release feed that Renovate can
 read. The published image carries the full version in its tag, which is what
 keeps the update chain working.
 
-That image already runs s6-overlay and already starts Plex, so unlike the other
-applications built this way, none of that is installed here. Only bashio is
-added, and one start-up script that passes the options above to Plex before it
-starts.
+That image already runs s6-overlay and already starts Plex, so, as with Tdarr,
+none of that is installed here. Only bashio is added, with three start-up
+scripts of this repository's own that run before Plex starts. One passes the
+options above to Plex. One removes the PID file Plex leaves behind when it is
+killed rather than stopped, which could otherwise keep it from starting again.
+One reports whether anything can reach the server. Upstream's stop script is
+replaced too, by a copy that skips its first kill when s6 has already stopped
+Plex.
