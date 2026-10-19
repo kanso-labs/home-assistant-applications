@@ -84,10 +84,13 @@ fi
           end)
       | add;
 
-    # Traefik compares a Host rule with the name exactly as the request carries
-    # it, so a client that kept capitals missed its route with a 404. The rule is
-    # an expression that ignores case instead. The schema admits only letters,
-    # digits, dashes and dots, so the dots are all it has to escape.
+    # Every rule is an expression that ignores case. The Host matcher in Traefik
+    # ignores case as well, and also accepts a name with a trailing dot, which
+    # this does not. It stays an expression because Traefik ranks routers that
+    # set no priority by the length of their rule, so a shorter Host rule would
+    # let a router in the configuration folder that loses to a route now, such
+    # as a catch-all, win instead. The schema admits only letters, digits,
+    # dashes and dots, so the dots are all it has to escape.
     def rule: "HostRegexp(`(?i)^\(.host | gsub("\\."; "\\."))$`)";
     def middlewares:
       if (.middlewares // [] | length) > 0
