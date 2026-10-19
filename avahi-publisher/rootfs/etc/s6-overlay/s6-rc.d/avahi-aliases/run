@@ -6,10 +6,37 @@
 # ==============================================================================
 readonly aliases='/run/avahi-publisher/aliases'
 
-# s6 stops this service with TERM, which ends the wait below early. Exiting from
-# the trap keeps a stop from reading as every alias having failed.
+# Publishes one alias, and publishes it again five minutes after each time it
+# stops. avahi-publish cannot pick another name for a .local alias: when another
+# device already answers for the name with a different address, it aborts
+# instead, and starting it again at once would only announce the conflict again
+# every second. Its child runs in the background and is waited for, because bash
+# acts on TERM only once a foreground command has ended.
+publish() {
+  local name="${1}" address="${2}" child=''
+  trap 'kill "${child}" 2> /dev/null || true; exit 0' TERM
+
+  while true; do
+    # --no-reverse, because every alias for this host shares its address, and
+    # each reverse record would claim that address for a different name.
+    # --no-fail keeps avahi-publish waiting through an Avahi restart and
+    # publishing again afterwards, rather than exiting.
+    avahi-publish --address --no-reverse --no-fail "${name}" "${address}" &
+    child="$!"
+    wait "${child}" || true
+
+    bashio::log.warning "${name} stopped publishing, and is published again in five minutes. If the lines above report a name collision, another device already answers for ${name} with a different address: rename the alias, or correct its address."
+    sleep 300 &
+    child="$!"
+    wait "${child}" || true
+  done
+}
+
+# s6 stops this service with TERM, which ends the wait below early. Each alias
+# then stops its own avahi-publish, and the exit keeps a stop from reading as a
+# failure.
 pids=()
-trap 'kill "${pids[@]}" 2> /dev/null; exit 0' TERM
+trap 'kill "${pids[@]}" 2> /dev/null || true; exit 0' TERM
 
 while IFS=$'\t' read -r name address; do
   if [[ -z "${address}" ]]; then
@@ -18,12 +45,7 @@ while IFS=$'\t' read -r name address; do
   fi
 
   bashio::log.info "Publishing ${name} at ${address}"
-
-  # --no-reverse, because every alias for this host shares its address, and each
-  # reverse record would claim that address for a different name. --no-fail
-  # keeps avahi-publish waiting through an Avahi restart and publishing again
-  # afterwards, rather than exiting.
-  avahi-publish --address --no-reverse --no-fail "${name}" "${address}" &
+  publish "${name}" "${address}" &
   pids+=("$!")
 done < "${aliases}"
 
@@ -33,11 +55,6 @@ if [[ ${#pids[@]} -eq 0 ]]; then
   exec sleep infinity
 fi
 
-# avahi-publish rides out a name collision by taking the next free name, so one
-# that stops has hit an error it cannot recover from, and its log line says
-# which. Stopping the others to retry would only take their records down too, so
-# this waits for all of them. wait then returns the failure, which bashio's
-# errexit would otherwise end the script on before the warning could be logged.
+# Every alias publishes on its own until the service is stopped, so one that
+# cannot be published never takes the others down with it.
 wait "${pids[@]}" || true
-bashio::log.warning 'Every alias has stopped publishing, so they are being published again'
-exit 1

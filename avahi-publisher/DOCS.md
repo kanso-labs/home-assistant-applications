@@ -114,9 +114,15 @@ Aliases that point at this host share its address. They are published without a
 reverse record, so looking the address up still returns the host's own name
 rather than whichever alias happened to be published last.
 
-When another device on the network already uses a name, Avahi publishes under
-the next free one instead, such as `sonarr-2.local` or `Office NAS #2`, and the
-log says which. Rename the alias or service to take the choice back.
+When another device on the network already uses a service's name, Avahi
+publishes the service under the next free one instead, such as `Office NAS #2`,
+and the log says which. Rename the service to take the choice back.
+
+An alias is never renamed that way. When another device already answers for an
+alias's name with a different address, the alias is not published and the log
+names it. It is tried again every five minutes, until the alias is renamed, its
+address is corrected or the other device lets the name go, and the other aliases
+go on publishing meanwhile.
 
 ## Storage
 
