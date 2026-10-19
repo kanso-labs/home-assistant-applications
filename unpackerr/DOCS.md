@@ -48,10 +48,11 @@ fill in the block:
 ```
 
 `url` is where Unpackerr finds that application. On the same Home Assistant,
-that is its hostname on the internal network rather than `localhost` or the
-`127.0.0.1` the seeded example has: `http://2dd33fbd-radarr:7878` for Radarr and
-`http://2dd33fbd-sonarr:8989` for Sonarr. A Radarr or Sonarr running anywhere
-else keeps the address you already use for it.
+that is its hostname on the internal network, which the seeded example names:
+`http://2dd33fbd-radarr:7878` for Radarr and `http://2dd33fbd-sonarr:8989` for
+Sonarr. A configuration seeded by an older version of this application has
+`127.0.0.1` there instead, which here is Unpackerr itself, so replace it. A
+Radarr or Sonarr running anywhere else keeps the address you already use for it.
 
 `2dd33fbd` is Home Assistant's name for this repository when it was added by the
 address in the README. A Radarr or Sonarr installed any other way has another
@@ -60,9 +61,13 @@ prefix, shown as **Hostname** on its **Info** tab.
 Take each API key from that application, under Settings then General. Restart
 Unpackerr after editing.
 
-`paths` must be where the downloads actually land, and must match what the arr
-application sees. If Unpackerr and Radarr disagree about a path, extraction
-appears to do nothing.
+Unpackerr looks for each download under `paths` first, and the seeded example
+names qBittorrent's folder there. When a download is not under any of them,
+Unpackerr uses the path Radarr or Sonarr reports, which works here too, since
+every application on this Home Assistant sees `/share` at the same path. A
+Radarr or Sonarr elsewhere reports paths on its own machine, so for one of those
+`paths` has to be where Unpackerr finds the downloads, or extraction appears to
+do nothing.
 
 Unpackerr is for the torrent client. It skips Usenet downloads unless its
 `protocols` setting names them, and NZBGet unpacks its own downloads before
