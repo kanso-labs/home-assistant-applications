@@ -4,7 +4,7 @@
 
 1. Add this repository to your Home Assistant instance.
 2. Install the "Muxarr" application.
-3. Start it, then open the web interface on port 8183.
+3. Start it, then select **Open Web UI**, or open port 8183.
 4. Work through the setup wizard: a username and password, then Sonarr and
    Radarr, then your first profile.
 
@@ -37,6 +37,12 @@ Radarr.
 address in the README. A Sonarr or Radarr installed any other way has another
 prefix, shown as **Hostname** on its Info page.
 
+Muxarr asks for its own address too, as **Muxarr URL** in the setup wizard and
+under **Settings → Integrations**, and Sonarr and Radarr call its webhook at
+that address. Use `http://2dd33fbd-muxarr:8183`, which reaches Muxarr over the
+internal network whether port 8183 is open or closed. The `http://muxarr:8183`
+its hint suggests is a Docker Compose name and resolves to nothing here.
+
 Then create a profile naming the directories to watch and the languages to keep.
 Scan, preview what would change, and queue the files.
 
@@ -54,7 +60,9 @@ Turn on **Watchdog** on the application's Info tab to have Home Assistant
 restart Muxarr when it stops answering, not only when it exits. The image asks
 for Muxarr's login page every 30 seconds, which Muxarr serves to anyone, before
 setup and after it, without asking Sonarr or Radarr anything, so neither of them
-being down counts against it. It is off by default.
+being down counts against it. After a start, failures count only once Muxarr has
+answered or five minutes have passed, because after an update it updates its
+database before it answers. It is off by default.
 
 ## What it does to a file
 

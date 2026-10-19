@@ -82,7 +82,11 @@ ENTRYPOINT ["/init"]
 # behind the redirects every other page does, to /setup until setup is done and
 # to /login while a login is on and the local network is not trusted, and curl
 # counts a redirect as a pass.
-HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=3 \
+#
+# Muxarr updates its database before it starts listening, copying it aside
+# first and compacting it after, so the first start after an update takes
+# longer the larger the library. The start period gives that five minutes.
+HEALTHCHECK --interval=30s --timeout=10s --start-period=300s --retries=3 \
   CMD curl -f -s -S -o /dev/null http://127.0.0.1:8183/login || exit 1
 
 # Expose the ports
