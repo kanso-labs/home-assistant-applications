@@ -58,4 +58,3 @@ slug: grimmory
 timeout: 120
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/grimmory'
 version: '1.0.1' # x-release-please-version
-webui: 'http://[HOST]:[PORT:6060]'
