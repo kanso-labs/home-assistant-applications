@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.8](https://github.com/kanso-labs/home-assistant-applications/compare/traefik-v1.0.7...traefik-v1.0.8) (2026-10-20)
+
+
+### Bug Fixes
+
+* update dependency traefik/traefik to v3.7.16 ([#828](https://github.com/kanso-labs/home-assistant-applications/issues/828)) ([b08e270](https://github.com/kanso-labs/home-assistant-applications/commit/b08e270bca04c213039201d7ccd1100145865fb8))
+
+
+### Upstream changes
+
+* **v3.7.16:** [**authentication, service, k8s/ingress-nginx** Support NTLM and Kerberos in ForwardAuth and ingress-nginx auth-url ( juliens)](https://github.com/traefik/traefik/pull/14091) ([b08e270](https://github.com/kanso-labs/home-assistant-applications/commit/b08e270bca04c213039201d7ccd1100145865fb8))
+* **v3.7.16:** [**authentication, service** Support NTLM and Kerberos authentication in ForwardAuth ( juliens)](https://github.com/traefik/traefik/pull/14084) ([b08e270](https://github.com/kanso-labs/home-assistant-applications/commit/b08e270bca04c213039201d7ccd1100145865fb8))
+* **v3.7.16:** [**k8s/gatewayapi** Fix Gateway API conformance suite setup with the containerd image store ( Neffi42)](https://github.com/traefik/traefik/pull/14089) ([b08e270](https://github.com/kanso-labs/home-assistant-applications/commit/b08e270bca04c213039201d7ccd1100145865fb8))
+* **v3.7.16:** [**k8s/ingress-nginx** Document that rewrite is supported in configuration-snippet ( bingtang9)](https://github.com/traefik/traefik/pull/14070) ([b08e270](https://github.com/kanso-labs/home-assistant-applications/commit/b08e270bca04c213039201d7ccd1100145865fb8))
+
 ## [1.0.7](https://github.com/kanso-labs/home-assistant-applications/compare/traefik-v1.0.6...traefik-v1.0.7) (2026-10-20)
 
 

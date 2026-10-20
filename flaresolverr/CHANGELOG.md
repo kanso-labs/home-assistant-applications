@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.1](https://github.com/kanso-labs/home-assistant-applications/compare/flaresolverr-v2.1.0...flaresolverr-v2.1.1) (2026-10-20)
+
+
+### Bug Fixes
+
+* **flaresolverr:** drop ingress, which only showed a JSON status line ([#830](https://github.com/kanso-labs/home-assistant-applications/issues/830)) ([d20c96d](https://github.com/kanso-labs/home-assistant-applications/commit/d20c96dddf54a0c80c2b0f2ad6e31798f92f837a))
+
 ## [2.1.0](https://github.com/kanso-labs/home-assistant-applications/compare/flaresolverr-v2.0.0...flaresolverr-v2.1.0) (2026-10-18)
 
 
