@@ -22,15 +22,25 @@ ARG BUILD_VERSION=dev
 ARG S6_OVERLAY_VERSION=3.2.3.2
 # renovate: datasource=github-releases depName=hassio-addons/bashio
 ARG BASHIO_VERSION=0.19.0
+# nginx is what ingress reaches, on a port of its own; see nginx.conf. It is
+# pinned so that a new nginx produces a release rather than arriving silently.
+# registryUrl carries the Alpine branch of the image above, so it needs
+# updating when upstream moves to a newer Alpine, and the build fails until it
+# is.
+# renovate: datasource=apk depName=nginx registryUrl=https://dl-cdn.alpinelinux.org/alpine?branch=v3.23&components=main&arch=x86_64
+ARG NGINX_VERSION=1.28.3-r7
 
 # Upstream runs as the node user. s6-overlay has to come up as pid 1.
 USER root
 
 RUN \
+  `# nginx serves ingress. The configuration its package ships is replaced by` \
+  `# the one in rootfs/, which serves nothing else.` \
   apk add --no-cache \
     bash \
     curl \
     jq \
+    "nginx=${NGINX_VERSION}" \
     xz \
   \
   && if [ "${BUILD_ARCH}" = "aarch64" ]; then S6_ARCH="aarch64"; \
@@ -62,6 +72,22 @@ RUN \
 # Copy root filesystem
 COPY rootfs /
 
+# Ingress rewrites two strings in the scripts Seerr ships, see nginx.conf: the
+# folder Next.js loads scripts from, and the address it builds for each page's
+# data. Neither is something Seerr promises, and an update that changed one
+# would leave ingress showing a page that never finishes loading, while the
+# published port kept working and nothing reported it. Each is looked for
+# here, in what the image actually ships, so such an update fails its build
+# instead, in the pull request that brings it.
+RUN \
+  for pattern in \
+    '"/_next/"' \
+    '`/_next/data/${'; \
+  do \
+    grep -q -r -F -- "${pattern}" /app/.next/static/chunks \
+      || { echo "Ingress rewrites ${pattern}, which Seerr no longer ships" >&2; exit 1; }; \
+  done
+
 # s6-overlay is pid 1 here. The Home Assistant base images set this for every
 # other application; this one has to set it itself.
 ENTRYPOINT ["/init"]
@@ -72,7 +98,8 @@ ENTRYPOINT ["/init"]
 # default, with no timeout, so a slow GitHub could get Seerr restarted.
 # /api/v1/status/appdata answers without signing in and from the container
 # alone. A watchdog URL in config.yaml would do the same, but the application
-# linter rejects that key in favour of this.
+# linter rejects that key in favour of this. 5055 is Seerr with nothing in
+# front of it, so nginx is not part of the check.
 HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=5 \
   CMD curl -f -s -S -o /dev/null http://127.0.0.1:5055/api/v1/status/appdata || exit 1
 
