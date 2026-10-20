@@ -22,13 +22,23 @@ ARG BUILD_VERSION=dev
 ARG S6_OVERLAY_VERSION=3.2.3.2
 # renovate: datasource=github-releases depName=hassio-addons/bashio
 ARG BASHIO_VERSION=0.19.0
+# nginx is what ingress reaches, on a port of its own; see nginx.conf. It is
+# pinned so that a new nginx produces a release rather than arriving silently.
+# registryUrl carries the Alpine branch of the image above, so it needs
+# updating when upstream moves to a newer Alpine, and the build fails until it
+# is.
+# renovate: datasource=apk depName=nginx registryUrl=https://dl-cdn.alpinelinux.org/alpine?branch=v3.24&components=main&arch=x86_64
+ARG NGINX_VERSION=1.30.4-r1
 
 RUN \
   `# bash, curl, ca-certificates, git and tar are already here — upstream` \
   `# installs them for its own entrypoint and for the git clones Profilarr` \
-  `# makes. jq and xz are what bashio and the s6 tarballs add to that.` \
+  `# makes. jq and xz are what bashio and the s6 tarballs add to that, and` \
+  `# nginx serves ingress. The configuration its package ships is replaced by` \
+  `# the one in rootfs/, which serves nothing else.` \
   apk add --no-cache \
     jq \
+    "nginx=${NGINX_VERSION}" \
     xz \
   \
   && if [ "${BUILD_ARCH}" = "aarch64" ]; then S6_ARCH="aarch64"; \
@@ -60,6 +70,24 @@ RUN \
 # Copy root filesystem
 COPY rootfs /
 
+# Ingress depends on three things in what Profilarr ships, see nginx.conf: the
+# <head> its page template opens with, where nginx loads the ingress script;
+# the /auth/ check in its layout, which nginx rewrites; and SvelteKit working
+# out its own base from the page's address. None is something Profilarr
+# promises, and an update that changed one would break ingress alone, with a
+# blank or half-working page, while the published port kept working and nothing
+# reported it. Each is looked for here, so such an update fails its build
+# instead, in the pull request that brings it. The template is compiled into
+# the binary as an escaped string, which is why the first pattern spells out
+# its \n and tabs.
+RUN \
+  grep -q -F "$(printf '<head>\\n\t\t<meta charset')" /app/profilarr \
+    || { echo 'The page template no longer opens with <head>' >&2; exit 1; } \
+  && grep -q -r -F 'url.pathname.startsWith(`/auth/`)' /app/static/_app/immutable/nodes \
+    || { echo 'The /auth/ layout check nginx.conf rewrites is gone' >&2; exit 1; } \
+  && grep -q -F 'location).pathname.slice(0, -1)' /app/profilarr \
+    || { echo 'SvelteKit no longer works out its base from the page address' >&2; exit 1; }
+
 # s6-overlay is pid 1 here, in place of the image's own tini and entrypoint.
 # That entrypoint reassigns the profilarr user's uid from PUID and PGID, hands
 # /config to it and drops privileges to it. Supervisor sets neither and never
@@ -69,6 +97,8 @@ ENTRYPOINT ["/init"]
 
 # Upstream's health check is kept as it is. It asks /api/v1/health on the port
 # in the image's PORT, 6868, so a PORT set in the run script would break it.
+# That is Profilarr with nothing in front of it, so nginx is not part of the
+# check.
 
 # Expose the ports
 EXPOSE 6868

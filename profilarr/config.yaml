@@ -9,6 +9,13 @@ description:
   profiles and custom formats, tracks them against curated databases like
   Dictionarry and TRaSH Guides, and syncs them out to every instance you run.
 image: 'ghcr.io/kanso-labs/home-assistant-application-profilarr'
+# nginx answers ingress on a port of its own, see DOCS.md.
+ingress: true
+ingress_port: 6869
+# A backup is restored by uploading it. Profilarr takes one of up to 1 GB, and
+# one carrying the git clones of the linked databases can pass the 16 MiB that
+# ingress takes without streaming.
+ingress_stream: true
 init: false
 map:
   # Read/write, and nothing else. Profilarr keeps its databases, git clones,
@@ -24,6 +31,7 @@ options:
   external_url: ''
   parser_host: ''
   parser_port: 5000
+panel_icon: 'mdi:tune-variant'
 ports:
   6868/tcp: 6868
 schema:
@@ -34,4 +42,3 @@ schema:
 slug: profilarr
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/profilarr'
 version: '1.1.2' # x-release-please-version
-webui: 'http://[HOST]:[PORT:6868]'

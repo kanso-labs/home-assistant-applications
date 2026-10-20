@@ -1,0 +1,35 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Profilarr
+# Runs nginx, which serves Profilarr to ingress on 6869
+# ==============================================================================
+
+# The address Profilarr takes a request to have arrived at, which is the Origin
+# its login has to come from; see nginx.conf. That is the external_url option
+# when it is set, since the Profilarr service hands it to Profilarr as ORIGIN,
+# and otherwise http:// and the host the request names, as Profilarr serves
+# plain http. The option lands inside nginx's configuration, so only a value
+# shaped like an address is used.
+origin='http://$http_host'
+if bashio::config.has_value 'external_url'; then
+  external_url=$(bashio::config 'external_url')
+  while [[ "${external_url}" == */ ]]; do
+    external_url="${external_url%/}"
+  done
+  if [[ "${external_url}" =~ ^https?://[A-Za-z0-9.:\[\]-]+$ ]]; then
+    origin="${external_url}"
+  else
+    bashio::log.warning \
+      "external_url is not an address of the form https://host[:port]," \
+      'so signing in through ingress may be refused.'
+  fi
+fi
+
+mkdir -p /run/nginx
+printf 'map "" $profilarr_origin {\n    default "%s";\n}\n' "${origin}" \
+  > /run/nginx/origin.conf
+
+bashio::log.info 'Starting nginx...'
+
+exec nginx
