@@ -27,7 +27,7 @@ ARG BASHIO_VERSION=0.19.0
 # the 11.4 upstream's compose file runs, because 11.8 is what Alpine 3.24
 # ships, and both are long-term releases.
 # renovate: datasource=apk depName=mariadb registryUrl=https://dl-cdn.alpinelinux.org/alpine?branch=v3.24&components=main&arch=x86_64
-ARG MARIADB_VERSION=11.8.8-r0
+ARG MARIADB_VERSION=11.8.9-r0
 # nginx answers ingress on a port of its own, and is pinned the way MariaDB is,
 # from the same Alpine branch.
 # renovate: datasource=apk depName=nginx registryUrl=https://dl-cdn.alpinelinux.org/alpine?branch=v3.24&components=main&arch=x86_64
