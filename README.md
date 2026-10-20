@@ -51,7 +51,7 @@ one's `DOCS.md` covers its options, what it maps, and how it is backed up.
 | [Notifiarr](./notifiarr)                             | Unified client for Notifiarr.com, reporting on the stack and letting Discord drive it.                                   | Ingress, port 5454  |
 | [NZBGet](./nzbget)                                   | Usenet downloader, fetching from your news servers into shared storage.                                                  | Ingress, port 6789  |
 | [Plex Media Server](./plex-media-server)             | Serves recorded media, live TV, online news and podcasts to the Plex apps.                                               | Port 32400          |
-| [Profilarr](./profilarr)                             | Builds quality profiles and custom formats, tracks them against curated databases, and syncs them to every arr instance. | Port 6868           |
+| [Profilarr](./profilarr)                             | Builds quality profiles and custom formats, tracks them against curated databases, and syncs them to every arr instance. | Ingress, port 6868  |
 | [Prowlarr](./prowlarr)                               | Indexer manager, pushing one set of definitions out to the whole arr stack.                                              | Ingress, port 9696  |
 | [qBittorrent](./qbittorrent)                         | BitTorrent client, downloading into shared storage for the rest of the stack.                                            | Ingress, port 8080  |
 | [Radarr](./radarr)                                   | Movie collection manager that grabs, sorts and renames what your indexers turn up.                                       | Ingress, port 7878  |
