@@ -31,12 +31,32 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v7.0.1
         with:
+          # The whole history, so that the commit a push is measured from is
+          # here to compare against. The repository is small enough for that to
+          # cost seconds.
+          fetch-depth: 0
           persist-credentials: false
 
+      # A pull request is checked out as the merge commit GitHub makes of it,
+      # whose first parent is its base, so the difference from that parent is
+      # what merging it would change. A push is measured from the commit main
+      # was at before it. No third-party action is needed for one git diff, and
+      # tj-actions/changed-files, which this used, had its release tags moved
+      # onto code that printed secrets to the build log in March 2025.
       - name: List changed files
         id: changed_files
         if: github.event_name == 'pull_request' || github.event_name == 'push'
-        uses: tj-actions/changed-files@v47.0.6
+        env:
+          BEFORE: ${{ github.event.before }}
+          EVENT: ${{ github.event_name }}
+        run: |
+          if [[ "${EVENT}" == 'push' ]]; then
+            base="${BEFORE}"
+          else
+            base='HEAD^1'
+          fi
+          files=$(git diff --name-only --no-renames "${base}" HEAD)
+          echo "files=${files//$'\n'/ }" >> "$GITHUB_OUTPUT"
 
       - name: Find applications
         id: apps
@@ -50,8 +70,7 @@ jobs:
           APPS: ${{ steps.apps.outputs.addons }}
           # Deleted files included, since removing a script or a patch changes
           # the image as much as editing one.
-          CHANGED_FILES:
-            ${{ steps.changed_files.outputs.all_changed_and_modified_files }}
+          CHANGED_FILES: ${{ steps.changed_files.outputs.files }}
           EVENT: ${{ github.event_name }}
           REF: ${{ github.ref }}
         run: |
