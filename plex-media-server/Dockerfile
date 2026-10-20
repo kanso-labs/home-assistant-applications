@@ -15,7 +15,7 @@
 # As in Tdarr, no s6-overlay is installed here. Plex's image already runs it,
 # already declares /init as its entrypoint, and already starts Plex. Only bashio
 # is missing, and it is what lets the application's options reach Plex.
-ARG BUILD_FROM=plexinc/pms-docker:1.43.4.10903-e5521bd8c
+ARG BUILD_FROM=plexinc/pms-docker:1.43.5.11029-6bf8af3f0
 FROM ${BUILD_FROM}
 
 # Set shell
