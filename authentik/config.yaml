@@ -7,10 +7,6 @@ description:
   SAML, LDAP and proxy authentication in front of the applications you run, with
   one set of users and one login.
 image: 'ghcr.io/kanso-labs/home-assistant-application-authentik'
-# nginx answers ingress on a port of its own, see DOCS.md. 9000 and 9443 are
-# Authentik itself, as before.
-ingress: true
-ingress_port: 9001
 init: false
 map:
   # Read/write, and nothing else. This holds the drop-in directories a user
@@ -33,7 +29,6 @@ options:
   bootstrap_password: ''
   cookie_domain: ''
   log_level: info
-panel_icon: 'mdi:shield-account'
 ports:
   9000/tcp: 9000
   9443/tcp: 9443
@@ -50,4 +45,5 @@ slug: authentik
 # nothing, but its next start replays the log first.
 timeout: 120
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/authentik'
-version: '1.0.3' # x-release-please-version
+version: '1.1.0' # x-release-please-version
+webui: 'http://[HOST]:[PORT:9000]'
