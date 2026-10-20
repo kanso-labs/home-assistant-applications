@@ -70,9 +70,6 @@ IPv6, even with the cookies FlareSolverr had just earned.
 Radarr, Sonarr and Bazarr reach it the same way if they talk to indexers
 directly.
 
-Ingress will not do for this. It serves through Home Assistant's authenticated
-proxy, which Prowlarr cannot sign in to.
-
 To run it alongside Byparr, which answers the same requests, see Byparr's
 documentation.
 
@@ -145,17 +142,17 @@ declared and a backup of this application is empty by design.
 
 ## Checking it works
 
-FlareSolverr has no interface. Opening it from Home Assistant shows a short JSON
-message rather than a page:
+FlareSolverr has no interface, so Home Assistant shows no **Open Web UI** for
+it. Its address answers with a short JSON message instead of a page:
 
 ```json
 { "msg": "FlareSolverr is ready!", "version": "...", "userAgent": "..." }
 ```
 
-Seeing it means the service is up. The same response comes back from the address
-Prowlarr uses, which is the quicker way to tell a connection problem from an
-application problem. The Terminal & SSH application runs on the same network as
-Prowlarr, so from there the internal name works with the port closed:
+Seeing it means the service is up, and asking at the address Prowlarr uses is
+the quicker way to tell a connection problem from an application problem. The
+Terminal & SSH application runs on the same network as Prowlarr, so from there
+the internal name works with the port closed:
 
 ```shell
 curl http://2dd33fbd-flaresolverr:8191
