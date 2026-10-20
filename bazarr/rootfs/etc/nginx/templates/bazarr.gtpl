@@ -34,6 +34,15 @@ map $from_ingress $upstream_accept_encoding {
     0 '';
 }
 
+# Bazarr sets its session cookie on the root. Through ingress that is Home
+# Assistant's, shared by every ingress application, and Bazarr+'s and
+# Notifiarr's session cookies have the same name, so there it is scoped to the
+# ingress path instead.
+map $from_ingress $ingress_cookie_path {
+    1 {{ .base_url }};
+    0 /;
+}
+
 # A page opened on the published port under the path, such as a link copied out
 # of ingress, is sent to the same page without it. API callers do not ask for
 # HTML, so they are answered where they asked.
@@ -75,9 +84,9 @@ server {
 {{ if .base_url }}
     # Bazarr writes its base into the page's <base> and the settings it injects
     # there, the API's answers, and its redirects, and names it nowhere else:
-    # the scripts read it from the page, and its session cookie is set for the
-    # root. So replacing that one string is all it takes. Through ingress the
-    # replacement is the path itself, which changes nothing.
+    # the scripts read it from the page. So replacing that one string is all it
+    # takes. Through ingress the replacement is the path itself, which changes
+    # nothing.
     proxy_set_header Accept-Encoding $upstream_accept_encoding;
     sub_filter '{{ .base_url }}' '$public_base';
     sub_filter_once off;
@@ -91,6 +100,7 @@ server {
     gzip_vary on;
     proxy_redirect ~^(https?://[^/]+)?{{ .base_url }}(/.*)$ $1$public_base$2;
     proxy_redirect ~^(https?://[^/]+)?{{ .base_url }}$ $1$public_root;
+    proxy_cookie_path ~^/$ $ingress_cookie_path;
 
     location ^~ {{ .base_url }} {
         if ($redirect_out_of_base) {
