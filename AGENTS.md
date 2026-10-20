@@ -750,7 +750,8 @@ commit type rather than a list. The curated `packageRules` in
 and everything else `deps`. The action rewrites only the one type it is given,
 so the workflow runs it three times, once per type. Adding an application to the
 curated rule is therefore all it takes — there is no second roster here to keep
-in step.
+in step. The job itself starts only on a branch under `renovate/`, so no other
+pull request spends a runner on it.
 
 `feat!` is not a type, and passing it works only because the action compares the
 title's prefix up to the colon. An action that parsed the type out instead would
