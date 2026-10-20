@@ -1,12 +1,12 @@
 {
   "authentik": "1.0.3",
   "avahi-publisher": "1.0.3",
-  "bazarr": "1.2.2",
+  "bazarr": "1.2.3",
   "bazarr-plus": "1.1.5",
   "byparr": "2.0.1",
   "cleanuparr": "1.3.5",
   "configarr": "1.2.2",
-  "flaresolverr": "2.1.0",
+  "flaresolverr": "2.1.1",
   "flight-finder": "1.1.2",
   "grimmory": "1.0.1",
   "immich": "1.0.5",
@@ -28,7 +28,7 @@
   "seerr": "1.2.0",
   "sonarr": "1.2.6",
   "tdarr": "0.3.2",
-  "traefik": "1.0.7",
+  "traefik": "1.0.8",
   "unpackerr": "1.2.5",
   "wallos": "0.6.0"
 }
