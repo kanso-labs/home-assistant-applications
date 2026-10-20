@@ -50,4 +50,4 @@ slug: authentik
 # nothing, but its next start replays the log first.
 timeout: 120
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/authentik'
-version: '1.1.1' # x-release-please-version
+version: '1.1.2' # x-release-please-version
