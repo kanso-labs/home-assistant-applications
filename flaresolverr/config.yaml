@@ -6,17 +6,15 @@ description:
   and their indexers. Prowlarr and the rest send a request through FlareSolverr
   and get the answer back.
 image: 'ghcr.io/kanso-labs/home-assistant-application-flaresolverr'
-ingress: true
-ingress_port: 8191
 init: false
 name: FlareSolverr
 options:
   log_level: info
-panel_icon: 'mdi:shield-check'
-# Closed by default. Ingress still shows FlareSolverr's status message, a
-# Prowlarr on the same Home Assistant reaches FlareSolverr by its internal name,
-# and anything that can reach a published port can have the browser fetch pages
-# from inside Home Assistant's network, see DOCS.md.
+# Closed by default. A Prowlarr on the same Home Assistant reaches FlareSolverr
+# by its internal name, and anything that can reach a published port can have
+# the browser fetch pages from inside Home Assistant's network, see DOCS.md.
+# There is no ingress either: FlareSolverr has no interface, only a status
+# message in JSON, so Open Web UI would show nothing worth opening.
 ports:
   8191/tcp: null
 # The Configuration tab lists the options in the order the schema declares
