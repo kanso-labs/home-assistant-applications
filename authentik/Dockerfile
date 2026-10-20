@@ -37,12 +37,16 @@ RUN \
   `# at the package instead. The postgres service says what moving takes.` \
   `# openssl is not named: the image ships Authentik's own FIPS build and` \
   `# holds it, so naming it asks apt to swap in Debian's newer one and apt` \
-  `# refuses. The run script's openssl rand uses the held one.` \
+  `# refuses. The run script's openssl rand uses the held one, and so does` \
+  `# nginx, which installs against it without moving it. nginx is what` \
+  `# ingress reaches, on a port of its own; the configuration its package` \
+  `# ships is replaced by the one in rootfs/, which serves nothing else.` \
   apt-get update \
   && apt-get install --assume-yes --no-install-recommends \
     ca-certificates \
     curl \
     jq \
+    nginx \
     postgresql-17 \
     xz-utils \
   \
@@ -83,6 +87,32 @@ RUN \
 # Copy root filesystem
 COPY rootfs /
 
+# Ingress rewrites a few addresses Authentik writes out whole, by their exact
+# text: the base header_js.html writes into every page, and two places the
+# interfaces' scripts send the browser to without that base. sub_filter matches
+# nothing silently, so a release that rewords one would leave ingress sending
+# the browser to Home Assistant's own root while the published port, the health
+# check and every other check here stayed green. This looks for each one in the
+# files the image ships and fails the build when one has gone, which is the
+# moment to look at rootfs/etc/nginx/nginx.conf again. nginx -t then reads that
+# configuration with the nginx just installed.
+RUN \
+  for pattern in \
+    '"/flows/-/default/authentication/"' \
+    'window.location.assign("/if/user/")' \
+  ; do \
+    grep -r -q -F --include='*.js' -e "${pattern}" /web/dist \
+      || { echo "Authentik's scripts no longer hold ${pattern}" >&2; exit 1; }; \
+  done \
+  && for pattern in \
+    'base: "{{ base_url }}",' \
+    'relBase: "{{ base_url_rel }}",' \
+  ; do \
+    grep -q -F -e "${pattern}" /authentik/core/templates/base/header_js.html \
+      || { echo "header_js.html no longer holds ${pattern}" >&2; exit 1; }; \
+  done \
+  && nginx -t -q
+
 # s6-overlay is pid 1 here, in place of the image's own dumb-init and `ak`
 # entrypoint. The run script still calls `ak`, so upstream keeps ownership of
 # migrations and of waiting for the database.
@@ -98,7 +128,8 @@ ENTRYPOINT ["/init"]
 #
 # A plain request for the liveness endpoint has none of `ak healthcheck`'s side
 # effects and works whatever the host maps the port to. The start period is long
-# because a first boot runs every migration and imports the default flows.
+# because a first boot runs every migration and imports the default flows. 9000
+# is Authentik with nothing in front of it, so nginx is not part of the check.
 HEALTHCHECK --interval=30s --timeout=10s --start-period=600s --retries=5 \
     CMD curl -f -s -S -o /dev/null http://127.0.0.1:9000/-/health/live/ || exit 1
 

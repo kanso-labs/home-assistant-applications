@@ -30,7 +30,7 @@ one's `DOCS.md` covers its options, what it maps, and how it is backed up.
 
 | Application                                          | What it does                                                                                                             | Web interface       |
 | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------- |
-| [Authentik](./authentik)                             | Identity provider for single sign-on, fronting your applications with OAuth2, OIDC, SAML, LDAP and proxy auth.           | Port 9000           |
+| [Authentik](./authentik)                             | Identity provider for single sign-on, fronting your applications with OAuth2, OIDC, SAML, LDAP and proxy auth.           | Ingress, port 9000  |
 | [Avahi Publisher](./avahi-publisher)                 | Publishes extra .local names and Bonjour services on your network, using the official Avahi.                             | None                |
 | [Bazarr](./bazarr)                                   | Subtitle manager for Radarr and Sonarr, keeping subtitles alongside the media.                                           | Ingress, port 6767  |
 | [Bazarr+](./bazarr-plus)                             | Bazarr fork adding a subtitle provider marketplace, bilingual subtitles and AI translation.                              | Ingress, port 6767  |
