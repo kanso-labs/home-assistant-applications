@@ -113,10 +113,11 @@ Four things follow from that:
   is only what the page shows: the addresses Authentik gives its clients are
   unchanged. Copy them from Authentik's own address. For the same reason, a
   brand you matched to Authentik's domain is not the one shown under ingress.
-- **Some icons do not load under ingress.** The icons and logos you uploaded are
-  left out of what nginx rewrites, apart from the brand's, because the admin
-  interface saves what it reads, and a rewritten address saved there would break
-  it on the published port. They show as missing images under ingress only.
+- **Authentik's default avatar does not load under ingress.** Authentik shows it
+  when **Avatars**, under **System** > **Settings**, is `none`, or when no mode
+  listed there finds a picture. nginx leaves its address alone, because a user's
+  attributes can hold an `avatar` of their own, which the admin interface saves
+  back as it read it. The default, `gravatar,initials`, always finds one.
 
 ## Three containers, one application
 
