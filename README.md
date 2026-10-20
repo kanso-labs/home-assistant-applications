@@ -56,7 +56,7 @@ one's `DOCS.md` covers its options, what it maps, and how it is backed up.
 | [qBittorrent](./qbittorrent)                         | BitTorrent client, downloading into shared storage for the rest of the stack.                                            | Ingress, port 8080  |
 | [Radarr](./radarr)                                   | Movie collection manager that grabs, sorts and renames what your indexers turn up.                                       | Ingress, port 7878  |
 | [Seadexerr](./seadexerr)                             | Prowlarr indexer offering the SeaDex release of each anime, built on your Home Assistant.                                | None                |
-| [Seerr](./seerr)                                     | Request and discovery front end for Jellyfin, Plex and Emby, feeding Radarr and Sonarr.                                  | Port 5055           |
+| [Seerr](./seerr)                                     | Request and discovery front end for Jellyfin, Plex and Emby, feeding Radarr and Sonarr.                                  | Ingress, port 5055  |
 | [Sonarr](./sonarr)                                   | Smart PVR that follows the shows you watch and grabs new episodes as they appear.                                        | Ingress, port 8989  |
 | [Tdarr](./tdarr)                                     | Runs your library through flows of FFmpeg, HandBrake and MKVToolNix steps, built on your Home Assistant.                 | Ingress, port 8265  |
 | [Traefik](./traefik)                                 | Reverse proxy that sends each request to the application its host name belongs to, routed from the Configuration tab.    | Ingress             |

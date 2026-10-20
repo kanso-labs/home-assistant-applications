@@ -40,6 +40,44 @@ for Seerr's `/api/v1/status/appdata` every 30 seconds, which Seerr answers
 without calling GitHub or a media server, and five failures in a row count as a
 hang. It is off by default.
 
+## Ingress
+
+Seerr is served through Home Assistant's ingress, so it opens inside Home
+Assistant and comes along wherever Home Assistant does, Home Assistant Cloud
+included. Turn on **Show in sidebar** on the application's page to keep it a
+click away. Ingress is authenticated by Home Assistant, which lets only
+administrators in, so the people you share Seerr with keep using the published
+port.
+
+The published port is unchanged and keeps working alongside it, for everyone
+requesting from a browser or phone, for a reverse proxy such as Traefik, and for
+anything that calls Seerr's API. Radarr and Sonarr need no change.
+
+Ingress puts Seerr under a path of Supervisor's choosing,
+`/api/hassio_ingress/<token>`, and Seerr cannot be given one: it writes root
+addresses such as `/discover` throughout its pages. nginx answers ingress on
+port 5056, inside the application only. It gives the path to the addresses in
+each page, to the folder Seerr's scripts load from, to Seerr's redirects and to
+its session cookie, and loads a short script first in the page that gives the
+path to every address the page asks for after that. Seerr itself still serves at
+the root on 5055, which is why the published port sees no difference.
+
+Three things follow from that:
+
+- **Seerr's own sign-in still applies inside ingress**, after Home Assistant's.
+  The session is kept to the ingress path, so signing in there and on the
+  published port are separate.
+- **There are no push notifications through ingress.** Seerr delivers them
+  through a service worker, which inside ingress would belong to Home
+  Assistant's address rather than Seerr's, so none is registered there. Turn
+  them on from the published port.
+- **A link opened in a new tab opens Seerr outside Home Assistant's frame**,
+  under the ingress path. It works while you are signed in to Home Assistant in
+  that browser.
+
+Phone apps and other tools cannot use ingress, because it needs a Home Assistant
+session in a browser. They still work on the published port.
+
 ## Storage
 
 | Path      | Access     | Holds                                        |
