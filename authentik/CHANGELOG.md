@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1](https://github.com/kanso-labs/home-assistant-applications/compare/authentik-v1.1.0...authentik-v1.1.1) (2026-10-20)
+
+
+### Bug Fixes
+
+* **authentik:** restore ingress, which the 1.1.0 release reverted ([#836](https://github.com/kanso-labs/home-assistant-applications/issues/836)) ([4df8478](https://github.com/kanso-labs/home-assistant-applications/commit/4df8478d600996b261cad997d20b8d84e6fbb559))
+
 ## [1.1.0](https://github.com/kanso-labs/home-assistant-applications/compare/authentik-v1.0.3...authentik-v1.1.0) (2026-10-20)
 
 
