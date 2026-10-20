@@ -27,7 +27,7 @@ ARG BASHIO_VERSION=0.19.0
 # the 11.4 upstream's compose file runs, because 11.8 is what Alpine 3.24
 # ships, and both are long-term releases.
 # renovate: datasource=apk depName=mariadb registryUrl=https://dl-cdn.alpinelinux.org/alpine?branch=v3.24&components=main&arch=x86_64
-ARG MARIADB_VERSION=11.8.8-r0
+ARG MARIADB_VERSION=11.8.9-r0
 
 RUN \
   `# Upstream's image carries no curl, which the downloads below retry with.` \
