@@ -1,0 +1,10 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Grimmory
+# Runs nginx, which serves Grimmory to ingress on 6061
+# ==============================================================================
+
+bashio::log.info 'Starting nginx...'
+
+exec nginx
