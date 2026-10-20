@@ -139,6 +139,13 @@ renaming either build workflow means updating that pattern too. The badges in
 `README.md` link `build.yaml` and `lint.yaml`, and `docs/README.md` names
 `deploy-pages.yaml`, so renaming one of those means editing them as well.
 
+**Lint's checks are steps of two jobs, beside the linter's own.** A free
+organization runs 20 jobs at a time across every workflow, and a check in a job
+of its own spent minutes waiting for a runner to do seconds of work. A new check
+goes into the job it fits as a step with `if: ${{ !cancelled() }}`, so that it
+runs and reports whatever failed before it. `Confirm lint succeeded` is the name
+branch protection requires, and it needs every job.
+
 ### Image naming
 
 An application's `image` is the generic multi-architecture name with no
@@ -790,7 +797,7 @@ fails rather than pretending otherwise.
 Router SPA in `docs/`, built with
 [`@kanso-labs/kanso-ui`](https://kanso-ui.kansolabs.org/) and published by
 `.github/workflows/deploy-pages.yaml` on every push to `main`. Lint's
-`Check the site` job builds it on every pull request without publishing, so a
+`Build the site` step builds it on every pull request without publishing, so a
 build that has stopped working is caught while it is still someone's branch, and
 Renovate's automerge of a site dependency waits for it.
 

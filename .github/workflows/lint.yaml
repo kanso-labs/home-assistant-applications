@@ -20,6 +20,12 @@ concurrency:
 permissions:
   contents: read
 
+# Apart from the application linter, the checks run as steps of two jobs,
+# because every job waits for a runner and the checks themselves take seconds:
+# a free organization runs 20 jobs at a time across every workflow, and a check
+# in a job of its own spent minutes waiting for a few seconds of work. Within a
+# job, every check runs whatever failed before it, so a run still reports every
+# failure at once, under the check's own step name.
 jobs:
   find:
     name: Find applications
@@ -61,53 +67,13 @@ jobs:
         with:
           path: './${{ matrix.path }}'
 
-  verify:
-    name: Verify release wiring
+  repository:
+    name: Check scripts, formatting and workflows
     runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v7.0.1
-        with:
-          persist-credentials: false
-
-      - name: Verify release wiring
-        run: ./.github/scripts/verify-release-wiring.sh
-
-  # What AGENTS.md asks of every application and nothing else reads: key order,
-  # translations, executable scripts, the s6 user bundle's location, icon and
-  # logo sizes, the curated Renovate rule, a health check and download retries.
-  # Each has slipped unnoticed before.
-  applications:
-    name: Verify applications
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v7.0.1
-        with:
-          persist-credentials: false
-
-      # The check reads YAML with the package the site already pins, so it
-      # installs the site's dependencies rather than anything of its own.
-      - name: Set up Node
-        uses: actions/setup-node@v7.1.0
-        with:
-          cache: npm
-          cache-dependency-path: docs/package-lock.json
-          node-version-file: docs/.tool-versions
-
-      - name: Install dependencies
-        run: npm --prefix docs ci
-
-      - name: Verify applications
-        run: node .github/scripts/verify-applications.mjs
-
-  shellcheck:
-    name: Check shell scripts
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     env:
+      # renovate: datasource=npm depName=prettier
+      PRETTIER_VERSION: '3.9.10'
       # The release tag, v and all, which is also how the release names its
       # files.
       # renovate: datasource=github-releases depName=koalaman/shellcheck
@@ -118,10 +84,16 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Verify release wiring
+        if: ${{ !cancelled() }}
+        run: ./.github/scripts/verify-release-wiring.sh
+
       # Pinned rather than the runner's own copy, which moves with the runner
       # image and would turn a new warning into a red build on whatever pull
       # request is open at the time.
       - name: Install shellcheck
+        id: shellcheck
+        if: ${{ !cancelled() }}
         run: |
           curl -J -L -f --retry 8 --retry-all-errors --retry-max-time 180 \
             -o "${RUNNER_TEMP}/shellcheck.tar.xz" \
@@ -139,6 +111,7 @@ jobs:
       # template stops tripping it, though it is the rule that catches
       # `export X="$(...)"` hiding a failure.
       - name: Check shell scripts
+        if: ${{ !cancelled() && steps.shellcheck.outcome == 'success' }}
         run: |
           mapfile -t scripts < <(
             git ls-files | while IFS= read -r file; do
@@ -150,37 +123,27 @@ jobs:
           echo "Checking ${#scripts[@]} scripts."
           shellcheck --shell=bash --severity=warning --exclude=SC2154,SC2155 "${scripts[@]}"
 
-  format:
-    name: Check formatting
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    env:
-      # renovate: datasource=npm depName=prettier
-      PRETTIER_VERSION: '3.9.10'
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v7.0.1
-        with:
-          persist-credentials: false
-
       # Pinned, because an unpinned Prettier turns its next formatting change
       # into a red build on whichever pull request happens to be open at the
       # time, which tells that author nothing about their own work.
       - name: Check formatting
+        if: ${{ !cancelled() }}
         run: npx --yes "prettier@${PRETTIER_VERSION}" --check .
 
-  # Vite strips the site's types rather than checking them, so a type error
-  # reaches the published page instead of the build log. `npm run typecheck` is
-  # what notices, and nothing ran it until this job: a kanso-ui API that had
-  # been removed under the site took the page blank for three days while the
-  # build, and every other check here, stayed green.
-  #
-  # The site's own build runs here too, rather than only in Deploy Pages, so that
-  # it gates merges: Renovate automerges the site's dependencies once the
-  # required checks pass, and a kanso-ui release that breaks the server build
-  # fails `npm run build` while leaving the types and the dev server fine.
-  typecheck:
-    name: Check the site
+      # The shared action asks to be run as a step of a job the ruleset already
+      # requires, because a check name nothing requires is advisory and can fail
+      # without stopping anything. Here that guarantee comes from `confirm`
+      # instead: it is the required name, and it fails when any job it needs
+      # does, so a step of a job it needs gates merges exactly as a step of the
+      # required job would.
+      - name: Lint workflows
+        if: ${{ !cancelled() }}
+        uses: kanso-labs/actions/lint-workflows@v4.3.0
+
+  # Verify applications reads YAML with the package the site already pins, so
+  # it shares the site's one install rather than needing anything of its own.
+  site:
+    name: Verify applications and the site
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
@@ -200,31 +163,35 @@ jobs:
           node-version-file: docs/.tool-versions
 
       - name: Install dependencies
+        id: install
         run: npm --prefix docs ci
 
+      # What AGENTS.md asks of every application and nothing else reads: key
+      # order, translations, executable scripts, the s6 user bundle's location,
+      # icon and logo sizes, the curated Renovate rule, a health check and
+      # download retries. Each has slipped unnoticed before.
+      - name: Verify applications
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
+        run: node .github/scripts/verify-applications.mjs
+
+      # Vite strips the site's types rather than checking them, so a type error
+      # reaches the published page instead of the build log. `npm run
+      # typecheck` is what notices, and nothing ran it until this check: a
+      # kanso-ui API that had been removed under the site took the page blank
+      # for three days while the build, and every other check here, stayed
+      # green.
       - name: Check types
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: npm --prefix docs run typecheck
 
+      # The site's own build runs here too, rather than only in Deploy Pages, so
+      # that it gates merges: Renovate automerges the site's dependencies once
+      # the required checks pass, and a kanso-ui release that breaks the server
+      # build fails `npm run build` while leaving the types and the dev server
+      # fine.
       - name: Build the site
+        if: ${{ !cancelled() && steps.install.outcome == 'success' }}
         run: ./.github/scripts/build-pages.sh
-
-  # The shared action asks to be run as a step of a job the ruleset already
-  # requires, because a check name nothing requires is advisory and can fail
-  # without stopping anything. Here that guarantee comes from `confirm` instead:
-  # it is the required name, and it fails when any job it needs does, so a job
-  # of its own gates merges exactly as a step would.
-  lint-workflows:
-    name: Lint workflows
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v7.0.1
-        with:
-          persist-credentials: false
-
-      - name: Lint workflows
-        uses: kanso-labs/actions/lint-workflows@v4.3.0
 
   # One job with a fixed name for branch protection to require. The linter runs
   # once per application, so its own check names change whenever an application
@@ -237,13 +204,9 @@ jobs:
     name: Confirm lint succeeded
     runs-on: ubuntu-latest
     needs:
-      - applications
-      - format
       - lint
-      - lint-workflows
-      - shellcheck
-      - typecheck
-      - verify
+      - repository
+      - site
     if: always()
     timeout-minutes: 5
     steps:
