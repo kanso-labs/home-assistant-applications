@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.7](https://github.com/kanso-labs/home-assistant-applications/compare/traefik-v1.0.6...traefik-v1.0.7) (2026-10-20)
+
+
+### Dependencies
+
+* pin dependencies ([#807](https://github.com/kanso-labs/home-assistant-applications/issues/807)) ([e0dcf16](https://github.com/kanso-labs/home-assistant-applications/commit/e0dcf16b1da605e23394313d9f5e5143f8f6a6f5))
+
 ## [1.0.6](https://github.com/kanso-labs/home-assistant-applications/compare/traefik-v1.0.5...traefik-v1.0.6) (2026-10-19)
 
 

@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0](https://github.com/kanso-labs/home-assistant-applications/compare/wallos-v0.5.1...wallos-v0.6.0) (2026-10-20)
+
+
+### Features
+
+* update bellamy/wallos docker tag to v5.10.0 ([#815](https://github.com/kanso-labs/home-assistant-applications/issues/815)) ([03ae5ce](https://github.com/kanso-labs/home-assistant-applications/commit/03ae5ceab6722f947afe389303224f4982a7cc3d))
+
+
+### Upstream changes
+
+* **v5.10.0:** [**bulk:** keep payer and category rows in step with bulk delete and set-category](https://github.com/ellite/Wallos/commit/b3a4d9879848e7d430d9f700fc2b8ec824dbab7c) ([03ae5ce](https://github.com/kanso-labs/home-assistant-applications/commit/03ae5ceab6722f947afe389303224f4982a7cc3d))
+* **v5.10.0:** [**bulk:** polish the bulk toolbar and keep Apply disabled until it has something to apply](https://github.com/ellite/Wallos/commit/29b5b5d2a1e62ab97fbef0c817bf60e8e7037e55) ([03ae5ce](https://github.com/kanso-labs/home-assistant-applications/commit/03ae5ceab6722f947afe389303224f4982a7cc3d))
+* **v5.10.0:** [**i18n:** rename default names when switching between any two languages](https://github.com/ellite/Wallos/commit/b3acdc0672aea5fa73a960c2f6617ef68065812b) ([03ae5ce](https://github.com/kanso-labs/home-assistant-applications/commit/03ae5ceab6722f947afe389303224f4982a7cc3d))
+
 ## [0.5.1](https://github.com/kanso-labs/home-assistant-applications/compare/wallos-v0.5.0...wallos-v0.5.1) (2026-10-19)
 
 

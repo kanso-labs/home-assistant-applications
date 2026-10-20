@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.5](https://github.com/kanso-labs/home-assistant-applications/compare/immich-v1.0.4...immich-v1.0.5) (2026-10-20)
+
+
+### Bug Fixes
+
+* update immich to v3.3.4 ([#822](https://github.com/kanso-labs/home-assistant-applications/issues/822)) ([20bc118](https://github.com/kanso-labs/home-assistant-applications/commit/20bc11881e8e2f862da604df3ca30557f2d2d138))
+
+
+### Upstream changes
+
+* **v3.3.4:** [fix: missing translation by waclaw66](https://github.com/immich-app/immich/pull/32485) ([20bc118](https://github.com/kanso-labs/home-assistant-applications/commit/20bc11881e8e2f862da604df3ca30557f2d2d138))
+* **v3.3.4:** [perf(server): more efficient person queries by mertalev](https://github.com/immich-app/immich/pull/32523) ([20bc118](https://github.com/kanso-labs/home-assistant-applications/commit/20bc11881e8e2f862da604df3ca30557f2d2d138))
+
 ## [1.0.4](https://github.com/kanso-labs/home-assistant-applications/compare/immich-v1.0.3...immich-v1.0.4) (2026-10-18)
 
 

@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.5](https://github.com/kanso-labs/home-assistant-applications/compare/cleanuparr-v1.3.4...cleanuparr-v1.3.5) (2026-10-20)
+
+
+### Bug Fixes
+
+* update ghcr.io/cleanuparr/cleanuparr docker tag to v2.10.12 ([#812](https://github.com/kanso-labs/home-assistant-applications/issues/812)) ([2a16945](https://github.com/kanso-labs/home-assistant-applications/commit/2a169453ea175f70fe61a9c8100ca44c46c7de9c))
+
+
+### Upstream changes
+
+* **v2.10.12:** [Fix Deluge crashing when all files are blocked by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/855) ([2a16945](https://github.com/kanso-labs/home-assistant-applications/commit/2a169453ea175f70fe61a9c8100ca44c46c7de9c))
+
 ## [1.3.4](https://github.com/kanso-labs/home-assistant-applications/compare/cleanuparr-v1.3.3...cleanuparr-v1.3.4) (2026-10-18)
 
 
