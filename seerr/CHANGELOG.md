@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.1](https://github.com/kanso-labs/home-assistant-applications/compare/seerr-v1.3.0...seerr-v1.3.1) (2026-10-21)
+
+
+### Bug Fixes
+
+* update ghcr.io/seerr-team/seerr docker tag to v3.5.1 ([#855](https://github.com/kanso-labs/home-assistant-applications/issues/855)) ([e2cb16c](https://github.com/kanso-labs/home-assistant-applications/commit/e2cb16c4b407af74aa88154ee1e2fa3c1aad4668))
+
+
+### Upstream changes
+
+* **v3.5.1:** [Patch CVE-2026-113470 - Update Node.js to 22.23.4 to distrust compromised eMudhra intermediate CA certificates (Mozilla blog post)](https://blog.mozilla.org/security/2026/10/20/protecting-firefox-users-following-the-compromise-of-emudhra-intermediate-certificates/) ([e2cb16c](https://github.com/kanso-labs/home-assistant-applications/commit/e2cb16c4b407af74aa88154ee1e2fa3c1aad4668))
+
 ## [1.3.0](https://github.com/kanso-labs/home-assistant-applications/compare/seerr-v1.2.0...seerr-v1.3.0) (2026-10-20)
 
 

@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.1](https://github.com/kanso-labs/home-assistant-applications/compare/profilarr-v1.3.0...profilarr-v1.3.1) (2026-10-21)
+
+
+### Bug Fixes
+
+* update ghcr.io/dictionarry-hub/profilarr docker tag to v2.3.1 ([#854](https://github.com/kanso-labs/home-assistant-applications/issues/854)) ([f1f2b16](https://github.com/kanso-labs/home-assistant-applications/commit/f1f2b16b0f57d6116dbfe01c7d157a4fb9c4c507))
+
+
+### Upstream changes
+
+* **v2.3.1:** [Remove the regex preview from the pattern picker](https://github.com/Dictionarry-Hub/profilarr/issues/1001) ([f1f2b16](https://github.com/kanso-labs/home-assistant-applications/commit/f1f2b16b0f57d6116dbfe01c7d157a4fb9c4c507))
+* **v2.3.1:** [Stop caching image builds](https://github.com/Dictionarry-Hub/profilarr/issues/1002) ([f1f2b16](https://github.com/kanso-labs/home-assistant-applications/commit/f1f2b16b0f57d6116dbfe01c7d157a4fb9c4c507))
+* **v2.3.1:** [Update Deno to 2.9.8](https://github.com/Dictionarry-Hub/profilarr/issues/1003) ([f1f2b16](https://github.com/kanso-labs/home-assistant-applications/commit/f1f2b16b0f57d6116dbfe01c7d157a4fb9c4c507))
+
 ## [1.3.0](https://github.com/kanso-labs/home-assistant-applications/compare/profilarr-v1.2.0...profilarr-v1.3.0) (2026-10-21)
 
 

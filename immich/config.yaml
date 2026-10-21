@@ -36,7 +36,7 @@ slug: immich
 # killed partway loses nothing, but its next start replays the log first.
 timeout: 120
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/immich'
-version: '1.0.5' # x-release-please-version
+version: '1.0.6' # x-release-please-version
 # Quick Sync video transcoding. This grants every GPU under /dev/dri, whatever
 # its number, where a devices list grants only the nodes it names: renderD128
 # alone, so a GPU that came up as renderD129 was never used. Nothing breaks
