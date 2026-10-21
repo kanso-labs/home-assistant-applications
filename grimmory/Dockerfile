@@ -28,15 +28,22 @@ ARG BASHIO_VERSION=0.19.0
 # ships, and both are long-term releases.
 # renovate: datasource=apk depName=mariadb registryUrl=https://dl-cdn.alpinelinux.org/alpine?branch=v3.24&components=main&arch=x86_64
 ARG MARIADB_VERSION=11.8.9-r0
+# nginx answers ingress on a port of its own, and is pinned the way MariaDB is,
+# from the same Alpine branch.
+# renovate: datasource=apk depName=nginx registryUrl=https://dl-cdn.alpinelinux.org/alpine?branch=v3.24&components=main&arch=x86_64
+ARG NGINX_VERSION=1.30.4-r1
 
 RUN \
   `# Upstream's image carries no curl, which the downloads below retry with.` \
+  `# The configuration nginx's package ships is replaced by the one in` \
+  `# rootfs/, which serves nothing but ingress.` \
   apk add --no-cache \
     bash \
     curl \
     jq \
     "mariadb=${MARIADB_VERSION}" \
     "mariadb-client=${MARIADB_VERSION}" \
+    "nginx=${NGINX_VERSION}" \
     xz \
   \
   && if [ "${BUILD_ARCH}" = "aarch64" ]; then S6_ARCH="aarch64"; \
@@ -72,10 +79,37 @@ RUN \
   && command -v java \
   && command -v mariadb-admin \
   && command -v mariadb-install-db \
-  && mariadbd --version
+  && mariadbd --version \
+  && nginx -v
 
 # Copy root filesystem
 COPY rootfs /
+
+# Ingress works by nginx rewriting text in Grimmory's built web interface, which
+# Grimmory names nowhere else, so an update that changes any of that text would
+# leave ingress showing a blank page while the published port went on working,
+# and nothing would say why. This reads every sub_filter's text out of
+# nginx.conf, so the list cannot drift from it, and fails the build when any of
+# them is missing from the interface inside /app/app.jar. A failure here means
+# the rewrite in nginx.conf needs updating to what this Grimmory writes instead.
+RUN \
+  mkdir -p /tmp/web \
+  && unzip -q /app/app.jar 'BOOT-INF/classes/static/*' -d /tmp/web \
+  && awk ' \
+      $1 == "sub_filter" { \
+        rest = substr($0, index($0, "sub_filter") + 11); \
+        quote = substr(rest, 1, 1); \
+        rest = substr(rest, 2); \
+        print substr(rest, 1, index(rest, quote) - 1) \
+      }' /etc/nginx/nginx.conf > /tmp/patterns \
+  && test "$(wc -l < /tmp/patterns)" -gt 0 \
+  && while IFS= read -r pattern; do \
+    found="$(grep -r -l -F -- "${pattern}" /tmp/web/BOOT-INF/classes/static | wc -l)"; \
+    echo "${found} file(s) contain ${pattern}"; \
+    test "${found}" -gt 0 || exit 1; \
+  done < /tmp/patterns \
+  && nginx -t \
+  && rm -f -r /tmp/*
 
 # s6-overlay is pid 1 here, in place of upstream's entrypoint. Setting the
 # entrypoint also clears upstream's command, so Grimmory is started only by its

@@ -15,7 +15,7 @@ one application, with MariaDB inside it.
    Samba share or network storage.
 3. Install the "Grimmory" application, and start it. The first start creates the
    database and runs every migration, which takes a minute or so.
-4. Open the web interface on port `6060` and create the first account. It
+4. Select **Open Web UI**, or open port `6060`, and create the first account. It
    becomes the administrator.
 5. Add a library, and choose `/media/books` as its folder.
 
@@ -52,6 +52,50 @@ restart Grimmory when it stops answering, not only when it exits. The image asks
 for Grimmory's `/api/v1/healthcheck` every 30 seconds, which Grimmory answers
 without reaching MariaDB, and once it has had five minutes to start, five
 failures in a row count as a hang. It is off by default.
+
+## Ingress
+
+Grimmory is served through Home Assistant's ingress, so it opens inside Home
+Assistant and comes along wherever Home Assistant does, Home Assistant Cloud
+included. Turn on **Show in sidebar** on the application's page to keep it a
+click away. Ingress is authenticated by Home Assistant, which lets only
+administrators in.
+
+The published port is unchanged and keeps working alongside it, for the browser
+at home, Traefik, and the Kobo, KOReader and OPDS readers below.
+
+Ingress puts Grimmory under a path of Supervisor's choosing,
+`/api/hassio_ingress/<token>`, and Grimmory has no setting for a path of its
+own: its page and its scripts name the root. nginx answers ingress on port 6061,
+inside the application only, and writes that path into the page's base, the
+addresses of the API and the live updates, the sign-in page it returns to, and
+the readers' files. Grimmory itself still serves at the root on 6060, which is
+why the published port sees no difference.
+
+What follows from that:
+
+- **Sign in with a password inside Home Assistant.** Grimmory's own sign-in
+  still applies there, after Home Assistant's, and its accounts work as they do
+  on the published port. Signing in through Authentik does not: the provider
+  sends you back to `/oauth2-callback` at Home Assistant's own address, outside
+  ingress. Use it on the published port, or through Traefik.
+- **OIDC-Only Mode leaves ingress with no way in.** With it on, Grimmory's
+  sign-in page sends everyone straight to the provider, so leave it off to use
+  Grimmory inside Home Assistant.
+- **The addresses Grimmory shows for devices are not the ones to use inside
+  ingress.** It builds the Kobo, KOReader and OIDC addresses in its settings
+  from the address in the browser, so there they name Home Assistant, which no
+  device can sign in to. Take them from the published port instead; see below.
+- **Grimmory keeps its sign-in in the browser**, for the address it is opened
+  at. Inside ingress that is Home Assistant's address, so it is separate from
+  the one on the published port, and you sign in to each once.
+- **Grimmory's service worker is not used inside Home Assistant.** It keeps a
+  copy of the interface in the browser, and the files it lists are named from
+  the root, outside ingress, so ingress turns it away and the interface loads
+  from Grimmory each time. The published port keeps it.
+
+Phone apps and e-readers cannot use ingress, because it needs a Home Assistant
+session in a browser. They still work on the published port.
 
 ## Devices and readers
 
@@ -102,7 +146,8 @@ Grimmory then signs people in with its own accounts alone, until you clear it.
 | ------ | ------------------------------------------------------------ |
 | `6060` | The web interface, the API, OPDS, and Kobo and KOReader sync |
 
-MariaDB listens inside the application alone, and no port is published for it.
+MariaDB listens inside the application alone, and so does nginx, which answers
+ingress on `6061`. No port is published for either.
 
 Two applications cannot publish the same port, and Home Assistant reports the
 conflict only when the second one starts. If `6060` is already taken, change the

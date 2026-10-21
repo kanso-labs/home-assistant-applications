@@ -15,6 +15,12 @@ description:
   them in the browser, keeps shelves and reading progress, and syncs with Kobo
   and KOReader devices.
 image: 'ghcr.io/kanso-labs/home-assistant-application-grimmory'
+# nginx answers ingress on a port of its own, see DOCS.md.
+ingress: true
+ingress_port: 6061
+# Supervisor reads a request through ingress whole and refuses one over 16 MiB,
+# unless it is streamed. A book uploaded from the browser can be larger.
+ingress_stream: true
 init: false
 # Read/write, because Grimmory moves and renames the files it organizes, and the
 # BookDrop folder is emptied as its files are imported.
@@ -30,6 +36,7 @@ options:
   hosts: []
   network_storage: false
   oidc_allow_private_providers: false
+panel_icon: 'mdi:bookshelf'
 ports:
   6060/tcp: 6060
 # The options, and the fields of each host entry, are in the order the
@@ -51,4 +58,3 @@ slug: grimmory
 timeout: 120
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/grimmory'
 version: '1.0.1' # x-release-please-version
-webui: 'http://[HOST]:[PORT:6060]'
