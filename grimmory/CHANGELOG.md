@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0](https://github.com/kanso-labs/home-assistant-applications/compare/grimmory-v1.0.1...grimmory-v1.1.0) (2026-10-21)
+
+
+### Features
+
+* **grimmory:** serve through ingress ([#831](https://github.com/kanso-labs/home-assistant-applications/issues/831)) ([0f805d2](https://github.com/kanso-labs/home-assistant-applications/commit/0f805d2cedf41b1d3e9dbbf84ba91b1d7cccf4da))
+
+
+### Dependencies
+
+* update mariadb apk package to v11.8.9-r0 ([#821](https://github.com/kanso-labs/home-assistant-applications/issues/821)) ([76e5aa5](https://github.com/kanso-labs/home-assistant-applications/commit/76e5aa5d4348c31217aa261389bdc07996e3a3b7))
+
 ## [1.0.1](https://github.com/kanso-labs/home-assistant-applications/compare/grimmory-v1.0.0...grimmory-v1.0.1) (2026-10-17)
 
 
