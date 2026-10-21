@@ -224,7 +224,7 @@ jobs:
           persist-credentials: false
 
       - name: Lint workflows
-        uses: kanso-labs/actions/lint-workflows@v4.3.0
+        uses: kanso-labs/actions/lint-workflows@v4.3.1
 
   # One job with a fixed name for branch protection to require. The linter runs
   # once per application, so its own check names change whenever an application
