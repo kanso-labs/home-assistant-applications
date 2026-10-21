@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.1](https://github.com/kanso-labs/home-assistant-applications/compare/wallos-v0.6.0...wallos-v0.6.1) (2026-10-21)
+
+
+### Bug Fixes
+
+* update bellamy/wallos docker tag to v5.10.1 ([#853](https://github.com/kanso-labs/home-assistant-applications/issues/853)) ([a953f96](https://github.com/kanso-labs/home-assistant-applications/commit/a953f96b3aa3b809f8c5443e43d10af601505d59))
+
+
+### Upstream changes
+
+* **v5.10.1:** [**docker:** rebuild on php 8.3.36 to pick up the security release (CVE-2026-109618, CVE-2026-109619)](https://github.com/ellite/Wallos/commit/9e560ed091035b9524aca28e4e6026b2a1bac8f9) ([a953f96](https://github.com/kanso-labs/home-assistant-applications/commit/a953f96b3aa3b809f8c5443e43d10af601505d59))
+* **v5.10.1:** [**docker:** rebuild on php 8.3.36 to pick up the security release (CVE-2026-109618, CVE-2026-109619)](https://github.com/ellite/Wallos/commit/a540a9e3146cdf689d88e2e5b2d2f8acbb1e064f) ([a953f96](https://github.com/kanso-labs/home-assistant-applications/commit/a953f96b3aa3b809f8c5443e43d10af601505d59))
+
 ## [0.6.0](https://github.com/kanso-labs/home-assistant-applications/compare/wallos-v0.5.1...wallos-v0.6.0) (2026-10-20)
 
 

@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.5](https://github.com/kanso-labs/home-assistant-applications/compare/nginx-proxy-manager-v1.1.4...nginx-proxy-manager-v1.1.5) (2026-10-21)
+
+
+### Dependencies
+
+* update dependency nginx to v1.31.8-1~trixie ([#858](https://github.com/kanso-labs/home-assistant-applications/issues/858)) ([3e74726](https://github.com/kanso-labs/home-assistant-applications/commit/3e747268ead0b6df0d681fc3dbe82410c3c35820))
+* update dependency nodejs to v22.23.4-1nodesource1 ([#851](https://github.com/kanso-labs/home-assistant-applications/issues/851)) ([7d7c41e](https://github.com/kanso-labs/home-assistant-applications/commit/7d7c41ec2977e5200b3eb65726156ffe8231c412))
+
 ## [1.1.4](https://github.com/kanso-labs/home-assistant-applications/compare/nginx-proxy-manager-v1.1.3...nginx-proxy-manager-v1.1.4) (2026-10-20)
 
 
