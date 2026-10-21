@@ -1,0 +1,10 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Seerr
+# Runs nginx, which serves Seerr to ingress on 5056
+# ==============================================================================
+
+bashio::log.info 'Starting nginx...'
+
+exec nginx

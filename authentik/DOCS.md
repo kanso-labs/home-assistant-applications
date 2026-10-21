@@ -16,7 +16,8 @@ total, already running Home Assistant, is not enough.
    options** is on. See below if you would rather not.
 4. Start it. The first boot runs every database migration and imports the
    default flows, which takes a few minutes; later ones are much quicker.
-5. Open the web interface on port 9000 and log in as `akadmin`.
+5. Select **Open Web UI**, which opens Authentik through ingress, or open port
+   9000, and log in as `akadmin`.
 6. Clear `bootstrap_password` from the configuration.
 7. In Authentik's Admin interface, under **System → Settings**, set **Base URL**
    to the address people reach Authentik at, with no path after it, such as
@@ -74,6 +75,49 @@ Turn on **Watchdog** on the application's Info tab to have Home Assistant
 restart Authentik when it stops answering, not only when it exits. The
 application asks Authentik's liveness endpoint every 30 seconds, and five
 failures in a row count as a hang. It is off by default.
+
+## Ingress
+
+Authentik is also served through Home Assistant's ingress, so its admin and user
+interfaces open inside Home Assistant and come along wherever Home Assistant
+does, Home Assistant Cloud included. **Open Web UI** on the application's page
+opens it there, and turning on **Show in sidebar** keeps it a click away.
+Ingress is authenticated by Home Assistant, which lets only administrators in.
+
+The published ports are unchanged, and everything that signs in through
+Authentik keeps using them: a reverse proxy in front of port 9000, the embedded
+outpost's forward authentication, and every OAuth2, OIDC and SAML client. The
+issuer and endpoint addresses those clients were given stay exactly as they
+were.
+
+Ingress puts Authentik under a path of Supervisor's choosing,
+`/api/hassio_ingress/<token>`. nginx answers ingress on port 9001, inside the
+application only, and writes that path into the addresses Authentik gives the
+browser there: the base its pages are built from, its redirects and its cookies.
+Authentik itself still serves at the root on 9000 and 9443.
+
+Four things follow from that:
+
+- **Ingress has a login of its own.** Home Assistant's sign-in is not
+  Authentik's, and the browser keeps Authentik's session for each address
+  separately, so logging in at Authentik's own address does not log you in under
+  ingress, or the other way round.
+- **Log in with a password, and TOTP if your account has it.** A browser ties a
+  passkey or a security key to the address it was registered at, so one
+  registered at Authentik's own address is not offered under Home Assistant's.
+  An account whose only second factor is a passkey has to log in at Authentik's
+  own address.
+- **Addresses Authentik shows you under ingress name Home Assistant.** A
+  provider's issuer and endpoint addresses, among others, are built from the
+  address in the browser, so under ingress they show Home Assistant's host. That
+  is only what the page shows: the addresses Authentik gives its clients are
+  unchanged. Copy them from Authentik's own address. For the same reason, a
+  brand you matched to Authentik's domain is not the one shown under ingress.
+- **Authentik's default avatar does not load under ingress.** Authentik shows it
+  when **Avatars**, under **System** > **Settings**, is `none`, or when no mode
+  listed there finds a picture. nginx leaves its address alone, because a user's
+  attributes can hold an `avatar` of their own, which the admin interface saves
+  back as it read it. The default, `gravatar,initials`, always finds one.
 
 ## Three containers, one application
 

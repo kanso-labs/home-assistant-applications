@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0](https://github.com/kanso-labs/home-assistant-applications/compare/profilarr-v1.1.2...profilarr-v1.2.0) (2026-10-20)
+
+
+### Features
+
+* **profilarr:** serve through ingress ([#832](https://github.com/kanso-labs/home-assistant-applications/issues/832)) ([4ab217f](https://github.com/kanso-labs/home-assistant-applications/commit/4ab217fd64969c26b63b5e615e9ccb09371aa6b3))
+
 ## [1.1.2](https://github.com/kanso-labs/home-assistant-applications/compare/profilarr-v1.1.1...profilarr-v1.1.2) (2026-10-18)
 
 

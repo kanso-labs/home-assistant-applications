@@ -30,7 +30,7 @@ one's `DOCS.md` covers its options, what it maps, and how it is backed up.
 
 | Application                                          | What it does                                                                                                             | Web interface       |
 | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------- |
-| [Authentik](./authentik)                             | Identity provider for single sign-on, fronting your applications with OAuth2, OIDC, SAML, LDAP and proxy auth.           | Port 9000           |
+| [Authentik](./authentik)                             | Identity provider for single sign-on, fronting your applications with OAuth2, OIDC, SAML, LDAP and proxy auth.           | Ingress, port 9000  |
 | [Avahi Publisher](./avahi-publisher)                 | Publishes extra .local names and Bonjour services on your network, using the official Avahi.                             | None                |
 | [Bazarr](./bazarr)                                   | Subtitle manager for Radarr and Sonarr, keeping subtitles alongside the media.                                           | Ingress, port 6767  |
 | [Bazarr+](./bazarr-plus)                             | Bazarr fork adding a subtitle provider marketplace, bilingual subtitles and AI translation.                              | Ingress, port 6767  |
@@ -51,12 +51,12 @@ one's `DOCS.md` covers its options, what it maps, and how it is backed up.
 | [Notifiarr](./notifiarr)                             | Unified client for Notifiarr.com, reporting on the stack and letting Discord drive it.                                   | Ingress, port 5454  |
 | [NZBGet](./nzbget)                                   | Usenet downloader, fetching from your news servers into shared storage.                                                  | Ingress, port 6789  |
 | [Plex Media Server](./plex-media-server)             | Serves recorded media, live TV, online news and podcasts to the Plex apps.                                               | Port 32400          |
-| [Profilarr](./profilarr)                             | Builds quality profiles and custom formats, tracks them against curated databases, and syncs them to every arr instance. | Port 6868           |
+| [Profilarr](./profilarr)                             | Builds quality profiles and custom formats, tracks them against curated databases, and syncs them to every arr instance. | Ingress, port 6868  |
 | [Prowlarr](./prowlarr)                               | Indexer manager, pushing one set of definitions out to the whole arr stack.                                              | Ingress, port 9696  |
 | [qBittorrent](./qbittorrent)                         | BitTorrent client, downloading into shared storage for the rest of the stack.                                            | Ingress, port 8080  |
 | [Radarr](./radarr)                                   | Movie collection manager that grabs, sorts and renames what your indexers turn up.                                       | Ingress, port 7878  |
 | [Seadexerr](./seadexerr)                             | Prowlarr indexer offering the SeaDex release of each anime, built on your Home Assistant.                                | None                |
-| [Seerr](./seerr)                                     | Request and discovery front end for Jellyfin, Plex and Emby, feeding Radarr and Sonarr.                                  | Port 5055           |
+| [Seerr](./seerr)                                     | Request and discovery front end for Jellyfin, Plex and Emby, feeding Radarr and Sonarr.                                  | Ingress, port 5055  |
 | [Sonarr](./sonarr)                                   | Smart PVR that follows the shows you watch and grabs new episodes as they appear.                                        | Ingress, port 8989  |
 | [Tdarr](./tdarr)                                     | Runs your library through flows of FFmpeg, HandBrake and MKVToolNix steps, built on your Home Assistant.                 | Ingress, port 8265  |
 | [Traefik](./traefik)                                 | Reverse proxy that sends each request to the application its host name belongs to, routed from the Configuration tab.    | Ingress             |

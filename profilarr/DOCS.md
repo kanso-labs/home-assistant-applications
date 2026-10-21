@@ -89,6 +89,48 @@ stays disabled across a restart. With Watchdog on and no other database enabled,
 Home Assistant then restarts Profilarr every few minutes until that database is
 unlinked.
 
+## Ingress
+
+Profilarr is served through Home Assistant's ingress, so it opens inside Home
+Assistant and comes along wherever Home Assistant does, Home Assistant Cloud
+included. Turn on **Show in sidebar** on the application's page to keep it a
+click away. Ingress is authenticated by Home Assistant, which lets only
+administrators in.
+
+The published port is unchanged and keeps working alongside it, for the browser
+at home, for a reverse proxy such as Traefik, and for anything that calls
+Profilarr's API.
+
+Ingress puts Profilarr under a path of Supervisor's choosing,
+`/api/hassio_ingress/<token>`, and Profilarr has no setting for one: it writes
+root addresses such as `/arr` throughout its pages. nginx answers ingress on
+port 6869, inside the application only. It gives the path to the addresses in
+each page, to Profilarr's redirects and to its session cookie, and loads a short
+script first in the page that gives the path to every address the page asks for
+after that. Profilarr itself still serves at the root on 6868, which is why the
+published port sees no difference.
+
+Four things follow from that:
+
+- **Profilarr's own login still applies inside ingress**, after Home
+  Assistant's, unless `enable_authentication` is off. The session is kept to the
+  ingress path, so signing in there and on the published port are separate.
+- **Local Bypass lets ingress in without Profilarr's login**, because ingress
+  reaches Profilarr from inside the application. It already lets in everything
+  the section on `external_url` above warns about, so leave it off for the same
+  reasons.
+- **With `external_url` set, ingress signs in as that address.** Profilarr takes
+  every request to have arrived there, and nginx tells it the login came from
+  there. When the address starts with `https://`, Profilarr's session cookie is
+  marked secure, so signing in through ingress then needs Home Assistant on
+  `https://` as well.
+- **The onboarding tour under Settings → Onboarding checks the page's address**,
+  which under ingress carries the path, so it may not move on from a step that
+  waits for a page. Take it on the published port.
+
+Phone apps and other tools cannot use ingress, because it needs a Home Assistant
+session in a browser. They still work on the published port.
+
 ## The testing pages need a parser
 
 Profilarr has three parts: building configurations, testing them, and deploying

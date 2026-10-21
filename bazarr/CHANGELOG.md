@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.3](https://github.com/kanso-labs/home-assistant-applications/compare/bazarr-v1.2.2...bazarr-v1.2.3) (2026-10-20)
+
+
+### Bug Fixes
+
+* **bazarr:** scope the session cookie to the ingress path ([#826](https://github.com/kanso-labs/home-assistant-applications/issues/826)) ([a59e5ba](https://github.com/kanso-labs/home-assistant-applications/commit/a59e5ba3fd4af569ab0b4915f4713de0e13e9937))
+
 ## [1.2.2](https://github.com/kanso-labs/home-assistant-applications/compare/bazarr-v1.2.1...bazarr-v1.2.2) (2026-10-20)
 
 

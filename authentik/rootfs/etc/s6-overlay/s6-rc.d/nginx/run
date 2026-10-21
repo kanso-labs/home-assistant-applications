@@ -1,0 +1,10 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Authentik
+# Runs nginx, which serves Authentik to ingress on 9001
+# ==============================================================================
+
+bashio::log.info 'Starting nginx...'
+
+exec nginx

@@ -1,0 +1,21 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Authentik
+# Logs why nginx stopped, and leaves the rest of the application running
+# ==============================================================================
+readonly exit_code_service="${1}"
+readonly exit_code_signal="${2}"
+readonly service="nginx"
+
+bashio::log.info \
+  "Service ${service} exited with code ${exit_code_service}" \
+  "(by signal ${exit_code_signal})"
+
+# Unlike Authentik and PostgreSQL, nginx failing does not take the supervision
+# tree down. It serves ingress and nothing else, while every application behind
+# Authentik signs in through port 9000, which nginx is not part of, so halting
+# here would end single sign-on for all of them over the one page Home
+# Assistant shows. s6 starts nginx again instead. On a stop, s6 brings the
+# services down itself, and the order Authentik and PostgreSQL stop in is set by
+# their own dependency, which nginx has no part in.
