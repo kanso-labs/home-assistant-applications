@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.2](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.6.1...n8n-v1.6.2) (2026-10-21)
+
+
+### Bug Fixes
+
+* update dependency n8n to v2.45.1 ([#847](https://github.com/kanso-labs/home-assistant-applications/issues/847)) ([abad4be](https://github.com/kanso-labs/home-assistant-applications/commit/abad4be6d2d9eacf650b197b29ec05ee6cb81a72))
+
+
+### Upstream changes
+
+* **v2.45.1:** [**core:** Claim an idle worker's next queue job and its lock in one step](https://github.com/n8n-io/n8n/issues/41558) ([abad4be](https://github.com/kanso-labs/home-assistant-applications/commit/abad4be6d2d9eacf650b197b29ec05ee6cb81a72))
+* **v2.45.1:** [**core:** Let workflow editors triage the migration findings of their workflows](https://github.com/n8n-io/n8n/issues/41532) ([abad4be](https://github.com/kanso-labs/home-assistant-applications/commit/abad4be6d2d9eacf650b197b29ec05ee6cb81a72))
+* **v2.45.1:** [**editor:** Center badge text when icons are absent](https://github.com/n8n-io/n8n/issues/41581) ([abad4be](https://github.com/kanso-labs/home-assistant-applications/commit/abad4be6d2d9eacf650b197b29ec05ee6cb81a72))
+* **v2.45.1:** [**Microsoft Teams Trigger Node:** Renew the Graph subscription via lifecycle notifications](https://github.com/n8n-io/n8n/issues/41539) ([abad4be](https://github.com/kanso-labs/home-assistant-applications/commit/abad4be6d2d9eacf650b197b29ec05ee6cb81a72))
+
+
+### Dependencies
+
+* update node.js to v24.22.1 ([#846](https://github.com/kanso-labs/home-assistant-applications/issues/846)) ([e8b203e](https://github.com/kanso-labs/home-assistant-applications/commit/e8b203edfa70798fc1a0f72afb5fb07faa36ab1e))
+
 ## [1.6.1](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.6.0...n8n-v1.6.1) (2026-10-21)
 
 
