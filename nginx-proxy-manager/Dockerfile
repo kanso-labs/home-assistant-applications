@@ -47,7 +47,7 @@ ARG NGINX_PROXY_MANAGER_VERSION=2.16.0
 # on from trixie; NodeSource's nodistro suite serves every release. One version
 # covers both architectures.
 # renovate: datasource=deb depName=nginx registryUrl=https://nginx.org/packages/mainline/debian?suite=trixie&components=nginx&binaryArch=amd64
-ARG NGINX_VERSION=1.31.7-1~trixie
+ARG NGINX_VERSION=1.31.8-1~trixie
 # renovate: datasource=deb depName=nodejs registryUrl=https://deb.nodesource.com/node_22.x?suite=nodistro&components=main&binaryArch=amd64
 ARG NODEJS_VERSION=22.23.4-1nodesource1
 # hadolint ignore=DL3003,DL3008,DL3042
