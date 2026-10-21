@@ -9,7 +9,7 @@
 # The cost is that s6-overlay and bashio arrive here by hand rather than from
 # the base image, and that upstream's startup.sh, which starts all three in the
 # background and then only waits, gives way to an s6 service for each.
-ARG BUILD_FROM=bellamy/wallos:5.10.0
+ARG BUILD_FROM=bellamy/wallos:5.10.1
 FROM ${BUILD_FROM}
 
 # Set shell. bash is not installed yet, so this is busybox's ash.
