@@ -10,7 +10,7 @@
 # The cost is that s6-overlay and bashio arrive here by hand rather than from
 # the base image. Both are installed below, and the service layout under
 # rootfs/ is unchanged from every other application.
-ARG BUILD_FROM=ghcr.io/seerr-team/seerr:v3.5.0
+ARG BUILD_FROM=ghcr.io/seerr-team/seerr:v3.5.1
 FROM ${BUILD_FROM}
 
 # Set shell
