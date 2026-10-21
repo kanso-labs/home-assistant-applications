@@ -10,7 +10,7 @@
 # the base image. Both are installed below, and the service layout under
 # rootfs/ is unchanged from every other application. The image underneath is
 # denoland/deno:alpine, so the packages come from apk as they do for Seerr.
-ARG BUILD_FROM=ghcr.io/dictionarry-hub/profilarr:2.2.0
+ARG BUILD_FROM=ghcr.io/dictionarry-hub/profilarr:2.3.0
 FROM ${BUILD_FROM}
 
 # Set shell
