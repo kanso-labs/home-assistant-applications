@@ -11,7 +11,7 @@
 # application is one container, so PostgreSQL is installed here and the server
 # and worker collapse into the single `allinone` mode upstream's entrypoint
 # already supports. See DOCS.md.
-ARG BUILD_FROM=ghcr.io/goauthentik/server:2026.8.4
+ARG BUILD_FROM=ghcr.io/goauthentik/server:2026.8.5
 FROM ${BUILD_FROM}
 
 # s6-overlay has to come up as pid 1, and the base image ends on USER 1000.
