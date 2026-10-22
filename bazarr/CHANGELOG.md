@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.4](https://github.com/kanso-labs/home-assistant-applications/compare/bazarr-v1.2.3...bazarr-v1.2.4) (2026-10-22)
+
+
+### Dependencies
+
+* update ghcr.io/home-assistant/base-python:3.14-alpine3.24 docker digest to e85a15b ([#864](https://github.com/kanso-labs/home-assistant-applications/issues/864)) ([58c7e28](https://github.com/kanso-labs/home-assistant-applications/commit/58c7e28d9f161d9f87ec2776a31b4081e4416c28))
+
 ## [1.2.3](https://github.com/kanso-labs/home-assistant-applications/compare/bazarr-v1.2.2...bazarr-v1.2.3) (2026-10-20)
 
 
