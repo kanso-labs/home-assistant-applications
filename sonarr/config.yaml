@@ -36,4 +36,4 @@ ports:
   8989/tcp: 8989
 slug: sonarr
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/sonarr'
-version: '1.2.6' # x-release-please-version
+version: '1.2.7' # x-release-please-version
