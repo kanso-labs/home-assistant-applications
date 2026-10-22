@@ -31,7 +31,7 @@ ARG MARIADB_VERSION=11.8.9-r0
 # nginx answers ingress on a port of its own, and is pinned the way MariaDB is,
 # from the same Alpine branch.
 # renovate: datasource=apk depName=nginx registryUrl=https://dl-cdn.alpinelinux.org/alpine?branch=v3.24&components=main&arch=x86_64
-ARG NGINX_VERSION=1.30.4-r1
+ARG NGINX_VERSION=1.30.6-r0
 
 RUN \
   `# Upstream's image carries no curl, which the downloads below retry with.` \

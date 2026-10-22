@@ -28,7 +28,7 @@ ARG BASHIO_VERSION=0.19.0
 # updating when upstream moves to a newer Alpine, and the build fails until it
 # is.
 # renovate: datasource=apk depName=nginx registryUrl=https://dl-cdn.alpinelinux.org/alpine?branch=v3.24&components=main&arch=x86_64
-ARG NGINX_VERSION=1.30.4-r1
+ARG NGINX_VERSION=1.30.6-r0
 
 RUN \
   `# bash, curl, ca-certificates, git and tar are already here — upstream` \
