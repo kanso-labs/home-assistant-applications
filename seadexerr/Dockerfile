@@ -9,7 +9,7 @@
 # That image is distroless, with no shell for the service scripts, and its
 # binary is built against glibc, so it is copied onto the Debian-family base
 # rather than the Alpine one.
-ARG BUILD_FROM=ghcr.io/home-assistant/base-ubuntu:26.04@sha256:379f7f6de68801cd7e4e47c466cbd8b3f1c0025bebc35f20e6b05fdd171477a6
+ARG BUILD_FROM=ghcr.io/home-assistant/base-ubuntu:26.04@sha256:17a3f4aba9b60c41ae02e6bd3cee0c1e6564346b4abd9265c6eaf2cc32e12122
 # The whole image, tag included, sits in the ARG and FROM takes it as it is,
 # which is how Renovate's own Dockerfile support reads BUILD_FROM too. A version
 # spliced into FROM instead is read twice, by that support and by the regex
