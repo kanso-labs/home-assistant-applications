@@ -6,7 +6,7 @@
 # Python release and an Alpine one, and docker versioning alone never crosses
 # the Alpine part, so .github/renovate.json reads the two as one version: a new
 # Python arrives as a minor update, a new Alpine as a patch.
-ARG BUILD_FROM=ghcr.io/home-assistant/base-python:3.14-alpine3.24@sha256:51837e17a94b578cc00357c98482b61b53b27e37d910c97b86dd6448cfb11a6f
+ARG BUILD_FROM=ghcr.io/home-assistant/base-python:3.14-alpine3.24@sha256:e85a15bd76ab9528d30057ff9794e1d31e64cdd2f5304bf345e37149d137eeda
 FROM ${BUILD_FROM}
 
 # Set shell
