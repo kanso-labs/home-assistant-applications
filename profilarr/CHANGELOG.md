@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.2](https://github.com/kanso-labs/home-assistant-applications/compare/profilarr-v1.3.1...profilarr-v1.3.2) (2026-10-23)
+
+
+### Dependencies
+
+* update nginx apk package to v1.30.6-r0 ([#865](https://github.com/kanso-labs/home-assistant-applications/issues/865)) ([9c4d295](https://github.com/kanso-labs/home-assistant-applications/commit/9c4d2952753f2e1feb82eed458ccd458865692c9))
+
 ## [1.3.1](https://github.com/kanso-labs/home-assistant-applications/compare/profilarr-v1.3.0...profilarr-v1.3.1) (2026-10-21)
 
 

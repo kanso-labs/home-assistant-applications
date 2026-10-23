@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0](https://github.com/kanso-labs/home-assistant-applications/compare/configarr-v1.2.3...configarr-v1.3.0) (2026-10-23)
+
+
+### Features
+
+* update dependency raydak-labs/configarr to v1.36.0 ([#869](https://github.com/kanso-labs/home-assistant-applications/issues/869)) ([1502319](https://github.com/kanso-labs/home-assistant-applications/commit/150231937d3491f1e66bedd8e509a3e09798f18e))
+
+
+### Upstream changes
+
+* **v1.36.0:** [support TRaSH profile quality sizes for Sonarr v5](https://github.com/raydak-labs/configarr/issues/565) ([1502319](https://github.com/kanso-labs/home-assistant-applications/commit/150231937d3491f1e66bedd8e509a3e09798f18e))
+
 ## [1.2.3](https://github.com/kanso-labs/home-assistant-applications/compare/configarr-v1.2.2...configarr-v1.2.3) (2026-10-22)
 
 
