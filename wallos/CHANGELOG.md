@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.2](https://github.com/kanso-labs/home-assistant-applications/compare/wallos-v0.6.1...wallos-v0.6.2) (2026-10-24)
+
+
+### Bug Fixes
+
+* update bellamy/wallos docker tag to v5.10.2 ([#874](https://github.com/kanso-labs/home-assistant-applications/issues/874)) ([ce9138b](https://github.com/kanso-labs/home-assistant-applications/commit/ce9138bafd6de651c02400ecf4b52c2c9ba1f9ba))
+
+
+### Upstream changes
+
+* **v5.10.2:** [**docker:** fall back to IPv4-only nginx when IPv6 is unavailable](https://github.com/ellite/Wallos/issues/1287) ([ce9138b](https://github.com/kanso-labs/home-assistant-applications/commit/ce9138bafd6de651c02400ecf4b52c2c9ba1f9ba))
+
 ## [0.6.1](https://github.com/kanso-labs/home-assistant-applications/compare/wallos-v0.6.0...wallos-v0.6.1) (2026-10-21)
 
 
