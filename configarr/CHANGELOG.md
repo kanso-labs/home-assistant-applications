@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0](https://github.com/kanso-labs/home-assistant-applications/compare/configarr-v1.3.0...configarr-v1.4.0) (2026-10-25)
+
+
+### Features
+
+* update dependency raydak-labs/configarr to v1.37.0 ([#880](https://github.com/kanso-labs/home-assistant-applications/issues/880)) ([e0b83b9](https://github.com/kanso-labs/home-assistant-applications/commit/e0b83b97dac3b669867570820eb54bfaaad299b5))
+
+
+### Upstream changes
+
+* **v1.37.0:** [add JSON Log Format Support](https://github.com/raydak-labs/configarr/issues/570) ([e0b83b9](https://github.com/kanso-labs/home-assistant-applications/commit/e0b83b97dac3b669867570820eb54bfaaad299b5))
+
 ## [1.3.0](https://github.com/kanso-labs/home-assistant-applications/compare/configarr-v1.2.3...configarr-v1.3.0) (2026-10-23)
 
 
