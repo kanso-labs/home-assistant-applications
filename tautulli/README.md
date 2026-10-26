@@ -1,0 +1,15 @@
+# Home Assistant Application: Tautulli
+
+Monitoring and statistics for Plex Media Server.
+
+Tautulli records what is played, by whom, where and how, keeps the history in
+graphs and tables, and sends a notification when something starts, stops or is
+added.
+
+![Supports aarch64 Architecture][aarch64-shield]
+![Supports amd64 Architecture][amd64-shield]
+
+See the **Documentation** tab for installation and usage.
+
+[aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
+[amd64-shield]: https://img.shields.io/badge/amd64-yes-green.svg

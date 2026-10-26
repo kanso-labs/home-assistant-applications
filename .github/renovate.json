@@ -57,10 +57,11 @@
       "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)\\.(?<build>\\d+)$"
     },
     {
-      "description": "Annotated versions the shared ^v(?<version>.*)$ reads wrongly. Renovate writes back what extractVersion extracts, and the Immich images are written as the tag they name, v and all, so stripping the v would bump them to a tag that does not exist. VectorChord's release tags, Valkey's image tags and certbot's PyPI versions carry no v at all, and a release the shared pattern cannot match is dropped rather than offered, so they would never have been updated. These keep their versions whole.",
+      "description": "Annotated versions the shared ^v(?<version>.*)$ reads wrongly. Renovate writes back what extractVersion extracts, and the Immich images are written as the tag they name, v and all, so stripping the v would bump them to a tag that does not exist. VectorChord's release tags, Valkey's image tags and the PyPI versions of certbot and cryptography carry no v at all, and a release the shared pattern cannot match is dropped rather than offered, so they would never have been updated. These keep their versions whole.",
       "extractVersion": "^(?<version>.+)$",
       "matchDepNames": [
         "certbot",
+        "cryptography",
         "ghcr.io/immich-app/immich-machine-learning",
         "ghcr.io/immich-app/immich-server",
         "tensorchord/VectorChord",
@@ -133,6 +134,7 @@
         "Prowlarr/Prowlarr",
         "Radarr/Radarr",
         "Sonarr/Sonarr",
+        "Tautulli/Tautulli",
         "Unpackerr/unpackerr",
         "avahi",
         "bellamy/wallos",
