@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.5](https://github.com/kanso-labs/home-assistant-applications/compare/muxarr-v1.0.4...muxarr-v1.0.5) (2026-10-26)
+
+
+### Bug Fixes
+
+* update ghcr.io/kirovair/muxarr docker tag to v0.9.13 ([#886](https://github.com/kanso-labs/home-assistant-applications/issues/886)) ([c2f6edd](https://github.com/kanso-labs/home-assistant-applications/commit/c2f6edd6386366ce5349453690ae875a913f3f32))
+
+
+### Upstream changes
+
+* **v0.9.13:** [A conversion opened while it runs shows its real progress instead of 0%](https://github.com/KirovAir/muxarr/issues/91) ([c2f6edd](https://github.com/kanso-labs/home-assistant-applications/commit/c2f6edd6386366ce5349453690ae875a913f3f32))
+* **v0.9.13:** [Conversions check for free space before writing the converted copy](https://github.com/KirovAir/muxarr/issues/89) ([c2f6edd](https://github.com/kanso-labs/home-assistant-applications/commit/c2f6edd6386366ce5349453690ae875a913f3f32))
+* **v0.9.13:** [Dolby Vision is kept when ffmpeg rewrites an MP4](https://github.com/KirovAir/muxarr/issues/86) ([c2f6edd](https://github.com/kanso-labs/home-assistant-applications/commit/c2f6edd6386366ce5349453690ae875a913f3f32))
+* **v0.9.13:** [File names can no longer run as part of the post-processing command](https://github.com/KirovAir/muxarr/issues/88) ([c2f6edd](https://github.com/kanso-labs/home-assistant-applications/commit/c2f6edd6386366ce5349453690ae875a913f3f32))
+* **v0.9.13:** [Times show in the container's timezone instead of UTC](https://github.com/KirovAir/muxarr/issues/85) ([c2f6edd](https://github.com/kanso-labs/home-assistant-applications/commit/c2f6edd6386366ce5349453690ae875a913f3f32))
+* **v0.9.13:** An undetermined track is kept when the profile explicitly allows it ([c2f6edd](https://github.com/kanso-labs/home-assistant-applications/commit/c2f6edd6386366ce5349453690ae875a913f3f32))
+* **v0.9.13:** Codec exclusion runs before the "only option" checks, so a SDH or commentary track is no longer removed because of a track that gets excluded anyway ([c2f6edd](https://github.com/kanso-labs/home-assistant-applications/commit/c2f6edd6386366ce5349453690ae875a913f3f32))
+* **v0.9.13:** Dependency updates (EF Core 10.0.13, mkvtoolnix 103) which also clear the Cryptography.Xml advisories ([c2f6edd](https://github.com/kanso-labs/home-assistant-applications/commit/c2f6edd6386366ce5349453690ae875a913f3f32))
+* **v0.9.13:** Details pages show a not found message again instead of an error ([c2f6edd](https://github.com/kanso-labs/home-assistant-applications/commit/c2f6edd6386366ce5349453690ae875a913f3f32))
+
 ## [1.0.4](https://github.com/kanso-labs/home-assistant-applications/compare/muxarr-v1.0.3...muxarr-v1.0.4) (2026-10-19)
 
 

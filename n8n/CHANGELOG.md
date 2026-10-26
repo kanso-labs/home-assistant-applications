@@ -6,6 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.6](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.6.5...n8n-v1.6.6) (2026-10-26)
+
+
+### Bug Fixes
+
+* update dependency n8n to v2.45.4 ([#885](https://github.com/kanso-labs/home-assistant-applications/issues/885)) ([37a598b](https://github.com/kanso-labs/home-assistant-applications/commit/37a598be8f74d7cdb43876edca0b0cf001e7eebb))
+
+
+### Upstream changes
+
+* **v2.45.4:** [**core:** Recreate removed n8n-sandbox sandboxes and rerun workspace setup](https://github.com/n8n-io/n8n/issues/41919) ([37a598b](https://github.com/kanso-labs/home-assistant-applications/commit/37a598be8f74d7cdb43876edca0b0cf001e7eebb))
+* **v2.45.4:** [**core:** Start sub-workflow error workflow when a pre-run check fails](https://github.com/n8n-io/n8n/issues/41977) ([37a598b](https://github.com/kanso-labs/home-assistant-applications/commit/37a598be8f74d7cdb43876edca0b0cf001e7eebb))
+* **v2.45.4:** [**editor:** Filter migration report workflows by project](https://github.com/n8n-io/n8n/issues/41949) ([37a598b](https://github.com/kanso-labs/home-assistant-applications/commit/37a598be8f74d7cdb43876edca0b0cf001e7eebb))
+* **v2.45.4:** [**editor:** Match navigation plus button hover styling](https://github.com/n8n-io/n8n/issues/41910) ([37a598b](https://github.com/kanso-labs/home-assistant-applications/commit/37a598be8f74d7cdb43876edca0b0cf001e7eebb))
+* **v2.45.4:** [**editor:** Point migration report docs link to the v3 breaking changes page](https://github.com/n8n-io/n8n/issues/42003) ([37a598b](https://github.com/kanso-labs/home-assistant-applications/commit/37a598be8f74d7cdb43876edca0b0cf001e7eebb))
+* **v2.45.4:** [**editor:** Refactor N8nBreadcrumbs and callers](https://github.com/n8n-io/n8n/issues/41911) ([37a598b](https://github.com/kanso-labs/home-assistant-applications/commit/37a598be8f74d7cdb43876edca0b0cf001e7eebb))
+* **v2.45.4:** [**Email Trigger (IMAP) Node:** Back off reconnects when the server drops each new connection](https://github.com/n8n-io/n8n/issues/41926) ([37a598b](https://github.com/kanso-labs/home-assistant-applications/commit/37a598be8f74d7cdb43876edca0b0cf001e7eebb))
+* **v2.45.4:** [**Microsoft SharePoint Node:** Fix the column mapper 403 and empty items in Map Automatically](https://github.com/n8n-io/n8n/issues/41907) ([37a598b](https://github.com/kanso-labs/home-assistant-applications/commit/37a598be8f74d7cdb43876edca0b0cf001e7eebb))
+* **v2.45.4:** [Implements new taxonomy experiment for sales-and-marketing responders](https://github.com/n8n-io/n8n/issues/41936) ([37a598b](https://github.com/kanso-labs/home-assistant-applications/commit/37a598be8f74d7cdb43876edca0b0cf001e7eebb))
+* **v2.45.4:** [Update certifi to 2026.10.19 in task runner](https://github.com/n8n-io/n8n/issues/41966) ([37a598b](https://github.com/kanso-labs/home-assistant-applications/commit/37a598be8f74d7cdb43876edca0b0cf001e7eebb))
+* **v2.45.4:** [Update certifi to 2026.10.23 in task runner](https://github.com/n8n-io/n8n/issues/41993) ([37a598b](https://github.com/kanso-labs/home-assistant-applications/commit/37a598be8f74d7cdb43876edca0b0cf001e7eebb))
+
 ## [1.6.5](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.6.4...n8n-v1.6.5) (2026-10-25)
 
 
