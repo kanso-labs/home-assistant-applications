@@ -3,7 +3,7 @@
 # Traefik publishes a static build with every release, and it runs as it is on
 # the Home Assistant base image, which brings the bashio the service scripts
 # need.
-ARG BUILD_FROM=ghcr.io/home-assistant/base:3.24@sha256:992dc6a5727b97a30da8dd259b489739299c324407557df540165e2f0dbb7763
+ARG BUILD_FROM=ghcr.io/home-assistant/base:3.24@sha256:89f3a85707bf03d97012e0ca517d3b335dcbc224edabbb18dcb4e14150d086e6
 FROM ${BUILD_FROM}
 
 # Set shell
