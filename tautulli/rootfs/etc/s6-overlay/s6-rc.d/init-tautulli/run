@@ -1,0 +1,75 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Tautulli
+# Writes the settings the container decides into config.ini, makes the ingress
+# path Tautulli's HTTP root, and hands Tautulli its configuration directory
+# ==============================================================================
+readonly config_file='/config/config.ini'
+
+# A new install gets Tautulli's analytics off, as Bazarr's does. Written on first
+# run only, so a user's own choice is never overwritten.
+new_install=false
+if ! bashio::fs.file_exists "${config_file}"; then
+  bashio::log.info 'No configuration found, seeding defaults...'
+  new_install=true
+fi
+
+# Ingress serves Tautulli under a path Supervisor chooses, and Tautulli writes
+# one HTTP root into every page it serves. So the ingress path is that root, and
+# nginx answers on 8181 in Tautulli's place, adding the path to whatever arrives
+# without it. Tautulli takes no command-line flag for the root, so it is written
+# into config.ini on every start, in case it was changed under Settings.
+ingress_entry="$(bashio::app.ingress_entry)"
+if ! bashio::var.has_value "${ingress_entry}" || [[ "${ingress_entry}" == 'null' ]]; then
+  bashio::log.warning 'Supervisor reported no ingress path; leaving the HTTP root as it is'
+  ingress_entry=''
+fi
+
+# The rest is the same on every start too:
+# - http_host keeps Tautulli on 127.0.0.1, where only nginx reaches it, so that
+#   nothing on the internal network can pass it a client address of its own.
+# - http_proxy has Tautulli read the client's address and scheme from the
+#   headers nginx writes, see nginx.conf.
+# - enable_https stays off, since nginx speaks plain HTTP to Tautulli. Traefik
+#   or Home Assistant is what serves HTTPS.
+# config.ini goes through Tautulli's own ConfigObj, which keeps its comments and
+# its nested sections. What comes back is an HTTP root someone chose, if this
+# replaced one.
+replaced_http_root="$(PYTHONPATH=/opt/tautulli/lib python3 - "${config_file}" "${ingress_entry%/}" "${new_install}" <<'EOF'
+import os
+import sys
+
+from configobj import ConfigObj
+
+path, http_root, new_install = sys.argv[1], sys.argv[2], sys.argv[3] == 'true'
+config = ConfigObj(path, encoding='utf-8')
+
+general = config.setdefault('General', {})
+saved = str(general.get('http_root', '')).strip('/')
+if http_root:
+    general['http_root'] = http_root + '/'
+general['http_host'] = '127.0.0.1'
+general['http_proxy'] = 1
+general['enable_https'] = 0
+
+if new_install:
+    config.setdefault('Advanced', {})['system_analytics'] = 0
+
+config.filename = path + '.tmp'
+config.write()
+os.replace(path + '.tmp', path)
+
+if http_root and saved and saved != http_root.strip('/') and not saved.startswith('api/hassio_ingress/'):
+    print('/' + saved)
+EOF
+)" || bashio::exit.nok 'Could not write the settings into config.ini'
+
+if [[ -n "${replaced_http_root}" ]]; then
+  bashio::log.warning "The HTTP Root ${replaced_http_root} saved in Tautulli's settings is replaced by the ingress path. Tautulli answers at the root of port 8181, so anything calling http://<host>:8181${replaced_http_root} has to call http://<host>:8181 instead."
+fi
+
+# Tautulli runs as its own user, and an install restored from a backup, or a
+# file written here as root, may belong to someone else. Its own image hands
+# back whatever it does not own at every start in the same way.
+find /config \! \( -user tautulli -group tautulli \) -exec chown -h tautulli:tautulli {} +

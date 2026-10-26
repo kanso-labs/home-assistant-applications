@@ -1,0 +1,2 @@
+network:
+  8181/tcp: The port the Tautulli web interface and API listen on.

@@ -1,0 +1,32 @@
+arch:
+  - aarch64
+  - amd64
+backup: cold
+# Only the cache and logs directories at the top of /config, which Tautulli
+# recreates at start. The backups Tautulli takes itself, in backups, stay in.
+backup_exclude:
+  - '*_tautulli/cache'
+  - '*_tautulli/logs'
+description:
+  Monitoring and statistics for Plex Media Server. Tautulli records what is
+  played, by whom, where and how, keeps the history in graphs and tables, and
+  sends a notification when something starts, stops or is added.
+image: 'ghcr.io/kanso-labs/home-assistant-application-tautulli'
+# nginx answers on 8181 for ingress and the published port alike, see DOCS.md.
+ingress: true
+ingress_port: 8181
+# Supervisor reads a request through ingress whole and refuses one over 16 MiB,
+# unless it is streamed. A Tautulli or PlexPy database imported under Settings
+# is usually larger.
+ingress_stream: true
+init: false
+map:
+  - read_only: false
+    type: app_config
+name: Tautulli
+panel_icon: 'mdi:chart-timeline-variant'
+ports:
+  8181/tcp: 8181
+slug: tautulli
+url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/tautulli'
+version: '0.1.0' # x-release-please-version

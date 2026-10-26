@@ -314,6 +314,15 @@
         }
       ]
     },
+    "tautulli": {
+      "component": "tautulli",
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
+    },
     "tdarr": {
       "component": "tdarr",
       "extra-files": [

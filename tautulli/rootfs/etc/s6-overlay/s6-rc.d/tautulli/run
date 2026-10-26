@@ -1,0 +1,21 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Tautulli
+# Runs Tautulli
+# ==============================================================================
+
+bashio::log.info 'Starting Tautulli...'
+
+cd /opt/tautulli || bashio::exit.nok 'The application directory is missing'
+
+# --port moves Tautulli off 8181, where nginx answers in its place, and wins over
+# http_port in config.ini. Tautulli restarts itself by executing the same
+# command again, so it keeps the port, and the user it was started as. s6-overlay
+# has to be pid 1, so the service starts as root and drops to Tautulli's user
+# here.
+exec s6-setuidgid tautulli \
+  python3 /opt/tautulli/Tautulli.py \
+    --datadir /config \
+    --nolaunch \
+    --port 18181
