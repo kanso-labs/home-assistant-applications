@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0](https://github.com/kanso-labs/home-assistant-applications/compare/unpackerr-v2.0.0...unpackerr-v2.1.0) (2026-10-26)
+
+
+### Features
+
+* **unpackerr:** serve the web interface through ingress ([#891](https://github.com/kanso-labs/home-assistant-applications/issues/891)) ([767b624](https://github.com/kanso-labs/home-assistant-applications/commit/767b624afb1ec0a1d8e84b026f03f17647e22ac0))
+
 ## [2.0.0](https://github.com/kanso-labs/home-assistant-applications/compare/unpackerr-v1.2.6...unpackerr-v2.0.0) (2026-10-26)
 
 
