@@ -9,34 +9,17 @@ readonly config_file='/config/unpackerr.conf'
 
 # Unpackerr needs to be told which Radarr and Sonarr to talk to, and there is no
 # useful default for that. The upstream example is seeded on first run only, so
-# the commented documentation is there to edit and a user's own file is never
-# overwritten.
+# a user's own file is never overwritten from here. Unpackerr rewrites it itself
+# on its first start, to store the web interface's password and admin API key,
+# and again whenever its settings are saved in the web interface.
 if ! bashio::fs.file_exists "${config_file}"; then
   bashio::log.info 'No configuration found, seeding the example...'
   cp /opt/unpackerr/unpackerr.conf.example "${config_file}"
 
-  # The example leaves the [[sonarr]] and [[radarr]] headers uncommented while
-  # their url and api_key stay commented out. Unpackerr reads that as a server
-  # with no address and logs an error for each on every start, which the
-  # example itself warns about. Commenting the headers means an unconfigured
-  # install starts clean; uncommenting one is part of configuring it.
-  sed -i -E 's/^(\[\[(sonarr|radarr)\]\])/# \1/' "${config_file}"
-
-  # The example's commented addresses are for a Radarr and Sonarr on the same
-  # machine, which inside this container is Unpackerr itself, and every block's
-  # paths name a /downloads that does not exist here. Naming this repository's
-  # Radarr and Sonarr, and qBittorrent's folder in every block, leaves only the
-  # API key to fill in once a block is uncommented.
-  sed -i \
-    -e 's|"http://127\.0\.0\.1:7878"|"http://2dd33fbd-radarr:7878"|' \
-    -e 's|"http://127\.0\.0\.1:8989"|"http://2dd33fbd-sonarr:8989"|' \
-    -e "s|\['/downloads'\]|['/share/qbittorrent/downloads']|" \
-    "${config_file}"
-
   bashio::log.notice 'Unpackerr has nothing to do until it is configured.'
-  bashio::log.notice "Edit ${config_file} and uncomment the [[radarr]] or"
-  bashio::log.notice '[[sonarr]] header you need, along with its url, api_key'
-  bashio::log.notice 'and paths, then restart.'
+  bashio::log.notice 'Open its web interface and sign in as admin, with the'
+  bashio::log.notice 'temporary password it prints below, then add Radarr and'
+  bashio::log.notice 'Sonarr under Configuration, Starrs.'
 fi
 
 bashio::log.info 'Starting Unpackerr...'

@@ -1,0 +1,10 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Unpackerr
+# Runs nginx, which answers ingress on 8099 and hands it to Unpackerr
+# ==============================================================================
+
+bashio::log.info 'Starting nginx...'
+
+exec nginx
