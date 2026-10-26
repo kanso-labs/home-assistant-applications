@@ -27,9 +27,9 @@
   "seadexerr": "1.1.4",
   "seerr": "1.3.1",
   "sonarr": "1.2.7",
-  "tautulli": "0.1.0",
+  "tautulli": "0.2.0",
   "tdarr": "0.4.0",
   "traefik": "1.0.9",
-  "unpackerr": "1.2.6",
+  "unpackerr": "2.0.0",
   "wallos": "0.6.2"
 }
