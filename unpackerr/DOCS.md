@@ -9,7 +9,7 @@
 4. Sign in as `admin`, with the temporary password Unpackerr prints in the
    application's **Log** tab on its first start. It is shown once only.
 5. Add Radarr and Sonarr under **Configuration** → **Starrs**, then change the
-   password under **Configuration** → **Web Server**.
+   password under **Configuration** → **Trust**.
 
 ## Ingress
 
@@ -46,10 +46,26 @@ Three things follow from that:
   with a key it makes on every start, so the web interface asks you to sign in
   again after one.
 - **Unpackerr sees every ingress request as coming from nginx**, at 127.0.0.1,
-  so its HTTP log shows that address rather than yours. Do not add the loopback
-  address under Upstreams in **Configuration** → **Web Server**: Unpackerr
-  trusts the networks listed there to say who the client is, and with proxy
-  sign-in, who is signed in.
+  so its HTTP log shows that address rather than yours, and only the loopback
+  address can stand for ingress in its settings. See below for skipping
+  Unpackerr's own sign-in there.
+
+To have Home Assistant's sign-in be the only one, let Unpackerr trust ingress:
+
+1. Under **Configuration** → **Trust**, add `127.0.0.1/32` to **Upstreams** and
+   save.
+2. Reload the page, set **Authentication** to **No authentication**, enter the
+   current password, and save. Neither step needs a restart.
+
+**No authentication** can only be chosen from an address listed under Upstreams,
+so that the page choosing it is not locked out. Through ingress that address is
+nginx's, 127.0.0.1, which only Supervisor and the health check can reach, so
+with this setting ingress needs no second sign-in, and everything else on Home
+Assistant's network, which reaches 5656 from its own address, is turned away
+unless it sends one of Unpackerr's API keys. There is no password left to sign
+in with, so `http://2dd33fbd-unpackerr:5656` and anything you route to it, such
+as Traefik, answer 401 to a browser. Set **Authentication** back to a password
+to use them.
 
 Turn on **Watchdog** on the application's Info tab to have Home Assistant
 restart Unpackerr when it stops answering, not only when it exits. The check
