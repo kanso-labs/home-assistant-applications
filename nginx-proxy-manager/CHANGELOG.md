@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.7](https://github.com/kanso-labs/home-assistant-applications/compare/nginx-proxy-manager-v1.1.6...nginx-proxy-manager-v1.1.7) (2026-10-27)
+
+
+### Dependencies
+
+* update home assistant base images ([#895](https://github.com/kanso-labs/home-assistant-applications/issues/895)) ([2e56129](https://github.com/kanso-labs/home-assistant-applications/commit/2e56129b54b52a90c7b6451271e7652b13427f6d))
+
 ## [1.1.6](https://github.com/kanso-labs/home-assistant-applications/compare/nginx-proxy-manager-v1.1.5...nginx-proxy-manager-v1.1.6) (2026-10-22)
 
 
