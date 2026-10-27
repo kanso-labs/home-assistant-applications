@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.8](https://github.com/kanso-labs/home-assistant-applications/compare/prowlarr-v1.3.7...prowlarr-v1.3.8) (2026-10-27)
+
+
+### Dependencies
+
+* update home assistant base images ([#895](https://github.com/kanso-labs/home-assistant-applications/issues/895)) ([2e56129](https://github.com/kanso-labs/home-assistant-applications/commit/2e56129b54b52a90c7b6451271e7652b13427f6d))
+
 ## [1.3.7](https://github.com/kanso-labs/home-assistant-applications/compare/prowlarr-v1.3.6...prowlarr-v1.3.7) (2026-10-22)
 
 

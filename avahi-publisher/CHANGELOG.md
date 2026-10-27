@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.5](https://github.com/kanso-labs/home-assistant-applications/compare/avahi-publisher-v1.0.4...avahi-publisher-v1.0.5) (2026-10-27)
+
+
+### Dependencies
+
+* update ghcr.io/home-assistant/base:3.24 docker digest to 89f3a85 ([#894](https://github.com/kanso-labs/home-assistant-applications/issues/894)) ([e495ef8](https://github.com/kanso-labs/home-assistant-applications/commit/e495ef8ef13797e9fe31fbcc78e2af5dcaf65ed3))
+
 ## [1.0.4](https://github.com/kanso-labs/home-assistant-applications/compare/avahi-publisher-v1.0.3...avahi-publisher-v1.0.4) (2026-10-22)
 
 

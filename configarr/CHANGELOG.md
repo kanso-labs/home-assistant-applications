@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0](https://github.com/kanso-labs/home-assistant-applications/compare/configarr-v1.4.0...configarr-v1.5.0) (2026-10-27)
+
+
+### Features
+
+* update dependency raydak-labs/configarr to v1.38.0 ([#898](https://github.com/kanso-labs/home-assistant-applications/issues/898)) ([896c328](https://github.com/kanso-labs/home-assistant-applications/commit/896c328b2b0148b3e9417efef65c9010a63b18d3))
+
+
+### Upstream changes
+
+* **v1.38.0:** [**deps:** update dependencies (non-major)](https://github.com/raydak-labs/configarr/issues/577) ([896c328](https://github.com/kanso-labs/home-assistant-applications/commit/896c328b2b0148b3e9417efef65c9010a63b18d3))
+* **v1.38.0:** [add Radarr v7 support](https://github.com/raydak-labs/configarr/issues/572) ([896c328](https://github.com/kanso-labs/home-assistant-applications/commit/896c328b2b0148b3e9417efef65c9010a63b18d3))
+
+
+### Dependencies
+
+* update home assistant base images ([#895](https://github.com/kanso-labs/home-assistant-applications/issues/895)) ([2e56129](https://github.com/kanso-labs/home-assistant-applications/commit/2e56129b54b52a90c7b6451271e7652b13427f6d))
+
 ## [1.4.0](https://github.com/kanso-labs/home-assistant-applications/compare/configarr-v1.3.0...configarr-v1.4.0) (2026-10-25)
 
 

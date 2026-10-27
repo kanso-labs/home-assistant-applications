@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.7](https://github.com/kanso-labs/home-assistant-applications/compare/immich-v1.0.6...immich-v1.0.7) (2026-10-27)
+
+
+### Dependencies
+
+* update valkey/valkey docker tag to v9.1.3 ([#901](https://github.com/kanso-labs/home-assistant-applications/issues/901)) ([61ed690](https://github.com/kanso-labs/home-assistant-applications/commit/61ed6907630f6fbb8071c656c4bb948a6a79ba24))
+
 ## [1.0.6](https://github.com/kanso-labs/home-assistant-applications/compare/immich-v1.0.5...immich-v1.0.6) (2026-10-21)
 
 
