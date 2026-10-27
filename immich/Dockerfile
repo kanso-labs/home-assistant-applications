@@ -13,7 +13,7 @@
 # renovate: datasource=docker depName=ghcr.io/immich-app/immich-server
 ARG IMMICH_VERSION=v3.3.5
 # renovate: datasource=docker depName=valkey/valkey
-ARG VALKEY_VERSION=9.1.2
+ARG VALKEY_VERSION=9.1.3
 
 # Valkey is copied out of its own image, which is built on the same Debian
 # release as Immich's. That release ships Valkey 8, a major behind the 9
