@@ -64,4 +64,4 @@ slug: n8n
 # finish before it exits, and records any it had to cut off as crashed.
 timeout: 60
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/n8n'
-version: '1.6.7' # x-release-please-version
+version: '1.6.8' # x-release-please-version

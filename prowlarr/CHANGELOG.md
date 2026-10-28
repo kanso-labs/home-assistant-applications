@@ -6,6 +6,37 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0](https://github.com/kanso-labs/home-assistant-applications/compare/prowlarr-v1.3.8...prowlarr-v1.4.0) (2026-10-28)
+
+
+### Features
+
+* update dependency prowlarr/prowlarr to v2.7.0.5723 ([#907](https://github.com/kanso-labs/home-assistant-applications/issues/907)) ([a384a86](https://github.com/kanso-labs/home-assistant-applications/commit/a384a86a23de08c3a6fe86ca6c24b07645f3de82))
+
+
+### Upstream changes
+
+* **v2.7.0.5723:** [`0dc20d8` Bump to 2.7.0](https://github.com/Prowlarr/Prowlarr/commit/0dc20d8495bad9951c3fafe53f32b6e1c70fcf3b) ([a384a86](https://github.com/kanso-labs/home-assistant-applications/commit/a384a86a23de08c3a6fe86ca6c24b07645f3de82))
+* **v2.7.0.5723:** [`26a605e` Update corejs version in babel/preset-env](https://github.com/Prowlarr/Prowlarr/commit/26a605e41f6156b959bc8f3ae5db4bec252106c5) ([a384a86](https://github.com/kanso-labs/home-assistant-applications/commit/a384a86a23de08c3a6fe86ca6c24b07645f3de82))
+* **v2.7.0.5723:** [`3c6e1d9` add support to cardigann for a base64decode filters](https://github.com/Prowlarr/Prowlarr/commit/3c6e1d97ac485a70cc9d4063dd5d17af7a77584d) ([a384a86](https://github.com/kanso-labs/home-assistant-applications/commit/a384a86a23de08c3a6fe86ca6c24b07645f3de82))
+* **v2.7.0.5723:** [`3f28a79` Fixed: Wildcard IP addresses in Allowed Hosts](https://github.com/Prowlarr/Prowlarr/commit/3f28a7907dae0023d439af92034859857af64e2d) ([a384a86](https://github.com/kanso-labs/home-assistant-applications/commit/a384a86a23de08c3a6fe86ca6c24b07645f3de82))
+* **v2.7.0.5723:** [`71c5435` Multiple Translations updated by Weblate](https://github.com/Prowlarr/Prowlarr/commit/71c5435cf81b957c748080433ba3e4e4057cd779) ([a384a86](https://github.com/kanso-labs/home-assistant-applications/commit/a384a86a23de08c3a6fe86ca6c24b07645f3de82))
+* **v2.7.0.5723:** [`874e38b` Fixed: Increase AvistaZ indexer rate limit to 6.1 seconds](https://github.com/Prowlarr/Prowlarr/commit/874e38b99e61c8c2da8f6e7c3d5128e002cc8b31) ([a384a86](https://github.com/kanso-labs/home-assistant-applications/commit/a384a86a23de08c3a6fe86ca6c24b07645f3de82))
+* **v2.7.0.5723:** [`97f3676` Fixed: (BroadcasTheNet) Add imdb search support](https://github.com/Prowlarr/Prowlarr/commit/97f3676cc67be264e3a940c5f96f9a6ffef1e992) ([a384a86](https://github.com/kanso-labs/home-assistant-applications/commit/a384a86a23de08c3a6fe86ca6c24b07645f3de82))
+* **v2.7.0.5723:** [`adaf773` Bump indexers definition version to 12](https://github.com/Prowlarr/Prowlarr/commit/adaf77308f2a89225c318f6130a990fe1b7048b4) ([a384a86](https://github.com/kanso-labs/home-assistant-applications/commit/a384a86a23de08c3a6fe86ca6c24b07645f3de82))
+* **v2.7.0.5723:** [`b59c9de` Add place-content to stylelint properties order](https://github.com/Prowlarr/Prowlarr/commit/b59c9defe86ac63b0bf2230768e50d8fa8e846f0) ([a384a86](https://github.com/kanso-labs/home-assistant-applications/commit/a384a86a23de08c3a6fe86ca6c24b07645f3de82))
+* **v2.7.0.5723:** [`b8d0489` Update frontend dependencies](https://github.com/Prowlarr/Prowlarr/commit/b8d04898207b16070c010c8d74b4cc218ff84b8f) ([a384a86](https://github.com/kanso-labs/home-assistant-applications/commit/a384a86a23de08c3a6fe86ca6c24b07645f3de82))
+* **v2.7.0.5723:** [`c1e4f7e` Update React](https://github.com/Prowlarr/Prowlarr/commit/c1e4f7e576986ed6c0f1363404ff66c575bab924) ([a384a86](https://github.com/kanso-labs/home-assistant-applications/commit/a384a86a23de08c3a6fe86ca6c24b07645f3de82))
+* **v2.7.0.5723:** [`cbb30c6` Clear all expired cache entries periodically](https://github.com/Prowlarr/Prowlarr/commit/cbb30c69efa39d39d18f193124ad53c1c6fa1d26) ([a384a86](https://github.com/kanso-labs/home-assistant-applications/commit/a384a86a23de08c3a6fe86ca6c24b07645f3de82))
+* **v2.7.0.5723:** [`d9c3708` Disable webpack HTML built-in minification](https://github.com/Prowlarr/Prowlarr/commit/d9c37084b4b79f3a727fa40f58def263d93ad04c) ([a384a86](https://github.com/kanso-labs/home-assistant-applications/commit/a384a86a23de08c3a6fe86ca6c24b07645f3de82))
+* **v2.7.0.5723:** [`e135a6d` Use default page size recommended by the indexer](https://github.com/Prowlarr/Prowlarr/commit/e135a6d379fcd7e01aac8c2cc38e51ce3a5991fa) ([a384a86](https://github.com/kanso-labs/home-assistant-applications/commit/a384a86a23de08c3a6fe86ca6c24b07645f3de82))
+* **v2.7.0.5723:** [`f78adbb` Bump to 2.6.6](https://github.com/Prowlarr/Prowlarr/commit/f78adbbb0d7184d46ea406f5aed3f2a1cbbee2bc) ([a384a86](https://github.com/kanso-labs/home-assistant-applications/commit/a384a86a23de08c3a6fe86ca6c24b07645f3de82))
+
+
+### Dependencies
+
+* update home assistant base images ([#903](https://github.com/kanso-labs/home-assistant-applications/issues/903)) ([52aeb10](https://github.com/kanso-labs/home-assistant-applications/commit/52aeb1093dd34c03a25d6be2ae74e8aa0739e673))
+
 ## [1.3.8](https://github.com/kanso-labs/home-assistant-applications/compare/prowlarr-v1.3.7...prowlarr-v1.3.8) (2026-10-27)
 
 

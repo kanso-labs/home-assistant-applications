@@ -6,6 +6,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.8](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.6.7...n8n-v1.6.8) (2026-10-28)
+
+
+### Bug Fixes
+
+* update dependency n8n to v2.45.5 ([#914](https://github.com/kanso-labs/home-assistant-applications/issues/914)) ([b07568a](https://github.com/kanso-labs/home-assistant-applications/commit/b07568a58dbc3f71388ab8e713cbb4543527cd7e))
+
+
+### Upstream changes
+
+* **v2.45.5:** [**core:** Keep the ExpressionError name in minified builds](https://github.com/n8n-io/n8n/issues/42309) ([b07568a](https://github.com/kanso-labs/home-assistant-applications/commit/b07568a58dbc3f71388ab8e713cbb4543527cd7e))
+* **v2.45.5:** [**core:** Keep undefined values in QuickJS expression results](https://github.com/n8n-io/n8n/issues/42264) ([b07568a](https://github.com/kanso-labs/home-assistant-applications/commit/b07568a58dbc3f71388ab8e713cbb4543527cd7e))
+* **v2.45.5:** [**core:** Make custom OTel attribute key prefixes configurable](https://github.com/n8n-io/n8n/issues/42193) ([b07568a](https://github.com/kanso-labs/home-assistant-applications/commit/b07568a58dbc3f71388ab8e713cbb4543527cd7e))
+* **v2.45.5:** [**editor:** Align carets within split buttons](https://github.com/n8n-io/n8n/issues/42203) ([b07568a](https://github.com/kanso-labs/home-assistant-applications/commit/b07568a58dbc3f71388ab8e713cbb4543527cd7e))
+* **v2.45.5:** [**editor:** Improve first load speed](https://github.com/n8n-io/n8n/issues/41987) ([b07568a](https://github.com/kanso-labs/home-assistant-applications/commit/b07568a58dbc3f71388ab8e713cbb4543527cd7e))
+* **v2.45.5:** [**editor:** Match Evals Run Test button colors](https://github.com/n8n-io/n8n/issues/42200) ([b07568a](https://github.com/kanso-labs/home-assistant-applications/commit/b07568a58dbc3f71388ab8e713cbb4543527cd7e))
+* **v2.45.5:** [**editor:** Remove underlines from breadcrumb links](https://github.com/n8n-io/n8n/issues/42201) ([b07568a](https://github.com/kanso-labs/home-assistant-applications/commit/b07568a58dbc3f71388ab8e713cbb4543527cd7e))
+* **v2.45.5:** [**editor:** Remove underlines from Data Table links](https://github.com/n8n-io/n8n/issues/42189) ([b07568a](https://github.com/kanso-labs/home-assistant-applications/commit/b07568a58dbc3f71388ab8e713cbb4543527cd7e))
+* **v2.45.5:** [**editor:** Stop Safari from opening its own context menu on the canvas](https://github.com/n8n-io/n8n/issues/42175) ([b07568a](https://github.com/kanso-labs/home-assistant-applications/commit/b07568a58dbc3f71388ab8e713cbb4543527cd7e))
+
+
+### Dependencies
+
+* update dependency jdx/mise to v2026.10.21 ([#904](https://github.com/kanso-labs/home-assistant-applications/issues/904)) ([66f9398](https://github.com/kanso-labs/home-assistant-applications/commit/66f9398307078d6669c727d5a458c144e88ee49b))
+* update home assistant base images ([#903](https://github.com/kanso-labs/home-assistant-applications/issues/903)) ([52aeb10](https://github.com/kanso-labs/home-assistant-applications/commit/52aeb1093dd34c03a25d6be2ae74e8aa0739e673))
+
 ## [1.6.7](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.6.6...n8n-v1.6.7) (2026-10-27)
 
 
