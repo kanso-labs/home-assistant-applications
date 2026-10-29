@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.9](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.6.8...n8n-v1.6.9) (2026-10-29)
+
+
+### Bug Fixes
+
+* update dependency n8n to v2.45.6 ([#922](https://github.com/kanso-labs/home-assistant-applications/issues/922)) ([aa01db2](https://github.com/kanso-labs/home-assistant-applications/commit/aa01db219f3672cdc18997060e7b79a0b6ee0a96))
+
+
+### Upstream changes
+
+* **v2.45.6:** [**core:** Record dynamic time saved for executions in queue mode](https://github.com/n8n-io/n8n/issues/42482) ([aa01db2](https://github.com/kanso-labs/home-assistant-applications/commit/aa01db219f3672cdc18997060e7b79a0b6ee0a96))
+* **v2.45.6:** [**editor:** Match compact sidebar icon sizes](https://github.com/n8n-io/n8n/issues/42378) ([aa01db2](https://github.com/kanso-labs/home-assistant-applications/commit/aa01db219f3672cdc18997060e7b79a0b6ee0a96))
+
+
+### Dependencies
+
+* update dependency jdx/mise to v2026.10.22 ([#917](https://github.com/kanso-labs/home-assistant-applications/issues/917)) ([de8b3ff](https://github.com/kanso-labs/home-assistant-applications/commit/de8b3ff19b5166ce60e48c6015b5e058e160558e))
+* update dependency jdx/mise to v2026.10.23 ([#921](https://github.com/kanso-labs/home-assistant-applications/issues/921)) ([61db7c7](https://github.com/kanso-labs/home-assistant-applications/commit/61db7c7ac6362ff690fb9416d9b3766a33c76e9d))
+* update node.js to v24.22.2 ([#918](https://github.com/kanso-labs/home-assistant-applications/issues/918)) ([8160d68](https://github.com/kanso-labs/home-assistant-applications/commit/8160d687a5078eec141b25f665809ab0725b762d))
+
 ## [1.6.8](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.6.7...n8n-v1.6.8) (2026-10-28)
 
 
