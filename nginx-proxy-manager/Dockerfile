@@ -38,7 +38,7 @@ COPY patches/*.patch /usr/src/
 
 # Setup base
 # renovate: datasource=pypi depName=certbot
-ARG CERTBOT_VERSION=5.8.0
+ARG CERTBOT_VERSION=5.9.0
 # renovate: datasource=github-releases depName=NginxProxyManager/nginx-proxy-manager
 ARG NGINX_PROXY_MANAGER_VERSION=2.16.0
 # Nginx comes from nginx.org's repository and Node.js from NodeSource's, both
