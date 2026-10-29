@@ -8,7 +8,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ARG BUILD_ARCH=amd64
 ARG BUILD_VERSION=dev
 # renovate: datasource=github-releases depName=Unpackerr/unpackerr
-ARG UNPACKERR_VERSION=1.0.0
+ARG UNPACKERR_VERSION=1.0.1
 
 # Unpackerr's web interface answers on 5656 for everything on Home Assistant's
 # network, with no URL base, and nginx hands ingress to it there. Environment
