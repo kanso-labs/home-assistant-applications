@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.3](https://github.com/kanso-labs/home-assistant-applications/compare/unpackerr-v2.1.2...unpackerr-v2.1.3) (2026-10-30)
+
+
+### Bug Fixes
+
+* update dependency unpackerr/unpackerr to v1.0.1 ([#928](https://github.com/kanso-labs/home-assistant-applications/issues/928)) ([2a7a488](https://github.com/kanso-labs/home-assistant-applications/commit/2a7a4883814a85681633833878649e131ff75938))
+
+
+### Upstream changes
+
+* **v1.0.1:** [Allow file fields on env-configured instances by davidnewhall](https://github.com/Unpackerr/unpackerr/pull/836) ([2a7a488](https://github.com/kanso-labs/home-assistant-applications/commit/2a7a4883814a85681633833878649e131ff75938))
+* **v1.0.1:** [Fix filepath: webserver API keys failing startup validation by ebertek](https://github.com/Unpackerr/unpackerr/pull/839) ([2a7a488](https://github.com/kanso-labs/home-assistant-applications/commit/2a7a4883814a85681633833878649e131ff75938))
+* **v1.0.1:** [fix(webui): generate row ids without crypto.randomUUID in insecure contexts by linkian209](https://github.com/Unpackerr/unpackerr/pull/833) ([2a7a488](https://github.com/kanso-labs/home-assistant-applications/commit/2a7a4883814a85681633833878649e131ff75938))
+* **v1.0.1:** [Leave the login username blank and default queue logs to 1m by davidnewhall](https://github.com/Unpackerr/unpackerr/pull/834) ([2a7a488](https://github.com/kanso-labs/home-assistant-applications/commit/2a7a4883814a85681633833878649e131ff75938))
+* **v1.0.1:** [Show Starr download paths as a list and read PATHS_0 by davidnewhall](https://github.com/Unpackerr/unpackerr/pull/835) ([2a7a488](https://github.com/kanso-labs/home-assistant-applications/commit/2a7a4883814a85681633833878649e131ff75938))
+* **v1.0.1:** [Update dependency node to v26 by renovatebot](https://github.com/Unpackerr/unpackerr/pull/837) ([2a7a488](https://github.com/kanso-labs/home-assistant-applications/commit/2a7a4883814a85681633833878649e131ff75938))
+* **v1.0.1:** [Update dependency vite to v8.3.5 by renovatebot](https://github.com/Unpackerr/unpackerr/pull/838) ([2a7a488](https://github.com/kanso-labs/home-assistant-applications/commit/2a7a4883814a85681633833878649e131ff75938))
+* **v1.0.1:** [Update module code.cloudfoundry.org/bytefmt to v0.95.0 by renovatebot](https://github.com/Unpackerr/unpackerr/pull/832) ([2a7a488](https://github.com/kanso-labs/home-assistant-applications/commit/2a7a4883814a85681633833878649e131ff75938))
+* **v1.0.1:** [Update module github.com/dromara/carbon/v2 to v2.7.0 by renovatebot](https://github.com/Unpackerr/unpackerr/pull/830) ([2a7a488](https://github.com/kanso-labs/home-assistant-applications/commit/2a7a4883814a85681633833878649e131ff75938))
+
 ## [2.1.2](https://github.com/kanso-labs/home-assistant-applications/compare/unpackerr-v2.1.1...unpackerr-v2.1.2) (2026-10-28)
 
 

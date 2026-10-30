@@ -30,5 +30,5 @@ ports:
 slug: nginx-proxy-manager
 startup: services
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/nginx-proxy-manager'
-version: '1.1.8' # x-release-please-version
+version: '1.1.9' # x-release-please-version
 webui: 'http://[HOST]:[PORT:81]'
