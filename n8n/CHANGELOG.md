@@ -6,6 +6,25 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.10](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.6.9...n8n-v1.6.10) (2026-10-30)
+
+
+### Bug Fixes
+
+* update dependency n8n to v2.45.7 ([#933](https://github.com/kanso-labs/home-assistant-applications/issues/933)) ([d4bb7ca](https://github.com/kanso-labs/home-assistant-applications/commit/d4bb7cab0cedf49938496dcf214055836a3d7a18))
+
+
+### Upstream changes
+
+* **v2.45.7:** [**core:** Require execution:read when workflow-scoped routes read execution data](https://github.com/n8n-io/n8n/issues/42446) ([d4bb7ca](https://github.com/kanso-labs/home-assistant-applications/commit/d4bb7cab0cedf49938496dcf214055836a3d7a18))
+* **v2.45.7:** [**core:** Resolve IMAP trigger expressions after activation](https://github.com/n8n-io/n8n/issues/42611) ([d4bb7ca](https://github.com/kanso-labs/home-assistant-applications/commit/d4bb7cab0cedf49938496dcf214055836a3d7a18))
+* **v2.45.7:** [**core:** Return user data with an __isError key as data in expressions](https://github.com/n8n-io/n8n/issues/42491) ([d4bb7ca](https://github.com/kanso-labs/home-assistant-applications/commit/d4bb7cab0cedf49938496dcf214055836a3d7a18))
+
+
+### Dependencies
+
+* update dependency jdx/mise to v2026.10.24 ([#932](https://github.com/kanso-labs/home-assistant-applications/issues/932)) ([84df562](https://github.com/kanso-labs/home-assistant-applications/commit/84df5628505b0e7d80dec886f9078ceca61bbe19))
+
 ## [1.6.9](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.6.8...n8n-v1.6.9) (2026-10-29)
 
 

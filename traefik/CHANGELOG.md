@@ -6,6 +6,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.12](https://github.com/kanso-labs/home-assistant-applications/compare/traefik-v1.0.11...traefik-v1.0.12) (2026-10-30)
+
+
+### Bug Fixes
+
+* update dependency traefik/traefik to v3.7.17 ([#934](https://github.com/kanso-labs/home-assistant-applications/issues/934)) ([dd855eb](https://github.com/kanso-labs/home-assistant-applications/commit/dd855ebc16cd88fcbd377deef953d8305480a368))
+
+
+### Upstream changes
+
+* **v3.7.17:** [**acme** Bump github.com/go-acme/lego/v5 to v5.6.0 ( ldez)](https://github.com/traefik/traefik/pull/14166) ([dd855eb](https://github.com/kanso-labs/home-assistant-applications/commit/dd855ebc16cd88fcbd377deef953d8305480a368))
+* **v3.7.17:** [**acme** Bump github.com/go-jose/go-jose/v4 to v4.1.6 ( Mheaus)](https://github.com/traefik/traefik/pull/14165) ([dd855eb](https://github.com/kanso-labs/home-assistant-applications/commit/dd855ebc16cd88fcbd377deef953d8305480a368))
+* **v3.7.17:** [**docker** Update Docker Basic guide to use Traefik v3.7 ( Saku0512)](https://github.com/traefik/traefik/pull/14141) ([dd855eb](https://github.com/kanso-labs/home-assistant-applications/commit/dd855ebc16cd88fcbd377deef953d8305480a368))
+* **v3.7.17:** [**http3** Bump github.com/quic-go/quic-go to v0.64.1 ( janpachol)](https://github.com/traefik/traefik/pull/14132) ([dd855eb](https://github.com/kanso-labs/home-assistant-applications/commit/dd855ebc16cd88fcbd377deef953d8305480a368))
+* **v3.7.17:** [**k8s/gatewayapi** Preserve Gateway status conditions owned by other controllers ( Neffi42)](https://github.com/traefik/traefik/pull/14128) ([dd855eb](https://github.com/kanso-labs/home-assistant-applications/commit/dd855ebc16cd88fcbd377deef953d8305480a368))
+* **v3.7.17:** [**k8s/ingress-nginx** Avoid generated name collisions across namespaces in the ingress-nginx provider ( Neffi42)](https://github.com/traefik/traefik/pull/14140) ([dd855eb](https://github.com/kanso-labs/home-assistant-applications/commit/dd855ebc16cd88fcbd377deef953d8305480a368))
+* **v3.7.17:** [**logs, k8s/gatewayapi** Lower user configuration error logs to debug ( rtribotte)](https://github.com/traefik/traefik/pull/14159) ([dd855eb](https://github.com/kanso-labs/home-assistant-applications/commit/dd855ebc16cd88fcbd377deef953d8305480a368))
+* **v3.7.17:** [**middleware, authentication, k8s/crd, k8s, k8s/ingress-nginx** Resolve secret references when building middlewares ( sdelicata)](https://github.com/traefik/traefik/pull/14083) ([dd855eb](https://github.com/kanso-labs/home-assistant-applications/commit/dd855ebc16cd88fcbd377deef953d8305480a368))
+* **v3.7.17:** [**middleware** Bump github.com/andybalholm/brotli to v1.2.7 ( albe2669)](https://github.com/traefik/traefik/pull/14137) ([dd855eb](https://github.com/kanso-labs/home-assistant-applications/commit/dd855ebc16cd88fcbd377deef953d8305480a368))
+* **v3.7.17:** [**middleware** Fix broken flush, hijack, and deadlines in wrapped ResponseWriters ( Neffi42)](https://github.com/traefik/traefik/pull/14082) ([dd855eb](https://github.com/kanso-labs/home-assistant-applications/commit/dd855ebc16cd88fcbd377deef953d8305480a368))
+* **v3.7.17:** [**security** Point security announcements to GitHub advisories ( nmengin)](https://github.com/traefik/traefik/pull/14099) ([dd855eb](https://github.com/kanso-labs/home-assistant-applications/commit/dd855ebc16cd88fcbd377deef953d8305480a368))
+* **v3.7.17:** [**server, fastproxy** Fix FastProxy backend connection leak for NTLM and Kerberos ( juliens)](https://github.com/traefik/traefik/pull/14158) ([dd855eb](https://github.com/kanso-labs/home-assistant-applications/commit/dd855ebc16cd88fcbd377deef953d8305480a368))
+* **v3.7.17:** [**server** Add an entry point option to limit the number of request header values ( juliens)](https://github.com/traefik/traefik/pull/14111) ([dd855eb](https://github.com/kanso-labs/home-assistant-applications/commit/dd855ebc16cd88fcbd377deef953d8305480a368))
+* **v3.7.17:** [**server** Add global default for aliasHeadersStrategy ( nikolas-sapa)](https://github.com/traefik/traefik/pull/13919) ([dd855eb](https://github.com/kanso-labs/home-assistant-applications/commit/dd855ebc16cd88fcbd377deef953d8305480a368))
+* **v3.7.17:** [**server** Bump golang.org/x/net to v0.62.0 ( kevinpollet)](https://github.com/traefik/traefik/pull/14176) ([dd855eb](https://github.com/kanso-labs/home-assistant-applications/commit/dd855ebc16cd88fcbd377deef953d8305480a368))
+* **v3.7.17:** [**server** Fix backend connection leak for NTLM and Kerberos authentication ( juliens)](https://github.com/traefik/traefik/pull/14144) ([dd855eb](https://github.com/kanso-labs/home-assistant-applications/commit/dd855ebc16cd88fcbd377deef953d8305480a368))
+
 ## [1.0.11](https://github.com/kanso-labs/home-assistant-applications/compare/traefik-v1.0.10...traefik-v1.0.11) (2026-10-28)
 
 
