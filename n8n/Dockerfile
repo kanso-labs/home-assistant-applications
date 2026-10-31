@@ -8,7 +8,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ARG BUILD_ARCH=amd64
 ARG BUILD_VERSION=dev
 # renovate: datasource=github-releases depName=jdx/mise
-ARG MISE_VERSION=2026.10.24
+ARG MISE_VERSION=2026.10.25
 
 # Install requirements for application. nginx is the stand-in for Home
 # Assistant's API that the ready-made credential points at; the configuration
