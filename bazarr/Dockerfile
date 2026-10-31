@@ -24,7 +24,7 @@ ARG BAZARR_VERSION=1.6.2
 # release: RARVER_BETA in the tarball's version.hpp says which a bump is, and
 # the build below fails on a beta.
 # renovate: datasource=custom.rarlab depName=unrar
-ARG UNRAR_VERSION=7.2.7
+ARG UNRAR_VERSION=7.3.2
 
 # Install requirements for application. nginx is what ingress and the published
 # port reach; the configuration its package ships is replaced by the one in
