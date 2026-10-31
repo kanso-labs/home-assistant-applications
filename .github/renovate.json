@@ -205,6 +205,12 @@
       "matchUpdateTypes": ["lockFileMaintenance"]
     },
     {
+      "allowedVersions": "<25",
+      "description": "n8n's image stays on Node 24, the release n8n's default image runs. @confluentinc/kafka-javascript, which n8n installs, publishes no prebuilt binary for Node 26 up to 1.11.0, so npm ci falls back to compiling librdkafka from source, which fails in the image. Lift this once it publishes a node-v147 binary and n8n's lockfile takes that release.",
+      "matchDepNames": ["node"],
+      "matchFileNames": ["n8n/**"]
+    },
+    {
       "description": "These images carry no org.opencontainers.image.source label, so Renovate finds no repository for them and their bumps arrive without upstream's release notes. Naming the repository each one's DOCS.md credits is what lets it look them up.",
       "matchDepNames": ["ghcr.io/cleanuparr/cleanuparr"],
       "sourceUrl": "https://github.com/Cleanuparr/Cleanuparr"
