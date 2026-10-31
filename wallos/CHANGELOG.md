@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.3](https://github.com/kanso-labs/home-assistant-applications/compare/wallos-v0.6.2...wallos-v0.6.3) (2026-10-31)
+
+
+### Bug Fixes
+
+* update bellamy/wallos docker tag to v5.10.3 ([#937](https://github.com/kanso-labs/home-assistant-applications/issues/937)) ([ce0dcbd](https://github.com/kanso-labs/home-assistant-applications/commit/ce0dcbd15b1a0fd5f9c4eee82f73346b9f9fa4ef))
+
+
+### Upstream changes
+
+* **v5.10.3:** [**vuln:** stored XSS in admin context via unescaped push-service response in sendnotifications.php](https://github.com/ellite/Wallos/issues/1295) ([ce0dcbd](https://github.com/kanso-labs/home-assistant-applications/commit/ce0dcbd15b1a0fd5f9c4eee82f73346b9f9fa4ef))
+
 ## [0.6.2](https://github.com/kanso-labs/home-assistant-applications/compare/wallos-v0.6.1...wallos-v0.6.2) (2026-10-24)
 
 
