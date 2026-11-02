@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.4](https://github.com/kanso-labs/home-assistant-applications/compare/wallos-v0.6.3...wallos-v0.6.4) (2026-11-02)
+
+
+### Bug Fixes
+
+* update bellamy/wallos docker tag to v5.10.4 ([#942](https://github.com/kanso-labs/home-assistant-applications/issues/942)) ([9422696](https://github.com/kanso-labs/home-assistant-applications/commit/9422696db98860a76d9a0abdd9adb580582bb423))
+
+
+### Upstream changes
+
+* **v5.10.4:** [**ui:** stop plain-text taps from opening Chrome's Touch to Search](https://github.com/ellite/Wallos/issues/1298) ([9422696](https://github.com/kanso-labs/home-assistant-applications/commit/9422696db98860a76d9a0abdd9adb580582bb423))
+* **v5.10.4:** [**vuln:** stored XSS in statistics page names and chart legend](https://github.com/ellite/Wallos/issues/1298) ([9422696](https://github.com/kanso-labs/home-assistant-applications/commit/9422696db98860a76d9a0abdd9adb580582bb423))
+* **v5.10.4:** [**vuln:** stored XSS in subscriptions list names, headings and filter menus](https://github.com/ellite/Wallos/issues/1298) ([9422696](https://github.com/kanso-labs/home-assistant-applications/commit/9422696db98860a76d9a0abdd9adb580582bb423))
+* **v5.10.4:** [missing _ for save_user.php in profile.php](https://github.com/ellite/Wallos/commit/e0f2d1d05e9e7e919f13fba22a34d36174f26fa9) ([9422696](https://github.com/kanso-labs/home-assistant-applications/commit/9422696db98860a76d9a0abdd9adb580582bb423))
+
 ## [0.6.3](https://github.com/kanso-labs/home-assistant-applications/compare/wallos-v0.6.2...wallos-v0.6.3) (2026-10-31)
 
 
