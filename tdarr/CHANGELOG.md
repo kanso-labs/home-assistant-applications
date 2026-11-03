@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0](https://github.com/kanso-labs/home-assistant-applications/compare/tdarr-v0.5.0...tdarr-v0.6.0) (2026-11-03)
+
+
+### Features
+
+* update ghcr.io/haveagitgat/tdarr docker tag to v3.05.00 ([#947](https://github.com/kanso-labs/home-assistant-applications/issues/947)) ([f67b885](https://github.com/kanso-labs/home-assistant-applications/commit/f67b885e3dc0a9388365b17cf1e8331b5d890d7b))
+* update ghcr.io/haveagitgat/tdarr docker tag to v3.06.00 ([#950](https://github.com/kanso-labs/home-assistant-applications/issues/950)) ([46e3925](https://github.com/kanso-labs/home-assistant-applications/commit/46e392547bd79eac261ca10ba1ea20f8df75c79a))
+
 ## [0.5.0](https://github.com/kanso-labs/home-assistant-applications/compare/tdarr-v0.4.0...tdarr-v0.5.0) (2026-10-28)
 
 
