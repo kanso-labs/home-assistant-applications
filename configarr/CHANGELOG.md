@@ -6,6 +6,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0](https://github.com/kanso-labs/home-assistant-applications/compare/configarr-v1.5.1...configarr-v1.6.0) (2026-11-04)
+
+
+### Features
+
+* update dependency raydak-labs/configarr to v1.39.0 ([#955](https://github.com/kanso-labs/home-assistant-applications/issues/955)) ([8ff5c30](https://github.com/kanso-labs/home-assistant-applications/commit/8ff5c30c0b49b1c209e83bbdc3da770fc15f1d48))
+
+
+### Upstream changes
+
+* **v1.39.0:** [avoid cloning custom formats for new profiles](https://github.com/raydak-labs/configarr/issues/588) ([8ff5c30](https://github.com/kanso-labs/home-assistant-applications/commit/8ff5c30c0b49b1c209e83bbdc3da770fc15f1d48))
+* **v1.39.0:** [detect changes in primitive arrays](https://github.com/raydak-labs/configarr/issues/587) ([8ff5c30](https://github.com/kanso-labs/home-assistant-applications/commit/8ff5c30c0b49b1c209e83bbdc3da770fc15f1d48))
+* **v1.39.0:** [manage notification connections and global indexer settings (4733ff9), closes](https://github.com/raydak-labs/configarr/issues/590) ([8ff5c30](https://github.com/kanso-labs/home-assistant-applications/commit/8ff5c30c0b49b1c209e83bbdc3da770fc15f1d48))
+* **v1.39.0:** [push download client secrets only when the stored one fails](https://github.com/raydak-labs/configarr/issues/593) ([8ff5c30](https://github.com/kanso-labs/home-assistant-applications/commit/8ff5c30c0b49b1c209e83bbdc3da770fc15f1d48))
+* **v1.39.0:** [share download client cleanup decisions](https://github.com/raydak-labs/configarr/commit/060c6a1a9f5d9c6ec6a175939bc43841f9d2d485) ([8ff5c30](https://github.com/kanso-labs/home-assistant-applications/commit/8ff5c30c0b49b1c209e83bbdc3da770fc15f1d48))
+* **v1.39.0:** [share template custom format normalization](https://github.com/raydak-labs/configarr/issues/585) ([8ff5c30](https://github.com/kanso-labs/home-assistant-applications/commit/8ff5c30c0b49b1c209e83bbdc3da770fc15f1d48))
+* **v1.39.0:** [sync General authentication and TLS settings](https://github.com/raydak-labs/configarr/commit/f0fd8c0da13c07c8754d81979150f93258241aeb) ([8ff5c30](https://github.com/kanso-labs/home-assistant-applications/commit/8ff5c30c0b49b1c209e83bbdc3da770fc15f1d48))
+* **v1.39.0:** [sync metadata generation settings](https://github.com/raydak-labs/configarr/commit/43e401bdb5aa6d1831eae41af3b1cfa2a37aa43c) ([8ff5c30](https://github.com/kanso-labs/home-assistant-applications/commit/8ff5c30c0b49b1c209e83bbdc3da770fc15f1d48))
+* **v1.39.0:** [sync settings for existing media indexers](https://github.com/raydak-labs/configarr/issues/583) ([8ff5c30](https://github.com/kanso-labs/home-assistant-applications/commit/8ff5c30c0b49b1c209e83bbdc3da770fc15f1d48))
+* **v1.39.0:** [sync Whisparr general settings](https://github.com/raydak-labs/configarr/commit/45b46e15bf1ab30cdced8a7263f3c67efcf12d54) ([8ff5c30](https://github.com/kanso-labs/home-assistant-applications/commit/8ff5c30c0b49b1c209e83bbdc3da770fc15f1d48))
+* **v1.39.0:** [synchronize Radarr and Sonarr import lists](https://github.com/raydak-labs/configarr/commit/39580d9e8ecc7b6490a3236bd79544166b5ec988) ([8ff5c30](https://github.com/kanso-labs/home-assistant-applications/commit/8ff5c30c0b49b1c209e83bbdc3da770fc15f1d48))
+* **v1.39.0:** [validate metadata before synchronization](https://github.com/raydak-labs/configarr/commit/f0ead24a199b61f4655ed8121c1decb3c5af1849) ([8ff5c30](https://github.com/kanso-labs/home-assistant-applications/commit/8ff5c30c0b49b1c209e83bbdc3da770fc15f1d48))
+
 ## [1.5.1](https://github.com/kanso-labs/home-assistant-applications/compare/configarr-v1.5.0...configarr-v1.5.1) (2026-10-28)
 
 
