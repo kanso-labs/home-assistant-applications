@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.3](https://github.com/kanso-labs/home-assistant-applications/compare/immich-machine-learning-v1.1.2...immich-machine-learning-v1.1.3) (2026-11-04)
+
+
+### Bug Fixes
+
+* update immich to v3.3.6 ([#961](https://github.com/kanso-labs/home-assistant-applications/issues/961)) ([f7ca606](https://github.com/kanso-labs/home-assistant-applications/commit/f7ca606800527368a45f26af45a9259c3e44dfe2))
+
+
+### Upstream changes
+
+* **v3.3.6:** [fix(ml): disable onnxruntime telemetry by mjkent](https://github.com/immich-app/immich/pull/32956) ([f7ca606](https://github.com/kanso-labs/home-assistant-applications/commit/f7ca606800527368a45f26af45a9259c3e44dfe2))
+
 ## [1.1.2](https://github.com/kanso-labs/home-assistant-applications/compare/immich-machine-learning-v1.1.1...immich-machine-learning-v1.1.2) (2026-10-21)
 
 
