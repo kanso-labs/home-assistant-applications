@@ -304,7 +304,20 @@ itself stays, since n8n installs community nodes with it.
 
 Node itself is installed with mise, at a version pinned in `.tool-versions`
 beside the `package.json`. n8n is installed with `npm ci`, which takes exactly
-the packages `package-lock.json` records. `package.json` pins only n8n, and n8n
-names much of what it depends on by range, so it is the lockfile that keeps a
-rebuild of the same commit from resolving different code. Those three files
-together decide what an image holds.
+the packages `package-lock.json` records. `package.json` pins n8n, and n8n names
+much of what it depends on by range, so it is the lockfile that keeps a rebuild
+of the same commit from resolving different code. Those three files together
+decide what an image holds.
+
+`package.json` also lifts some of n8n's dependencies past the releases n8n
+names, through npm's `overrides`. n8n and the libraries it uses pin many
+dependencies exactly, and some of those pins name a release with a published
+vulnerability. n8n's own image lifts most of them in its build, through pnpm
+overrides that npm never sees, so an install from npm kept releases n8n's image
+does not ship. Each override here names only the vulnerable releases of one
+package and moves them to a release that fixes them: the one n8n's image uses,
+where that one is fixed, and otherwise the first that is. Where n8n's image
+moves a dependency to a new major, as it does tar, nodemailer, fast-xml-parser,
+uuid and ajv, this one does too; otherwise an override stays within the major
+n8n names. Renovate leaves the overrides alone, and one can go once the
+dependency it lifts is past it in n8n itself.

@@ -85,11 +85,20 @@ reproducibility.
 In `n8n/rootfs/usr/src/n8n/` that is what an image ships. The Dockerfile runs
 `mise install` and then `npm ci` at build time, so `.tool-versions` decides
 which Node and npm do the install, and the lockfile decides every package they
-install. `package.json` pins n8n alone, while n8n names much of what it depends
-on by range, so without the lockfile an image built today and the same image
-rebuilt next month could ship different code off an unchanged commit. `npm ci`
-fails outright when the lockfile and `package.json` disagree, and Renovate
-refreshes the lockfile with every n8n bump, so the two move together.
+install. `package.json` pins n8n, while n8n names much of what it depends on by
+range, so without the lockfile an image built today and the same image rebuilt
+next month could ship different code off an unchanged commit. `npm ci` fails
+outright when the lockfile and `package.json` disagree, and Renovate refreshes
+the lockfile with every n8n bump, so the two move together.
+
+Its `overrides` lift the vulnerable releases n8n's dependencies pin exactly, as
+n8n's own pnpm build does; n8n's `DOCS.md` says which and how far. Each key
+names the vulnerable range, as `axios@<1.20.0`, so an override never moves a
+copy that is already past it. npm applies an override only to a package it
+resolves, and `npm install --package-lock-only` keeps any copy the lockfile
+already records, so adding one means deleting the copies it matches from
+`package-lock.json` first. Renovate leaves the overrides alone, and does not
+bump them.
 
 In `docs/` they are what makes CI and a laptop build the site on the same Node
 and the same packages, and the workflow reads that same `.tool-versions` through

@@ -205,6 +205,12 @@
       "matchUpdateTypes": ["lockFileMaintenance"]
     },
     {
+      "description": "n8n's overrides each lift only the releases of one package that carry a published vulnerability, to a release that fixes them, and a copy already past that is left as it is. Bumping the target would push those copies further than the fix needs, and further than n8n's own image goes, so they are not bumped. One goes once n8n's own dependency is past it.",
+      "enabled": false,
+      "matchDepTypes": ["overrides"],
+      "matchFileNames": ["n8n/**"]
+    },
+    {
       "allowedVersions": "<25",
       "description": "n8n's image stays on Node 24, the release n8n's default image runs. @confluentinc/kafka-javascript, which n8n installs, publishes no prebuilt binary for Node 26 up to 1.11.0, so npm ci falls back to compiling librdkafka from source, which fails in the image. Lift this once it publishes a node-v147 binary and n8n's lockfile takes that release.",
       "matchDepNames": ["node"],
