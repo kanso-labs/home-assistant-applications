@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.6](https://github.com/kanso-labs/home-assistant-applications/compare/nat-gateway-v1.0.5...nat-gateway-v1.0.6) (2026-11-06)
+
+
+### Dependencies
+
+* update ghcr.io/home-assistant/base:3.24 docker digest to 5842248 ([#975](https://github.com/kanso-labs/home-assistant-applications/issues/975)) ([9ef2a7c](https://github.com/kanso-labs/home-assistant-applications/commit/9ef2a7c0331219c1aeae02e0e18f537f220573b9))
+
 ## [1.0.5](https://github.com/kanso-labs/home-assistant-applications/compare/nat-gateway-v1.0.4...nat-gateway-v1.0.5) (2026-10-28)
 
 
