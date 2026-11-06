@@ -2,7 +2,7 @@
 # Tautulli's own image runs on Python 3.14, as this does. The tag names a Python
 # release and an Alpine one, and .github/renovate.json reads the two as one
 # version: a new Python arrives as a minor update, a new Alpine as a patch.
-ARG BUILD_FROM=ghcr.io/home-assistant/base-python:3.14-alpine3.24@sha256:9022b084ccaa3383cf171cf26a24ce277aeacbdf3e8c5022b6d89e0492a3a897
+ARG BUILD_FROM=ghcr.io/home-assistant/base-python:3.15-alpine3.24@sha256:31e73797b8c9a0ba62d33f0f46f81174b808fb42bdcb2a902cb0e8c3efdfd8fc
 FROM ${BUILD_FROM}
 
 # Set shell
