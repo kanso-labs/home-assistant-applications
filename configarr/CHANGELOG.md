@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.2](https://github.com/kanso-labs/home-assistant-applications/compare/configarr-v1.6.1...configarr-v1.6.2) (2026-11-06)
+
+
+### Bug Fixes
+
+* update dependency raydak-labs/configarr to v1.39.1 ([#980](https://github.com/kanso-labs/home-assistant-applications/issues/980)) ([a7b487b](https://github.com/kanso-labs/home-assistant-applications/commit/a7b487bb1773a87f4ef7cf5ea9558e0106575f55))
+
+
+### Upstream changes
+
+* **v1.39.1:** [install corepack in the Node 26 image](https://github.com/raydak-labs/configarr/issues/619) ([a7b487b](https://github.com/kanso-labs/home-assistant-applications/commit/a7b487bb1773a87f4ef7cf5ea9558e0106575f55))
+* **v1.39.1:** [keep git clones when an insteadOf rewrite changes the remote URL](https://github.com/raydak-labs/configarr/commit/0ad21d892af4716f399b55444e3555b8ea44d188) ([a7b487b](https://github.com/kanso-labs/home-assistant-applications/commit/a7b487bb1773a87f4ef7cf5ea9558e0106575f55))
+* **v1.39.1:** [move the run loop from index.ts to run.ts](https://github.com/raydak-labs/configarr/commit/b9f41d1053623d7e823cb79e0935fc645aa66695) ([a7b487b](https://github.com/kanso-labs/home-assistant-applications/commit/a7b487bb1773a87f4ef7cf5ea9558e0106575f55))
+* **v1.39.1:** [write pretty logs synchronously](https://github.com/raydak-labs/configarr/commit/8ba36df211e863893a13c949acc680a057c10c8d) ([a7b487b](https://github.com/kanso-labs/home-assistant-applications/commit/a7b487bb1773a87f4ef7cf5ea9558e0106575f55))
+
 ## [1.6.1](https://github.com/kanso-labs/home-assistant-applications/compare/configarr-v1.6.0...configarr-v1.6.1) (2026-11-06)
 
 
