@@ -57,7 +57,7 @@ jobs:
           persist-credentials: false
 
       - name: Run application linter
-        uses: frenck/action-app-linter@v2.21.1
+        uses: frenck/action-app-linter@v2.21.2
         with:
           path: './${{ matrix.path }}'
 
