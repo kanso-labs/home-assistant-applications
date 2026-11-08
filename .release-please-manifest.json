@@ -4,7 +4,7 @@
   "bazarr": "1.2.7",
   "bazarr-plus": "1.1.5",
   "byparr": "2.1.0",
-  "cleanuparr": "1.3.5",
+  "cleanuparr": "1.4.0",
   "configarr": "1.6.2",
   "flaresolverr": "2.1.1",
   "flight-finder": "1.1.2",
@@ -14,7 +14,7 @@
   "immich-power-tools": "1.0.1",
   "lingarr": "1.3.4",
   "muxarr": "1.0.5",
-  "n8n": "1.7.3",
+  "n8n": "1.7.4",
   "nat-gateway": "1.0.6",
   "nginx-proxy-manager": "1.1.10",
   "notifiarr": "1.2.8",
@@ -31,5 +31,5 @@
   "tdarr": "0.6.0",
   "traefik": "1.0.13",
   "unpackerr": "2.1.4",
-  "wallos": "0.6.4"
+  "wallos": "0.7.0"
 }
