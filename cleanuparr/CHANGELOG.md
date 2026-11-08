@@ -6,6 +6,51 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0](https://github.com/kanso-labs/home-assistant-applications/compare/cleanuparr-v1.3.5...cleanuparr-v1.4.0) (2026-11-08)
+
+
+### Features
+
+* update ghcr.io/cleanuparr/cleanuparr docker tag to v2.11.0 ([#990](https://github.com/kanso-labs/home-assistant-applications/issues/990)) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+
+
+### Upstream changes
+
+* **v2.11.0:** [Add Chaptarr support by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/879) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Add custom format gap selection strategy to Seeker by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/864) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Add episode search mode for proactive searches by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/862) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Add errored torrents to download strike docs by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/849) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Add include tags for Seeker by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/850) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Add Lidarr support for Seeker proactive search by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/870) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Add local blocklist reloading when changes are detected by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/872) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Add option to exclude recent grabs from proactive searches by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/851) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Add Radarr availability option to Seeker by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/868) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Add Seeker cycle reset button by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/859) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Add Seeker eligibility preview by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/861) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Add Seeker quiet hours by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/866) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Add Seeker search cycle completion notification by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/860) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Add Sportarr support for Seeker proactive search by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/881) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Add stopped rTorrent torrents for Download Cleaner by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/885) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Add stopped uTorrent torrents for Download Cleaner by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/886) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Add the /wanted endpoints when checking for searchable items by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/852) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Add Whisparr v2 support for Seeker proactive search by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/871) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Add Whisparr v3 support for Seeker proactive search by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/869) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Change the way specials and anime trigger searches by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/856) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Fix e2e containers running as a different UID by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/858) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Fix paused rTorrent downloads being struck as stalled by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/883) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Fix paused uTorrent downloads being read as downloading by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/884) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Fix Seeker active download limit ignoring torrents without metadata by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/876) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Fix tab bar showing vertical scrollbar by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/878) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Fix uTorrent stall check missing downloads with unknown ETA by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/888) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Improve e2e tests processig time by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/857) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Improve Seeker cycle tracking by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/853) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Order Seeker searches by the arr's last search time by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/863) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Run PR CI only on the top PR of a stack by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/875) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Skip upgrade searches when the profile disallows upgrades by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/848) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Snooze Seeker items after unsuccessful searches by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/865) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Update docs packages by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/890) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+* **v2.11.0:** [Update frontend packages by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/889) ([195611e](https://github.com/kanso-labs/home-assistant-applications/commit/195611e40a1ab42f0677230f002262ae15e8fd04))
+
 ## [1.3.5](https://github.com/kanso-labs/home-assistant-applications/compare/cleanuparr-v1.3.4...cleanuparr-v1.3.5) (2026-10-20)
 
 

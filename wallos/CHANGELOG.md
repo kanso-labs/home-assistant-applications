@@ -6,6 +6,47 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0](https://github.com/kanso-labs/home-assistant-applications/compare/wallos-v0.6.4...wallos-v0.7.0) (2026-11-08)
+
+
+### Features
+
+* update bellamy/wallos docker tag to v5.11.1 ([#989](https://github.com/kanso-labs/home-assistant-applications/issues/989)) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+
+
+### Upstream changes
+
+* **v5.11.0:** [**admin:** group the instance notification settings in an accordion](https://github.com/ellite/Wallos/commit/10f7993d64ec0213c9d31c5e5b967e4a87f30167) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [**currency:** add allratestoday.com as a second exchange-rate provider (thanks cahthuranag)](https://github.com/ellite/Wallos/issues/1291) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [**folders:** delete a user's folders together with the account](https://github.com/ellite/Wallos/commit/7b8f29eebb57de9c24e525ef6bcd59081647e8b1) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [**folders:** keep folder cards in step with AJAX list refresh](https://github.com/ellite/Wallos/commit/e62a04720921879ba6b1d906bf4b70d6e304543c) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [**folders:** show full folder totals on page load too](https://github.com/ellite/Wallos/commit/41b1a77f52e3215a130480c19cb57078cbff4bb9) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [**notifications:** one Gotify server for the installation, tokens stay personal (thanks thorstenhornung1)](https://github.com/ellite/Wallos/issues/1234) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [**notifications:** one ntfy server for the installation, topics stay personal (thanks thorstenhornung1)](https://github.com/ellite/Wallos/issues/1233) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [**notifications:** one Pushover application for the installation, user keys stay personal (thanks thorstenhornung1)](https://github.com/ellite/Wallos/issues/1235) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [**notifications:** one Telegram bot for the installation, chat ids stay personal (thanks thorstenhornung1)](https://github.com/ellite/Wallos/issues/1232) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [**notifications:** translate renewal notifications into each user's language (thanks Hellraiser28)](https://github.com/ellite/Wallos/issues/1280) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [**notifications:** translate the cancellation notifications and the remaining titles](https://github.com/ellite/Wallos/commit/3a5678700f05b438ede15fe6c260585ef735794c) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [**paid:** drop mark-as-paid from the flipped card, fix the swipe width and restyle the swipe button](https://github.com/ellite/Wallos/commit/5e9bb7642a6281c92d26378d0c94d2ffc50568fa) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [**paid:** show the paid state and actions when the list refreshes through AJAX](https://github.com/ellite/Wallos/commit/34b4106b331ac82da147c5c6a82c991e77800e5b) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [**paid:** use an outline icon for the swipe paid button](https://github.com/ellite/Wallos/commit/62c93c5132cd06fd46ae4554ccbe4a7698753ce6) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [**pwa:** don't pair a newer page with the old worker's cached assets (thanks iamvicliu)](https://github.com/ellite/Wallos/issues/1279) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [**ui:** remove the green and red hover effects from the subscription dropdown](https://github.com/ellite/Wallos/commit/a449fe3691299cecbd96ba20f7186fa9a46ee619) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [add all missing translation keys](https://github.com/ellite/Wallos/commit/aafe4068f580f384351c23a7ec612afc8774a901) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [add mark/unmark paid buttons to subscriptions (thanks NodeJSmith)](https://github.com/ellite/Wallos/issues/1139) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [add missing translation keys for the instance Gotify server](https://github.com/ellite/Wallos/commit/c53c49b58a467ee2cb84e7787e4540c76644ddd3) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [add missing translation keys for the instance ntfy server](https://github.com/ellite/Wallos/commit/85f37fd2281765064bf8160dbd0392ef442faa68) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [add missing translation keys for the instance Pushover application](https://github.com/ellite/Wallos/commit/38f75cac201845c3c9ff62510123e220b588c774) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [add missing translation keys for the pay period and the instance Telegram bot](https://github.com/ellite/Wallos/commit/cb2011befa57d2f22e0829bdb38b953e87f6cb95) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [add missing translation keys for the renewal notifications](https://github.com/ellite/Wallos/commit/df574290de1f35aa203b3e8ced8508fa0b5a679e) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [add the missing delete and backup messages and fix the api_key_saved typo](https://github.com/ellite/Wallos/commit/1fa38f00e2e5b3f1e1e781d0497748fcdbed26b7) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [colored folders to group subscriptions (thanks Itaromi)](https://github.com/ellite/Wallos/issues/1156) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [continue notifications after SMTP exceptions (thanks rmtshnik)](https://github.com/ellite/Wallos/issues/1281) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [count whole payments in amount due this month (thanks ganeshmshetty)](https://github.com/ellite/Wallos/issues/1285) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [create the database when the file exists but has no tables](https://github.com/ellite/Wallos/issues/1302) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.0:** [scope statistics and calendar to the user's pay period (thanks gwpreston)](https://github.com/ellite/Wallos/issues/1213) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+* **v5.11.1:** [escape folder names on output and let the Telegram test use the instance bot](https://github.com/ellite/Wallos/commit/259b12e862f20f2253cedbfa73bbacc7ed5b6b14) ([db29411](https://github.com/kanso-labs/home-assistant-applications/commit/db294119cb09ba2ae325da8d1e0ab14b278ce1f3))
+
 ## [0.6.4](https://github.com/kanso-labs/home-assistant-applications/compare/wallos-v0.6.3...wallos-v0.6.4) (2026-11-02)
 
 
