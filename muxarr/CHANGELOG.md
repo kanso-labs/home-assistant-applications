@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.6](https://github.com/kanso-labs/home-assistant-applications/compare/muxarr-v1.0.5...muxarr-v1.0.6) (2026-11-09)
+
+
+### Bug Fixes
+
+* update ghcr.io/kirovair/muxarr docker tag to v0.9.14 ([#991](https://github.com/kanso-labs/home-assistant-applications/issues/991)) ([9a22903](https://github.com/kanso-labs/home-assistant-applications/commit/9a22903bd38452cd8098ae092d54cc4e852b5f00))
+
+
+### Upstream changes
+
+* **v0.9.14:** ["Hi-Res", "Hi-Fi" and "Hi-Def" in a track name are no longer read as hearing impaired](https://github.com/KirovAir/muxarr/issues/93) ([9a22903](https://github.com/kanso-labs/home-assistant-applications/commit/9a22903bd38452cd8098ae092d54cc4e852b5f00))
+* **v0.9.14:** [A conversion no longer replaces a file whose source is cut off or damaged. It used to write the part it could read and call it completed](https://github.com/KirovAir/muxarr/issues/97) ([9a22903](https://github.com/kanso-labs/home-assistant-applications/commit/9a22903bd38452cd8098ae092d54cc4e852b5f00))
+* **v0.9.14:** [A paused queue stays paused after a restart](https://github.com/KirovAir/muxarr/issues/96) ([9a22903](https://github.com/kanso-labs/home-assistant-applications/commit/9a22903bd38452cd8098ae092d54cc4e852b5f00))
+* **v0.9.14:** [Matroska track flags are read from the header, so AC-3 audio coded for visually or hearing impaired listeners no longer needs a metadata fix after every conversion](https://github.com/KirovAir/muxarr/issues/102) ([9a22903](https://github.com/kanso-labs/home-assistant-applications/commit/9a22903bd38452cd8098ae092d54cc4e852b5f00))
+* **v0.9.14:** [The UI is usable on phones](https://github.com/KirovAir/muxarr/issues/90) ([9a22903](https://github.com/kanso-labs/home-assistant-applications/commit/9a22903bd38452cd8098ae092d54cc4e852b5f00))
+
 ## [1.0.5](https://github.com/kanso-labs/home-assistant-applications/compare/muxarr-v1.0.4...muxarr-v1.0.5) (2026-10-26)
 
 
