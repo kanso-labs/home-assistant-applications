@@ -8,7 +8,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ARG BUILD_ARCH=amd64
 ARG BUILD_VERSION=dev
 # renovate: datasource=github-releases depName=Notifiarr/notifiarr
-ARG NOTIFIARR_VERSION=0.9.7
+ARG NOTIFIARR_VERSION=0.10.0
 
 # Notifiarr listens on the loopback address alone, and nginx answers on 5454 in
 # its place, so that ingress and the published port both reach it. Environment
