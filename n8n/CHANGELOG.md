@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.5](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.7.4...n8n-v1.7.5) (2026-11-09)
+
+
+### Bug Fixes
+
+* update dependency n8n to v2.46.7 ([#999](https://github.com/kanso-labs/home-assistant-applications/issues/999)) ([744bd1f](https://github.com/kanso-labs/home-assistant-applications/commit/744bd1f8f2f2f4fb47188af46de19f55d4a07840))
+
+
+### Upstream changes
+
+* **v2.46.7:** [**core:** Limit resume attempts for waiting and queued executions](https://github.com/n8n-io/n8n/issues/42862) ([744bd1f](https://github.com/kanso-labs/home-assistant-applications/commit/744bd1f8f2f2f4fb47188af46de19f55d4a07840))
+
+
+### Dependencies
+
+* update dependency jdx/mise to v2026.11.5 ([#994](https://github.com/kanso-labs/home-assistant-applications/issues/994)) ([aa225a7](https://github.com/kanso-labs/home-assistant-applications/commit/aa225a711578b44d95247f03be686cd8ee4a2e73))
+
 ## [1.7.4](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.7.3...n8n-v1.7.4) (2026-11-08)
 
 
