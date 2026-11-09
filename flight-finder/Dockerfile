@@ -31,7 +31,7 @@ ARG POSTGRESQL_VERSION=17.11-r0
 # Valkey rather than Redis for the same reason: Alpine 3.24 keeps Valkey in main
 # and Redis in community. Flight Finder speaks to either.
 # renovate: datasource=apk depName=valkey registryUrl=https://dl-cdn.alpinelinux.org/alpine?branch=v3.24&components=main&arch=x86_64
-ARG VALKEY_VERSION=9.0.4-r0
+ARG VALKEY_VERSION=9.0.7-r0
 
 # Upstream runs as the node user. s6-overlay has to come up as pid 1.
 USER root
