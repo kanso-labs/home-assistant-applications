@@ -6,6 +6,43 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.14](https://github.com/kanso-labs/home-assistant-applications/compare/traefik-v1.0.13...traefik-v1.0.14) (2026-11-10)
+
+
+### Bug Fixes
+
+* update dependency traefik/traefik to v3.7.18 ([#1005](https://github.com/kanso-labs/home-assistant-applications/issues/1005)) ([4b80592](https://github.com/kanso-labs/home-assistant-applications/commit/4b80592a22b5f81557bd421b7dc126078d955479))
+
+
+### Upstream changes
+
+* **v3.7.18:** [**authentication** Limit BasicAuth password length ( Neffi42)](https://github.com/traefik/traefik/pull/14168) ([4b80592](https://github.com/kanso-labs/home-assistant-applications/commit/4b80592a22b5f81557bd421b7dc126078d955479))
+* **v3.7.18:** [**authentication** Support connection-bound authentication schemes in Proxy-Authorization ( Neffi42)](https://github.com/traefik/traefik/pull/14203) ([4b80592](https://github.com/kanso-labs/home-assistant-applications/commit/4b80592a22b5f81557bd421b7dc126078d955479))
+* **v3.7.18:** [**k8s/ingress-nginx** Apply host-less auth-tls annotations to the default TLS option ( rtribotte)](https://github.com/traefik/traefik/pull/14224) ([4b80592](https://github.com/kanso-labs/home-assistant-applications/commit/4b80592a22b5f81557bd421b7dc126078d955479))
+* **v3.7.18:** [**k8s/ingress-nginx** Apply Ingress NGINX CORS before the redirect annotations ( lazerg)](https://github.com/traefik/traefik/pull/14093) ([4b80592](https://github.com/kanso-labs/home-assistant-applications/commit/4b80592a22b5f81557bd421b7dc126078d955479))
+* **v3.7.18:** [**k8s/ingress-nginx** Fix Ssl-Client-* headers when Ingresses share a host ( Neffi42)](https://github.com/traefik/traefik/pull/14160) ([4b80592](https://github.com/kanso-labs/home-assistant-applications/commit/4b80592a22b5f81557bd421b7dc126078d955479))
+* **v3.7.18:** [**k8s/ingress-nginx** List missing ingress-nginx annotations as unsupported ( lazerg)](https://github.com/traefik/traefik/pull/14163) ([4b80592](https://github.com/kanso-labs/home-assistant-applications/commit/4b80592a22b5f81557bd421b7dc126078d955479))
+* **v3.7.18:** [**k8s/knative** Bump knative.dev/pkg to v0.0.0-20261102011501-7b6dcbbe4ea4 ( kevinpollet)](https://github.com/traefik/traefik/pull/14220) ([4b80592](https://github.com/kanso-labs/home-assistant-applications/commit/4b80592a22b5f81557bd421b7dc126078d955479))
+* **v3.7.18:** [**middleware, performance** Limit zstd encoder memory in the Compress middleware ( juliens)](https://github.com/traefik/traefik/pull/14167) ([4b80592](https://github.com/kanso-labs/home-assistant-applications/commit/4b80592a22b5f81557bd421b7dc126078d955479))
+* **v3.7.18:** [**middleware** Accept uppercase Q weight in compress Accept-Encoding parsing ( locker95)](https://github.com/traefik/traefik/pull/14153) ([4b80592](https://github.com/kanso-labs/home-assistant-applications/commit/4b80592a22b5f81557bd421b7dc126078d955479))
+* **v3.7.18:** [**middleware** Bump github.com/vulcand/oxy to v2.3.2 ( ldez)](https://github.com/traefik/traefik/pull/14241) ([4b80592](https://github.com/kanso-labs/home-assistant-applications/commit/4b80592a22b5f81557bd421b7dc126078d955479))
+* **v3.7.18:** [**middleware** Fix grammar in observability and InFlightReq pages ( m-shahi)](https://github.com/traefik/traefik/pull/14209) ([4b80592](https://github.com/kanso-labs/home-assistant-applications/commit/4b80592a22b5f81557bd421b7dc126078d955479))
+* **v3.7.18:** [**middleware** Use a Secret for basicAuth in the Chain middleware Kubernetes example ( lazerg)](https://github.com/traefik/traefik/pull/14143) ([4b80592](https://github.com/kanso-labs/home-assistant-applications/commit/4b80592a22b5f81557bd421b7dc126078d955479))
+* **v3.7.18:** [**plugins** Bump github.com/traefik/yaegi to v0.16.3 ( juliens)](https://github.com/traefik/traefik/pull/14231) ([4b80592](https://github.com/kanso-labs/home-assistant-applications/commit/4b80592a22b5f81557bd421b7dc126078d955479))
+* **v3.7.18:** [**plugins** Fix deterministic randomness in WASM plugins ( yugfletcher)](https://github.com/traefik/traefik/pull/14107) ([4b80592](https://github.com/kanso-labs/home-assistant-applications/commit/4b80592a22b5f81557bd421b7dc126078d955479))
+* **v3.7.18:** [**plugins** Fix typos in plugin type error and documentation ( sarankumar1325)](https://github.com/traefik/traefik/pull/14186) ([4b80592](https://github.com/kanso-labs/home-assistant-applications/commit/4b80592a22b5f81557bd421b7dc126078d955479))
+* **v3.7.18:** [**server, grpc** Add regression test for gRPC bidirectional streams ( ozenyunus35)](https://github.com/traefik/traefik/pull/14037) ([4b80592](https://github.com/kanso-labs/home-assistant-applications/commit/4b80592a22b5f81557bd421b7dc126078d955479))
+* **v3.7.18:** [**server** Resolve dot-segments and empty segments with path parameters ( Neffi42)](https://github.com/traefik/traefik/pull/14188) ([4b80592](https://github.com/kanso-labs/home-assistant-applications/commit/4b80592a22b5f81557bd421b7dc126078d955479))
+* **v3.7.18:** [**server** Validate HTTP Host matcher values ( Milad93R)](https://github.com/traefik/traefik/pull/13571) ([4b80592](https://github.com/kanso-labs/home-assistant-applications/commit/4b80592a22b5f81557bd421b7dc126078d955479))
+* **v3.7.18:** [**service** Fix SPIFFE configuration for the TCP servers transport ( simpleqt)](https://github.com/traefik/traefik/pull/14200) ([4b80592](https://github.com/kanso-labs/home-assistant-applications/commit/4b80592a22b5f81557bd421b7dc126078d955479))
+* **v3.7.18:** [**tcp** Detect TCP connection reset on read when the error is wrapped ( noakky)](https://github.com/traefik/traefik/pull/14046) ([4b80592](https://github.com/kanso-labs/home-assistant-applications/commit/4b80592a22b5f81557bd421b7dc126078d955479))
+* **v3.7.18:** [Add version to the dot-segments migration note ( kevinpollet)](https://github.com/traefik/traefik/pull/14248) ([4b80592](https://github.com/kanso-labs/home-assistant-applications/commit/4b80592a22b5f81557bd421b7dc126078d955479))
+* **v3.7.18:** [Fix broken anchors in providers overview, SPIFFE and v3 migration docs ( SatvikMishra08)](https://github.com/traefik/traefik/pull/14027) ([4b80592](https://github.com/kanso-labs/home-assistant-applications/commit/4b80592a22b5f81557bd421b7dc126078d955479))
+* **v3.7.18:** [Fix dead and redirecting external links ( rachana5)](https://github.com/traefik/traefik/pull/14139) ([4b80592](https://github.com/kanso-labs/home-assistant-applications/commit/4b80592a22b5f81557bd421b7dc126078d955479))
+* **v3.7.18:** [Fix Docker Hub link in README ( GUOZIJAN)](https://github.com/traefik/traefik/pull/14198) ([4b80592](https://github.com/kanso-labs/home-assistant-applications/commit/4b80592a22b5f81557bd421b7dc126078d955479))
+* **v3.7.18:** [Move AI assistance disclosure to the pull request description ( Neffi42)](https://github.com/traefik/traefik/pull/14194) ([4b80592](https://github.com/kanso-labs/home-assistant-applications/commit/4b80592a22b5f81557bd421b7dc126078d955479))
+* **v3.7.18:** [Update download and GitHub star counts ( tomatokoolaid)](https://github.com/traefik/traefik/pull/14193) ([4b80592](https://github.com/kanso-labs/home-assistant-applications/commit/4b80592a22b5f81557bd421b7dc126078d955479))
+
 ## [1.0.13](https://github.com/kanso-labs/home-assistant-applications/compare/traefik-v1.0.12...traefik-v1.0.13) (2026-11-06)
 
 
