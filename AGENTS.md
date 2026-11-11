@@ -802,6 +802,18 @@ no workflow run of its own. Nothing here checks a pull request title, so the
 squash commit keeps Dependabot's default one, `Bump …`, which release-please
 does not read as a release.
 
+`.github/dependabot.yaml` gives those pull requests Renovate's title prefix,
+`deps`, and keeps Dependabot to security updates alone: every entry sets
+`open-pull-requests-limit: 0`, which turns its version updates off, and Renovate
+keeps those. Dependabot needs a directory per manifest, so the `docker` entry
+lists every application directory with a Dockerfile and the `npm` entry lists
+`docs` and n8n's `rootfs/usr/src/n8n`. **A new application's directory goes in
+the `docker` list**, or a security fix to its base image never gets a pull
+request. There is no commitlint here, so the prefix is for the changelog: `deps`
+is a visible section, and a security fix releases the application it changes.
+Dependabot's security-update runs also fail for some dependencies whose fix
+cannot resolve against this repository's pins; nothing here ignores them.
+
 ## The website
 
 [home-assistant.kansolabs.org](https://home-assistant.kansolabs.org/) is a React

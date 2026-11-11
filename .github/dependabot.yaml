@@ -1,0 +1,73 @@
+# Dependabot raises security updates here and nothing else. Renovate owns
+# version updates, and open-pull-requests-limit: 0 is what turns Dependabot's
+# off while leaving its security updates running. schedule is required by the
+# schema and does nothing for a security update.
+#
+# The prefix is the one Renovate's pull requests carry, so a security fix is
+# typed as a dependency upgrade and releases the application it changes, as
+# Renovate's own bumps do. Dependabot needs a directory per manifest: one for
+# each application's Dockerfile, and the two npm projects.
+#
+# No labels are set, so Dependabot adds its own `dependencies` and ecosystem
+# labels. An ecosystem without an entry here keeps Dependabot's default title
+# prefix, which is why every ecosystem a security update can arrive for has one.
+#
+# `.yaml` like every other file here: Dependabot reads either spelling.
+updates:
+  - commit-message:
+      prefix: deps
+    directories:
+      - /authentik
+      - /avahi-publisher
+      - /bazarr
+      - /bazarr-plus
+      - /byparr
+      - /cleanuparr
+      - /configarr
+      - /flaresolverr
+      - /flight-finder
+      - /grimmory
+      - /immich
+      - /immich-machine-learning
+      - /immich-power-tools
+      - /lingarr
+      - /muxarr
+      - /n8n
+      - /nat-gateway
+      - /nginx-proxy-manager
+      - /notifiarr
+      - /nzbget
+      - /plex-media-server
+      - /profilarr
+      - /prowlarr
+      - /qbittorrent
+      - /radarr
+      - /seadexerr
+      - /seerr
+      - /sonarr
+      - /tautulli
+      - /tdarr
+      - /traefik
+      - /unpackerr
+      - /wallos
+    open-pull-requests-limit: 0
+    package-ecosystem: docker
+    schedule:
+      interval: weekly
+  - commit-message:
+      prefix: deps
+    directory: /
+    open-pull-requests-limit: 0
+    package-ecosystem: github-actions
+    schedule:
+      interval: weekly
+  - commit-message:
+      prefix: deps
+    directories:
+      - /docs
+      - /n8n/rootfs/usr/src/n8n
+    open-pull-requests-limit: 0
+    package-ecosystem: npm
+    schedule:
+      interval: weekly
+version: 2
