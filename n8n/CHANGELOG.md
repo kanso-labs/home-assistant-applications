@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.7](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.7.6...n8n-v1.7.7) (2026-11-11)
+
+
+### Bug Fixes
+
+* update dependency n8n to v2.47.4 ([#1016](https://github.com/kanso-labs/home-assistant-applications/issues/1016)) ([530d39d](https://github.com/kanso-labs/home-assistant-applications/commit/530d39d938358fd3cead879d36f18a1adada599e))
+
+
+### Upstream changes
+
+* **v2.47.4:** [**core:** Keep expression transfers working after built-in replacements](https://github.com/n8n-io/n8n/issues/43360) ([530d39d](https://github.com/kanso-labs/home-assistant-applications/commit/530d39d938358fd3cead879d36f18a1adada599e))
+* **v2.47.4:** [**core:** Keep observational memory running after a user stops a HITL card](https://github.com/n8n-io/n8n/issues/43225) ([530d39d](https://github.com/kanso-labs/home-assistant-applications/commit/530d39d938358fd3cead879d36f18a1adada599e))
+* **v2.47.4:** [**core:** Match bare node references across expression engines](https://github.com/n8n-io/n8n/issues/43358) ([530d39d](https://github.com/kanso-labs/home-assistant-applications/commit/530d39d938358fd3cead879d36f18a1adada599e))
+* **v2.47.4:** [**Edit Image Node:** Register font once instead of on every text operation](https://github.com/n8n-io/n8n/issues/43348) ([530d39d](https://github.com/kanso-labs/home-assistant-applications/commit/530d39d938358fd3cead879d36f18a1adada599e))
+* **v2.47.4:** [**editor:** Widen the migration report notify owner column](https://github.com/n8n-io/n8n/issues/43432) ([530d39d](https://github.com/kanso-labs/home-assistant-applications/commit/530d39d938358fd3cead879d36f18a1adada599e))
+
 ## [1.7.6](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.7.5...n8n-v1.7.6) (2026-11-10)
 
 
