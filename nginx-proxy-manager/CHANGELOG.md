@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.11](https://github.com/kanso-labs/home-assistant-applications/compare/nginx-proxy-manager-v1.1.10...nginx-proxy-manager-v1.1.11) (2026-11-11)
+
+
+### Dependencies
+
+* update dependency certbot to v5.10.0 ([#1012](https://github.com/kanso-labs/home-assistant-applications/issues/1012)) ([f19bbef](https://github.com/kanso-labs/home-assistant-applications/commit/f19bbef96bd3b7aa780237e19e549072f2f03496))
+
 ## [1.1.10](https://github.com/kanso-labs/home-assistant-applications/compare/nginx-proxy-manager-v1.1.9...nginx-proxy-manager-v1.1.10) (2026-11-06)
 
 
