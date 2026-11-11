@@ -785,6 +785,23 @@ The commands need write access to this repository, and only work on pull
 requests Renovate opened — anything else has no checkbox to tick, and the run
 fails rather than pretending otherwise.
 
+### Dependabot's pull requests
+
+Dependabot opens security fixes only; this repository configures no version
+updates for it. Its pull requests merge themselves, the way Renovate's minor and
+patch ones do, through `.github/workflows/dependabot-auto-merge.yaml`, which
+calls the shared `_dependabot-auto-merge.yaml` in
+[`kanso-labs/actions`](https://github.com/kanso-labs/actions) at a pinned tag.
+The shared workflow turns on squash auto-merge for a minor or patch update and
+leaves a major for a person, and the pull request then merges once the required
+checks pass.
+
+Only `main`'s copy of the caller runs for a Dependabot pull request, so a change
+to it cannot be tried from a branch. The merge uses `GITHUB_TOKEN`, so it starts
+no workflow run of its own. Nothing here checks a pull request title, so the
+squash commit keeps Dependabot's default one, `Bump …`, which release-please
+does not read as a release.
+
 ## The website
 
 [home-assistant.kansolabs.org](https://home-assistant.kansolabs.org/) is a React
