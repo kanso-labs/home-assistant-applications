@@ -11,7 +11,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ARG BUILD_ARCH=amd64
 ARG BUILD_VERSION=dev
 # renovate: datasource=github-releases depName=Tautulli/Tautulli
-ARG TAUTULLI_VERSION=2.18.2
+ARG TAUTULLI_VERSION=2.19.1
 # Tautulli carries every library it needs in lib/, but for this one, which it
 # uses to encrypt what it sends to the Tautulli Remote app. Without it those
 # notifications go out in the clear. Its own image installs the same package.
