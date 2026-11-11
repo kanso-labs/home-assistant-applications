@@ -124,11 +124,11 @@ The shared rule is the Conventions bullet above; what it looks like here:
 | -------------------- | ------------------------------------------------------- | ------------------------- |
 | `Build`              | `push`, `pull_request`, `schedule`, `workflow_dispatch` | `build.yaml`              |
 | `Build application`  | `workflow_call`                                         | `_build-application.yaml` |
-| `Deploy Pages`       | `push`, `workflow_dispatch`                             | `deploy-pages.yaml`       |
+| `Deploy pages`       | `push`, `workflow_dispatch`                             | `deploy-pages.yaml`       |
 | `Lint`               | `push`, `pull_request`, `schedule`                      | `lint.yaml`               |
 | `Release Please`     | `push`, `schedule`, `workflow_dispatch`                 | `release-please.yaml`     |
-| `Renovate Command`   | `issue_comment`                                         | `renovate-command.yaml`   |
-| `Upstream Changelog` | `pull_request`                                          | `upstream-changelog.yaml` |
+| `Renovate command`   | `issue_comment`                                         | `renovate-command.yaml`   |
+| `Upstream changelog` | `pull_request`                                          | `upstream-changelog.yaml` |
 
 The leading underscore on a reusable workflow is what separates entry points
 from building blocks in the folder listing.
@@ -712,11 +712,11 @@ rather than by version: `unrarsrc-7.2.7` is UnRAR 7.23, and `unrarsrc-7.3.1` is
 in the tarball's `unrar/version.hpp` is the only way to tell one from a release.
 Renovate cannot tell either, so `.github/renovate.json` never automerges an
 UnRAR bump, and Bazarr's Dockerfile reads `RARVER_BETA` after unpacking and
-fails the build on a beta, which keeps one from passing
-`Confirm builds succeeded`. Bazarr 1.2.0 shipped 7.30 beta 1 before the build
-checked. `.github/renovate.json` also excludes 7.3.1 with `allowedVersions`, so
-that the beta Bazarr went back from is not proposed again, and the exclusion
-comes out once RARLAB links a later tarball.
+fails the build on a beta, which keeps one from passing `Build`. Bazarr 1.2.0
+shipped 7.30 beta 1 before the build checked. `.github/renovate.json` also
+excludes 7.3.1 with `allowedVersions`, so that the beta Bazarr went back from is
+not proposed again, and the exclusion comes out once RARLAB links a later
+tarball.
 
 ### Upstream release notes in the changelog
 
@@ -997,7 +997,7 @@ is `build-<ref>-<app>`, so a push can only displace a waiting build of the same
 application, which always has a newer one behind it; one group for the whole
 workflow would let a third push drop the second push's builds outright. On a
 pull request, where nothing is published, a newer push cancels the build in
-progress instead. Deploy Pages runs only from main and from **Run workflow**,
+progress instead. Deploy pages runs only from main and from **Run workflow**,
 and groups by ref, `pages-<ref>`, so a run dispatched from another branch can
 never take the place of a deployment from main waiting its turn.
 release-please's single group can afford to drop a waiting run: each run reads

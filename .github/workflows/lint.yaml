@@ -22,7 +22,7 @@ permissions:
 
 jobs:
   find:
-    name: Find applications
+    name: List the applications
     runs-on: ubuntu-latest
     timeout-minutes: 5
     outputs:
@@ -175,7 +175,7 @@ jobs:
   # been removed under the site took the page blank for three days while the
   # build, and every other check here, stayed green.
   #
-  # The site's own build runs here too, rather than only in Deploy Pages, so that
+  # The site's own build runs here too, rather than only in Deploy pages, so that
   # it gates merges: Renovate automerges the site's dependencies once the
   # required checks pass, and a kanso-ui release that breaks the server build
   # fails `npm run build` while leaving the types and the dev server fine.
@@ -230,11 +230,10 @@ jobs:
   # once per application, so its own check names change whenever an application
   # is added, and a forgotten name fails silently by never being required.
   #
-  # The name predates the release wiring check and is left alone deliberately:
-  # it is the name branch protection asks for, and renaming it would stop the
-  # rule matching anything without saying so.
+  # The name is the one branch protection asks for, so renaming it means
+  # swapping the required check in the ruleset at the same time.
   confirm:
-    name: Confirm lint succeeded
+    name: Lint
     runs-on: ubuntu-latest
     needs:
       - applications
