@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.11](https://github.com/kanso-labs/home-assistant-applications/compare/plex-media-server-v1.4.10...plex-media-server-v1.4.11) (2026-11-11)
+
+
+### Dependencies
+
+* **plex-media-server:** fix base image version in Dockerfile ([c8db77f](https://github.com/kanso-labs/home-assistant-applications/commit/c8db77fe8f0bf136bfbc924de54290ee74631432))
+
 ## [1.4.10](https://github.com/kanso-labs/home-assistant-applications/compare/plex-media-server-v1.4.9...plex-media-server-v1.4.10) (2026-11-05)
 
 

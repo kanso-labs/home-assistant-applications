@@ -6,6 +6,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1](https://github.com/kanso-labs/home-assistant-applications/compare/immich-machine-learning-v1.2.0...immich-machine-learning-v1.2.1) (2026-11-11)
+
+
+### Bug Fixes
+
+* update ghcr.io/immich-app/immich-machine-learning docker tag to v3.4.1 ([#1024](https://github.com/kanso-labs/home-assistant-applications/issues/1024)) ([b2d2251](https://github.com/kanso-labs/home-assistant-applications/commit/b2d22516facb7ee895db70b1e8ea6ab3ad0bb33c))
+
+
+### Upstream changes
+
+* **v3.4.1:** [feat: futo backups 1.16.0 by nutgood](https://github.com/immich-app/immich/pull/33216) ([b2d2251](https://github.com/kanso-labs/home-assistant-applications/commit/b2d22516facb7ee895db70b1e8ea6ab3ad0bb33c))
+* **v3.4.1:** [fix: filename element on detail panel by danieldietzler](https://github.com/immich-app/immich/pull/33199) ([b2d2251](https://github.com/kanso-labs/home-assistant-applications/commit/b2d22516facb7ee895db70b1e8ea6ab3ad0bb33c))
+* **v3.4.1:** [fix: prometheus exporter should listen on all interfaces by danieldietzler](https://github.com/immich-app/immich/pull/33203) ([b2d2251](https://github.com/kanso-labs/home-assistant-applications/commit/b2d22516facb7ee895db70b1e8ea6ab3ad0bb33c))
+* **v3.4.1:** [fix: workflow step fields default values by danieldietzler](https://github.com/immich-app/immich/pull/33211) ([b2d2251](https://github.com/kanso-labs/home-assistant-applications/commit/b2d22516facb7ee895db70b1e8ea6ab3ad0bb33c))
+* **v3.4.1:** [fix(server): map .hif to image/heif by nornewman](https://github.com/immich-app/immich/pull/33167) ([b2d2251](https://github.com/kanso-labs/home-assistant-applications/commit/b2d22516facb7ee895db70b1e8ea6ab3ad0bb33c))
+* **v3.4.1:** [fix(server): queue job status query by jrasm91](https://github.com/immich-app/immich/pull/33182) ([b2d2251](https://github.com/kanso-labs/home-assistant-applications/commit/b2d22516facb7ee895db70b1e8ea6ab3ad0bb33c))
+* **v3.4.1:** [fix(web): highlight advanced search filters with camera filters set by Snowknight26](https://github.com/immich-app/immich/pull/33193) ([b2d2251](https://github.com/kanso-labs/home-assistant-applications/commit/b2d22516facb7ee895db70b1e8ea6ab3ad0bb33c))
+* **v3.4.1:** [fix(web): info panel filename alignment by Snowknight26](https://github.com/immich-app/immich/pull/33175) ([b2d2251](https://github.com/kanso-labs/home-assistant-applications/commit/b2d22516facb7ee895db70b1e8ea6ab3ad0bb33c))
+* **v3.4.1:** [perf(server): shared links cover query by jrasm91](https://github.com/immich-app/immich/pull/33179) ([b2d2251](https://github.com/kanso-labs/home-assistant-applications/commit/b2d22516facb7ee895db70b1e8ea6ab3ad0bb33c))
+
 ## [1.2.0](https://github.com/kanso-labs/home-assistant-applications/compare/immich-machine-learning-v1.1.3...immich-machine-learning-v1.2.0) (2026-11-10)
 
 
