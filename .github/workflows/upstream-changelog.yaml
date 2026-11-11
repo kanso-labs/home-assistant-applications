@@ -1,4 +1,4 @@
-name: Upstream Changelog
+name: Upstream changelog
 
 # Applications here are packaging: what a user sees when Sonarr's version moves
 # is Sonarr's release notes, not ours. Without this, the changelog Home

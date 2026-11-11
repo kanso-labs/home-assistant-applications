@@ -1,4 +1,4 @@
-name: Deploy Pages
+name: Deploy pages
 
 # Pull requests build the site in Lint's site check, which merges wait on, so
 # this runs only to publish.
@@ -59,7 +59,7 @@ jobs:
           path: '_site'
 
   deploy:
-    name: Publish the site
+    name: Deploy to GitHub Pages
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 10

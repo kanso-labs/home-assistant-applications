@@ -169,7 +169,7 @@ jobs:
   # absent on any pull request that changes none of them, and requiring those
   # directly would block every such pull request forever.
   confirm:
-    name: Confirm builds succeeded
+    name: Build
     runs-on: ubuntu-latest
     timeout-minutes: 5
     needs: [init, build-application]
