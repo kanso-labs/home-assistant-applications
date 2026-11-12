@@ -37,7 +37,7 @@ ARG BASHIO_VERSION=0.19.0
 # forward from the image's. The suite names the image's Debian release, and has
 # to follow it if Immich moves its base; one version covers both architectures.
 # renovate: datasource=deb depName=postgresql-17 registryUrl=https://apt.postgresql.org/pub/repos/apt?suite=trixie-pgdg&components=main&binaryArch=amd64
-ARG POSTGRESQL_VERSION=17.11-1.pgdg13+2
+ARG POSTGRESQL_VERSION=17.12-1.pgdg13+1
 # VectorChord keeps its vectors in pgvector's types, and its package does not
 # depend on pgvector, so it is installed and pinned here in its own right.
 # renovate: datasource=deb depName=postgresql-17-pgvector registryUrl=https://apt.postgresql.org/pub/repos/apt?suite=trixie-pgdg&components=main&binaryArch=amd64
