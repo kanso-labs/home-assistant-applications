@@ -6,6 +6,63 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.2](https://github.com/kanso-labs/home-assistant-applications/compare/seerr-v1.3.1...seerr-v1.3.2) (2026-11-12)
+
+
+### Bug Fixes
+
+* update ghcr.io/seerr-team/seerr docker tag to v3.5.2 ([#1036](https://github.com/kanso-labs/home-assistant-applications/issues/1036)) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+
+
+### Upstream changes
+
+* **v3.5.2:** [*(actions)* Update dependency ubuntu to v26 -](https://github.com/seerr-team/seerr/issues/3638) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(api)* Correct watchlist POST request schema in OpenAPI spec -](https://github.com/seerr-team/seerr/issues/3425) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(api)* Stop background cache refresh from logging credentials -](https://github.com/seerr-team/seerr/issues/3699) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(auth)* Set mediaServerType on plex login with existing users -](https://github.com/seerr-team/seerr/issues/3652) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(auth)* Treat intermittent plex.tv PIN 404s as transient -](https://github.com/seerr-team/seerr/issues/3599) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(cypress)* Fix flaky keyword spec and keep only failure videos -](https://github.com/seerr-team/seerr/issues/3649) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(cypress)* Fix paths filter and bump github-action to v7.4.6 -](https://github.com/seerr-team/seerr/issues/3648) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(cypress)* Fix watchlist and manage panel flakes -](https://github.com/seerr-team/seerr/issues/3675) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(details)* Download polling and manage panel close -](https://github.com/seerr-team/seerr/issues/3676) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(devenv)* Update dependencies -](https://github.com/seerr-team/seerr/issues/3631) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(discord)* Link webhook URL label to its field -](https://github.com/seerr-team/seerr/issues/3702) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(discover)* Preserve trending filters on back navigation -](https://github.com/seerr-team/seerr/issues/3608) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(docker)* Update node.js to v22.23.4 -](https://github.com/seerr-team/seerr/issues/3639) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(docker)* Update node.js to v22.23.5 -](https://github.com/seerr-team/seerr/issues/3711) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(git-cliff)* Add build type to miscellaneous tasks -](https://github.com/seerr-team/seerr/issues/3640) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(i18n)* Update translations from Weblate -](https://github.com/seerr-team/seerr/commit/1313800310f59421391ae8434eea8d057e85d22e) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(i18n)* Update translations from Weblate -](https://github.com/seerr-team/seerr/commit/381ce98985db7410b140a91af4b90d00b1d876fb) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(i18n)* Update translations from Weblate -](https://github.com/seerr-team/seerr/commit/854effb3ea8f05993e5d943ad1b4d6274aabb334) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(i18n)* Update translations from Weblate -](https://github.com/seerr-team/seerr/commit/b4b85dca0d93e0ab85057cd79f5e5b1a7d4a349b) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(i18n)* Update translations from Weblate -](https://github.com/seerr-team/seerr/commit/dca1af6af26312ec13ffb4920e5dd948049962ad) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(i18n)* Update translations from Weblate -](https://github.com/seerr-team/seerr/commit/f88515baa00119643144faaf0acda8764d7f4a31) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(jellyfin)* Handle season and episode items in recently added scan -](https://github.com/seerr-team/seerr/issues/3551) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(JellyfinAPI)* Filter episodes by requested season ID -](https://github.com/seerr-team/seerr/issues/3697) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(jobs)* Use minute intervals for the plex watchlist sync schedule -](https://github.com/seerr-team/seerr/issues/3593) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(migrations)* Use literals for new columns in SQLite table-copy migrations -](https://github.com/seerr-team/seerr/issues/3695) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(notifications)* Document missing fields on the remaining agent pages -](https://github.com/seerr-team/seerr/issues/3611) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(override-rules)* Apply rules for the requested server -](https://github.com/seerr-team/seerr/issues/3538) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(plex)* Do not cache invalid Discover watchlist responses -](https://github.com/seerr-team/seerr/issues/3406) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(pr-validation)* Exempt maintainers by repo permission level -](https://github.com/seerr-team/seerr/issues/3637) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(radarr)* Initiate Radarr movie search only if movie is available -](https://github.com/seerr-team/seerr/issues/3533) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(release)* Prepare 3.5.2 release -](https://github.com/seerr-team/seerr/commit/1889c6a13040748c89dfa9013d658ad350bf0dca) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(release)* Prepare v3.5.2 -](https://github.com/seerr-team/seerr/commit/18a90b4ed962cc56abc9087e305da5c18a3c7275) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(request)* Enforce advanced request permission on the API -](https://github.com/seerr-team/seerr/issues/3674) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(requests)* Handle 202 no-seasons response in TV request modal -](https://github.com/seerr-team/seerr/issues/3573) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(requests)* Sort requests by creation date instead of just id -](https://github.com/seerr-team/seerr/issues/3589) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(scanners)* Decline request when media resets to UNKNOWN -](https://github.com/seerr-team/seerr/issues/3578) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(scanners)* Resolve abandoned seasons at end of run -](https://github.com/seerr-team/seerr/issues/3579) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(settings)* Allow trailing slash in YouTube URL -](https://github.com/seerr-team/seerr/issues/3557) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(slack)* Link notification settings labels to their fields -](https://github.com/seerr-team/seerr/issues/3679) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(subscriber)* Avoid savepoint collisions when completing requests -](https://github.com/seerr-team/seerr/issues/3630) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [*(telegram)* Document the Thread/Topic ID and Embed Poster settings -](https://github.com/seerr-team/seerr/issues/3550) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [Add a warning about new contribution scope -](https://github.com/seerr-team/seerr/issues/3595) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [Add vulnerability report -](https://github.com/seerr-team/seerr/issues/3587) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [Clarify AI policy, add review times, update branch naming -](https://github.com/seerr-team/seerr/issues/3636) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [Fix backups menu -](https://github.com/seerr-team/seerr/issues/3575) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+* **v3.5.2:** [Migrate to gh actions-lock -](https://github.com/seerr-team/seerr/issues/3632) ([1c225fb](https://github.com/kanso-labs/home-assistant-applications/commit/1c225fb8138128ddc54041c60f561f207ea1d3b2))
+
 ## [1.3.1](https://github.com/kanso-labs/home-assistant-applications/compare/seerr-v1.3.0...seerr-v1.3.1) (2026-10-21)
 
 

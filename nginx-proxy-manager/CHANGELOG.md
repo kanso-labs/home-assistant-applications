@@ -6,6 +6,56 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0](https://github.com/kanso-labs/home-assistant-applications/compare/nginx-proxy-manager-v1.1.12...nginx-proxy-manager-v1.2.0) (2026-11-12)
+
+
+### Features
+
+* update dependency nginxproxymanager/nginx-proxy-manager to v2.17.0 ([#1031](https://github.com/kanso-labs/home-assistant-applications/issues/1031)) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+
+
+### Upstream changes
+
+* **v2.17.0:** [jc21/nginx-proxy-manager:2.17.0](https://hub.docker.com/layers/jc21/nginx-proxy-manager/2.17.0/images/sha256-577fe4e54c99309ed7a3a998b8e1c3a8e01c0f600c538582b8a0ff5986c270ba) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** [jc21/nginx-proxy-manager:2](https://hub.docker.com/layers/jc21/nginx-proxy-manager/2/images/sha256-577fe4e54c99309ed7a3a998b8e1c3a8e01c0f600c538582b8a0ff5986c270ba) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** [jc21/nginx-proxy-manager:latest](https://hub.docker.com/layers/jc21/nginx-proxy-manager/latest/images/sha256-577fe4e54c99309ed7a3a998b8e1c3a8e01c0f600c538582b8a0ff5986c270ba) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** 🇫🇷 Updated french translations (thanks Alexis-Loskoutoff) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** 🇳🇱 Updated Netherlands locale (thanks Stephan-P) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** 🇹🇼 Add Traditional Chinese (Taiwan) translation (thanks occultsound) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** 🇻🇳 Updated Vietnamese locale (thanks nglinh28) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Add certbot plugin for Scaleway DNS (thanks seaeagle1) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Added ip-projects certbot definitions (thanks capitain-schos) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Apply the HSTS sub-domains setting per host (thanks Juice-de-Orange) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Backend: refresh yarn.lock within the declared ranges (fixes 15 of 16 advisories, incl. body-parser DoS) (thanks mikeyhenein) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Changed target plugin for Beget (thanks l1n-x) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Don't start IP ranges renewal timer when fetching is disabled (thanks PrassanthVG) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Fix access list rules and SSL missing from re-rendered host configs ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Fix authentication oracle (thanks Alexis-Loskoutoff) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Fix nginx reload after certificate renewal (thanks Waterman1997) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** fix: omit certificate_key from certificate API responses (thanks Amitind) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** fix: only chown /data/keys.json if necessary (thanks xJayMorex) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Frontend tests: disable Node's built-in localStorage so vitest works on Node 25+ (thanks mikeyhenein) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Frontend: refresh dependencies (thanks mikeyhenein) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Preserve client ports in forwarded Host headers (thanks lennondotw) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Preserve hostname keys in HTTP certificate test results (thanks hafizahmedzia) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Prevent data loss when dismissing unsaved forms (thanks mirfalltnixein) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Rate limit auth endpoints and scope user proxy host permissions (thanks auzcoder) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Reject unknown keys in PUT /api/users/:id/permissions (an extra key crashes the backend) (thanks mikeyhenein) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Remove a certificate's certbot files on delete even when revoking fails (thanks mikeyhenein) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Require authentication to validate certificates (thanks Alexis-Loskoutoff) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Rremove stale nginx pid file before starting nginx (thanks Rip-07) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** s6-overlay 3.2.3.2 (thanks mikeyhenein) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Show certbot's failure reason in the UI instead of "Internal Error" (thanks mikeyhenein) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Show certificate details in host tables (thanks SebZar) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Skip propagation seconds option for Route 53 DNS challenge (thanks junkerderprovinz) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Update Akamai Edge DNS plugin and credentials for v0.3.0 (thanks jeezat) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Update dns-multi plugin version to 5.6.0 (thanks wikrie) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Update Hetzner certbot plugin to v4.0.0 (thanks lsr0) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Update infomaniak certbot plugin to 0.3.3 (thanks Alexis-Loskoutoff) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Update Korean translation (thanks StopDragon) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Update package name and version for Baidu DNS plugin (thanks chenghaopeng) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+* **v2.17.0:** Updated Add missing German (de) and Italian (it) translations (thanks Juice-de-Orange) ([41649fd](https://github.com/kanso-labs/home-assistant-applications/commit/41649fdd76aabafefddf3f9ff76978a012b32524))
+
 ## [1.1.12](https://github.com/kanso-labs/home-assistant-applications/compare/nginx-proxy-manager-v1.1.11...nginx-proxy-manager-v1.1.12) (2026-11-11)
 
 
