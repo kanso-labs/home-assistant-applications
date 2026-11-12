@@ -40,7 +40,7 @@ COPY patches/*.patch /usr/src/
 # renovate: datasource=pypi depName=certbot
 ARG CERTBOT_VERSION=5.10.0
 # renovate: datasource=github-releases depName=NginxProxyManager/nginx-proxy-manager
-ARG NGINX_PROXY_MANAGER_VERSION=2.16.0
+ARG NGINX_PROXY_MANAGER_VERSION=2.17.0
 # Nginx comes from nginx.org's repository and Node.js from NodeSource's, both
 # set up in the step below, and Renovate reads the same ones. nginx.org's suite
 # names the base image's Debian release, and has to follow the base if it moves
