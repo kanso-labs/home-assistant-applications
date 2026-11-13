@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.4](https://github.com/kanso-labs/home-assistant-applications/compare/flight-finder-v1.1.3...flight-finder-v1.1.4) (2026-11-13)
+
+
+### Dependencies
+
+* update postgresql17 apk package to v17.12-r0 ([#1042](https://github.com/kanso-labs/home-assistant-applications/issues/1042)) ([19fbd73](https://github.com/kanso-labs/home-assistant-applications/commit/19fbd73cf45d5083332f8d045609d21b3c218e82))
+
 ## [1.1.3](https://github.com/kanso-labs/home-assistant-applications/compare/flight-finder-v1.1.2...flight-finder-v1.1.3) (2026-11-09)
 
 

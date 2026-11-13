@@ -6,6 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.15](https://github.com/kanso-labs/home-assistant-applications/compare/traefik-v1.0.14...traefik-v1.0.15) (2026-11-13)
+
+
+### Bug Fixes
+
+* update dependency traefik/traefik to v3.7.19 ([#1046](https://github.com/kanso-labs/home-assistant-applications/issues/1046)) ([435685b](https://github.com/kanso-labs/home-assistant-applications/commit/435685b59309ab5b2e67adf545c7ba366006c358))
+
+
+### Upstream changes
+
+* **v3.7.19:** [**accesslogs** Remove nonexistent access log fields ( kunalvirwal)](https://github.com/traefik/traefik/pull/14255) ([435685b](https://github.com/kanso-labs/home-assistant-applications/commit/435685b59309ab5b2e67adf545c7ba366006c358))
+* **v3.7.19:** [**http3** Bump github.com/quic-go/quic-go to v0.65.0 ( amazon7737)](https://github.com/traefik/traefik/pull/14258) ([435685b](https://github.com/kanso-labs/home-assistant-applications/commit/435685b59309ab5b2e67adf545c7ba366006c358))
+* **v3.7.19:** [**metrics** Fix TOML examples and StatsD defaults in metrics reference ( ZainnQureshii)](https://github.com/traefik/traefik/pull/13991) ([435685b](https://github.com/kanso-labs/home-assistant-applications/commit/435685b59309ab5b2e67adf545c7ba366006c358))
+* **v3.7.19:** [**middleware** Bump github.com/klauspost/compress to v1.20.4 ( Neffi42)](https://github.com/traefik/traefik/pull/14254) ([435685b](https://github.com/kanso-labs/home-assistant-applications/commit/435685b59309ab5b2e67adf545c7ba366006c358))
+* **v3.7.19:** [**server** Bump golang.org/x/crypto to v0.59.0 ( kevinpollet)](https://github.com/traefik/traefik/pull/14271) ([435685b](https://github.com/kanso-labs/home-assistant-applications/commit/435685b59309ab5b2e67adf545c7ba366006c358))
+
 ## [1.0.14](https://github.com/kanso-labs/home-assistant-applications/compare/traefik-v1.0.13...traefik-v1.0.14) (2026-11-10)
 
 
