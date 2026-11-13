@@ -6,6 +6,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.10](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.7.9...n8n-v1.7.10) (2026-11-13)
+
+
+### Bug Fixes
+
+* update dependency n8n to v2.47.7 ([#1045](https://github.com/kanso-labs/home-assistant-applications/issues/1045)) ([e0beb32](https://github.com/kanso-labs/home-assistant-applications/commit/e0beb3292d5114e7ae4b60e9f17ec86d9b25ccc1))
+
+
+### Upstream changes
+
+* **v2.47.6:** [**core:** Keep the replaceSpecialChars character map out of the runtime bundle](https://github.com/n8n-io/n8n/issues/43728) ([e0beb32](https://github.com/kanso-labs/home-assistant-applications/commit/e0beb3292d5114e7ae4b60e9f17ec86d9b25ccc1))
+* **v2.47.6:** [**core:** Keep trusted-source cache keys in one Redis cluster slot](https://github.com/n8n-io/n8n/issues/43627) ([e0beb32](https://github.com/kanso-labs/home-assistant-applications/commit/e0beb3292d5114e7ae4b60e9f17ec86d9b25ccc1))
+* **v2.47.6:** [**core:** Let agents turn off prompt caching for endpoints that reject the cache fields](https://github.com/n8n-io/n8n/issues/43673) ([e0beb32](https://github.com/kanso-labs/home-assistant-applications/commit/e0beb3292d5114e7ae4b60e9f17ec86d9b25ccc1))
+* **v2.47.6:** [**core:** Read legacy-format data with the instance key when the stored key differs](https://github.com/n8n-io/n8n/issues/43725) ([e0beb32](https://github.com/kanso-labs/home-assistant-applications/commit/e0beb3292d5114e7ae4b60e9f17ec86d9b25ccc1))
+* **v2.47.6:** [**core:** Reduce per-item setup in the expression runtime](https://github.com/n8n-io/n8n/issues/43438) ([e0beb32](https://github.com/kanso-labs/home-assistant-applications/commit/e0beb3292d5114e7ae4b60e9f17ec86d9b25ccc1))
+* **v2.47.6:** [**editor:** Make JSON highlight color visible on light theme](https://github.com/n8n-io/n8n/issues/43689) ([e0beb32](https://github.com/kanso-labs/home-assistant-applications/commit/e0beb3292d5114e7ae4b60e9f17ec86d9b25ccc1))
+* **v2.47.6:** [**editor:** Show Gateway credits promotions from the Gateway config](https://github.com/n8n-io/n8n/issues/43661) ([e0beb32](https://github.com/kanso-labs/home-assistant-applications/commit/e0beb3292d5114e7ae4b60e9f17ec86d9b25ccc1))
+* **v2.47.6:** [**Pinecone Vector Store Node:** Search indexes with a document schema through the documents API](https://github.com/n8n-io/n8n/issues/43650) ([e0beb32](https://github.com/kanso-labs/home-assistant-applications/commit/e0beb3292d5114e7ae4b60e9f17ec86d9b25ccc1))
+* **v2.47.7:** [**core:** Stop redacting executions that use global credentials](https://github.com/n8n-io/n8n/issues/43776) ([e0beb32](https://github.com/kanso-labs/home-assistant-applications/commit/e0beb3292d5114e7ae4b60e9f17ec86d9b25ccc1))
+
+
+### Dependencies
+
+* bump hono from 4.13.13 to 4.13.18 in /n8n/rootfs/usr/src/n8n in the npm_and_yarn group across 1 directory ([#1048](https://github.com/kanso-labs/home-assistant-applications/issues/1048)) ([05695e5](https://github.com/kanso-labs/home-assistant-applications/commit/05695e5d3adbbadda5eaf07e249633346071c097))
+* update dependency jdx/mise to v2026.11.8 ([#1044](https://github.com/kanso-labs/home-assistant-applications/issues/1044)) ([1bd6425](https://github.com/kanso-labs/home-assistant-applications/commit/1bd642568e2a00081a1fbd42182e4dff081c9c17))
+
 ## [1.7.9](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.7.8...n8n-v1.7.9) (2026-11-12)
 
 
