@@ -27,7 +27,7 @@ ARG BASHIO_VERSION=0.19.0
 # 16 upstream's compose file runs, because Alpine 3.24 keeps 16 in community,
 # whose support ends six months after a release, and 17 in main.
 # renovate: datasource=apk depName=postgresql17 registryUrl=https://dl-cdn.alpinelinux.org/alpine?branch=v3.24&components=main&arch=x86_64
-ARG POSTGRESQL_VERSION=17.11-r0
+ARG POSTGRESQL_VERSION=17.12-r0
 # Valkey rather than Redis for the same reason: Alpine 3.24 keeps Valkey in main
 # and Redis in community. Flight Finder speaks to either.
 # renovate: datasource=apk depName=valkey registryUrl=https://dl-cdn.alpinelinux.org/alpine?branch=v3.24&components=main&arch=x86_64
