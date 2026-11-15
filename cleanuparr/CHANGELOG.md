@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.1](https://github.com/kanso-labs/home-assistant-applications/compare/cleanuparr-v1.4.0...cleanuparr-v1.4.1) (2026-11-15)
+
+
+### Bug Fixes
+
+* update ghcr.io/cleanuparr/cleanuparr docker tag to v2.11.1 ([#1054](https://github.com/kanso-labs/home-assistant-applications/issues/1054)) ([1f0e4f5](https://github.com/kanso-labs/home-assistant-applications/commit/1f0e4f5da275c6af12f397433bc3caac2a72e380))
+
+
+### Upstream changes
+
+* **v2.11.1:** [Add option to exclude upgrades from queue rules by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/845) ([1f0e4f5](https://github.com/kanso-labs/home-assistant-applications/commit/1f0e4f5da275c6af12f397433bc3caac2a72e380))
+* **v2.11.1:** [Fix temporary login token auth being fully authenticated by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/896) ([1f0e4f5](https://github.com/kanso-labs/home-assistant-applications/commit/1f0e4f5da275c6af12f397433bc3caac2a72e380))
+* **v2.11.1:** [Fix TLS certificate validation being skipped for all HTTPS connections by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/897) ([1f0e4f5](https://github.com/kanso-labs/home-assistant-applications/commit/1f0e4f5da275c6af12f397433bc3caac2a72e380))
+* **v2.11.1:** [Update Apprise version by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/891) ([1f0e4f5](https://github.com/kanso-labs/home-assistant-applications/commit/1f0e4f5da275c6af12f397433bc3caac2a72e380))
+
 ## [1.4.0](https://github.com/kanso-labs/home-assistant-applications/compare/cleanuparr-v1.3.5...cleanuparr-v1.4.0) (2026-11-08)
 
 
