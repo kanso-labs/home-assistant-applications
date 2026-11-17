@@ -9,14 +9,14 @@ on:
   # application's version always reflect main — and this is the only trigger
   # that turns merging on, through the auto-merge input below.
   #
-  # 09:00 UTC is 06:00 America/Sao_Paulo. Every kanso-labs repository releases
+  # 12:15 UTC is 09:15 America/Sao_Paulo. Every kanso-labs repository releases
   # on this same cron.
   #
   # GitHub disables a scheduled workflow after 60 days without repository
   # activity. Renovate's commits keep this one alive, but that is the shape a
   # silent stop to releasing would take.
   schedule:
-    - cron: '0 9 * * *'
+    - cron: '15 12 * * *'
   # Neither trigger above can be asked to look again now: one waits for a push,
   # the other for the clock. That matters when a release pull request has to be
   # discarded, because release-please rewrites one only when the release it
