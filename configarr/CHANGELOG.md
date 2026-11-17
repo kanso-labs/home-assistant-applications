@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.3](https://github.com/kanso-labs/home-assistant-applications/compare/configarr-v1.6.2...configarr-v1.6.3) (2026-11-17)
+
+
+### Bug Fixes
+
+* update dependency raydak-labs/configarr to v1.39.2 ([#1062](https://github.com/kanso-labs/home-assistant-applications/issues/1062)) ([c35255f](https://github.com/kanso-labs/home-assistant-applications/commit/c35255f3cca59a18a7336548a8b6d2c73d891610))
+
+
+### Upstream changes
+
+* **v1.39.2:** [**ci:** deploy documentation after release-please](https://github.com/raydak-labs/configarr/commit/b2dfae95418877cb95d2064e9b1853b5aa4586a0) ([c35255f](https://github.com/kanso-labs/home-assistant-applications/commit/c35255f3cca59a18a7336548a8b6d2c73d891610))
+* **v1.39.2:** [**ci:** expand CLI release build metadata](https://github.com/raydak-labs/configarr/commit/43f20cdfddcbae00a7496a67fe23e95bcff2813f) ([c35255f](https://github.com/kanso-labs/home-assistant-applications/commit/c35255f3cca59a18a7336548a8b6d2c73d891610))
+* **v1.39.2:** [**remotePaths:** accept UNC paths and normalize trailing separators](https://github.com/raydak-labs/configarr/issues/628) ([c35255f](https://github.com/kanso-labs/home-assistant-applications/commit/c35255f3cca59a18a7336548a8b6d2c73d891610))
+* **v1.39.2:** [align download client secret updates with the configured values](https://github.com/raydak-labs/configarr/issues/627) ([c35255f](https://github.com/kanso-labs/home-assistant-applications/commit/c35255f3cca59a18a7336548a8b6d2c73d891610))
+* **v1.39.2:** [keep quality profile groups, ids and cutoffs stable](https://github.com/raydak-labs/configarr/issues/626) ([c35255f](https://github.com/kanso-labs/home-assistant-applications/commit/c35255f3cca59a18a7336548a8b6d2c73d891610))
+* **v1.39.2:** [simplify utilities and split large modules](https://github.com/raydak-labs/configarr/issues/629) ([c35255f](https://github.com/kanso-labs/home-assistant-applications/commit/c35255f3cca59a18a7336548a8b6d2c73d891610))
+
 ## [1.6.2](https://github.com/kanso-labs/home-assistant-applications/compare/configarr-v1.6.1...configarr-v1.6.2) (2026-11-06)
 
 
