@@ -6,6 +6,76 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.0](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.7.11...n8n-v1.8.0) (2026-11-17)
+
+
+### Features
+
+* update dependency n8n to v2.48.4 ([#1068](https://github.com/kanso-labs/home-assistant-applications/issues/1068)) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+
+
+### Upstream changes
+
+* **v2.48.0:** [**ai-builder:** Bump the default Assistant model to Claude Opus 5.5](https://github.com/n8n-io/n8n/issues/42990) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**ai-builder:** Return the raw body when fetch-url reads JSON, XML, CSV or YAML](https://github.com/n8n-io/n8n/issues/42949) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**Compression Node:** Preserve custom gzip file names](https://github.com/n8n-io/n8n/issues/42063) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**core:** Add Microsoft Work IQ OAuth2 credential](https://github.com/n8n-io/n8n/issues/43172) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**core:** Apply the redaction policy to log streaming, telemetry and error reports](https://github.com/n8n-io/n8n/issues/42905) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**core:** Decode webhook bodies in the declared charset](https://github.com/n8n-io/n8n/issues/42037) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**core:** Emit telemetry and audit events when a user logs out](https://github.com/n8n-io/n8n/issues/42413) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**core:** Exclude Nano Banana models from Gemini chat model pickers](https://github.com/n8n-io/n8n/issues/43082) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**core:** Hide archived workflows in the migration report by default](https://github.com/n8n-io/n8n/issues/42781) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**core:** Keep Anthropic thinking valid in agents after prompt rewrites and web search](https://github.com/n8n-io/n8n/issues/43160) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**core:** Keep observational memory running after a user stops a HITL card](https://github.com/n8n-io/n8n/issues/43192) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**core:** Keep retry backoff when a trigger fails right after reactivation](https://github.com/n8n-io/n8n/issues/43105) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**core:** Keep the OAuth JWKS available when a retired signing key cannot be read](https://github.com/n8n-io/n8n/issues/42465) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**core:** Keep the warning level of sub-workflow errors rebuilt for the parent](https://github.com/n8n-io/n8n/issues/42727) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**core:** Only allow users who can edit a workflow to own its migration findings](https://github.com/n8n-io/n8n/issues/43091) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**core:** Retire stale scheduled tasks in repeated batches in each reaper pass](https://github.com/n8n-io/n8n/issues/43076) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**core:** Settle abandoned tool calls when an Agents runtime turn starts](https://github.com/n8n-io/n8n/issues/43194) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**core:** Stop agent runs when the Gateway credits wallet is empty](https://github.com/n8n-io/n8n/issues/41473) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**core:** Subscribe Telegram agent channels to button clicks](https://github.com/n8n-io/n8n/issues/43221) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**editor:** Create Listbox primitive for Design System](https://github.com/n8n-io/n8n/issues/42754) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**editor:** Keep the API settings empty state in the header column](https://github.com/n8n-io/n8n/issues/43219) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**editor:** Link Apps to n8n Assistant chats](https://github.com/n8n-io/n8n/issues/42969) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**editor:** Polish skill files and version history](https://github.com/n8n-io/n8n/issues/43180) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**editor:** Show a message when the migration report takes long to load](https://github.com/n8n-io/n8n/issues/42996) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**editor:** Show a restriction callout in the credential modal](https://github.com/n8n-io/n8n/issues/42678) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**editor:** Unify chat messages and Markdown rendering](https://github.com/n8n-io/n8n/issues/42315) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**editor:** Update favicon and preview image branding](https://github.com/n8n-io/n8n/issues/43214) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**editor:** Use the current Assistant icon across the editor](https://github.com/n8n-io/n8n/issues/42441) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**Paddle Node:** Rename node to Paddle Classic](https://github.com/n8n-io/n8n/issues/43042) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [**RabbitMQ Node:** Await queue bindings before returning channel](https://github.com/n8n-io/n8n/issues/43033) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [Add an ability to select an element in Apps preview](https://github.com/n8n-io/n8n/issues/42930) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [Align workflow history header dividers](https://github.com/n8n-io/n8n/issues/43167) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [App bindings UI](https://github.com/n8n-io/n8n/issues/42986) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [Exit with distinct codes for failed and incomplete community package scans (CE-3548)](https://github.com/n8n-io/n8n/issues/42780) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [Extract document IDs from Drive URLs](https://github.com/n8n-io/n8n/issues/42478) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [Honor Continue On Fail for initial connection errors](https://github.com/n8n-io/n8n/issues/41118) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [Make npm install of n8n work on all platforms again](https://github.com/n8n-io/n8n/issues/43028) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [Node operation annotations for engine](https://github.com/n8n-io/n8n/issues/41835) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [Open the migration report filtered to the recipient from notification emails](https://github.com/n8n-io/n8n/issues/43089) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [Preserve API version headers regardless of case](https://github.com/n8n-io/n8n/issues/42473) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [Show the credential redaction cause without sharing permission](https://github.com/n8n-io/n8n/issues/42711) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [Update Multer to 2.5.0 and preserve upload cleanup](https://github.com/n8n-io/n8n/issues/43157) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.0:** [Use the workflow's owning project for node parameter lookups](https://github.com/n8n-io/n8n/issues/43179) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.1:** [**core:** Keep expression transfers working after built-in replacements](https://github.com/n8n-io/n8n/issues/43359) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.1:** [**core:** Match bare node references across expression engines](https://github.com/n8n-io/n8n/issues/43357) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.1:** [**Edit Image Node:** Register font once instead of on every text operation](https://github.com/n8n-io/n8n/issues/43347) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.1:** [**editor:** Widen the migration report notify owner column](https://github.com/n8n-io/n8n/issues/43431) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.2:** [**API:** Reject edits to read-only credential nodes in the Public API](https://github.com/n8n-io/n8n/issues/43554) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.2:** [**editor:** Align animated node border corners](https://github.com/n8n-io/n8n/issues/43547) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.2:** [**editor:** Keep agent tabs available for new drafts](https://github.com/n8n-io/n8n/issues/43511) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.3:** [**core:** Keep the replaceSpecialChars character map out of the runtime bundle](https://github.com/n8n-io/n8n/issues/43727) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.3:** [**core:** Keep trusted-source cache keys in one Redis cluster slot](https://github.com/n8n-io/n8n/issues/43626) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.3:** [**core:** Let agents turn off prompt caching for endpoints that reject the cache fields](https://github.com/n8n-io/n8n/issues/43672) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.3:** [**core:** Read legacy-format data with the instance key when the stored key differs](https://github.com/n8n-io/n8n/issues/43724) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.3:** [**core:** Reduce per-item setup in the expression runtime](https://github.com/n8n-io/n8n/issues/43437) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.3:** [**editor:** Make JSON highlight color visible on light theme](https://github.com/n8n-io/n8n/issues/43688) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.3:** [**editor:** Show Gateway credits promotions from the Gateway config](https://github.com/n8n-io/n8n/issues/43662) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.3:** [**Pinecone Vector Store Node:** Search indexes with a document schema through the documents API](https://github.com/n8n-io/n8n/issues/43649) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+* **v2.48.4:** [**core:** Stop redacting executions that use global credentials](https://github.com/n8n-io/n8n/issues/43775) ([041acfd](https://github.com/kanso-labs/home-assistant-applications/commit/041acfd51ebc4763cbe3ecc8b2d700a21df1de1d))
+
 ## [1.7.11](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.7.10...n8n-v1.7.11) (2026-11-16)
 
 
