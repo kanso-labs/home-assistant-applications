@@ -6,6 +6,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.1](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.8.0...n8n-v1.8.1) (2026-11-18)
+
+
+### Bug Fixes
+
+* update dependency n8n to v2.48.5 ([#1073](https://github.com/kanso-labs/home-assistant-applications/issues/1073)) ([6b13c84](https://github.com/kanso-labs/home-assistant-applications/commit/6b13c842332fc319b78fc9603f90cbb55112ba7a))
+
+
+### Upstream changes
+
+* **v2.48.5:** [**AI Agent Node:** Keep tool-call history separate for each input item](https://github.com/n8n-io/n8n/issues/44044) ([6b13c84](https://github.com/kanso-labs/home-assistant-applications/commit/6b13c842332fc319b78fc9603f90cbb55112ba7a))
+* **v2.48.5:** [**AI Agent Node:** Stop adding newlines between streamed text chunks](https://github.com/n8n-io/n8n/issues/43822) ([6b13c84](https://github.com/kanso-labs/home-assistant-applications/commit/6b13c842332fc319b78fc9603f90cbb55112ba7a))
+* **v2.48.5:** [**API:** Send an audit event when a Public API rate limit changes](https://github.com/n8n-io/n8n/issues/43825) ([6b13c84](https://github.com/kanso-labs/home-assistant-applications/commit/6b13c842332fc319b78fc9603f90cbb55112ba7a))
+* **v2.48.5:** [**core:** Give fresh installs a random instance ID](https://github.com/n8n-io/n8n/issues/44276) ([6b13c84](https://github.com/kanso-labs/home-assistant-applications/commit/6b13c842332fc319b78fc9603f90cbb55112ba7a))
+* **v2.48.5:** [**core:** Hand dollar property reads to the expression engine](https://github.com/n8n-io/n8n/issues/43809) ([6b13c84](https://github.com/kanso-labs/home-assistant-applications/commit/6b13c842332fc319b78fc9603f90cbb55112ba7a))
+* **v2.48.5:** [**core:** Keep small objects inside an Error in sandboxed expressions](https://github.com/n8n-io/n8n/issues/44301) ([6b13c84](https://github.com/kanso-labs/home-assistant-applications/commit/6b13c842332fc319b78fc9603f90cbb55112ba7a))
+* **v2.48.5:** [**core:** Treat instance owners and admins as team project members in credential checks](https://github.com/n8n-io/n8n/issues/44183) ([6b13c84](https://github.com/kanso-labs/home-assistant-applications/commit/6b13c842332fc319b78fc9603f90cbb55112ba7a))
+* **v2.48.5:** [**editor:** Allow moving workflows to team projects without the Sharing license](https://github.com/n8n-io/n8n/issues/44116) ([6b13c84](https://github.com/kanso-labs/home-assistant-applications/commit/6b13c842332fc319b78fc9603f90cbb55112ba7a))
+* **v2.48.5:** [**editor:** Match Callout Markdown to small text size](https://github.com/n8n-io/n8n/issues/44242) ([6b13c84](https://github.com/kanso-labs/home-assistant-applications/commit/6b13c842332fc319b78fc9603f90cbb55112ba7a))
+* **v2.48.5:** [**Microsoft Teams Trigger Node:** Emit every change notification of a batched request](https://github.com/n8n-io/n8n/issues/43857) ([6b13c84](https://github.com/kanso-labs/home-assistant-applications/commit/6b13c842332fc319b78fc9603f90cbb55112ba7a))
+* **v2.48.5:** [**Qdrant Vector Store Node:** Preserve reverse-proxy subpath as Qdrant client prefix](https://github.com/n8n-io/n8n/issues/43922) ([6b13c84](https://github.com/kanso-labs/home-assistant-applications/commit/6b13c842332fc319b78fc9603f90cbb55112ba7a))
+* **v2.48.5:** [Implements v3 iteration of existing n8n Assistant taxonomy experiment](https://github.com/n8n-io/n8n/issues/43978) ([6b13c84](https://github.com/kanso-labs/home-assistant-applications/commit/6b13c842332fc319b78fc9603f90cbb55112ba7a))
+
+
+### Dependencies
+
+* update dependency jdx/mise to v2026.11.10 ([#1074](https://github.com/kanso-labs/home-assistant-applications/issues/1074)) ([c2866ef](https://github.com/kanso-labs/home-assistant-applications/commit/c2866ef0d99f513d296752c36ecf37846bb57607))
+
 ## [1.8.0](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.7.11...n8n-v1.8.0) (2026-11-17)
 
 
