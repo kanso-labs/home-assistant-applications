@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0](https://github.com/kanso-labs/home-assistant-applications/compare/immich-power-tools-v1.0.1...immich-power-tools-v1.1.0) (2026-11-18)
+
+
+### Features
+
+* update ghcr.io/immich-power-tools/immich-power-tools docker tag to v0.26.0 ([#1070](https://github.com/kanso-labs/home-assistant-applications/issues/1070)) ([fe7958f](https://github.com/kanso-labs/home-assistant-applications/commit/fe7958f67bdaf3b2df4cadbd01a62de893e17da7))
+
+
+### Upstream changes
+
+* **v0.26.0:** [Bump next from 15.5.27 to 15.5.28 by katsugtgz](https://github.com/immich-power-tools/immich-power-tools/pull/351) ([fe7958f](https://github.com/kanso-labs/home-assistant-applications/commit/fe7958f67bdaf3b2df4cadbd01a62de893e17da7))
+* **v0.26.0:** [ci: update pr-release workflow actions to current majors by katsugtgz](https://github.com/immich-power-tools/immich-power-tools/pull/357) ([fe7958f](https://github.com/kanso-labs/home-assistant-applications/commit/fe7958f67bdaf3b2df4cadbd01a62de893e17da7))
+* **v0.26.0:** [feat: sort the album picker alphabetically by jonvdveen](https://github.com/immich-power-tools/immich-power-tools/pull/321) ([fe7958f](https://github.com/kanso-labs/home-assistant-applications/commit/fe7958f67bdaf3b2df4cadbd01a62de893e17da7))
+* **v0.26.0:** [fix: repair album merge/delete/share for API-key auth mode by SanchoBlaze](https://github.com/immich-power-tools/immich-power-tools/pull/325) ([fe7958f](https://github.com/kanso-labs/home-assistant-applications/commit/fe7958f67bdaf3b2df4cadbd01a62de893e17da7))
+* **v0.26.0:** [perf: let browsers cache thumbnail-proxy responses by jonvdveen](https://github.com/immich-power-tools/immich-power-tools/pull/318) ([fe7958f](https://github.com/kanso-labs/home-assistant-applications/commit/fe7958f67bdaf3b2df4cadbd01a62de893e17da7))
+* **v0.26.0:** [v0.26.0 by sai80082](https://github.com/immich-power-tools/immich-power-tools/pull/359) ([fe7958f](https://github.com/kanso-labs/home-assistant-applications/commit/fe7958f67bdaf3b2df4cadbd01a62de893e17da7))
+
 ## [1.0.1](https://github.com/kanso-labs/home-assistant-applications/compare/immich-power-tools-v1.0.0...immich-power-tools-v1.0.1) (2026-10-18)
 
 
