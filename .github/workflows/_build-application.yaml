@@ -14,10 +14,9 @@ jobs:
   prepare:
     name: Prepare
     runs-on: ubuntu-latest
-    # Read-only, because this job runs home-assistant/actions from its master
-    # branch, and would otherwise inherit the caller's package and OIDC scopes.
-    # Only build and manifest publish anything, and they ask for those scopes
-    # themselves.
+    # Read-only, because this job only reads the repository, and would otherwise
+    # inherit the caller's package and OIDC scopes. Only build and manifest
+    # publish anything, and they ask for those scopes themselves.
     permissions:
       contents: read
     timeout-minutes: 10
@@ -39,9 +38,7 @@ jobs:
 
       - name: Read application metadata
         id: info
-        # Unpinned, as there is no release tag to pin. See AGENTS.md and
-        # https://github.com/kanso-labs/home-assistant-applications/issues/482
-        uses: home-assistant/actions/helpers/info@master
+        uses: home-assistant/actions/helpers/info@2026.11.0
         with:
           path: './${{ inputs.app }}'
 

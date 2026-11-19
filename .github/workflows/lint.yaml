@@ -35,9 +35,7 @@ jobs:
 
       - name: Find applications
         id: addons
-        # Unpinned, as there is no release tag to pin. See AGENTS.md and
-        # https://github.com/kanso-labs/home-assistant-applications/issues/482
-        uses: home-assistant/actions/helpers/find-addons@master
+        uses: home-assistant/actions/helpers/find-addons@2026.11.0
 
   lint:
     name: Lint ${{ matrix.path }}
