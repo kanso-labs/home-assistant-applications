@@ -28,7 +28,7 @@ ARG BASHIO_VERSION=0.19.0
 # updating when upstream moves to a newer Alpine, and the build fails until it
 # is.
 # renovate: datasource=apk depName=nginx registryUrl=https://dl-cdn.alpinelinux.org/alpine?branch=v3.23&components=main&arch=x86_64
-ARG NGINX_VERSION=1.28.3-r7
+ARG NGINX_VERSION=1.28.3-r8
 
 # Upstream runs as the node user. s6-overlay has to come up as pid 1.
 USER root
