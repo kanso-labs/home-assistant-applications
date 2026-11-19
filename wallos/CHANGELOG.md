@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.1](https://github.com/kanso-labs/home-assistant-applications/compare/wallos-v0.7.0...wallos-v0.7.1) (2026-11-19)
+
+
+### Bug Fixes
+
+* update bellamy/wallos docker tag to v5.11.2 ([#1080](https://github.com/kanso-labs/home-assistant-applications/issues/1080)) ([6b07496](https://github.com/kanso-labs/home-assistant-applications/commit/6b07496dda5c9ad6424d09606427468332496849))
+
+
+### Upstream changes
+
+* **v5.11.2:** [validate subscription frequency and harden payment loops against infinite execution](https://github.com/ellite/Wallos/commit/1c470f8c99648fd4633e94108ceae268dddc5a76) ([6b07496](https://github.com/kanso-labs/home-assistant-applications/commit/6b07496dda5c9ad6424d09606427468332496849))
+
 ## [0.7.0](https://github.com/kanso-labs/home-assistant-applications/compare/wallos-v0.6.4...wallos-v0.7.0) (2026-11-08)
 
 

@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.2](https://github.com/kanso-labs/home-assistant-applications/compare/nginx-proxy-manager-v1.2.1...nginx-proxy-manager-v1.2.2) (2026-11-19)
+
+
+### Bug Fixes
+
+* update dependency nginxproxymanager/nginx-proxy-manager to v2.17.1 ([#1085](https://github.com/kanso-labs/home-assistant-applications/issues/1085)) ([19b0aa5](https://github.com/kanso-labs/home-assistant-applications/commit/19b0aa57fc5c103b58253cb246b5b5141931028f))
+
+
+### Upstream changes
+
+* **v2.17.1:** [jc21/nginx-proxy-manager:2.17.1](https://hub.docker.com/layers/jc21/nginx-proxy-manager/2.17.1/images/sha256-ddccef5311d962ce733bc3439f9efdc11f167888804e60c5912f8a37ecdc5d52) ([19b0aa5](https://github.com/kanso-labs/home-assistant-applications/commit/19b0aa57fc5c103b58253cb246b5b5141931028f))
+* **v2.17.1:** [jc21/nginx-proxy-manager:2](https://hub.docker.com/layers/jc21/nginx-proxy-manager/2/images/sha256-ddccef5311d962ce733bc3439f9efdc11f167888804e60c5912f8a37ecdc5d52) ([19b0aa5](https://github.com/kanso-labs/home-assistant-applications/commit/19b0aa57fc5c103b58253cb246b5b5141931028f))
+* **v2.17.1:** [jc21/nginx-proxy-manager:latest](https://hub.docker.com/layers/jc21/nginx-proxy-manager/latest/images/sha256-ddccef5311d962ce733bc3439f9efdc11f167888804e60c5912f8a37ecdc5d52) ([19b0aa5](https://github.com/kanso-labs/home-assistant-applications/commit/19b0aa57fc5c103b58253cb246b5b5141931028f))
+* **v2.17.1:** [Uses updated base OpenResty image with nginx2root backported fixes (thanks TKlerx)](https://nginx2root.com/) ([19b0aa5](https://github.com/kanso-labs/home-assistant-applications/commit/19b0aa57fc5c103b58253cb246b5b5141931028f))
+* **v2.17.1:** Fix: SSL toggles reset to off when requesting a new certificate on host creation (thanks adman234) ([19b0aa5](https://github.com/kanso-labs/home-assistant-applications/commit/19b0aa57fc5c103b58253cb246b5b5141931028f))
+* **v2.17.1:** Moved nginx variables to their own include file, re-added `forward_host` variable (thanks Dv2Corn) ([19b0aa5](https://github.com/kanso-labs/home-assistant-applications/commit/19b0aa57fc5c103b58253cb246b5b5141931028f))
+
 ## [1.2.1](https://github.com/kanso-labs/home-assistant-applications/compare/nginx-proxy-manager-v1.2.0...nginx-proxy-manager-v1.2.1) (2026-11-18)
 
 

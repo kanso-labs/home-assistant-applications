@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.3](https://github.com/kanso-labs/home-assistant-applications/compare/seerr-v1.3.2...seerr-v1.3.3) (2026-11-19)
+
+
+### Dependencies
+
+* update nginx apk package to v1.28.3-r8 ([#1084](https://github.com/kanso-labs/home-assistant-applications/issues/1084)) ([3ab6480](https://github.com/kanso-labs/home-assistant-applications/commit/3ab64805c7de5b7257cb56cd8f453d6363c25eda))
+
 ## [1.3.2](https://github.com/kanso-labs/home-assistant-applications/compare/seerr-v1.3.1...seerr-v1.3.2) (2026-11-12)
 
 
