@@ -423,12 +423,14 @@ Every one of these has caught a real failure. Run them.
 you:
 
 ```shell
+ref=$(sed -n 's|.*frenck/action-app-linter@||p' .github/workflows/lint.yaml)
 gh api -H 'Accept: application/vnd.github.raw' \
-  'repos/frenck/action-app-linter/contents/src/config.schema.json?ref=v2.21.1' \
+  "repos/frenck/action-app-linter/contents/src/config.schema.json?ref=${ref}" \
   > /tmp/app.schema.json
 ```
 
-The ref is the linter tag `lint.yaml` runs, and moves with it.
+The ref is read out of `lint.yaml`, so the schema is the one CI runs, and a
+Renovate bump of the linter needs no edit here.
 
 Then check your `config.yaml`'s map types and top-level keys against it. This
 exists because the linter rejects values Supervisor documents as current. The
@@ -1046,12 +1048,12 @@ Both spellings still work, because Supervisor keeps the legacy map types as
 aliases, so nothing breaks on the day it deprecates one. What you get instead is
 a line per application in the Supervisor log, which is easy to never look at.
 
-It runs the other way too. The linter, at the v2.21.1 `lint.yaml` pins, fails
-any `config.yaml` that sets `watchdog`, calling it obsolete and asking for a
-Docker `HEALTHCHECK` instead (`src/lint.py`), although Supervisor's
-`validate.py` and the linter's own schema both accept the key. A check against
-the schema alone therefore passes it. The `HEALTHCHECK` is the route
-Supervisor's watchdog also acts on, and step 4 says how to write one.
+It runs the other way too. The linter, at the tag `lint.yaml` pins, fails any
+`config.yaml` that sets `watchdog`, calling it obsolete and asking for a Docker
+`HEALTHCHECK` instead (`src/lint.py`), although Supervisor's `validate.py` and
+the linter's own schema both accept the key. A check against the schema alone
+therefore passes it. The `HEALTHCHECK` is the route Supervisor's watchdog also
+acts on, and step 4 says how to write one.
 
 **The linter does not look at the icon or the logo.** `Verify applications`
 checks their sizes instead, 128×128 and 250×100, because the store renders the
