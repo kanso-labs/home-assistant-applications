@@ -6,6 +6,31 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0](https://github.com/kanso-labs/home-assistant-applications/compare/lingarr-v1.3.4...lingarr-v1.4.0) (2026-11-20)
+
+
+### Features
+
+* update ghcr.io/lingarr-translate/lingarr docker tag to v1.5.0 ([#1101](https://github.com/kanso-labs/home-assistant-applications/issues/1101)) ([ae2e26f](https://github.com/kanso-labs/home-assistant-applications/commit/ae2e26f36841b71055dec4e0084e87204de3b659))
+
+
+### Upstream changes
+
+* **v1.5.0:** [add outline for dragging by rowanfuchs](https://github.com/lingarr-translate/lingarr/pull/614) ([ae2e26f](https://github.com/kanso-labs/home-assistant-applications/commit/ae2e26f36841b71055dec4e0084e87204de3b659))
+* **v1.5.0:** [add source and target language priority with a first-target-only option by rowanfuchs](https://github.com/lingarr-translate/lingarr/pull/602) ([ae2e26f](https://github.com/kanso-labs/home-assistant-applications/commit/ae2e26f36841b71055dec4e0084e87204de3b659))
+* **v1.5.0:** [add translation service instances by rowanfuchs](https://github.com/lingarr-translate/lingarr/pull/612) ([ae2e26f](https://github.com/kanso-labs/home-assistant-applications/commit/ae2e26f36841b71055dec4e0084e87204de3b659))
+* **v1.5.0:** [added optional subtitle extraction by rowanfuchs](https://github.com/lingarr-translate/lingarr/pull/604) ([ae2e26f](https://github.com/kanso-labs/home-assistant-applications/commit/ae2e26f36841b71055dec4e0084e87204de3b659))
+* **v1.5.0:** [Bump follow-redirects from 1.16.0 to 1.16.2 in /Lingarr.Client by dependabotbot](https://github.com/lingarr-translate/lingarr/pull/605) ([ae2e26f](https://github.com/kanso-labs/home-assistant-applications/commit/ae2e26f36841b71055dec4e0084e87204de3b659))
+* **v1.5.0:** [Bump the nuget-minor-and-patch group with 14 updates by dependabotbot](https://github.com/lingarr-translate/lingarr/pull/598) ([ae2e26f](https://github.com/kanso-labs/home-assistant-applications/commit/ae2e26f36841b71055dec4e0084e87204de3b659))
+* **v1.5.0:** [fix: show the real error when a job cannot be queued by enoch85](https://github.com/lingarr-translate/lingarr/pull/606) ([ae2e26f](https://github.com/kanso-labs/home-assistant-applications/commit/ae2e26f36841b71055dec4e0084e87204de3b659))
+* **v1.5.0:** [fix(anthropic): retry batch translations when the response cannot be parsed by johnrj](https://github.com/lingarr-translate/lingarr/pull/601) ([ae2e26f](https://github.com/kanso-labs/home-assistant-applications/commit/ae2e26f36841b71055dec4e0084e87204de3b659))
+* **v1.5.0:** [fix(anthropic): support Claude 5.5 models in batch translation by AliazRob](https://github.com/lingarr-translate/lingarr/pull/595) ([ae2e26f](https://github.com/kanso-labs/home-assistant-applications/commit/ae2e26f36841b71055dec4e0084e87204de3b659))
+* **v1.5.0:** [Fix/housekeeping by rowanfuchs](https://github.com/lingarr-translate/lingarr/pull/603) ([ae2e26f](https://github.com/kanso-labs/home-assistant-applications/commit/ae2e26f36841b71055dec4e0084e87204de3b659))
+* **v1.5.0:** [publish the API definitions on the docs site by rowanfuchs](https://github.com/lingarr-translate/lingarr/pull/613) ([ae2e26f](https://github.com/kanso-labs/home-assistant-applications/commit/ae2e26f36841b71055dec4e0084e87204de3b659))
+* **v1.5.0:** [retry AI batch translations when lines are missing by rowanfuchs](https://github.com/lingarr-translate/lingarr/pull/615) ([ae2e26f](https://github.com/kanso-labs/home-assistant-applications/commit/ae2e26f36841b71055dec4e0084e87204de3b659))
+* **v1.5.0:** [update Gemini truncation tests to expect a retry by rowanfuchs](https://github.com/lingarr-translate/lingarr/pull/616) ([ae2e26f](https://github.com/kanso-labs/home-assistant-applications/commit/ae2e26f36841b71055dec4e0084e87204de3b659))
+* **v1.5.0:** [Update phpMyAdmin to the official image and to 5.2.3 by williamdes](https://github.com/lingarr-translate/lingarr/pull/589) ([ae2e26f](https://github.com/kanso-labs/home-assistant-applications/commit/ae2e26f36841b71055dec4e0084e87204de3b659))
+
 ## [1.3.4](https://github.com/kanso-labs/home-assistant-applications/compare/lingarr-v1.3.3...lingarr-v1.3.4) (2026-10-23)
 
 
