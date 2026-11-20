@@ -1,8 +1,8 @@
 name: Add to project
 
-# Puts every issue opened or reopened here on the Home Assistant Applications project, as the
-# organization's project standard asks. The shared workflow skips issues a bot
-# opens, such as Renovate's Dependency Dashboard.
+# Puts every issue opened or reopened here on the Home Assistant Applications
+# project, as the organization's project standard asks. The shared workflow
+# skips issues a bot opens, such as Renovate's Dependency Dashboard.
 
 on:
   issues:
