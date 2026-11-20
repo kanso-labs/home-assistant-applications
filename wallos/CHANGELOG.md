@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.2](https://github.com/kanso-labs/home-assistant-applications/compare/wallos-v0.7.1...wallos-v0.7.2) (2026-11-20)
+
+
+### Bug Fixes
+
+* update bellamy/wallos docker tag to v5.11.3 ([#1109](https://github.com/kanso-labs/home-assistant-applications/issues/1109)) ([332f20b](https://github.com/kanso-labs/home-assistant-applications/commit/332f20b895a80dfe8c9b1b097e4d87c44c959327))
+
+
+### Upstream changes
+
+* **v5.11.3:** [**security:** deny access to the database and temp folders on Apache](https://github.com/ellite/Wallos/commit/b42104177bdbecda84d31c2d4e4b5a0f54218a5f) ([332f20b](https://github.com/kanso-labs/home-assistant-applications/commit/332f20b895a80dfe8c9b1b097e4d87c44c959327))
+* **v5.11.3:** [**security:** fill managed SMTP fields in the test email only for the admin](https://github.com/ellite/Wallos/commit/b42104177bdbecda84d31c2d4e4b5a0f54218a5f) ([332f20b](https://github.com/kanso-labs/home-assistant-applications/commit/332f20b895a80dfe8c9b1b097e4d87c44c959327))
+* **v5.11.3:** [**security:** re-validate every redirect hop in the logo and payment searches](https://github.com/ellite/Wallos/commit/b42104177bdbecda84d31c2d4e4b5a0f54218a5f) ([332f20b](https://github.com/kanso-labs/home-assistant-applications/commit/332f20b895a80dfe8c9b1b097e4d87c44c959327))
+* **v5.11.3:** [**security:** require a login for the logo and payment search endpoints](https://github.com/ellite/Wallos/commit/b42104177bdbecda84d31c2d4e4b5a0f54218a5f) ([332f20b](https://github.com/kanso-labs/home-assistant-applications/commit/332f20b895a80dfe8c9b1b097e4d87c44c959327))
+* **v5.11.3:** [**security:** require the current password to change the account password](https://github.com/ellite/Wallos/commit/b42104177bdbecda84d31c2d4e4b5a0f54218a5f) ([332f20b](https://github.com/kanso-labs/home-assistant-applications/commit/332f20b895a80dfe8c9b1b097e4d87c44c959327))
+* **v5.11.3:** [**security:** revoke remember-me logins when the password changes or is reset](https://github.com/ellite/Wallos/commit/b42104177bdbecda84d31c2d4e4b5a0f54218a5f) ([332f20b](https://github.com/kanso-labs/home-assistant-applications/commit/332f20b895a80dfe8c9b1b097e4d87c44c959327))
+* **v5.11.3:** [**security:** throttle failed password logins](https://github.com/ellite/Wallos/commit/b42104177bdbecda84d31c2d4e4b5a0f54218a5f) ([332f20b](https://github.com/kanso-labs/home-assistant-applications/commit/332f20b895a80dfe8c9b1b097e4d87c44c959327))
+
 ## [0.7.1](https://github.com/kanso-labs/home-assistant-applications/compare/wallos-v0.7.0...wallos-v0.7.1) (2026-11-19)
 
 
