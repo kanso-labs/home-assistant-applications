@@ -105,15 +105,17 @@ that repository's `AGENTS.md` for what the rest of the organization does.
 
 The shared rule is the Conventions bullet above; what it looks like here:
 
-| `name:`              | Trigger                                                 | Filename                  |
-| -------------------- | ------------------------------------------------------- | ------------------------- |
-| `Build`              | `push`, `pull_request`, `schedule`, `workflow_dispatch` | `build.yaml`              |
-| `Build application`  | `workflow_call`                                         | `_build-application.yaml` |
-| `Deploy pages`       | `push`, `workflow_dispatch`                             | `deploy-pages.yaml`       |
-| `Lint`               | `push`, `pull_request`, `schedule`                      | `lint.yaml`               |
-| `Release Please`     | `push`, `schedule`, `workflow_dispatch`                 | `release-please.yaml`     |
-| `Renovate command`   | `issue_comment`                                         | `renovate-command.yaml`   |
-| `Upstream changelog` | `pull_request`                                          | `upstream-changelog.yaml` |
+| `name:`                 | Trigger                                                 | Filename                     |
+| ----------------------- | ------------------------------------------------------- | ---------------------------- |
+| `Add to project`        | `issues`                                                | `add-to-project.yaml`        |
+| `Build`                 | `push`, `pull_request`, `schedule`, `workflow_dispatch` | `build.yaml`                 |
+| `Build application`     | `workflow_call`                                         | `_build-application.yaml`    |
+| `Dependabot auto-merge` | `pull_request`                                          | `dependabot-auto-merge.yaml` |
+| `Deploy pages`          | `push`, `workflow_dispatch`                             | `deploy-pages.yaml`          |
+| `Lint`                  | `push`, `pull_request`, `schedule`                      | `lint.yaml`                  |
+| `Release Please`        | `push`, `schedule`, `workflow_dispatch`                 | `release-please.yaml`        |
+| `Renovate command`      | `issue_comment`                                         | `renovate-command.yaml`      |
+| `Upstream changelog`    | `pull_request`                                          | `upstream-changelog.yaml`    |
 
 The leading underscore on a reusable workflow is what separates entry points
 from building blocks in the folder listing.
