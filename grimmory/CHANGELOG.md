@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.4](https://github.com/kanso-labs/home-assistant-applications/compare/grimmory-v1.1.3...grimmory-v1.1.4) (2026-11-20)
+
+
+### Bug Fixes
+
+* update ghcr.io/grimmory-tools/grimmory docker tag to v3.5.1 ([#1100](https://github.com/kanso-labs/home-assistant-applications/issues/1100)) ([2c818d7](https://github.com/kanso-labs/home-assistant-applications/commit/2c818d76d3e30fba257541f5292896694c249edd))
+
+
+### Upstream changes
+
+* **v3.5.1:** [mitigate CVE-2026-114938](https://github.com/grimmory-tools/grimmory/issues/3167) ([2c818d7](https://github.com/kanso-labs/home-assistant-applications/commit/2c818d76d3e30fba257541f5292896694c249edd))
+
 ## [1.1.3](https://github.com/kanso-labs/home-assistant-applications/compare/grimmory-v1.1.2...grimmory-v1.1.3) (2026-11-20)
 
 
