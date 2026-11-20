@@ -17,8 +17,8 @@
 # API keys belong in secrets.yml beside this file, and are referenced here with
 # !secret. Each arr application prints its own under Settings, then General.
 
-trashGuideUrl: https://github.com/TRaSH-Guides/Guides
 recyclarrConfigUrl: https://github.com/recyclarr/config-templates
+trashGuideUrl: https://github.com/TRaSH-Guides/Guides
 #sonarr:
 #  series:
 #    base_url: http://2dd33fbd-sonarr:8989
