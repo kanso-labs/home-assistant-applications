@@ -9,7 +9,7 @@
 # Grimmory is built with Java's preview features on, which run only on the exact
 # Java release it was compiled for, so its own runtime is kept rather than a
 # Home Assistant base image's.
-ARG BUILD_FROM=ghcr.io/grimmory-tools/grimmory:v3.5.0
+ARG BUILD_FROM=ghcr.io/grimmory-tools/grimmory:v3.5.1
 FROM ${BUILD_FROM}
 
 # Set shell
