@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.3](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.8.2...n8n-v1.8.3) (2026-11-20)
+
+
+### Bug Fixes
+
+* update dependency n8n to v2.48.7 ([#1097](https://github.com/kanso-labs/home-assistant-applications/issues/1097)) ([2c7cd87](https://github.com/kanso-labs/home-assistant-applications/commit/2c7cd875bbbb11c8628340f17bcba43e3cf2b08f))
+
+
+### Upstream changes
+
+* **v2.48.7:** [**core:** End memory guard hold when hold-limit stop frees no memory](https://github.com/n8n-io/n8n/issues/44463) ([2c7cd87](https://github.com/kanso-labs/home-assistant-applications/commit/2c7cd875bbbb11c8628340f17bcba43e3cf2b08f))
+* **v2.48.7:** [**core:** Store plain input data in the error output of scripting nodes](https://github.com/n8n-io/n8n/issues/44530) ([2c7cd87](https://github.com/kanso-labs/home-assistant-applications/commit/2c7cd875bbbb11c8628340f17bcba43e3cf2b08f))
+
 ## [1.8.2](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.8.1...n8n-v1.8.2) (2026-11-19)
 
 
