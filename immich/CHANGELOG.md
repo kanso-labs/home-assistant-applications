@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.4](https://github.com/kanso-labs/home-assistant-applications/compare/immich-v1.1.3...immich-v1.1.4) (2026-11-21)
+
+
+### Bug Fixes
+
+* update ghcr.io/immich-app/immich-server docker tag to v3.4.2 ([#1081](https://github.com/kanso-labs/home-assistant-applications/issues/1081)) ([abc7ea5](https://github.com/kanso-labs/home-assistant-applications/commit/abc7ea5247c0fb09028f6670275ade4c43b0cffe))
+
+
+### Upstream changes
+
+* **v3.4.2:** [fix: filename alignment detail panel by danieldietzler](https://github.com/immich-app/immich/pull/33240) ([abc7ea5](https://github.com/kanso-labs/home-assistant-applications/commit/abc7ea5247c0fb09028f6670275ade4c43b0cffe))
+* **v3.4.2:** [fix: integrity report downloads by danieldietzler](https://github.com/immich-app/immich/pull/33239) ([abc7ea5](https://github.com/kanso-labs/home-assistant-applications/commit/abc7ea5247c0fb09028f6670275ade4c43b0cffe))
+* **v3.4.2:** [fix: prometheus exporter listening by danieldietzler](https://github.com/immich-app/immich/pull/33450) ([abc7ea5](https://github.com/kanso-labs/home-assistant-applications/commit/abc7ea5247c0fb09028f6670275ade4c43b0cffe))
+* **v3.4.2:** [fix(server): drop range=pc on vaapi by mertalev](https://github.com/immich-app/immich/pull/33262) ([abc7ea5](https://github.com/kanso-labs/home-assistant-applications/commit/abc7ea5247c0fb09028f6670275ade4c43b0cffe))
+* **v3.4.2:** [fix(web): hash external styles for csp by bo0tzz](https://github.com/immich-app/immich/pull/33275) ([abc7ea5](https://github.com/kanso-labs/home-assistant-applications/commit/abc7ea5247c0fb09028f6670275ade4c43b0cffe))
+* **v3.4.2:** [fix(web): hide slideshow play/pause without autoplay by jrasm91](https://github.com/immich-app/immich/pull/33219) ([abc7ea5](https://github.com/kanso-labs/home-assistant-applications/commit/abc7ea5247c0fb09028f6670275ade4c43b0cffe))
+* **v3.4.2:** [fix(web): prevent duplicate combobox keys on unknown camera make by abdul-karim-mia](https://github.com/immich-app/immich/pull/33189) ([abc7ea5](https://github.com/kanso-labs/home-assistant-applications/commit/abc7ea5247c0fb09028f6670275ade4c43b0cffe))
+
 ## [1.1.3](https://github.com/kanso-labs/home-assistant-applications/compare/immich-v1.1.2...immich-v1.1.3) (2026-11-19)
 
 
