@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.6](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.8.5...n8n-v1.8.6) (2026-11-23)
+
+
+### Bug Fixes
+
+* update dependency n8n to v2.48.8 ([#1119](https://github.com/kanso-labs/home-assistant-applications/issues/1119)) ([a513efd](https://github.com/kanso-labs/home-assistant-applications/commit/a513efdffad9f7abe1066318095478ea526f3807))
+
+
+### Upstream changes
+
+* **v2.48.8:** [**core:** Give custom instance roles access to the Migration Report](https://github.com/n8n-io/n8n/issues/44667) ([a513efd](https://github.com/kanso-labs/home-assistant-applications/commit/a513efdffad9f7abe1066318095478ea526f3807))
+* **v2.48.8:** [**core:** Throw when an expression reaches the memory limit on the quickjs engine](https://github.com/n8n-io/n8n/issues/44687) ([a513efd](https://github.com/kanso-labs/home-assistant-applications/commit/a513efdffad9f7abe1066318095478ea526f3807))
+* **v2.48.8:** [**editor:** Explain the last run state of workflows in the migration report](https://github.com/n8n-io/n8n/issues/44282) ([a513efd](https://github.com/kanso-labs/home-assistant-applications/commit/a513efdffad9f7abe1066318095478ea526f3807))
+* **v2.48.8:** [**editor:** Keep Migration Report controls inside narrow screens](https://github.com/n8n-io/n8n/issues/44658) ([a513efd](https://github.com/kanso-labs/home-assistant-applications/commit/a513efdffad9f7abe1066318095478ea526f3807))
+* **v2.48.8:** [Broken e2e test in source-control-helper](https://github.com/n8n-io/n8n/issues/44756) ([a513efd](https://github.com/kanso-labs/home-assistant-applications/commit/a513efdffad9f7abe1066318095478ea526f3807))
+* **v2.48.8:** [Report MCP workflow trigger activation failures](https://github.com/n8n-io/n8n/issues/44589) ([a513efd](https://github.com/kanso-labs/home-assistant-applications/commit/a513efdffad9f7abe1066318095478ea526f3807))
+
 ## [1.8.5](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.8.4...n8n-v1.8.5) (2026-11-21)
 
 
