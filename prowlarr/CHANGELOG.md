@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0](https://github.com/kanso-labs/home-assistant-applications/compare/prowlarr-v2.0.0...prowlarr-v2.1.0) (2026-11-23)
+
+
+### Features
+
+* update dependency prowlarr/prowlarr to v3.1.0.5799 ([#1123](https://github.com/kanso-labs/home-assistant-applications/issues/1123)) ([e22f168](https://github.com/kanso-labs/home-assistant-applications/commit/e22f16878ea4c50a98687f0dbe8d196a13d30211))
+
+
+### Upstream changes
+
+* **v3.1.0.5799:** [`0336fe2` Bump to 3.1.0](https://github.com/Prowlarr/Prowlarr/commit/0336fe2fa7da88883f42087715b83225ee314faa) ([e22f168](https://github.com/kanso-labs/home-assistant-applications/commit/e22f16878ea4c50a98687f0dbe8d196a13d30211))
+* **v3.1.0.5799:** [`46c468c` Fixed: (MyAnonamouse) Parsing results with numeric titles](https://github.com/Prowlarr/Prowlarr/commit/46c468c443ff3ebb86fc99347d3a15885d41d1e1) ([e22f168](https://github.com/kanso-labs/home-assistant-applications/commit/e22f16878ea4c50a98687f0dbe8d196a13d30211))
+* **v3.1.0.5799:** [`7ee91a1` New: Add per-indexer query timeout setting  ](https://github.com/Prowlarr/Prowlarr/issues/2625) ([e22f168](https://github.com/kanso-labs/home-assistant-applications/commit/e22f16878ea4c50a98687f0dbe8d196a13d30211))
+* **v3.1.0.5799:** [`b0b5774` Multiple Translations updated by Weblate](https://github.com/Prowlarr/Prowlarr/commit/b0b5774bf3bd594d0fb2dcd151495b5d034920ef) ([e22f168](https://github.com/kanso-labs/home-assistant-applications/commit/e22f16878ea4c50a98687f0dbe8d196a13d30211))
+* **v3.1.0.5799:** [`c7926e5` Fixed: Multiple categories support for Cardigann definitions](https://github.com/Prowlarr/Prowlarr/commit/c7926e55033470e584434ffbb872bdbe05a4e56c) ([e22f168](https://github.com/kanso-labs/home-assistant-applications/commit/e22f16878ea4c50a98687f0dbe8d196a13d30211))
+* **v3.1.0.5799:** [`dca3046` Update AngleSharp, coverlet.collector, Dapper and Npgsql](https://github.com/Prowlarr/Prowlarr/commit/dca30461ad4c110a0dd450ff837a274e6d895b8c) ([e22f168](https://github.com/kanso-labs/home-assistant-applications/commit/e22f16878ea4c50a98687f0dbe8d196a13d30211))
+* **v3.1.0.5799:** [`f72c94c` Handle history events async](https://github.com/Prowlarr/Prowlarr/commit/f72c94c561d1581e6334eabb1afde1f2559fa695) ([e22f168](https://github.com/kanso-labs/home-assistant-applications/commit/e22f16878ea4c50a98687f0dbe8d196a13d30211))
+
 ## [2.0.0](https://github.com/kanso-labs/home-assistant-applications/compare/prowlarr-v1.4.1...prowlarr-v2.0.0) (2026-11-17)
 
 
