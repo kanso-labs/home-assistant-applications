@@ -24,7 +24,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ARG BUILD_ARCH=amd64
 ARG BUILD_VERSION=dev
 # renovate: datasource=github-releases depName=hassio-addons/bashio
-ARG BASHIO_VERSION=0.19.0
+ARG BASHIO_VERSION=0.20.0
 
 # Plex's image drops to its own `plex` user, uid 1000, before starting the
 # server. Home Assistant's shares are bind-mounted with the host's ownership
