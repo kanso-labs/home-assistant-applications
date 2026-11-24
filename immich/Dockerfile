@@ -30,7 +30,7 @@ ARG BUILD_VERSION=dev
 # renovate: datasource=github-releases depName=just-containers/s6-overlay
 ARG S6_OVERLAY_VERSION=3.2.3.2
 # renovate: datasource=github-releases depName=hassio-addons/bashio
-ARG BASHIO_VERSION=0.19.0
+ARG BASHIO_VERSION=0.20.0
 # PGDG's server depends on its client of exactly the same version, and the image
 # already carries that client for Immich's database dumps. apt upgrades the
 # client to match a newer server but never downgrades it, so this can only move
