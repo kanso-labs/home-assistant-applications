@@ -6,6 +6,29 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.2](https://github.com/kanso-labs/home-assistant-applications/compare/cleanuparr-v1.4.1...cleanuparr-v1.4.2) (2026-11-25)
+
+
+### Bug Fixes
+
+* update ghcr.io/cleanuparr/cleanuparr docker tag to v2.11.2 ([#1140](https://github.com/kanso-labs/home-assistant-applications/issues/1140)) ([c16875b](https://github.com/kanso-labs/home-assistant-applications/commit/c16875b46898e096399abb8a049a8ba8950e6ccd))
+
+
+### Upstream changes
+
+* **v2.11.2:** [Add central package management for the backend by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/901) ([c16875b](https://github.com/kanso-labs/home-assistant-applications/commit/c16875b46898e096399abb8a049a8ba8950e6ccd))
+* **v2.11.2:** [Add digest auth support for download clients by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/835) ([c16875b](https://github.com/kanso-labs/home-assistant-applications/commit/c16875b46898e096399abb8a049a8ba8950e6ccd))
+* **v2.11.2:** [Fix dry run replacement searches firing in live runs by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/907) ([c16875b](https://github.com/kanso-labs/home-assistant-applications/commit/c16875b46898e096399abb8a049a8ba8950e6ccd))
+* **v2.11.2:** [Fix failing e2e tests by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/902) ([c16875b](https://github.com/kanso-labs/home-assistant-applications/commit/c16875b46898e096399abb8a049a8ba8950e6ccd))
+* **v2.11.2:** [Remove custom NuGet feed from the build process by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/900) ([c16875b](https://github.com/kanso-labs/home-assistant-applications/commit/c16875b46898e096399abb8a049a8ba8950e6ccd))
+* **v2.11.2:** [Replace qBittorrent NuGet package with in-repo client project by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/898) ([c16875b](https://github.com/kanso-labs/home-assistant-applications/commit/c16875b46898e096399abb8a049a8ba8950e6ccd))
+* **v2.11.2:** [Replace Transmission NuGet package with in-repo client project by Flaminel](https://github.com/Cleanuparr/Cleanuparr/pull/899) ([c16875b](https://github.com/kanso-labs/home-assistant-applications/commit/c16875b46898e096399abb8a049a8ba8950e6ccd))
+
+
+### Dependencies
+
+* update dependency hassio-addons/bashio to v0.20.0 ([#1135](https://github.com/kanso-labs/home-assistant-applications/issues/1135)) ([d6f4a0e](https://github.com/kanso-labs/home-assistant-applications/commit/d6f4a0e4d2816c9a035b94875b77c6063651821c))
+
 ## [1.4.1](https://github.com/kanso-labs/home-assistant-applications/compare/cleanuparr-v1.4.0...cleanuparr-v1.4.1) (2026-11-15)
 
 

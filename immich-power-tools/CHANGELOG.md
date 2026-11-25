@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1](https://github.com/kanso-labs/home-assistant-applications/compare/immich-power-tools-v1.1.0...immich-power-tools-v1.1.1) (2026-11-25)
+
+
+### Dependencies
+
+* update dependency hassio-addons/bashio to v0.20.0 ([#1135](https://github.com/kanso-labs/home-assistant-applications/issues/1135)) ([d6f4a0e](https://github.com/kanso-labs/home-assistant-applications/commit/d6f4a0e4d2816c9a035b94875b77c6063651821c))
+
 ## [1.1.0](https://github.com/kanso-labs/home-assistant-applications/compare/immich-power-tools-v1.0.1...immich-power-tools-v1.1.0) (2026-11-18)
 
 
