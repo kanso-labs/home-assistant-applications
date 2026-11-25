@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.9](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.8.8...n8n-v1.8.9) (2026-11-25)
+
+
+### Bug Fixes
+
+* update dependency n8n to v2.49.6 ([#1145](https://github.com/kanso-labs/home-assistant-applications/issues/1145)) ([1cc6611](https://github.com/kanso-labs/home-assistant-applications/commit/1cc66118ebc8d2e2e6fc31ad7d907ff9c57ce4eb))
+
+
+### Upstream changes
+
+* **v2.49.6:** [**core:** Align base64, urlEncode and format results of isolate expression engines with legacy](https://github.com/n8n-io/n8n/issues/44969) ([1cc6611](https://github.com/kanso-labs/home-assistant-applications/commit/1cc66118ebc8d2e2e6fc31ad7d907ff9c57ce4eb))
+* **v2.49.6:** [**core:** Evaluate urlEncode, base64Decode and format natively](https://github.com/n8n-io/n8n/issues/44995) ([1cc6611](https://github.com/kanso-labs/home-assistant-applications/commit/1cc66118ebc8d2e2e6fc31ad7d907ff9c57ce4eb))
+
 ## [1.8.8](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.8.7...n8n-v1.8.8) (2026-11-24)
 
 
