@@ -3,7 +3,7 @@
 # There is no third-party application here: iptables as Alpine packages it, on
 # the Home Assistant base image, and the scripts in rootfs that turn the options
 # into rules.
-ARG BUILD_FROM=ghcr.io/home-assistant/base:3.24@sha256:58422480a299b16b6ea376c2167463206d430619ed02b40cd687c8bd6875519e
+ARG BUILD_FROM=ghcr.io/home-assistant/base:3.24@sha256:5021aac8a4b7f2a1397e23a9749dfe9f736463ffa471df6b200216c68d530fe6
 FROM ${BUILD_FROM}
 
 # Set shell
