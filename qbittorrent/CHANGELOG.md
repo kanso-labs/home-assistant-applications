@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.8](https://github.com/kanso-labs/home-assistant-applications/compare/qbittorrent-v1.3.7...qbittorrent-v1.3.8) (2026-11-25)
+
+
+### Dependencies
+
+* update ghcr.io/home-assistant/base:3.24 docker digest to 5021aac ([#1148](https://github.com/kanso-labs/home-assistant-applications/issues/1148)) ([6486d02](https://github.com/kanso-labs/home-assistant-applications/commit/6486d02cec9057bd0d40b5e2ef91783a8991b3e3))
+
 ## [1.3.7](https://github.com/kanso-labs/home-assistant-applications/compare/qbittorrent-v1.3.6...qbittorrent-v1.3.7) (2026-11-06)
 
 
