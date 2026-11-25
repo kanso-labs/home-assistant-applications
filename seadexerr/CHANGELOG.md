@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.8](https://github.com/kanso-labs/home-assistant-applications/compare/seadexerr-v1.1.7...seadexerr-v1.1.8) (2026-11-25)
+
+
+### Dependencies
+
+* update home assistant base images ([#1149](https://github.com/kanso-labs/home-assistant-applications/issues/1149)) ([4768960](https://github.com/kanso-labs/home-assistant-applications/commit/4768960e80d2dc1e9c68c6315782b8502af88e32))
+
 ## [1.1.7](https://github.com/kanso-labs/home-assistant-applications/compare/seadexerr-v1.1.6...seadexerr-v1.1.7) (2026-11-06)
 
 
