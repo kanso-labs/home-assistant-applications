@@ -1,5 +1,5 @@
 # https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
-ARG BUILD_FROM=ghcr.io/home-assistant/base-ubuntu:26.04@sha256:cd61893f80c87314c39b0f8a84fa75c04064f0be48793be58a447c9175ac9e79
+ARG BUILD_FROM=ghcr.io/home-assistant/base-ubuntu:26.04@sha256:f85c4f76a6e1bb1be4a0eb86bac2c15cb64e4d2b793626b7953638598dfe2eba
 FROM ${BUILD_FROM}
 
 # Set shell
