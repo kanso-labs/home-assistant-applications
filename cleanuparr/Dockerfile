@@ -1,4 +1,4 @@
-# https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
+# https://contributors.home-assistant.io/apps/guides/dockerfile/
 #
 # This starts from the image Cleanuparr publishes rather than a Home Assistant
 # base image, for the same reason Seerr does: the release archive carries the

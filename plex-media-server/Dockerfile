@@ -1,4 +1,4 @@
-# https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
+# https://contributors.home-assistant.io/apps/guides/dockerfile/
 #
 # This starts from the image Plex publishes rather than a Home Assistant base
 # image. Plex has no source to build and no versioned release feed Renovate can

@@ -21,8 +21,8 @@ The authorities, in the order you should trust them:
 2. **[home-assistant/apps-example](https://github.com/home-assistant/apps-example)**
    — the reference implementation. Match its shape unless there is a reason not
    to, and record the reason.
-3. **[The apps documentation](https://developers.home-assistant.io/docs/apps)**
-   — correct in the large, occasionally behind in the details.
+3. **[The apps documentation](https://contributors.home-assistant.io/apps/)** —
+   correct in the large, occasionally behind in the details.
 4. **`frenck/action-app-linter`** — not an authority, but it is the gate. It
    trails Supervisor, and has rejected values Supervisor documents as current.
    See Traps.
@@ -287,7 +287,7 @@ resolver, and Flight Finder reads this machine's addresses from `/network/info`.
 ### 4. `Dockerfile`
 
 ```dockerfile
-# https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
+# https://contributors.home-assistant.io/apps/guides/dockerfile/
 ARG BUILD_FROM=ghcr.io/home-assistant/base:3.24
 FROM ${BUILD_FROM}
 

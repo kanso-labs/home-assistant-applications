@@ -1,4 +1,4 @@
-# https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
+# https://contributors.home-assistant.io/apps/guides/dockerfile/
 #
 # This starts from Immich's own server image, as Byparr starts from the image its
 # upstream publishes, and adds what upstream runs beside it as containers of

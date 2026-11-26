@@ -1,4 +1,4 @@
-# https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
+# https://contributors.home-assistant.io/apps/guides/dockerfile/
 ARG BUILD_FROM=ghcr.io/home-assistant/base-ubuntu:26.04@sha256:f85c4f76a6e1bb1be4a0eb86bac2c15cb64e4d2b793626b7953638598dfe2eba
 FROM ${BUILD_FROM}
 

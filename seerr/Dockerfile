@@ -1,4 +1,4 @@
-# https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
+# https://contributors.home-assistant.io/apps/guides/dockerfile/
 #
 # This starts from the image Seerr publishes rather than a Home Assistant base
 # image, as Cleanuparr, Lingarr, Muxarr and others here do. Seerr publishes no

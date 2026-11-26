@@ -1,4 +1,4 @@
-# https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
+# https://contributors.home-assistant.io/apps/guides/dockerfile/
 # Tautulli's own image runs on Python 3.14, as this does. The tag names a Python
 # release and an Alpine one, and .github/renovate.json reads the two as one
 # version: a new Python arrives as a minor update, a new Alpine as a patch.

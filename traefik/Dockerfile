@@ -1,4 +1,4 @@
-# https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
+# https://contributors.home-assistant.io/apps/guides/dockerfile/
 #
 # Traefik publishes a static build with every release, and it runs as it is on
 # the Home Assistant base image, which brings the bashio the service scripts
