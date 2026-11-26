@@ -22,8 +22,8 @@
  *
  * GA's cookies are kept to the site's own host rather than shared across
  * kansolabs.org, since each site keeps its own choice. Nothing is sent from a
- * host that is not a published one, such as localhost, so a local build never
- * counts in the live property.
+ * host outside kansolabs.org, such as localhost or a fork's own Pages site, so
+ * a local build never counts in the live property.
  */
 ;(function () {
   'use strict'
@@ -33,7 +33,7 @@
   var id = options.measurementId
   if (!id || window.kansoAnalytics) return
 
-  var live = /(^|\.)(kansolabs\.org|github\.io)$/.test(window.location.hostname)
+  var live = /(^|\.)kansolabs\.org$/.test(window.location.hostname)
   var KEY = 'kanso-labs:analytics'
   var EVENT = 'kanso-analytics'
 
