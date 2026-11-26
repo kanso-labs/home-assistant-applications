@@ -83,3 +83,25 @@ What remains in `layout.css` is the handful of things a layout primitive has no
 opinion about: the rhythm between the page's regions, a prose measure in `ch`,
 and two rules that answer to their contents rather than to the grid. It styles
 no component.
+
+## Analytics
+
+The site counts visits with Google Analytics 4, through gtag.js and no Tag
+Manager, behind Google Consent Mode v2. The measurement ID, `G-B685B0SN8W`, is
+public by nature, so it sits in `app/components/analytics.tsx`, which also draws
+the banner in kanso-ui. `/privacy` is the note that says what is recorded, and
+the switch that turns it on or off; the footer links it.
+
+`public/analytics.js` is the same file in every Kanso Labs site that loads
+gtag.js itself: this one, kansolabs.org and both Storybooks. Change one copy and
+carry the change to the others, byte for byte, which is why `.prettierignore`
+skips it. Its header says how it works: ads signals are denied for everyone;
+analytics storage is denied in the EEA, the UK and Switzerland, where the banner
+asks before gtag.js loads, and granted elsewhere, where a notice offers to opt
+out. Whether to ask is read from the browser's time zone, since Pages gives a
+static site no geo header. Nothing is sent from a host other than kansolabs.org
+or github.io, so `npm --prefix docs run dev` draws the banner and counts
+nothing.
+
+`build-pages.sh` publishes the page as `privacy.html` beside `index.html`, so
+Pages serves `/privacy` as a page rather than through `404.html`.

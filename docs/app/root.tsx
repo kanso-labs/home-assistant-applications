@@ -14,6 +14,11 @@ import './styles/layout.css'
 
 import { Container, Stack, Text } from '@kanso-labs/kanso-ui'
 
+import {
+  AnalyticsBanner,
+  MEASUREMENT_ID,
+  PRIVACY,
+} from './components/analytics'
 import type { Route } from './+types/root'
 
 export const links: Route.LinksFunction = () => [
@@ -53,6 +58,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <Meta />
         <Links />
+        {/* Google Analytics behind Consent Mode. It loads gtag.js itself, and
+            only once the visitor may be counted; the banner is the site's
+            own, drawn by components/analytics. */}
+        <script
+          async
+          data-banner="none"
+          data-measurement-id={MEASUREMENT_ID}
+          data-privacy-url={PRIVACY}
+          src={`${import.meta.env.BASE_URL}analytics.js`}
+        />
       </head>
       <body>
         {children}
@@ -64,7 +79,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />
+  return (
+    <>
+      {/* First, so the keyboard reaches it before the page; it is fixed to
+          the foot of the viewport wherever it sits in the document. */}
+      <AnalyticsBanner />
+      <Outlet />
+    </>
+  )
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
