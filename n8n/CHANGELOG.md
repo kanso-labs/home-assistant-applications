@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.11](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.8.10...n8n-v1.8.11) (2026-11-26)
+
+
+### Bug Fixes
+
+* update dependency n8n to v2.49.7 ([#1169](https://github.com/kanso-labs/home-assistant-applications/issues/1169)) ([695a96b](https://github.com/kanso-labs/home-assistant-applications/commit/695a96bfb323dd0f26673519eb7e2fed04e75631))
+
+
+### Upstream changes
+
+* **v2.49.7:** [**core:** Align extractUrlPath results of isolate expression engines with legacy](https://github.com/n8n-io/n8n/issues/45150) ([695a96b](https://github.com/kanso-labs/home-assistant-applications/commit/695a96bfb323dd0f26673519eb7e2fed04e75631))
+* **v2.49.7:** [**core:** Reduce memory use of concat on workflow data arrays in isolate expression engines](https://github.com/n8n-io/n8n/issues/45156) ([695a96b](https://github.com/kanso-labs/home-assistant-applications/commit/695a96bfb323dd0f26673519eb7e2fed04e75631))
+* **v2.49.7:** [Apply execution data size limit in MCP get_workflow_execution](https://github.com/n8n-io/n8n/issues/45142) ([695a96b](https://github.com/kanso-labs/home-assistant-applications/commit/695a96bfb323dd0f26673519eb7e2fed04e75631))
+* **v2.49.7:** [Preserve boxed primitives across expression engines](https://github.com/n8n-io/n8n/issues/45206) ([695a96b](https://github.com/kanso-labs/home-assistant-applications/commit/695a96bfb323dd0f26673519eb7e2fed04e75631))
+
 ## [1.8.10](https://github.com/kanso-labs/home-assistant-applications/compare/n8n-v1.8.9...n8n-v1.8.10) (2026-11-25)
 
 

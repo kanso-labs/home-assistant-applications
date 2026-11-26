@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.6](https://github.com/kanso-labs/home-assistant-applications/compare/flight-finder-v1.1.5...flight-finder-v1.1.6) (2026-11-26)
+
+
+### Dependencies
+
+* update valkey apk package to v9.0.8-r0 ([#1166](https://github.com/kanso-labs/home-assistant-applications/issues/1166)) ([c2b6683](https://github.com/kanso-labs/home-assistant-applications/commit/c2b6683df206680f0e9bea048b9841bf8480a1f9))
+
 ## [1.1.5](https://github.com/kanso-labs/home-assistant-applications/compare/flight-finder-v1.1.4...flight-finder-v1.1.5) (2026-11-25)
 
 
