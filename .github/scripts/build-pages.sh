@@ -36,9 +36,11 @@ npm --prefix "${app}" run build
 
 cp -R "${app}/build/client" "${out}"
 
-# One route, and GitHub Pages has no rewrite rule — so any other path is served
-# this same document and the router takes it from there.
+# GitHub Pages has no rewrite rule, so any path it has no file for is served
+# this same document, and the router takes it from there. The privacy note gets
+# a file of its own, so it is served as a page rather than as a 404.
 cp "${out}/index.html" "${out}/404.html"
+cp "${out}/index.html" "${out}/privacy.html"
 
 # Jekyll skips directories beginning with an underscore, which is where Vite
 # puts nothing today but is one dependency bump away from being wrong.

@@ -17,6 +17,7 @@ import {
 } from '@kanso-labs/kanso-ui'
 import { useEffect, useState } from 'react'
 
+import { PRIVACY } from '../components/analytics'
 import { type Access, applications } from '../generated/applications'
 
 const repository = 'https://github.com/kanso-labs/home-assistant-applications'
@@ -288,6 +289,11 @@ export default function Home() {
                 underline="hover"
               >
                 Licence
+              </Link>
+            </li>
+            <li>
+              <Link href={PRIVACY} tone="inherit" underline="hover">
+                Privacy
               </Link>
             </li>
           </Stack>

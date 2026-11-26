@@ -85,3 +85,17 @@ body {
   margin: 0;
   padding: 0;
 }
+
+/* The analytics banner is fixed to the foot of the viewport, so it covers a
+ * strip of the page rather than pushing anything when it appears. Room left
+ * for it beneath the page would be that shift; it is first in the document,
+ * so the keyboard meets it before anything it covers, and it goes once
+ * answered. */
+.analytics-banner {
+  inset-block-end: 16px;
+  inset-inline: 16px;
+  margin-inline: auto;
+  max-inline-size: 560px;
+  position: fixed;
+  z-index: 10;
+}
