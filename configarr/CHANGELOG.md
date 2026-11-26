@@ -6,6 +6,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.0](https://github.com/kanso-labs/home-assistant-applications/compare/configarr-v1.6.4...configarr-v1.7.0) (2026-11-26)
+
+
+### Features
+
+* update dependency raydak-labs/configarr to v1.40.0 ([#1182](https://github.com/kanso-labs/home-assistant-applications/issues/1182)) ([318cf46](https://github.com/kanso-labs/home-assistant-applications/commit/318cf4656e8b10232188c86c14c4086c0e28758e))
+
+
+### Upstream changes
+
+* **v1.40.0:** [**chaptarr:** add media-typed Chaptarr support](https://github.com/raydak-labs/configarr/issues/635) ([318cf46](https://github.com/kanso-labs/home-assistant-applications/commit/318cf4656e8b10232188c86c14c4086c0e28758e))
+* **v1.40.0:** [**chaptarr:** make Chaptarr standalone from Readarr](https://github.com/raydak-labs/configarr/issues/638) ([318cf46](https://github.com/kanso-labs/home-assistant-applications/commit/318cf4656e8b10232188c86c14c4086c0e28758e))
+* **v1.40.0:** [manage host backup policy on every *arr](https://github.com/raydak-labs/configarr/issues/633) ([318cf46](https://github.com/kanso-labs/home-assistant-applications/commit/318cf4656e8b10232188c86c14c4086c0e28758e))
+
 ## [1.6.4](https://github.com/kanso-labs/home-assistant-applications/compare/configarr-v1.6.3...configarr-v1.6.4) (2026-11-25)
 
 
