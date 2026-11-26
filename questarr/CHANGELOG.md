@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0](https://github.com/kanso-labs/home-assistant-applications/compare/questarr-v0.2.0...questarr-v1.0.0) (2026-11-26)
+
+
+### Features
+
+* **questarr:** release 1.0.0 ([c51f557](https://github.com/kanso-labs/home-assistant-applications/commit/c51f557aee5b12a3afc1e0160400a3a14e1f648b))
+
 ## [0.2.0](https://github.com/kanso-labs/home-assistant-applications/compare/questarr-v0.1.0...questarr-v0.2.0) (2026-11-26)
 
 
