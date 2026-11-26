@@ -17,6 +17,14 @@ mkdir -p /config
 # same setting from UMASK.
 umask "$(bashio::config 'umask')"
 
+# Ingress reaches Questarr through nginx on this machine, which passes on the
+# X-Forwarded-For and X-Forwarded-Proto that Home Assistant sets. Trusting
+# loopback alone lets Questarr read them from nginx, so that its cookies are
+# marked secure when Home Assistant is on HTTPS and its rate limits stop warning
+# about a header they ignore, while a client on the published port still
+# cannot claim another address by sending the header itself.
+export TRUST_PROXY='loopback'
+
 bashio::log.info 'Starting Questarr...'
 
 cd /app || bashio::exit.nok 'The application directory is missing'

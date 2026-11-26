@@ -694,14 +694,15 @@ in its install line, and stayed on 1.31.6 past the five CVE fixes in 1.31.7.
 
 **UnRAR's version is not the number in its tarball's name.** RARLAB publishes no
 feed and no repository, so `.github/renovate.json` defines a `rarlab` datasource
-that reads its download page, `rar_add.htm`, and takes Bazarr's `UNRAR_VERSION`
-out of the source tarball's name. Those are numbered by build within a series
-rather than by version: `unrarsrc-7.2.7` is UnRAR 7.23, and `unrarsrc-7.3.1` is
-7.30 beta 1. The page links only the newest, betas included, and `RARVER_BETA`
-in the tarball's `unrar/version.hpp` is the only way to tell one from a release.
-Renovate cannot tell either, so `.github/renovate.json` never automerges an
-UnRAR bump, and Bazarr's Dockerfile reads `RARVER_BETA` after unpacking and
-fails the build on a beta, which keeps one from passing `Build`. Bazarr 1.2.0
+that reads its download page, `rar_add.htm`, and takes Bazarr's and Questarr's
+`UNRAR_VERSION` out of the source tarball's name. Those are numbered by build
+within a series rather than by version: `unrarsrc-7.2.7` is UnRAR 7.23, and
+`unrarsrc-7.3.1` is 7.30 beta 1. The page links only the newest, betas included,
+and `RARVER_BETA` in the tarball's `unrar/version.hpp` is the only way to tell
+one from a release. Renovate cannot tell either, so `.github/renovate.json`
+never automerges an UnRAR bump, and the Dockerfiles of Bazarr and Questarr,
+which both build it from that tarball, read `RARVER_BETA` after unpacking and
+fail the build on a beta, which keeps one from passing `Build`. Bazarr 1.2.0
 shipped 7.30 beta 1 before the build checked. `.github/renovate.json` also
 excludes 7.3.1 with `allowedVersions`, so that the beta Bazarr went back from is
 not proposed again, and the exclusion comes out once RARLAB links a later

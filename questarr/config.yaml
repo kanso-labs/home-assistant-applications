@@ -7,6 +7,11 @@ description:
   games you want through IGDB, tracks them, and sends releases to your
   downloaders through your indexers or Prowlarr, then imports what arrives.
 image: 'ghcr.io/kanso-labs/home-assistant-application-questarr'
+# nginx answers ingress on a port of its own, see DOCS.md. Questarr's largest
+# upload is an 8 MB screenshot, well inside the 16 MiB Supervisor reads whole of
+# a request through ingress, so ingress_stream is left off.
+ingress: true
+ingress_port: 5001
 init: false
 map:
   - read_only: false
@@ -21,6 +26,7 @@ map:
 name: Questarr
 options:
   umask: '022'
+panel_icon: 'mdi:gamepad-variant'
 ports:
   5000/tcp: 5000
 schema:
@@ -28,4 +34,3 @@ schema:
 slug: questarr
 url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/questarr'
 version: '0.1.0' # x-release-please-version
-webui: 'http://[HOST]:[PORT:5000]'

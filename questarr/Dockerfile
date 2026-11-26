@@ -4,7 +4,7 @@
 # and others here do. Questarr publishes no release asset for Linux, and the
 # image is where the work is: it builds the client and server, prunes the
 # development dependencies, and carries Apprise for notifications and 7-Zip
-# and UnRAR for unpacking downloads.
+# for unpacking downloads. UnRAR is replaced below.
 #
 # The cost is that s6-overlay and bashio arrive here by hand rather than from
 # the base image. Both are installed below, and the service layout under
@@ -21,6 +21,24 @@ ARG BUILD_VERSION=dev
 ARG S6_OVERLAY_VERSION=3.2.3.2
 # renovate: datasource=github-releases depName=hassio-addons/bashio
 ARG BASHIO_VERSION=0.20.0
+# nginx is what ingress reaches, on a port of its own; see nginx.conf. It is
+# pinned so that a new nginx produces a release rather than arriving silently.
+# registryUrl carries the Alpine branch of the image above, so it needs
+# updating when upstream moves to a newer Alpine, and the build fails until it
+# is.
+# renovate: datasource=apk depName=nginx registryUrl=https://dl-cdn.alpinelinux.org/alpine?branch=v3.24&components=main&arch=x86_64
+ARG NGINX_VERSION=1.30.8-r0
+# Questarr unpacks RAR downloads with UnRAR, which is untrusted input, so it is
+# kept current, and built from source here, as Bazarr's is. Upstream's image
+# downloads RARLAB's x86_64 binary on every architecture, which cannot run on
+# aarch64. RARLAB publishes no feed or repository; the rarlab datasource in
+# .github/renovate.json reads its download page. Its source tarballs are
+# numbered by build rather than by version, so unrarsrc-7.2.7 is UnRAR 7.23,
+# and the page links a beta as readily as a release: RARVER_BETA in the
+# tarball's version.hpp says which a bump is, and the build below fails on a
+# beta.
+# renovate: datasource=custom.rarlab depName=unrar
+ARG UNRAR_VERSION=7.2.7
 
 # s6-overlay has to come up as root. The image sets no user of its own: it runs
 # as root and drops to the questarr user in its entrypoint, which /init
@@ -29,13 +47,32 @@ ARG BASHIO_VERSION=0.20.0
 USER root
 
 RUN \
-  `# curl is already here, installed by the image for its health check and` \
-  `# UnRAR download. bash runs bashio, jq is what bashio reads options with,` \
-  `# and xz unpacks the s6 tarballs.` \
-  apk add --no-cache \
+  apk add --no-cache --virtual .build-dependencies \
+    build-base \
+  \
+  `# curl is already here, installed by the image for its own UnRAR download.` \
+  `# bash runs bashio, jq is what bashio reads options with, and xz unpacks` \
+  `# the s6 tarballs. nginx serves ingress; the configuration its package` \
+  `# ships is replaced by the one in rootfs/, which serves nothing else.` \
+  && apk add --no-cache \
     bash \
     jq \
+    "nginx=${NGINX_VERSION}" \
     xz \
+  \
+  `# Built for this architecture in place of upstream's x86_64 binary, at the` \
+  `# path Questarr already finds it on.` \
+  && curl -J -L -f --retry 8 --retry-all-errors --retry-max-time 180 -o /tmp/unrar.tar.gz \
+      "https://www.rarlab.com/rar/unrarsrc-${UNRAR_VERSION}.tar.gz" \
+  && tar zxf \
+      /tmp/unrar.tar.gz \
+      -C /tmp \
+  && if ! grep -q -E '^#define RARVER_BETA +0$' /tmp/unrar/version.hpp; then \
+      echo "unrarsrc-${UNRAR_VERSION} is a beta of UnRAR, which this image does not ship" >&2; \
+      exit 1; \
+    fi \
+  && make -C /tmp/unrar \
+  && install -v -m755 /tmp/unrar/unrar /usr/local/bin/unrar \
   \
   && if [ "${BUILD_ARCH}" = "aarch64" ]; then S6_ARCH="aarch64"; \
   elif [ "${BUILD_ARCH}" = "amd64" ]; then S6_ARCH="x86_64"; \
@@ -68,6 +105,7 @@ RUN \
   && rmdir /app/data \
   && ln -s /config /app/data \
   \
+  && apk del --no-cache --purge .build-dependencies \
   && rm -f -r \
     /tmp/*
 
@@ -86,7 +124,8 @@ ENTRYPOINT ["/init"]
 # declares no health check of its own; its Compose file probes /api/health,
 # which answers without signing in and asks nothing of IGDB, the indexers or
 # the downloaders, and stays on plain HTTP when Questarr's own HTTPS redirect is
-# on. The app linter rejects config.yaml's `watchdog` in favour of this.
+# on. The app linter rejects config.yaml's `watchdog` in favour of this. 5000 is
+# Questarr with nothing in front of it, so nginx is not part of the check.
 #
 # Questarr migrates its database before it starts listening, so the start
 # period gives the first start after an update two minutes.

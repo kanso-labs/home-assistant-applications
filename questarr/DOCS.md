@@ -7,8 +7,8 @@ downloaders, and imports what arrives into your library.
 
 **This application is at 0.x** until it has run on a real Home Assistant. It is
 built on the image Questarr publishes, but has not yet been booted under
-Supervisor, imported a download into `/media` or `/share`, or restored one of
-Questarr's own backups.
+Supervisor, imported a download into `/media` or `/share`, unpacked a RAR
+download on `aarch64`, or restored one of Questarr's own backups.
 
 ## Installation
 
@@ -23,7 +23,7 @@ at [dev.twitch.tv/console](https://dev.twitch.tv/console). The wizard asks for
 its client ID and secret.
 
 Port 5000 is published on your network, so create the administrator account
-straight after the first start.
+straight after the first start, whether through ingress or the port.
 
 ## Configuration
 
@@ -79,6 +79,42 @@ and without asking IGDB, the indexers or the downloaders anything, so none of
 them being down counts against it. After a start, failures count only once
 Questarr has answered or two minutes have passed, because after an update it
 migrates its database before it answers. It is off by default.
+
+## Ingress
+
+Questarr is served through Home Assistant's ingress, so it opens inside Home
+Assistant and comes along wherever Home Assistant does, Home Assistant Cloud
+included. Turn on **Show in sidebar** on the application's page to keep it a
+click away. Ingress is authenticated by Home Assistant, which lets only
+administrators in.
+
+The published port, 5000, keeps working alongside it, for a browser on your
+network, for a reverse proxy such as Traefik, and for anything that calls
+Questarr's API.
+
+Ingress puts Questarr under a path of Supervisor's choosing,
+`/api/hassio_ingress/<token>`. Questarr is built to be served under a path a
+proxy strips: its pages load everything by relative address, and its client
+works out the path from where its own script was loaded. nginx answers ingress
+on port 5001, inside the application only, and gives the path to the two things
+the browser keeps outside the page, Questarr's redirects and its session
+cookies. Questarr itself still serves at the root on 5000, which is why the
+published port sees no difference.
+
+Two things follow from that:
+
+- **Questarr's own sign-in still applies inside ingress**, after Home
+  Assistant's. The session is kept to the ingress path, so signing in there and
+  on the published port are separate, and signing out of one leaves the other
+  signed in. That holds when Home Assistant and the published port share a
+  hostname too, although the browser then sends the published port's cookies to
+  ingress as well: nginx forwards only ingress's own.
+- **A link opened in a new tab opens Questarr outside Home Assistant's frame**,
+  under the ingress path. It works while you are signed in to Home Assistant in
+  that browser.
+
+Tools that call Questarr's API cannot use ingress, because it needs a Home
+Assistant session in a browser. They still work on the published port.
 
 ## Forgotten password
 
@@ -139,16 +175,9 @@ the other applications in this repository, and it runs on `aarch64` too.
 
 Questarr itself is developed by [Doezer](https://github.com/Doezer/Questarr) and
 is licensed under GPL-3.0. Its image carries
-[Apprise](https://github.com/caronc/apprise), [7-Zip](https://www.7-zip.org/)
-and [UnRAR](https://www.rarlab.com/), which have licences of their own. The icon
+[Apprise](https://github.com/caronc/apprise) and
+[7-Zip](https://www.7-zip.org/), and this application adds
+[UnRAR](https://www.rarlab.com/), built from RARLAB's source, and
+[nginx](https://nginx.org/) for ingress. Each has a licence of its own. The icon
 is Questarr's own, from its repository, and the logo is Questarr's own logo,
 which sets that icon beside its name.
-
-## A note on RAR archives on aarch64
-
-Questarr unpacks RAR archives with UnRAR and everything else with 7-Zip. The
-image Questarr publishes for `aarch64` carries RARLAB's `x86_64` build of UnRAR,
-which cannot run there. On `aarch64`, **Auto-Unpack Archives** therefore fails
-on a RAR download, while ZIP and 7z downloads unpack as they do on `amd64`.
-Questarr's diagnostics still report UnRAR as found, because they check that the
-file is there rather than that it runs.
