@@ -56,29 +56,33 @@ function Choice() {
   if (!state) {
     return (
       <Paragraph>
-        The setting for this browser appears here once the page has loaded.
+        The setting for this browser appears here once the page has loaded. If
+        it never does, something in this browser is blocking the analytics, and
+        nothing is sent.
       </Paragraph>
     )
   }
 
   const { analytics, status } = state
+  const on = status === 'granted'
 
+  // One button whose label follows the setting, so focus stays on it when it
+  // is pressed, and a status line that is announced when it changes.
   return (
     <Stack align="start" gap="md">
-      <Paragraph>
-        {status === 'granted'
-          ? 'Analytics is on for this site in this browser.'
-          : 'Analytics is off for this site in this browser.'}
-      </Paragraph>
-      {status === 'granted' ? (
-        <Button onPress={analytics.deny} variant="outlined">
-          Turn it off
-        </Button>
-      ) : (
-        <Button onPress={analytics.grant} variant="outlined">
-          Turn it on
-        </Button>
-      )}
+      <div aria-live="polite">
+        <Paragraph>
+          {on
+            ? 'Analytics is on for this site in this browser.'
+            : 'Analytics is off for this site in this browser.'}
+        </Paragraph>
+      </div>
+      <Button
+        onPress={on ? analytics.deny : analytics.grant}
+        variant="outlined"
+      >
+        {on ? 'Turn it off' : 'Turn it on'}
+      </Button>
     </Stack>
   )
 }

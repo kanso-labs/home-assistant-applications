@@ -97,7 +97,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
     message = error.status === 404 ? 'Not found' : 'Error'
     details =
       error.status === 404
-        ? 'There is one page here, and this is not it.'
+        ? 'There are two pages here, and this is neither.'
         : error.statusText || details
   } else if (import.meta.env.DEV && error instanceof Error) {
     details = error.message
