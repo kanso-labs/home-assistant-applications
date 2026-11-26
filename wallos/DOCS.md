@@ -6,10 +6,6 @@ converts every price into your main currency, totals them by month and year, and
 sends a notification before each payment, by email, push, Telegram, Discord or a
 webhook.
 
-**This application is at 0.x** until it has run on a real Home Assistant. It was
-built and booted locally, and its notifications were sent from cron, but signing
-in through an identity provider has not yet been proven end to end.
-
 ## Installation
 
 1. Add this repository to your Home Assistant instance.
