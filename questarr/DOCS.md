@@ -105,7 +105,10 @@ Two things follow from that:
 
 - **Questarr's own sign-in still applies inside ingress**, after Home
   Assistant's. The session is kept to the ingress path, so signing in there and
-  on the published port are separate.
+  on the published port are separate, and signing out of one leaves the other
+  signed in. That holds when Home Assistant and the published port share a
+  hostname too, although the browser then sends the published port's cookies to
+  ingress as well: nginx forwards only ingress's own.
 - **A link opened in a new tab opens Questarr outside Home Assistant's frame**,
   under the ingress path. It works while you are signed in to Home Assistant in
   that browser.
