@@ -278,6 +278,15 @@
         }
       ]
     },
+    "questarr": {
+      "component": "questarr",
+      "extra-files": [
+        {
+          "path": "config.yaml",
+          "type": "generic"
+        }
+      ]
+    },
     "radarr": {
       "component": "radarr",
       "extra-files": [

@@ -1,0 +1,31 @@
+arch:
+  - aarch64
+  - amd64
+backup: cold
+description:
+  Game library manager inspired by the arr applications. Questarr finds the
+  games you want through IGDB, tracks them, and sends releases to your
+  downloaders through your indexers or Prowlarr, then imports what arrives.
+image: 'ghcr.io/kanso-labs/home-assistant-application-questarr'
+init: false
+map:
+  - read_only: false
+    type: app_config
+  # Write access, because Questarr imports completed downloads into the
+  # library, moving, copying or hardlinking them and unpacking archives. That
+  # is the job Radarr and Sonarr do for films and shows.
+  - read_only: false
+    type: media
+  - read_only: false
+    type: share
+name: Questarr
+options:
+  umask: '022'
+ports:
+  5000/tcp: 5000
+schema:
+  umask: match(^[0-7]{3,4}$)
+slug: questarr
+url: 'https://github.com/kanso-labs/home-assistant-applications/tree/main/questarr'
+version: '0.1.0' # x-release-please-version
+webui: 'http://[HOST]:[PORT:5000]'
