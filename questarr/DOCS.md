@@ -5,11 +5,6 @@ Sonarr do for films and shows. It finds the games you want through IGDB, tracks
 them, searches your indexers or Prowlarr for releases, sends them to your
 downloaders, and imports what arrives into your library.
 
-**This application is at 0.x** until it has run on a real Home Assistant. It is
-built on the image Questarr publishes, but has not yet been booted under
-Supervisor, imported a download into `/media` or `/share`, unpacked a RAR
-download on `aarch64`, or restored one of Questarr's own backups.
-
 ## Installation
 
 1. Add this repository to your Home Assistant instance.
