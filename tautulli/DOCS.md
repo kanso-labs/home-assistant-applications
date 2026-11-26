@@ -6,11 +6,6 @@ Plex streamed the file as it is or transcoded it. It keeps that history in
 tables and graphs, and sends a notification when a stream starts, stops or
 buffers, or when something is added to the library.
 
-**This application is at 0.x** until it has run on a real Home Assistant. It was
-built and booted locally, through the published port and a stand-in for ingress,
-but it has not yet been connected to a Plex server or opened through Home
-Assistant's own ingress.
-
 ## Installation
 
 1. Add this repository to your Home Assistant instance.
