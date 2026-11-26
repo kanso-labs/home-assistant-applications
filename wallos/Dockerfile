@@ -1,4 +1,4 @@
-# https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
+# https://contributors.home-assistant.io/apps/guides/dockerfile/
 #
 # Like Byparr, this starts from the image upstream publishes rather than a Home
 # Assistant base image. Wallos ships as PHP source, and its image is where the

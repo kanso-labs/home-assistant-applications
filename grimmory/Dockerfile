@@ -1,4 +1,4 @@
-# https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
+# https://contributors.home-assistant.io/apps/guides/dockerfile/
 #
 # This starts from the image Grimmory publishes, as Byparr starts from its
 # upstream's, and adds the MariaDB that upstream runs beside it as a container of

@@ -1,4 +1,4 @@
-# https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
+# https://contributors.home-assistant.io/apps/guides/dockerfile/
 #
 # Ported from the Home Assistant Community app, which builds Nginx Proxy
 # Manager from source because upstream publishes no release asset and its own

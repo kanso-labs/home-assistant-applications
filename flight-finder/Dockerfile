@@ -1,4 +1,4 @@
-# https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
+# https://contributors.home-assistant.io/apps/guides/dockerfile/
 #
 # This starts from the image Flight Finder publishes, as Seerr and Cleanuparr
 # do, rather than from a Home Assistant base image. Building it means a Next.js

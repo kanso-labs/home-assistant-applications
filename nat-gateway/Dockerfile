@@ -1,4 +1,4 @@
-# https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
+# https://contributors.home-assistant.io/apps/guides/dockerfile/
 #
 # There is no third-party application here: iptables as Alpine packages it, on
 # the Home Assistant base image, and the scripts in rootfs that turn the options

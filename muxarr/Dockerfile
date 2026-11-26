@@ -1,4 +1,4 @@
-# https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
+# https://contributors.home-assistant.io/apps/guides/dockerfile/
 #
 # This starts from the image Muxarr publishes, as Cleanuparr, Seerr, Lingarr,
 # Profilarr and Authentik do. Muxarr's releases carry no asset at all, and the

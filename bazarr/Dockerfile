@@ -1,4 +1,4 @@
-# https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
+# https://contributors.home-assistant.io/apps/guides/dockerfile/
 # Bazarr warns above Python 3.13 — "Python version greater than 3.13.x is
 # unsupported [...] you're on your own" — but check_python_version() only exits
 # below 3.10, and upstream CI runs its backend suite on 3.14. The warning is not

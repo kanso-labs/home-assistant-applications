@@ -1,4 +1,4 @@
-# https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
+# https://contributors.home-assistant.io/apps/guides/dockerfile/
 #
 # Seadexerr carries no licence, so nobody has been given the right to pass it
 # on, and this repository publishes no image of it. config.yaml names no image,

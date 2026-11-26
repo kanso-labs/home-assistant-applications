@@ -1,4 +1,4 @@
-# https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
+# https://contributors.home-assistant.io/apps/guides/dockerfile/
 #
 # Tdarr's licence forbids redistributing it, so this repository publishes no image
 # of it. config.yaml names no image, which makes each Home Assistant build this

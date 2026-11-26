@@ -1,4 +1,4 @@
-# https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
+# https://contributors.home-assistant.io/apps/guides/dockerfile/
 #
 # This starts from Immich's own machine-learning image, as Byparr starts from the
 # image its upstream publishes. Immich builds it for amd64 and arm64, and adds a

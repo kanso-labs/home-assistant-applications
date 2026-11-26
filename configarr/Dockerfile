@@ -1,4 +1,4 @@
-# https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
+# https://contributors.home-assistant.io/apps/guides/dockerfile/
 #
 # This is on base-ubuntu rather than the Alpine base every arr application
 # uses, because Configarr's released executable is a Bun build linked against

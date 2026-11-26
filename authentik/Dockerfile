@@ -1,4 +1,4 @@
-# https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
+# https://contributors.home-assistant.io/apps/guides/dockerfile/
 #
 # This starts from the image Authentik publishes, as Cleanuparr, Seerr, Lingarr
 # and Profilarr do. Authentik's releases carry outpost binaries and OCI tarballs

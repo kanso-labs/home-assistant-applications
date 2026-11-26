@@ -1,4 +1,4 @@
-# https://developers.home-assistant.io/docs/apps/configuration#app-dockerfile
+# https://contributors.home-assistant.io/apps/guides/dockerfile/
 #
 # This starts from the image Profilarr publishes rather than a Home Assistant
 # base image, for the reason Seerr and Lingarr do: Profilarr cuts no release
