@@ -1,0 +1,26 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Kanso Labs Home Assistant Application: Questarr
+# Runs Questarr
+# ==============================================================================
+
+# The database, config.yaml and Questarr's own backups. Questarr keeps all three
+# in /app/data, which the Dockerfile links to /config, where Supervisor mounts
+# the application's configuration directory. Supervisor creates it on install;
+# this covers a container started without it.
+mkdir -p /config
+
+# Questarr imports games into the library, so the permissions they land with
+# are the user's business. 022 leaves them writable by their owner alone; 002
+# is what a library shared with a group needs. Upstream's entrypoint reads the
+# same setting from UMASK.
+umask "$(bashio::config 'umask')"
+
+bashio::log.info 'Starting Questarr...'
+
+cd /app || bashio::exit.nok 'The application directory is missing'
+
+# The command upstream's image runs. Its entrypoint, which s6-overlay replaces,
+# would drop to the questarr user first; this runs as root, see the Dockerfile.
+exec node dist/server/index.js

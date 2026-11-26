@@ -1,0 +1,10 @@
+configuration:
+  umask:
+    description: >-
+      The permissions Questarr gives the games it imports. 022 leaves them
+      writable by their owner alone, which is the default; 002 makes them
+      group-writable, which is what a library shared with other applications or
+      users needs.
+    name: File permission mask
+network:
+  5000/tcp: The port the Questarr web interface listens on.
