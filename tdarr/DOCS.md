@@ -8,11 +8,6 @@ subtitles, fix its metadata, transcode it, or check it for corruption.
 This application runs the Tdarr server and one node together, so a single
 installation does the work itself.
 
-**This application is at 0.x** while it is new to this repository. It has been
-built and booted, and tried through ingress, but a long run over a full library,
-with a flow that extracts subtitles and remuxes each file, has not yet been
-proven.
-
 ## Why it is built on your Home Assistant
 
 Tdarr is free for personal use, but its licence forbids redistributing it, so
