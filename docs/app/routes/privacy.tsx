@@ -48,7 +48,7 @@ function Paragraph({ children }: { children: React.ReactNode }) {
 }
 
 // The visitor's own setting, and the buttons that change it. It is drawn
-// only once public/analytics.js has loaded, since the prerendered page cannot
+// only once analytics.js has loaded, since the prerendered page cannot
 // know what this browser chose.
 function Choice() {
   const state = useAnalytics()
@@ -73,8 +73,8 @@ function Choice() {
       <div aria-live="polite">
         <Paragraph>
           {on
-            ? 'Analytics is on for this site in this browser.'
-            : 'Analytics is off for this site in this browser.'}
+            ? 'Analytics is on for Kanso Labs sites in this browser.'
+            : 'Analytics is off for Kanso Labs sites in this browser.'}
         </Paragraph>
       </div>
       <Button
@@ -131,8 +131,13 @@ export default function Privacy() {
             While analytics is on, Google Analytics sets two cookies on this
             site alone, <Code>_ga</Code> and one beginning <Code>_ga_</Code>, to
             tell a returning browser from a new one. Each Kanso Labs site keeps
-            its own, so your choice here applies to this site only. It is kept
-            in your browser&rsquo;s local storage, and goes nowhere else.
+            its own.
+          </Paragraph>
+          <Paragraph>
+            Your choice is shared: it applies to every Kanso Labs site under
+            kansolabs.org, so you answer once. It is kept for 13 months in a
+            cookie on kansolabs.org, <Code>kl_consent</Code>, which your browser
+            sends to Kanso Labs sites alone.
           </Paragraph>
         </Section>
         <Section heading="How long it is kept">

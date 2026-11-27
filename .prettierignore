@@ -19,7 +19,3 @@ docs/package-lock.json
 # formatters accept it as it stands, but reformatting it here would break that
 # equality the moment either one changes its mind about Markdown.
 LICENSE.md
-
-# The analytics script every Kanso Labs site that loads gtag.js shares, kept
-# byte-identical to the other copies, which oxfmt formats.
-docs/public/analytics.js
