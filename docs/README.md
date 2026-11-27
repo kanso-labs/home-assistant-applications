@@ -92,16 +92,17 @@ public by nature, so it sits in `app/components/analytics.tsx`, which also draws
 the banner in kanso-ui. `/privacy` is the note that says what is recorded, and
 the switch that turns it on or off; the footer links it.
 
-`public/analytics.js` is the same file in every Kanso Labs site that loads
-gtag.js itself: this one, kansolabs.org, docs.kansolabs.org and both Storybooks.
-Change one copy and carry the change to the others, byte for byte, which is why
-`.prettierignore` skips it. Its header says how it works: ads signals are denied
-for everyone; analytics storage is denied in the EEA, the UK and Switzerland,
-where the banner asks before gtag.js loads, and granted elsewhere, where a
-notice offers to opt out. Whether to ask is read from the browser's time zone,
-since Pages gives a static site no geo header. Nothing is sent from a host
-outside kansolabs.org, so `npm --prefix docs run dev` draws the banner and
-counts nothing.
+`analytics.js` is loaded from `https://kansolabs.org/analytics.js`, the one copy
+every Kanso Labs site that loads gtag.js itself loads, kept in
+kanso-labs/kanso-labs.github.io; change it there. If it fails to load, the site
+has no analytics and no banner, and nothing else breaks. Its header says how it
+works: ads signals are denied for everyone; analytics storage is denied in the
+EEA, the UK and Switzerland, where the banner asks before gtag.js loads, and
+granted elsewhere, where a notice offers to opt out. Whether to ask is read from
+the browser's time zone, since Pages gives a static site no geo header. The
+visitor answers once for every Kanso Labs site: the choice is the `kl_consent`
+cookie on `.kansolabs.org`. Nothing is sent from a host outside kansolabs.org,
+so `npm --prefix docs run dev` draws the banner and counts nothing.
 
 `build-pages.sh` publishes the page as `privacy.html` beside `index.html`, so
 Pages serves `/privacy` as a page rather than through `404.html`.

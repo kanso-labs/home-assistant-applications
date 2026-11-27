@@ -58,15 +58,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <Meta />
         <Links />
-        {/* Google Analytics behind Consent Mode. It loads gtag.js itself, and
-            only once the visitor may be counted; the banner is the site's
-            own, drawn by components/analytics. */}
+        {/* Google Analytics behind Consent Mode, through the one analytics.js
+            every Kanso Labs site loads from kansolabs.org. It loads gtag.js
+            itself, and only once the visitor may be counted; the banner is
+            the site's own, drawn by components/analytics. If it fails to
+            load, nothing is counted and no banner is drawn. */}
         <script
           async
           data-banner="none"
           data-measurement-id={MEASUREMENT_ID}
           data-privacy-url={PRIVACY}
-          src={`${import.meta.env.BASE_URL}analytics.js`}
+          src="https://kansolabs.org/analytics.js"
         />
       </head>
       <body>
