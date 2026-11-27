@@ -72,8 +72,8 @@ export function AnalyticsBanner() {
         <Stack gap="md">
           <Text block variant="bodyMedium">
             {consent
-              ? 'May Kanso Labs count your visits with Google Analytics? It records the pages you open, without your name or any account, and nothing is sent unless you allow it. Your answer applies to every Kanso Labs site under kansolabs.org. '
-              : 'Kanso Labs sites count visits with Google Analytics: the pages opened, without your name or any account. Your choice applies to every Kanso Labs site under kansolabs.org. '}
+              ? 'May Kanso Labs count your visits with Google Analytics? It records the pages you open, without your name or any account, and nothing is sent unless you allow it. Your answer applies to every Kanso Labs site under kansolabs.org and is kept in a kansolabs.org cookie. '
+              : 'Kanso Labs sites count visits with Google Analytics: the pages opened, without your name or any account. Your choice applies to every Kanso Labs site under kansolabs.org and is kept in a kansolabs.org cookie. '}
             <Link href={PRIVACY} tone="inherit" underline="always">
               Privacy
             </Link>
